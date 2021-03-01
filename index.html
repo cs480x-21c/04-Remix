@@ -1,0 +1,89 @@
+<head>
+    <!-- favicons -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="favicon_package/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_package/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_package/favicon-16x16.png">
+    <link rel="manifest" href="favicon_package/site.webmanifest">
+    <link rel="mask-icon" href="favicon_package/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff"> -->
+    <!-- d3 import V6 -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <!-- CSS -->
+    <style>
+        div{
+            border: 2px solid pink;
+            width: fit-content;
+            height: fit-content;
+            min-width: none;
+            min-height: none;
+        }
+        svg{
+            border: 2px solid purple;
+        }
+    </style>
+
+</head>
+
+<script>
+    //globals
+    var margin = {top: 20, right: 20, bottom: 30, left: 40}
+    const WIDTH = 800 - margin.left - margin.right;
+    const HEIGHT = 600 - margin.top - margin.bottom;
+    //x and y scaling
+    // var xScale = d3.scaleLinear()
+    // .domain([0, 100])//TODO change these values
+    // .range([0, WIDTH]);
+    // var yScale = d3.scaleLinear()
+    // .domain([0, 100])
+    // .range([0, HEIGHT]);
+
+
+    //start asynch
+    Promise.all([
+        d3.json("res/mixes.json"),
+        d3.csv("res/spices.csv")
+    ]).then( ([mixes, spices])=>{
+        //make params into console accessible variables for testing
+        // var mixes_json = mixes
+        // console.log(mixes_json)
+        // var spices_csv = spices
+        // console.log(spices_csv)
+        //comment me out ^
+
+        load_components(mixes, spices)
+    });
+  
+    function load_components(mixes, spices){
+        // create the visualizations
+        load_graph(mixes, spices)
+            // option to call other functions from outside of load_graph
+    }
+
+    function load_graph(mixes, spices){
+        var svg1 = d3.select("#main_plot")
+            .append('svg')
+            .attr("width",WIDTH)
+            .attr("height",HEIGHT)
+            // .append("g")
+        //var svg2 = d3.select("#supporting_plots")
+        // console.log("MADE IT")
+        // console.log(mixes)
+        // console.log("this is mixes[0]:",mixes[0])
+        svg1.selectAll('dots')
+            .data(mixes)
+            .enter()
+            .append("circle")
+            .attr("r",function (d,i){ console.log("element ",i," is ",d); return d.num_spices})
+            .attr("cx", function(d,i){return i*25;})
+            .attr("cy", function(d,i){return i*25;})
+            .attr("fill", "green");
+        console.log("help")
+    }
+
+</script>
+
+<body>
+    <div id="main_plot"></div>
+    <div id="supporting_plots"></div>
+</body>

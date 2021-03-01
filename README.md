@@ -53,3 +53,10 @@ Requirements
 - Concise description and screenshot of your visualization.
 - Description of the technical achievements you attempted with this visualization.
 - Description of the design achievements you attempted with this visualization.
+
+Spice Blends - Remixed
+---
+Viz Source:  
+[Spice Mixes and Ingredients](https://ragbag.tumblr.com/post/35124794211/raynor-ganan-signature-masala-one-of-my-2012)  
+Original Viz:  
+![spice_mixes_and_ingredients.png](res/spice_mix_map.png)  
