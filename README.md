@@ -62,3 +62,7 @@ Extra Links
 - https://github.com/d3/d3-brush
 - https://observablehq.com/collection/@d3/d3-brush
 - https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+
+References
+---
+- https://www.d3-graph-gallery.com/graph/choropleth_basic.html
