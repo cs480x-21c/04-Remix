@@ -62,3 +62,18 @@ Extra Links
 - https://github.com/d3/d3-brush
 - https://observablehq.com/collection/@d3/d3-brush
 - https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+
+
+
+Original Vis
+https://observablehq.com/@d3/brush-handles
+
+Remix: 
+- add color scale
+- data point on hover
+- adjust scale? 
+- zoom on double click?
+
+
+Design Achievements; 
+- used d3-scale-chromatic to implement rainbow scale
