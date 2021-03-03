@@ -81,6 +81,14 @@
         .attr("transform", d => `translate(${x(d)},${y()})`)
         .attr("r", 3.5);
 
+        var clip = svg.append("defs").append("svg:clipPath")
+        .attr("id", "clip")
+        .append("svg:rect")
+        .attr("width", width )
+        .attr("height", height )
+        .attr("x", 0)
+        .attr("y", 0)
+
 
         // Brush function
         function brushed({selection}) {
@@ -115,15 +123,6 @@
             d3.select(this).call(brushHandle, selection);
             return svg.node();
         }
-
-        var clip = svg.append("defs").append("svg:clipPath")
-        .attr("id", "clip")
-        .append("svg:rect")
-        .attr("width", width )
-        .attr("height", height )
-        .attr("x", 0)
-        .attr("y", 0);
-
 
         svg.append("g")
         .attr("id", "selectionG")
@@ -161,7 +160,9 @@
                 .call(brush)
                 .call(brush.move, [currentPosition[0], currentPosition[1]].map(x))
 
-                brush
+                // brush
+                
+                
             } 
             // Zoom out
             else {
