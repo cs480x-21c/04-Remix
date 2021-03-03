@@ -4,6 +4,7 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 
 <div id="map"></div>
@@ -12,6 +13,14 @@
   body {
     font-family: "Times New Roman", Times, serif;
   }
+
+  .tooltip {
+    position: absolute;
+    font-size: 20px;
+    pointer-events: none;
+    background-color: rgb(236, 195, 90);
+    padding: 5px 5px 5px 5px;
+}
 
   .svg1 {
     transform: translate(0px,0px);
@@ -57,13 +66,27 @@ var colorScale = d3.scaleThreshold()
   .range(colors);
 
 // Load external data and boot
+
+//Promise.all([
+//d3.json("world.geojson"),
+//d3.csv("world_population.csv",function(d){
+ // data.set(d.code,d.pop)
+//})
+//]).then(ready);
+
+var toolTip = d3.select("#map") 
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+
+
+
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, d.pop); })
   .await(ready);
 
-function ready(error, topo) {
-
+function ready(error,topo) {
   // Draw the map
   svg1.append("g")
     .selectAll("path")
@@ -82,13 +105,32 @@ function ready(error, topo) {
       .attr("stroke","white")
       .attr("stroke-width","1px")
       .attr("opacity",0.75)
-      .on("mouseover",function(e,d){
+      .on("mouseover",function(d){
         d3.select(this).attr("opacity",1)
         .attr("stroke-width","2px")
+
+        toolTip.text(d.properties.name)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY -30) + "px")
+            .transition()
+            .duration(200)
+            .style("opacity", 1)
+       
+      })
+      .on("mousemove", function(d){
+        toolTip.text(d.properties.name)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY -30) + "px")
       })
       .on("mouseout",function(e,d){
         d3.select(this).attr("opacity",0.75)
         .attr("stroke-width","1px")
+
+        toolTip
+        .transition()
+        .duration(300)
+        .style("opacity", 0)
+      
       })
     }
 
