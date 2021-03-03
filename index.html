@@ -8,25 +8,44 @@
 
 <div id="map"></div>
 
+<style>
+  body {
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .svg1 {
+    transform: translate(0px,0px);
+  }
+
+  .svg2 {
+    transform: translate(10px,0px);
+  }
+</style>
 
 <script>
 
 // setting up the margins, width and height
 var margin = {top: 30, right: 30, bottom: 30, left: 30}
 
-width = 500
+width = 750
 height = 500
 // Adding the svg
-var svg = d3.select("#map").append("svg")
+var svg1 = d3.select("#map").append("svg")
+.attr("class","svg1")
 .attr("width",width)
 .attr("height",height)
- 
+
+var svg2 = d3.select("#map").append("svg")
+.attr("class","svg2")
+.attr("width",width)
+.attr("height",height)
 
 // Map and projection
 var path = d3.geoPath();
 var projection = d3.geoMercator()
-  .scale(75)
-  .center([0,20])
+  .scale(width/2.5/Math.PI)
+  .rotate([0,0])
+  .center([0,0])
   .translate([width/2, height/2]);
 
 // Data and color scale
@@ -44,7 +63,7 @@ d3.queue()
 function ready(error, topo) {
 
   // Draw the map
-  svg.append("g")
+  svg1.append("g")
     .selectAll("path")
     .data(topo.features)
     .enter()
@@ -59,5 +78,7 @@ function ready(error, topo) {
         return colorScale(d.total);
       });
     }
+
+    
 
 </script>
