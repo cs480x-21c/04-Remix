@@ -69,7 +69,7 @@ Original Vis
 https://observablehq.com/@d3/brush-handles
 
 Remix: 
-- add color scale
+- add color scale      -> ADD VERTICAL SCALE?
 - data point on hover
 - adjust scale? 
 - zoom on double click?
@@ -77,3 +77,9 @@ Remix:
 
 Design Achievements; 
 - used d3-scale-chromatic to implement rainbow scale
+
+
+
+
+Resources: 
+- https://www.d3-graph-gallery.com/graph/interactivity_brush.html

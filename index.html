@@ -15,16 +15,19 @@
 
         /** Original Vis **/
 
-        height = 100
-        width = 500
+        var height = 100
+        var width = 500
+        var margin = ({top: 10, right: 20, bottom: 20, left: 20})
 
-        margin = ({top: 10, right: 20, bottom: 20, left: 20})
+        var x = d3.scaleLinear([0, 1], [margin.left, width - margin.right])
+        var y = d3.randomNormal(height / 2, height / 12)
 
-        x = d3.scaleLinear([0, 1], [margin.left, width - margin.right])
-        y = d3.randomNormal(height / 2, height / 12)
+        var zoomed = false
+        var currentPosition = []
 
         xAxis = g => g
         .attr("transform", `translate(0,${height - margin.bottom})`)
+        .attr("id", "xAxis")
         .call(d3.axisBottom(x))
 
         arc = d3.arc()
@@ -46,10 +49,11 @@
             .attr("d", arc))
         .attr("display", selection === null ? "none" : null)
         .attr("transform", selection === null ? null : (d, i) => `translate(${selection[i]},${(height + margin.top - margin.bottom) / 2})`)
+        .attr("id", "brushHandle")
 
 
         var svg = d3.select('#originalVis')
-        .attr("viewBox", [0, 0, width, height]);
+        .attr("viewBox", [0, 0, width, height])
 
         const brush = d3.brushX()
         .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
@@ -63,9 +67,27 @@
         .attr("transform", d => `translate(${x(d)},${y()})`)
         .attr("r", 3.5);
 
+        ///////
+        // var clip = svg.append("defs").append("svg:clipPath")
+        // .attr("id", "clip")
+        // .append("svg:rect")
+        // .attr("width", width )
+        // .attr("height", height )
+        // .attr("x", 0)
+        // .attr("y", 0);
+
+        // var scatter = Svg.append('g')
+        // .attr("clip-path", "url(#clip)")
+
+
+
+
+        //////
+
         svg.append("g").call(xAxis);
 
         svg.append("g")
+        .attr("id", "selectionG")
         .call(brush)
         .call(brush.move, [0.3, 0.5].map(x));
 
@@ -74,16 +96,84 @@
                 circle.attr("stroke", null);
             } else {
                 const sx = selection.map(x.invert);
-                circle.attr("stroke", d => sx[0] <= d && d <= sx[1] ? "black" : null);
+                if (!zoomed) {
+                    console.log("setting current position at " + [sx[0], sx[1]])
+                    currentPosition = [sx[0], sx[1]]
+                }
+                circle.attr("stroke", function(d) {
+                    if (sx[0] <= d && d <= sx[1]) return "black"
+                    return null
+                });
                 circle.attr("stroke-width", 0.5)
                 circle.attr("fill", d => sx[0] <= d && d <= sx[1] ? d3.interpolateSpectral(d) : null);
                 circle.attr("fill-opacity", d => sx[0] <= d && d <= sx[1] ? 0.8 : null);
+
+                if (zoomed) {
+                    circle.attr("stroke", d => "black" );
+                    circle.attr("stroke-width", 0.5)
+                    circle.attr("fill", d =>  d3.interpolateSpectral(d) );
+                    circle.attr("fill-opacity", d => 0.8);
+                } else {
+                    circle.attr("stroke", d => sx[0] <= d && d <= sx[1] ? "black" : null);
+                    circle.attr("stroke-width", 0.5)
+                    circle.attr("fill", d => sx[0] <= d && d <= sx[1] ? d3.interpolateSpectral(d) : null);
+                    circle.attr("fill-opacity", d => sx[0] <= d && d <= sx[1] ? 0.8 : null);
+                }
             }
             d3.select(this).call(brushHandle, selection);
             return svg.node();
         }
 
-        /** Remix **/
+        d3.selectAll("#selectionG")
+        .on("dblclick", function() { 
+            updateChart()
+        });
+
+        function updateChart() {
+            // Zoom in
+            if (!zoomed) {
+                zoomed = true
+
+                // Change x-axis
+                let x1 = d3.selectAll(".selection").node().getBBox().x
+                let x2 = x1 + d3.selectAll(".selection").node().getBBox().width
+                x.domain([ x.invert(x1), x.invert(x2) ])
+                d3.selectAll("#xAxis").transition().duration(1000).call(d3.axisBottom(x))
+
+                // Remove brush handles
+                d3.selectAll("#brushHandle")
+                .transition().duration(1000)
+                .style("opacity", 0)
+
+                // Expand brush
+                d3.selectAll("#selectionG")
+                .call(brush)
+                .call(brush.move, [currentPosition[0], currentPosition[1]].map(x))
+
+                brush
+            } 
+            // Zoom out
+            else {
+                zoomed = false;
+
+                // Change x-axis
+                x.domain([0, 1])
+                d3.selectAll("#xAxis").transition().duration(1000).call(d3.axisBottom(x))
+
+                // Add brush handles back
+                d3.selectAll("#brushHandle")
+                .transition().duration(1000)
+                .style("opacity", 1)
+
+                // Shrink brush back
+                d3.selectAll("#selectionG")
+                .call(brush)
+                .call(brush.move, [currentPosition[0], currentPosition[1]].map(x));
+
+                brush
+            }
+
+        }
 
 
     </script>
