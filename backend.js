@@ -61,19 +61,19 @@ function main() {
 
     function createScatterPlot(d){
         // set the dimensions and margins of the graph
-        var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        let margin = {top: 20, right: 20, bottom: 30, left: 50},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
-// set the ranges
-        var x = d3.scaleTime().range([0, width]);
-        var y = d3.scaleLinear().range([height, 0]);
+        // set the ranges
+        let x = d3.scaleTime().range([0, width]);
+        let y = d3.scaleLinear().range([height, 0]);
 
-
-// append the svg obgect to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-        var svg = d3.select("body").append("svg")
+        
+        // append the svg obgect to the body of the page
+        // appends a 'group' element to 'svg'
+        // moves the 'group' element to the top left margin
+        let svg = d3.select("body").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -82,7 +82,7 @@ function main() {
 
         // Scale the range of the data
         x.domain(d3.extent(d, function(d) { return d.year; }));
-        y.domain([0, d3.max(d, function(d) { return d.median_weekly_earn; })]);
+        y.domain([0, d3.max(d, function(d) { return d.median_weekly_earn;})]);
 
         // Add the scatterplot
         svg.selectAll("dot")
