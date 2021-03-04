@@ -81,7 +81,7 @@
         let histogram = d3.histogram()
             .value(function(d) {return d})
             .domain(x.domain())
-            .thresholds(x.ticks(70))
+            .thresholds(x.ticks(10))
 
         let bins = histogram(ratios)
 
@@ -92,13 +92,7 @@
         svg.append('g')
             .call(d3.axisLeft(y))
 
-        svg.append('rect')
-            .attr('x', 100)
-            .attr('y', 100)
-            .attr('width', 50)
-            .attr('height', -100)
-
-        svg.selectAll('rect')
+        svg.selectAll('.bar')
             .data(bins)
             .enter()
             .append('rect')
@@ -107,7 +101,7 @@
                 .attr('width', function (d) {return x(d.x1) - x(d.x0) - 1})
                 .attr('height', function(d) {return height - y(d.length)})
                 .style('fill', function(d) {
-                    if (d.x0<2) return 'orange'
+                    if (d.x0<0) return 'red'
                     else return 'green' })
 
     })
