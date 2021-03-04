@@ -15,7 +15,8 @@
         var width = 600
         var margin = ({top: 10, right: 20, bottom: 20, left: 20})
         var zoomed = false
-        var formerSelect = [0, 600]
+        var formerSelect = []
+
         
         // Append SVG
         var Svg = d3.select("#dataviz_brushZoom")
@@ -25,6 +26,7 @@
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+
         // Create data
         var data = []
         for (let i = 0 ; i < 100 ; i++){
@@ -84,15 +86,18 @@
             .attr("x", 0)
             .attr("y", 0)
         
+
         // Add brush
         var brush = d3.brushX()                 
             .extent( [ [0,0], [width,height] ] ) 
+
 
         // Create the scatter variable: where both the circles and the brush take place
         var scatter = Svg.append('g')
             .attr("clip-path", "url(#clip)")
             .attr("id", scatter);
         
+
         // Add circles
         scatter
             .selectAll("circle")
@@ -108,61 +113,54 @@
                 .attr("fill-opacity", d => 0.8)
                 .style("opacity", 0.5);
 
+
         // Add the brushing
         scatter.append("g")
             .attr("class", "brush")
             .call(brush)
             .call(brush.move, [0.3, 0.5].map(x));
         
+
         // A function that set idleTimeOut to null
         var idleTimeout
         function idled() { idleTimeout = null; }
         
-        // A function that update the chart for given boundaries
-        function updateChart(selection) {   
-            console.log("UPDATE CHART")
-            console.log("zoomed = " + zoomed)
 
+        // A function that update the chart for given boundaries
+        function updateChart(selection) {  
             // If no selection, back to initial coordinate. Otherwise, update X axis domain
             if(!selection){
-                console.log("no selection")
-            //   if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
-              x.domain([0,1])
-            }else{
+                x.domain([0,1])
+                scatter.select(".brush").call(brush.move, formerSelect)
+            } else {
                 x.domain([ x.invert(selection[0]), x.invert(selection[1]) ])
+                formerSelect = [selection[0], selection[1]]
                 scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
             }
             // Update axis and circle position
             xAxis.transition().duration(1000).call(d3.axisBottom(x))
             scatter
-              .selectAll("circle")
-              .transition().duration(1000)
-              .attr("cx", function (d) { return x(d.x); } )
-              .attr("cy", function (d) { return y(d.y); } )
+                .selectAll("circle")
+                .transition().duration(1000)
+                .attr("cx", function (d) { return x(d.x); } )
+                .attr("cy", function (d) { return y(d.y); } )
 
-            // If scale is currently zoomed
-            if (zoomed) {
-                zoomed = false // switch 
-                // selection = formerSelect // set to zoom out 
-            }
-            // If scale is normal
-            if (!zoomed) {
-                zoomed = true// switch 
-                // formerSelect = selection
-            }
-        
+            if (zoomed) zoomed = false;
+            else zoomed = true;        
         }
 
         var select = d3.selectAll(".selection")
         scatter
         .on("dblclick", function() { 
+
             var selection = [select.node().getBBox().x, select.node().getBBox().x + select.node().getBBox().width]
+            // Double click to zoom out
             if (zoomed) {
-                console.log("Calling update with 0, 600")
                 updateChart()
             }
+            //  Double click to zoom
             else {
-                console.log("Calling  update with selecction: " + selection)
+                formerSelect = selection
                 updateChart(selection)
             }
         });
