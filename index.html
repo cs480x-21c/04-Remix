@@ -11,45 +11,84 @@
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <!-- CSS -->
     <style>
+        #box{
+            display: flex;
+            flex-direction: row;
+            /* flex-wrap: nowrap; */
+        }
+        /* #mix_column{
+            display: flex;
+            flex-direction: column;
+        }
+        #spice_column{
+            display: flex;
+            flex-direction: column;
+        } */
         div{
             border: 2px solid pink;
             width: fit-content;
             height: fit-content;
-            min-width: none;
-            min-height: none;
+            min-width: 50;
+            min-height: 50;
+            margin: auto;
+            
         }
         svg{
             border: 2px solid purple;
+            padding-left: 15px;
+            padding-right: 15px;
         }
     </style>
 
 </head>
 
 <script>
-    //globals
-    var margin = {top: 20, right: 20, bottom: 30, left: 40}
+    //data globals
+    const NUMSPICES = 50
+    const NUMMIXES = 14
+    var spices_list = []
+    var mixes_list = []
+    //svg globals
+    var margin = {top: 20, right: 35, bottom: 30, left: 35}
     const WIDTH = 800 - margin.left - margin.right;
-    const HEIGHT = 600 - margin.top - margin.bottom;
-    //x and y scaling
-    // var xScale = d3.scaleLinear()
-    // .domain([0, 100])//TODO change these values
-    // .range([0, WIDTH]);
-    // var yScale = d3.scaleLinear()
-    // .domain([0, 100])
-    // .range([0, HEIGHT]);
+    const HEIGHT = 900 - margin.top - margin.bottom;
+    // x and y scaling functions
+    var xScale = d3.scaleLinear()
+        .domain([0, 5])//this should chunk the x axis into fifths, left at 1 and right at 3?
+        .range([margin.left, (WIDTH-margin.right)]);
+    const left_bump = 0; //left and right axis, data locations to pass to xScale
+    const right_bump = 5;
+    const point_bump = 50;//offsets from the linear scaling to avoid padding
+    const axis_bump = 40;
 
+    //linear scaling
+    // var yLeftScale = d3.scaleLinear()
+    //     .domain([0, NUMMIXES])//14 spice mixes
+    //     .range([margin.top, HEIGHT]);
+    // var yRightScale = d3.scaleLinear()
+    //     .domain([0, NUMSPICES])//50 spices
+    //     .range([margin.top, HEIGHT]);
+
+    //ordinal/categorical scaling
+    //no domain/range arguments bc the lists haven't been populated yet
+    var yLeftScale = d3.scaleBand()
+    var yRightScale = d3.scaleBand()
+    
+
+    //axes
+    yLeftAxis = d3.axisLeft(yLeftScale);
+    yRightAxis = d3.axisRight(yRightScale);
 
     //start asynch
     Promise.all([
         d3.json("res/mixes.json"),
         d3.csv("res/spices.csv")
     ]).then( ([mixes, spices])=>{
-        //make params into console accessible variables for testing
-        // var mixes_json = mixes
-        // console.log(mixes_json)
-        // var spices_csv = spices
-        // console.log(spices_csv)
-        //comment me out ^
+        for(i=0;i<mixes.length;i++){ mixes_list.push(mixes[i].mix_name) }
+        for(i=0;i<spices.length;i++){ spices_list.push(spices[i].Spice)}
+        //populate domain, range of scales now that lists are populated
+        yLeftScale.domain(mixes_list).range([margin.top, HEIGHT]);
+        yRightScale.domain(spices_list).range([margin.top, HEIGHT]);
 
         load_components(mixes, spices)
     });
@@ -57,7 +96,8 @@
     function load_components(mixes, spices){
         // create the visualizations
         load_graph(mixes, spices)
-            // option to call other functions from outside of load_graph
+        // option to call other functions from outside of load_graph
+        //load_sidebar(mixes,spices)
     }
 
     function load_graph(mixes, spices){
@@ -66,24 +106,57 @@
             .attr("width",WIDTH)
             .attr("height",HEIGHT)
             // .append("g")
-        //var svg2 = d3.select("#supporting_plots")
-        // console.log("MADE IT")
-        // console.log(mixes)
-        // console.log("this is mixes[0]:",mixes[0])
+
         svg1.selectAll('dots')
             .data(mixes)
             .enter()
             .append("circle")
-            .attr("r",function (d,i){ console.log("element ",i," is ",d); return d.num_spices})
-            .attr("cx", function(d,i){return i*25;})
-            .attr("cy", function(d,i){return i*25;})
+            .attr("r",function (d,i){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
+            .attr("cx", function(d,i){return (xScale(left_bump)+point_bump);})
+            // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
+            .attr("cy", function(d,i){return yLeftScale(d.mix_name);})//this is for bandscale
             .attr("fill", "green");
-        console.log("help")
+        svg1.selectAll('dots')
+            .data(spices)
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("cx", function(d,i){return (xScale(right_bump)-point_bump);})
+            // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
+            .attr("cy", function(d,i){return yRightScale(d.Spice);})//this is for bandscale
+            .attr("fill", "purple");
+
+        // left-axis
+        svg1.append("g")
+            .attr("class", "left axis")
+            .attr("transform", "translate("+(xScale(left_bump)+axis_bump)+",0)")
+            .call(yLeftAxis)
+            .append("text")
+            .attr("class", "label")
+            .style("text-anchor", "end")
+            .text("Mixes");
+
+        // right-axis
+        svg1.append("g")
+            .attr("class", "right axis")
+            .attr("transform", "translate("+(xScale(right_bump)-axis_bump)+",0)")
+            .call(yRightAxis)
+            .append("text")
+            .attr("class", "label")
+            // .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Spices");
+        // console.log("help")
     }
 
 </script>
 
 <body>
-    <div id="main_plot"></div>
-    <div id="supporting_plots"></div>
+    <div id="box">
+        <div id="main_plot">
+            <!-- <div id="mix_column"></div>
+            <div id="spice_column"></div> -->
+        </div>
+        <div id="supporting_plots"></div>
+    </div>
 </body>
