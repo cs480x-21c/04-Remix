@@ -8,41 +8,37 @@
     </head>
     <body>
         <div id="dataviz_brushZoom"></div>
-        <svg id="originalVis"></svg>
-
     </body>
 
     <script>
         var height = 100
         var width = 600
         var margin = ({top: 10, right: 20, bottom: 20, left: 20})
-
-        var x = d3.scaleLinear([0, 1], [margin.left, width - margin.right])
-        var y = d3.randomNormal(height / 2, height / 12)
+        var zoomed = false
+        var formerSelect = [0, 600]
         
-        xAxis = g => g
-        .attr("transform", `translate(0,${height - margin.bottom})`)
-        .attr("id", "xAxis")
-        .call(d3.axisBottom(x))
-
-        // var Svg = d3.select('#originalVis')
-        // .attr("viewBox", [0, 0, width, height])
-
-        // Svg.append("g").call(xAxis);
-        
+        // Append SVG
         var Svg = d3.select("#dataviz_brushZoom")
-          .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform",
-                  "translate(" + margin.left + "," + margin.top + ")");
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+        // Create data
         var data = []
-        for (let i = 0 ; i < 800 ; i++){
+        for (let i = 0 ; i < 100 ; i++){
+            data.push({x: Math.random() * (0.9 - 0.1) + 0.1, y: Math.random() * (8 - 1.5) + 1.5})
+        }
+        for (let i = 0 ; i < 300 ; i++){
             data.push({x: Math.random() * (0.85 - 0.15) + 0.15, y: Math.random() * (7 - 2.5) + 2.5})
         }
+        for (let i = 0 ; i < 300 ; i++){
+            data.push({x: Math.random() * (0.6 - 0.3) + 0.3, y: Math.random() * (7 - 2.5) + 2.5})
+        }
 
+
+        // Create axes
         var x = d3.scaleLinear()
             .domain([0, 1])
             .range([ 0, width ]);
@@ -58,48 +54,44 @@
 
         // Brush handles
         arc = d3.arc()
-        .innerRadius(0)
-        .outerRadius((height - margin.top - margin.bottom) / 2)
-        .startAngle(0)
-        .endAngle((d, i) => i ? Math.PI : -Math.PI)
+            .innerRadius(0)
+            .outerRadius((height - margin.top - margin.bottom) / 2)
+            .startAngle(0)
+            .endAngle((d, i) => i ? Math.PI : -Math.PI)
 
         brushHandle = (g, selection) => g
-        .selectAll(".handle--custom")
-        .data([{type: "w"}, {type: "e"}])
-        .join(enter => enter.append("path")
-            .attr("class", "handle--custom")
-            .attr("fill", "#666")
-            .attr("fill-opacity", 0.8)
-            .attr("stroke", "#000")
-            .attr("stroke-width", 1.5)
-            .attr("cursor", "ew-resize")
-            .attr("d", arc))
-        .attr("display", selection === null ? "none" : null)
-        .attr("transform", selection === null ? null : (d, i) => `translate(${selection[i]},${(height + margin.top - margin.bottom) / 2})`)
-        .attr("id", "brushHandle")
+            .selectAll(".handle--custom")
+            .data([{type: "w"}, {type: "e"}])
+            .join(enter => enter.append("path")
+                .attr("class", "handle--custom")
+                .attr("fill", "#666")
+                .attr("fill-opacity", 0.8)
+                .attr("stroke", "#000")
+                .attr("stroke-width", 1.5)
+                .attr("cursor", "ew-resize")
+                .attr("d", arc))
+                .attr("display", selection === null ? "none" : null)
+                .attr("transform", selection === null ? null : (d, i) => `translate(${selection[i]},${(height + margin.top - margin.bottom) / 2})`)
+                .attr("id", "brushHandle")
 
-        // Add a clipPath: everything out of this area won't be drawn.
+
+        // Add a clipPath to avoid drawing anything outside that area
         var clip = Svg.append("defs").append("svg:clipPath")
-              .attr("id", "clip")
-              .append("svg:rect")
-              .attr("width", width )
-              .attr("height", height )
-              .attr("x", 0)
-              .attr("y", 0)
+            .attr("id", "clip")
+            .append("svg:rect")
+            .attr("width", width )
+            .attr("height", height )
+            .attr("x", 0)
+            .attr("y", 0)
         
-        // Add brushing
-        var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
-              .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-              .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
-        
+        // Add brush
+        var brush = d3.brushX()                 
+            .extent( [ [0,0], [width,height] ] ) 
+
         // Create the scatter variable: where both the circles and the brush take place
         var scatter = Svg.append('g')
             .attr("clip-path", "url(#clip)")
-
-        Svg.append("g")
-        .attr("id", "selectionG")
-        .call(brush)
-        .call(brush.move, [0.1, 0.9].map(x));
+            .attr("id", scatter);
         
         // Add circles
         scatter
@@ -114,28 +106,32 @@
                 .attr("stroke-width", 0.5)
                 .attr("fill", function (d) { return d3.interpolateSpectral(d.x) })
                 .attr("fill-opacity", d => 0.8)
-                .style("opacity", 0.5)
+                .style("opacity", 0.5);
+
         // Add the brushing
-        scatter
-            .append("g")
-              .attr("class", "brush")
-              .call(brush);
+        scatter.append("g")
+            .attr("class", "brush")
+            .call(brush)
+            .call(brush.move, [0.3, 0.5].map(x));
         
         // A function that set idleTimeOut to null
         var idleTimeout
         function idled() { idleTimeout = null; }
         
         // A function that update the chart for given boundaries
-        function updateChart({selection}) {    
+        function updateChart(selection) {   
+            console.log("UPDATE CHART")
+            console.log("zoomed = " + zoomed)
+
             // If no selection, back to initial coordinate. Otherwise, update X axis domain
             if(!selection){
-              if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+                console.log("no selection")
+            //   if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
               x.domain([0,1])
             }else{
-              x.domain([ x.invert(selection[0]), x.invert(selection[1]) ])
-              scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+                x.domain([ x.invert(selection[0]), x.invert(selection[1]) ])
+                scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
             }
-        
             // Update axis and circle position
             xAxis.transition().duration(1000).call(d3.axisBottom(x))
             scatter
@@ -143,8 +139,33 @@
               .transition().duration(1000)
               .attr("cx", function (d) { return x(d.x); } )
               .attr("cy", function (d) { return y(d.y); } )
+
+            // If scale is currently zoomed
+            if (zoomed) {
+                zoomed = false // switch 
+                // selection = formerSelect // set to zoom out 
+            }
+            // If scale is normal
+            if (!zoomed) {
+                zoomed = true// switch 
+                // formerSelect = selection
+            }
         
         }
+
+        var select = d3.selectAll(".selection")
+        scatter
+        .on("dblclick", function() { 
+            var selection = [select.node().getBBox().x, select.node().getBBox().x + select.node().getBBox().width]
+            if (zoomed) {
+                console.log("Calling update with 0, 600")
+                updateChart()
+            }
+            else {
+                console.log("Calling  update with selecction: " + selection)
+                updateChart(selection)
+            }
+        });
         
         </script>
 </html>

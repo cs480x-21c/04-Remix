@@ -79,7 +79,7 @@
         .data(Float64Array.from({length: 800}, Math.random))
         .join("circle")
         // .attr("transform", d => `translate(${x(d)},${y()})`)
-        .attr("transform", function(d) { console.log(d); return `translate(${x(d)},${y()})`})
+        .attr("transform", function(d) { console.log(x(d), y()); return `translate(${x(d)},${y()})`})
         .attr("r", 3.5);
 
         var clip = svg.append("defs").append("svg:clipPath")
