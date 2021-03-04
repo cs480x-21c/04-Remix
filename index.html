@@ -9,11 +9,114 @@
     <title>A4 - Alan Curiel</title>
 </head>
 
-<body>
-
+<body style="display: flex; justify-content: center; align-items: center;
+            flex-direction: column;height: 100vh; margin: 0 0;">
+    <form id="N" name="N">
+        <input name="i" type="number" min="1" max="10000" value="100" step="1" style="width:40px;">
+        <span style="font-size:smaller;font-style:oblique;">days (N)</span>
+    </form>
 </body>
 <script>
-    const br = d3.brush();
+    let N = 100;
+    d3.select("#N")
+        .select("input")
+        .on("input", e => {
+            // e.preventDefault();
+            N = +e.target.value
+            d3.select("body")
+                .select("svg")
+                .remove()
+            main();
+        })
+    async function main() {
+        const width = 954;
+        const height = 500;
+        const margin = {
+            top: 20,
+            right: 20,
+            bottom: 30,
+            left: 30
+        };
+
+        function movingAverage(values, N) {
+            let i = 0;
+            let sum = 0;
+            const means = values.map(v => {
+                return {
+                    date: v.date,
+                    value: NaN
+                }
+            });
+            for (let n = Math.min(N - 1, values.length); i < n; ++i) {
+                sum += values[i].value;
+            }
+            for (let n = values.length; i < n; ++i) {
+                sum += values[i].value;
+                means[i].value = sum / N;
+                sum -= values[i - N + 1].value;
+            }
+            return means.filter(i => !isNaN(i.value));
+        }
+        const data = movingAverage(await d3.csv("englandTemp1772.csv", (d) => {
+            return {
+                date: new Date(d.date),
+                value: +d.value // convert string to number
+            };
+        }), N);
+
+        console.log(data);
+        const valueExtent = d3.extent(data, d => d.value);
+
+        const x = d3.scaleUtc()
+            .domain(d3.extent(data, d => d.date))
+            .range([margin.left, width - margin.right])
+
+        const y = d3.scaleLinear()
+            .domain(valueExtent)
+            .range([height - margin.bottom, margin.top]);
+
+        const xAxis = g => g
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+
+        const yAxis = g => g
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(y))
+            .call(g => g.select(".domain").remove())
+            .call(g => g.select(".tick:last-of-type text").clone()
+                .attr("x", 3)
+                .attr("text-anchor", "start")
+                .attr("font-weight", "bold")
+                .text("Temp"));
+
+
+        const curve = d3.curveLinear;
+        console.log(y)
+        const area = d3.area()
+            .curve(curve)
+            .x(d => x(d.date))
+            .y0(y(valueExtent[0]))
+            .y1(d => y(d.value));
+
+
+        const svg = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height]);
+
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "steelblue")
+            .attr("d", d => area(d));
+
+        svg.append("g")
+            .call(xAxis);
+
+        svg.append("g")
+            .call(yAxis);
+    }
+    main();
 </script>
 
 </html>

@@ -4,7 +4,7 @@ Assignment 4 - DataVis Remix + Multiple Views
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
 
 ### Your Task
-
+https://www.reddit.com/r/dataisbeautiful/comments/lwpxm5/averaging_england_daily_temperature_data_from_1/
 Your task is to choose a visualization, remix it, and add at least two linked-views.
 
 By remix, we mean:

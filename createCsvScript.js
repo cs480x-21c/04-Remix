@@ -39,7 +39,7 @@ fs.readFile('./cetdl1772on.dat', 'utf8', (err, data) => {
 
         for (let i = 2; i < items.length; i++) {
             if (items[i] !== '-999') {
-                var dt = new Date(items[0], i - 1, items[1]);
+                var dt = new Date(items[0], i - 2, items[1]);
                 output.push({
                     date: formatDate(dt),
                     d: dt,
@@ -56,6 +56,6 @@ fs.readFile('./cetdl1772on.dat', 'utf8', (err, data) => {
     });
 
     csvWriter
-        .writeRecords(output)
+        .writeRecords(output.filter(i => i.d.getFullYear() >= 1960))
         .then(() => console.log('The CSV file was written successfully'));
 })
