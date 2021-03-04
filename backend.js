@@ -27,7 +27,6 @@ function main() {
 
     //Read CSV Data
     d3.csv("csv/earned.csv").then(function (d) {
-        createDifferentDataArrays(d);
         createScatterPlot(d);
 
     });
@@ -59,14 +58,14 @@ function main() {
     // console.log(dataAsian);
     // console.log(dataAfricanAmerican);
 
-    function createScatterPlot(d){
+    function createScatterPlot(data){
         // set the dimensions and margins of the graph
         let margin = {top: 20, right: 20, bottom: 30, left: 50},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
         // set the ranges
-        let x = d3.scaleTime().range([0, width]);
+        let x = d3.scaleLinear().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
 
         
@@ -81,42 +80,42 @@ function main() {
                 "translate(" + margin.left + "," + margin.top + ")");
 
         // Scale the range of the data
-        x.domain(d3.extent(d, function(d) { return d.year; }));
-        y.domain([0, d3.max(d, function(d) { return d.median_weekly_earn;})]);
+        x.domain(d3.extent(data, function(d) { return d.year; }));
+        y.domain([100, 1800]);
 
         // Add the scatterplot
         svg.selectAll("dot")
-            .data(d)
+            .data(data)
             .enter().append("circle")
-            .attr("r", 5)
+            .attr("r", 3)
             .attr("cx", function(d) { return x(d.year); })
             .attr("cy", function(d) { return y(d.median_weekly_earn); })
             .style("fill", function(d){
-                return setColor(d.sex)});
+                return setColor(d)});
 
         // Add the X Axis
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x))
 
         // Add the Y Axis
         svg.append("g")
             .call(d3.axisLeft(y));
     }
 
-    function setColor(d){
-        console.log(d.sex);
-        switch(d.sex){
-            case "Male":
-                return d3.color("brown");
-                break;
-            case "Female":
-                return d3.color("purple");
+    function setColor(d) {
+        //console.log(d.sex);
+        switch (d.sex) {
+            case "Men":
+                return d3.color("red");
+            case "Women":
+                return d3.color("#black");
             default:
-                return d3.color("black");
+                return d3.color("white");
 
         }
     }
+
 
 
 
