@@ -27,6 +27,7 @@ function main() {
 
     //Read CSV Data
     d3.csv("csv/earned.csv").then(function (d) {
+        createDifferentDataArrays(d);
         createScatterPlot(d);
 
     });
@@ -59,64 +60,84 @@ function main() {
     // console.log(dataAfricanAmerican);
 
     function createScatterPlot(data){
-        // set the dimensions and margins of the graph
-        let margin = {top: 20, right: 20, bottom: 30, left: 50},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+        var timeFormat = d3.timeFormat("%Y");
+        var parseTime = d3.timeParse("%Y");
 
-        // set the ranges
-        let x = d3.scaleLinear().range([0, width]);
-        let y = d3.scaleLinear().range([height, 0]);
+        data.forEach(function(d) {
+            d.year = parseTime(d.year);
+            // d.dates = timeFormat(d.dates);
+            d.median_weekly_earn = +d.median_weekly_earn;
+        });
 
-        
-        // append the svg obgect to the body of the page
-        // appends a 'group' element to 'svg'
-        // moves the 'group' element to the top left margin
-        let svg = d3.select("body").append("svg")
+        var margin = {top: 10, right: 30, bottom: 30, left: 60},
+            width = 720 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#my_dataviz")
+            .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")");
 
-        // Scale the range of the data
-        x.domain(d3.extent(data, function(d) { return d.year; }));
-        y.domain([100, 1800]);
+            // Add X axis
+        var x = d3.scaleTime()
+            .domain(d3.extent(data, function(d) {return (d.year);}))
+            .range([ 0, width ]);
 
-        // Add the scatterplot
-        svg.selectAll("dot")
-            .data(data)
-            .enter().append("circle")
-            .attr("r", 3)
-            .attr("cx", function(d) { return x(d.year); })
-            .attr("cy", function(d) { return y(d.median_weekly_earn); })
-            .style("fill", function(d){
-                return setColor(d)});
+        var xAxis = d3.axisBottom(x)
+            .tickFormat(timeFormat);
 
-        // Add the X Axis
+
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
+            .call(xAxis);
 
-        // Add the Y Axis
+        // Add Y axis
+        var y = d3.scaleLinear()
+            .domain([200, 1800])
+            .range([ height, 0]);
         svg.append("g")
             .call(d3.axisLeft(y));
+
+        // Add dots
+        svg.append('g')
+            .selectAll("dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", function (d) { return x(d.year); } )
+            .attr("cy", function (d) { return y(d.median_weekly_earn); } )
+            .attr("r", 2.5)
+            .style("fill", function(d){
+                return setColor(d);
+            })
+            .on('mouseover', function (d) {
+                d3.select(this).transition()
+                    .duration('50')
+                    .attr('r', '6')
+
+            })
+            .on('mouseout', function (d) {
+                d3.select(this).transition()
+                    .duration('50')
+                    .attr('r', '2.5')
+            })
     }
 
     function setColor(d) {
         //console.log(d.sex);
         switch (d.sex) {
             case "Men":
-                return d3.color("red");
+                return d3.color("#45b6fe");
             case "Women":
-                return d3.color("#black");
+                return d3.color("#e75480");
             default:
-                return d3.color("white");
+                return d3.color("#6a0dad");
 
         }
     }
-
-
-
 
 }
