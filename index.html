@@ -1,0 +1,30 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<body id='body'>
+<div id = 'data'></div>
+<script>
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 800 - margin.left - margin.right,
+        height = 800 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#data")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    let earnedData = []
+    //Read CSV Data
+    d3.csv("earned.csv", function(data) {
+            earnedData.push({"Sex": data.sex, "Race": data.race, "Ethinicity": data.ethnic_origin, "Age": data.age,
+            "Year": data.year, "Median Weekly Earn": data.median_weekly_earn});
+
+
+    });
+
+    console.log(earnedData);
+</script>
