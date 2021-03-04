@@ -19,7 +19,7 @@
 
     let earnedData = []
     //Read CSV Data
-    d3.csv("earned.csv", function(data) {
+    d3.csv("csv/earned.csv", function(data) {
             earnedData.push({"Sex": data.sex, "Race": data.race, "Ethinicity": data.ethnic_origin, "Age": data.age,
             "Year": data.year, "Median Weekly Earn": data.median_weekly_earn});
 
