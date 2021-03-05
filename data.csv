@@ -1,137 +1,3133 @@
-SecondTry,FirstTry
-90,69
-86,
-85,
-82,
-73,
-71,
-71,
-71,
-67,93
-67,
-61,66
-62,
-60,
-60,30
-60,
-52,42
-56,60
-57,
-53,33
-56,60
-55,30
-52,
-53,
-48,19
-52,
-49,
-48,69
-45,
-46,
-44,88
-44,
-46,
-42,35
-43,
-44,
-40,39
-39,8
-44,25
-43,34
-36,69
-41,72
-37,
-34,
-38,
-36,36
-39,8
-34,25
-36,38
-34,17
-39,
-35,38
-35,
-31,50
-34,46
-31,
-33,
-34,
-31,69
-30,
-47,65
-29,
-33,
-28,
-26,31
-26,
-67,30
-25,
-25,
-24,0
-25,140
-22,24
-22,
-21,
-20,28
-20,21
-22,35
-18,23
-20,
-18,
-18,34
-16,
-17,
-16,
-16,
-15,
-14,27
-13,10
-15,27
-14,69
-14,
-15,
-12,30
-13,49
-15,35
-12,
-11,17
-11,
-12,39
-11,12
-11,26
-10,
-10,34
-12,
-8,
-10,42
-8,69
-8,66
-9,
-8,
-8,
-9,
-9,
-7,20
-8,29
-8,18
-7,
-7,
-7,
-9,
-8,35
-6,40
-7,2
-4,
-5,33
-7,27
-5,43
-4,7
-6,46
-3,27
-5,
-6,22
-5,1
-3,88
-3,60
-2,8
-2,
+LocationType,Location,TimeFrame,DataFormat,Data
+Nation,United States,1990,Number,1165384
+Nation,United States,1990,Percent,0.28
+Nation,United States,1991,Percent,0.295
+Nation,United States,1991,Number,1213769
+Nation,United States,1992,Number,1224876
+Nation,United States,1992,Percent,0.301
+Nation,United States,1993,Percent,0.31
+Nation,United States,1993,Number,1240172
+Nation,United States,1994,Number,1289592
+Nation,United States,1994,Percent,0.326
+Nation,United States,1995,Percent,0.322
+Nation,United States,1995,Number,1253976
+Nation,United States,1996,Number,1260306
+Nation,United States,1996,Percent,0.324
+Nation,United States,1997,Percent,0.324
+Nation,United States,1997,Number,1257444
+Nation,United States,1998,Number,1293567
+Nation,United States,1998,Percent,0.328
+Nation,United States,1999,Percent,0.33
+Nation,United States,1999,Number,1308560
+Nation,United States,2000,Number,1347043
+Nation,United States,2000,Percent,0.332
+Nation,United States,2001,Percent,0.335
+Nation,United States,2001,Number,1349249
+Nation,United States,2002,Number,1365966
+Nation,United States,2002,Percent,0.34
+Nation,United States,2003,Percent,0.346
+Nation,United States,2003,Number,1415995
+Nation,United States,2004,Number,1470189
+Nation,United States,2004,Percent,0.358
+Nation,United States,2005,Percent,0.369
+Nation,United States,2005,Number,1527092
+Nation,United States,2006,Number,1641946
+Nation,United States,2006,Percent,0.385
+Nation,United States,2007,Percent,0.397
+Nation,United States,2007,Number,1715047
+Nation,United States,2008,Number,1726566
+Nation,United States,2013,Percent,0.41
+Nation,United States,2008,Percent,0.406
+Nation,United States,2013,Number,1595873
+Nation,United States,2018,Number,1503361
+Nation,United States,2009,Percent,0.41
+Nation,United States,2018,Percent,0.4
+Nation,United States,2009,Number,1693658
+Nation,United States,2010,Number,1633471
+Nation,United States,2015,Percent,0.4
+Nation,United States,2010,Percent,0.41
+Nation,United States,2015,Number,1601527
+Nation,United States,2011,Number,1607773
+Nation,United States,2011,Percent,0.41
+Nation,United States,2012,Percent,0.41
+Nation,United States,2012,Number,1609619
+Nation,United States,2014,Number,1604870
+Nation,United States,2014,Percent,0.4
+Nation,United States,2016,Percent,0.4
+Nation,United States,2016,Number,1569796
+Nation,United States,2017,Number,1533901
+Nation,United States,2017,Percent,0.4
+State,Alabama,2017,Percent,0.47
+State,Alabama,2017,Number,27755
+State,Alabama,2016,Number,26450
+State,Alabama,2014,Percent,0.43
+State,Alabama,2016,Percent,0.45
+State,Alabama,2014,Number,25721
+State,Alabama,2012,Number,24870
+State,Alabama,2011,Percent,0.42
+State,Alabama,2012,Percent,0.43
+State,Alabama,2011,Number,25012
+State,Alabama,2015,Number,26162
+State,Alabama,2010,Percent,0.42
+State,Alabama,2015,Percent,0.44
+State,Alabama,2010,Number,25170
+State,Alabama,2009,Number,25592
+State,Alabama,2009,Percent,0.41
+State,Alabama,2018,Percent,0.47
+State,Alabama,2018,Number,27014
+State,Alabama,2013,Number,24550
+State,Alabama,2013,Percent,0.42
+State,Alabama,2008,Percent,0.399
+State,Alabama,2007,Number,24840
+State,Alabama,2008,Number,25746
+State,Alabama,2007,Percent,0.383
+State,Alabama,2006,Percent,0.366
+State,Alabama,2006,Number,23163
+State,Alabama,2004,Percent,0.362
+State,Alabama,2005,Number,21579
+State,Alabama,2005,Percent,0.357
+State,Alabama,2004,Number,21566
+State,Alabama,2003,Number,20827
+State,Alabama,2003,Percent,0.35
+State,Alabama,2002,Percent,0.348
+State,Alabama,2001,Number,20777
+State,Alabama,2002,Number,20515
+State,Alabama,2001,Percent,0.344
+State,Alabama,2000,Percent,0.343
+State,Alabama,2000,Number,21696
+State,Alabama,1999,Number,20693
+State,Alabama,1998,Percent,0.341
+State,Alabama,1999,Percent,0.333
+State,Alabama,1998,Number,21147
+State,Alabama,1997,Number,20635
+State,Alabama,1997,Percent,0.339
+State,Alabama,1996,Percent,0.337
+State,Alabama,1995,Number,20798
+State,Alabama,1996,Number,20366
+State,Alabama,1994,Percent,0.345
+State,Alabama,1995,Percent,0.345
+State,Alabama,1994,Number,21003
+State,Alabama,1993,Number,20680
+State,Alabama,1992,Percent,0.326
+State,Alabama,1993,Percent,0.335
+State,Alabama,1991,Number,20009
+State,Alabama,1992,Number,20272
+State,Alabama,1991,Percent,0.319
+State,Alabama,1990,Percent,0.301
+State,Alabama,1990,Number,19131
+State,Alaska,1990,Number,3113
+State,Alaska,1990,Percent,0.262
+State,Alaska,1991,Percent,0.269
+State,Alaska,1992,Number,3215
+State,Alaska,1991,Number,3148
+State,Alaska,1993,Percent,0.28
+State,Alaska,1992,Percent,0.274
+State,Alaska,1993,Number,3101
+State,Alaska,1994,Number,3125
+State,Alaska,1995,Percent,0.299
+State,Alaska,1994,Percent,0.293
+State,Alaska,1996,Number,3110
+State,Alaska,1995,Number,3061
+State,Alaska,1996,Percent,0.31
+State,Alaska,1997,Percent,0.306
+State,Alaska,1997,Number,3048
+State,Alaska,1998,Number,3088
+State,Alaska,1999,Percent,0.332
+State,Alaska,1998,Percent,0.311
+State,Alaska,1999,Number,3301
+State,Alaska,2000,Number,3291
+State,Alaska,2000,Percent,0.33
+State,Alaska,2001,Percent,0.328
+State,Alaska,2002,Number,3379
+State,Alaska,2001,Number,3281
+State,Alaska,2002,Percent,0.34
+State,Alaska,2003,Percent,0.346
+State,Alaska,2003,Number,3487
+State,Alaska,2004,Number,3577
+State,Alaska,2005,Percent,0.36
+State,Alaska,2005,Number,3768
+State,Alaska,2004,Percent,0.346
+State,Alaska,2006,Number,4047
+State,Alaska,2006,Percent,0.368
+State,Alaska,2007,Percent,0.373
+State,Alaska,2008,Number,4300
+State,Alaska,2007,Number,4117
+State,Alaska,2013,Percent,0.35
+State,Alaska,2008,Percent,0.376
+State,Alaska,2013,Number,3951
+State,Alaska,2018,Number,3559
+State,Alaska,2018,Percent,0.35
+State,Alaska,2009,Percent,0.38
+State,Alaska,2009,Number,4303
+State,Alaska,2010,Number,4311
+State,Alaska,2010,Percent,0.38
+State,Alaska,2015,Percent,0.36
+State,Alaska,2015,Number,4071
+State,Alaska,2011,Number,4217
+State,Alaska,2011,Percent,0.37
+State,Alaska,2012,Percent,0.37
+State,Alaska,2012,Number,4184
+State,Alaska,2014,Number,4061
+State,Alaska,2014,Percent,0.36
+State,Alaska,2016,Percent,0.36
+State,Alaska,2016,Number,4052
+State,Alaska,2017,Number,3689
+State,Alaska,2017,Percent,0.35
+State,Arizona,2017,Percent,0.45
+State,Arizona,2016,Number,38053
+State,Arizona,2017,Number,36652
+State,Arizona,2014,Percent,0.45
+State,Arizona,2016,Percent,0.45
+State,Arizona,2014,Number,39224
+State,Arizona,2012,Number,39319
+State,Arizona,2012,Percent,0.45
+State,Arizona,2011,Percent,0.45
+State,Arizona,2011,Number,38227
+State,Arizona,2015,Number,38862
+State,Arizona,2015,Percent,0.46
+State,Arizona,2010,Percent,0.45
+State,Arizona,2010,Number,39294
+State,Arizona,2009,Number,42161
+State,Arizona,2018,Percent,0.45
+State,Arizona,2018,Number,36235
+State,Arizona,2013,Number,38875
+State,Arizona,2009,Percent,0.45
+State,Arizona,2008,Percent,0.453
+State,Arizona,2013,Percent,0.45
+State,Arizona,2007,Number,46585
+State,Arizona,2008,Number,45039
+State,Arizona,2007,Percent,0.452
+State,Arizona,2006,Percent,0.44
+State,Arizona,2006,Number,45089
+State,Arizona,2004,Percent,0.422
+State,Arizona,2005,Number,41442
+State,Arizona,2005,Percent,0.431
+State,Arizona,2004,Number,39525
+State,Arizona,2003,Number,37762
+State,Arizona,2003,Percent,0.415
+State,Arizona,2002,Percent,0.404
+State,Arizona,2001,Number,33776
+State,Arizona,2002,Number,35494
+State,Arizona,2001,Percent,0.395
+State,Arizona,2000,Percent,0.393
+State,Arizona,2000,Number,33475
+State,Arizona,1999,Number,31463
+State,Arizona,1998,Percent,0.384
+State,Arizona,1999,Percent,0.388
+State,Arizona,1998,Number,30011
+State,Arizona,1997,Number,28495
+State,Arizona,1997,Percent,0.376
+State,Arizona,1996,Percent,0.388
+State,Arizona,1995,Number,27709
+State,Arizona,1996,Number,29243
+State,Arizona,1994,Percent,0.383
+State,Arizona,1995,Percent,0.382
+State,Arizona,1994,Number,27162
+State,Arizona,1993,Number,26151
+State,Arizona,1992,Percent,0.362
+State,Arizona,1993,Percent,0.379
+State,Arizona,1991,Number,23899
+State,Arizona,1992,Number,24939
+State,Arizona,1991,Percent,0.351
+State,Arizona,1990,Percent,0.327
+State,Arizona,1990,Number,22532
+State,Arkansas,1990,Number,10713
+State,Arkansas,1990,Percent,0.294
+State,Arkansas,1991,Percent,0.299
+State,Arkansas,1992,Number,10781
+State,Arkansas,1991,Number,10601
+State,Arkansas,1993,Percent,0.317
+State,Arkansas,1992,Percent,0.31
+State,Arkansas,1993,Number,10878
+State,Arkansas,1994,Number,11310
+State,Arkansas,1995,Percent,0.329
+State,Arkansas,1994,Percent,0.326
+State,Arkansas,1996,Number,12335
+State,Arkansas,1995,Number,11589
+State,Arkansas,1996,Percent,0.339
+State,Arkansas,1997,Percent,0.342
+State,Arkansas,1997,Number,12478
+State,Arkansas,1998,Number,12911
+State,Arkansas,1999,Percent,0.352
+State,Arkansas,1998,Percent,0.35
+State,Arkansas,1999,Number,12932
+State,Arkansas,2000,Number,13490
+State,Arkansas,2000,Percent,0.357
+State,Arkansas,2001,Percent,0.361
+State,Arkansas,2002,Number,13891
+State,Arkansas,2001,Number,13378
+State,Arkansas,2002,Percent,0.371
+State,Arkansas,2003,Percent,0.38
+State,Arkansas,2003,Number,14358
+State,Arkansas,2004,Number,14978
+State,Arkansas,2005,Percent,0.402
+State,Arkansas,2005,Number,15768
+State,Arkansas,2004,Percent,0.388
+State,Arkansas,2006,Number,17114
+State,Arkansas,2006,Percent,0.418
+State,Arkansas,2007,Percent,0.434
+State,Arkansas,2008,Number,18158
+State,Arkansas,2007,Number,17971
+State,Arkansas,2013,Percent,0.45
+State,Arkansas,2008,Percent,0.446
+State,Arkansas,2009,Percent,0.45
+State,Arkansas,2018,Number,16795
+State,Arkansas,2013,Number,17034
+State,Arkansas,2018,Percent,0.45
+State,Arkansas,2009,Number,18104
+State,Arkansas,2010,Number,17465
+State,Arkansas,2010,Percent,0.45
+State,Arkansas,2015,Percent,0.45
+State,Arkansas,2015,Number,17502
+State,Arkansas,2011,Number,17370
+State,Arkansas,2011,Percent,0.45
+State,Arkansas,2012,Percent,0.45
+State,Arkansas,2014,Number,16925
+State,Arkansas,2012,Number,17325
+State,Arkansas,2016,Percent,0.45
+State,Arkansas,2014,Percent,0.44
+State,Arkansas,2017,Number,17072
+State,Arkansas,2016,Number,17036
+State,Arkansas,2017,Percent,0.46
+State,California,2017,Percent,0.37
+State,California,2016,Number,186851
+State,California,2017,Number,176801
+State,California,2014,Percent,0.39
+State,California,2016,Percent,0.38
+State,California,2014,Number,194960
+State,California,2012,Number,202026
+State,California,2012,Percent,0.4
+State,California,2011,Percent,0.4
+State,California,2015,Number,190990
+State,California,2011,Number,202689
+State,California,2015,Percent,0.39
+State,California,2010,Percent,0.4
+State,California,2010,Number,206573
+State,California,2009,Number,213905
+State,California,2018,Percent,0.37
+State,California,2013,Number,196299
+State,California,2018,Number,168892
+State,California,2009,Percent,0.41
+State,California,2013,Percent,0.4
+State,California,2008,Percent,0.402
+State,California,2007,Number,220263
+State,California,2008,Number,221568
+State,California,2007,Percent,0.389
+State,California,2006,Percent,0.376
+State,California,2006,Number,211501
+State,California,2004,Percent,0.344
+State,California,2005,Number,195982
+State,California,2005,Percent,0.357
+State,California,2004,Number,187582
+State,California,2003,Number,181364
+State,California,2003,Percent,0.335
+State,California,2001,Number,172764
+State,California,2002,Percent,0.33
+State,California,2002,Number,174681
+State,California,2001,Percent,0.327
+State,California,2000,Percent,0.327
+State,California,2000,Number,174050
+State,California,1999,Number,170372
+State,California,1998,Percent,0.328
+State,California,1999,Percent,0.329
+State,California,1998,Number,170866
+State,California,1997,Number,172017
+State,California,1997,Percent,0.328
+State,California,1996,Percent,0.314
+State,California,1995,Number,177131
+State,California,1996,Number,169313
+State,California,1995,Percent,0.321
+State,California,1994,Percent,0.357
+State,California,1994,Number,202803
+State,California,1993,Number,206376
+State,California,1992,Percent,0.343
+State,California,1993,Percent,0.353
+State,California,1991,Number,204229
+State,California,1992,Number,206396
+State,California,1991,Percent,0.335
+State,California,1990,Percent,0.316
+State,California,1990,Number,193559
+State,Colorado,1990,Number,11374
+State,Colorado,1990,Percent,0.212
+State,Colorado,1991,Percent,0.236
+State,Colorado,1992,Number,12971
+State,Colorado,1991,Number,12684
+State,Colorado,1993,Percent,0.248
+State,Colorado,1992,Percent,0.238
+State,Colorado,1993,Number,13373
+State,Colorado,1994,Number,13510
+State,Colorado,1994,Percent,0.25
+State,Colorado,1995,Percent,0.249
+State,Colorado,1996,Number,13863
+State,Colorado,1995,Number,13502
+State,Colorado,1996,Percent,0.248
+State,Colorado,1997,Percent,0.252
+State,Colorado,1997,Number,14273
+State,Colorado,1998,Number,15227
+State,Colorado,1999,Percent,0.254
+State,Colorado,1998,Percent,0.256
+State,Colorado,1999,Number,15818
+State,Colorado,2000,Number,16369
+State,Colorado,2000,Percent,0.25
+State,Colorado,2001,Percent,0.25
+State,Colorado,2002,Number,18320
+State,Colorado,2002,Percent,0.268
+State,Colorado,2001,Number,16732
+State,Colorado,2003,Percent,0.267
+State,Colorado,2003,Number,18519
+State,Colorado,2004,Number,18837
+State,Colorado,2005,Percent,0.271
+State,Colorado,2005,Number,18657
+State,Colorado,2004,Percent,0.275
+State,Colorado,2006,Number,19535
+State,Colorado,2006,Percent,0.276
+State,Colorado,2007,Percent,0.254
+State,Colorado,2008,Number,17444
+State,Colorado,2007,Number,18010
+State,Colorado,2008,Percent,0.249
+State,Colorado,2013,Percent,0.23
+State,Colorado,2009,Percent,0.25
+State,Colorado,2013,Number,15005
+State,Colorado,2018,Number,14598
+State,Colorado,2018,Percent,0.23
+State,Colorado,2009,Number,17074
+State,Colorado,2010,Number,15870
+State,Colorado,2010,Percent,0.24
+State,Colorado,2015,Percent,0.23
+State,Colorado,2011,Number,15403
+State,Colorado,2015,Number,15136
+State,Colorado,2011,Percent,0.24
+State,Colorado,2012,Percent,0.23
+State,Colorado,2012,Number,15020
+State,Colorado,2014,Number,14748
+State,Colorado,2016,Percent,0.22
+State,Colorado,2014,Percent,0.22
+State,Colorado,2017,Number,14514
+State,Colorado,2016,Number,14981
+State,Colorado,2017,Percent,0.23
+State,Connecticut,2017,Percent,0.37
+State,Connecticut,2016,Number,13288
+State,Connecticut,2017,Number,12886
+State,Connecticut,2014,Percent,0.37
+State,Connecticut,2016,Percent,0.37
+State,Connecticut,2014,Number,13477
+State,Connecticut,2012,Number,13855
+State,Connecticut,2012,Percent,0.38
+State,Connecticut,2011,Percent,0.38
+State,Connecticut,2015,Number,13410
+State,Connecticut,2011,Number,14177
+State,Connecticut,2015,Percent,0.38
+State,Connecticut,2010,Percent,0.37
+State,Connecticut,2010,Number,14112
+State,Connecticut,2009,Number,14605
+State,Connecticut,2018,Percent,0.37
+State,Connecticut,2018,Number,12878
+State,Connecticut,2013,Number,13768
+State,Connecticut,2009,Percent,0.38
+State,Connecticut,2013,Percent,0.38
+State,Connecticut,2008,Percent,0.364
+State,Connecticut,2007,Number,14608
+State,Connecticut,2008,Number,14721
+State,Connecticut,2007,Percent,0.351
+State,Connecticut,2006,Percent,0.34
+State,Connecticut,2006,Number,14209
+State,Connecticut,2004,Percent,0.306
+State,Connecticut,2005,Number,13425
+State,Connecticut,2005,Percent,0.322
+State,Connecticut,2004,Number,12891
+State,Connecticut,2003,Number,12874
+State,Connecticut,2003,Percent,0.3
+State,Connecticut,2001,Number,12433
+State,Connecticut,2002,Percent,0.291
+State,Connecticut,2002,Number,12213
+State,Connecticut,2001,Percent,0.292
+State,Connecticut,2000,Percent,0.293
+State,Connecticut,2000,Number,12591
+State,Connecticut,1999,Number,12562
+State,Connecticut,1998,Percent,0.312
+State,Connecticut,1999,Percent,0.29
+State,Connecticut,1998,Number,13676
+State,Connecticut,1997,Number,14116
+State,Connecticut,1997,Percent,0.327
+State,Connecticut,1996,Percent,0.313
+State,Connecticut,1995,Number,13575
+State,Connecticut,1996,Number,13940
+State,Connecticut,1995,Percent,0.306
+State,Connecticut,1994,Percent,0.305
+State,Connecticut,1994,Number,13914
+State,Connecticut,1993,Number,13919
+State,Connecticut,1992,Percent,0.287
+State,Connecticut,1993,Percent,0.298
+State,Connecticut,1991,Number,13581
+State,Connecticut,1992,Number,13657
+State,Connecticut,1991,Percent,0.28
+State,Connecticut,1990,Percent,0.266
+State,Connecticut,1990,Number,13330
+State,Delaware,1990,Number,3222
+State,Delaware,1990,Percent,0.29
+State,Delaware,1991,Percent,0.318
+State,Delaware,1992,Number,3470
+State,Delaware,1991,Number,3559
+State,Delaware,1993,Percent,0.338
+State,Delaware,1992,Percent,0.326
+State,Delaware,1993,Number,3577
+State,Delaware,1994,Number,3614
+State,Delaware,1994,Percent,0.347
+State,Delaware,1995,Percent,0.349
+State,Delaware,1996,Number,3603
+State,Delaware,1995,Number,3586
+State,Delaware,1996,Percent,0.355
+State,Delaware,1997,Percent,0.36
+State,Delaware,1997,Number,3693
+State,Delaware,1998,Number,3924
+State,Delaware,1999,Percent,0.388
+State,Delaware,1998,Percent,0.371
+State,Delaware,1999,Number,4147
+State,Delaware,2000,Number,4193
+State,Delaware,2000,Percent,0.379
+State,Delaware,2001,Percent,0.399
+State,Delaware,2002,Number,4505
+State,Delaware,2002,Percent,0.406
+State,Delaware,2001,Number,4290
+State,Delaware,2003,Percent,0.419
+State,Delaware,2003,Number,4747
+State,Delaware,2004,Number,4811
+State,Delaware,2005,Percent,0.443
+State,Delaware,2005,Number,5156
+State,Delaware,2004,Percent,0.423
+State,Delaware,2006,Number,5456
+State,Delaware,2006,Percent,0.455
+State,Delaware,2007,Percent,0.468
+State,Delaware,2008,Number,5807
+State,Delaware,2007,Number,5699
+State,Delaware,2008,Percent,0.48
+State,Delaware,2013,Percent,0.48
+State,Delaware,2009,Percent,0.48
+State,Delaware,2013,Number,5180
+State,Delaware,2018,Number,4987
+State,Delaware,2018,Percent,0.47
+State,Delaware,2009,Number,5513
+State,Delaware,2010,Number,5387
+State,Delaware,2010,Percent,0.47
+State,Delaware,2015,Percent,0.46
+State,Delaware,2011,Number,5469
+State,Delaware,2015,Number,5171
+State,Delaware,2011,Percent,0.49
+State,Delaware,2012,Percent,0.47
+State,Delaware,2012,Number,5220
+State,Delaware,2014,Number,5116
+State,Delaware,2016,Percent,0.46
+State,Delaware,2014,Percent,0.47
+State,Delaware,2017,Number,5168
+State,Delaware,2016,Number,5037
+State,Delaware,2017,Percent,0.48
+City,District of Columbia,2017,Percent,0.48
+City,District of Columbia,2017,Number,4567
+City,District of Columbia,2016,Number,4771
+City,District of Columbia,2014,Percent,0.5
+City,District of Columbia,2016,Percent,0.48
+City,District of Columbia,2014,Number,4771
+City,District of Columbia,2012,Number,4803
+City,District of Columbia,2012,Percent,0.51
+City,District of Columbia,2011,Percent,0.54
+City,District of Columbia,2015,Number,4721
+City,District of Columbia,2011,Number,4979
+City,District of Columbia,2010,Percent,0.55
+City,District of Columbia,2015,Percent,0.49
+City,District of Columbia,2010,Number,5019
+City,District of Columbia,2009,Number,5047
+City,District of Columbia,2018,Percent,0.46
+City,District of Columbia,2018,Number,4283
+City,District of Columbia,2013,Number,4715
+City,District of Columbia,2009,Percent,0.56
+City,District of Columbia,2008,Percent,0.578
+City,District of Columbia,2013,Percent,0.51
+City,District of Columbia,2008,Number,5279
+City,District of Columbia,2007,Number,5184
+City,District of Columbia,2007,Percent,0.585
+City,District of Columbia,2006,Percent,0.576
+City,District of Columbia,2006,Number,4906
+City,District of Columbia,2004,Percent,0.559
+City,District of Columbia,2005,Number,4464
+City,District of Columbia,2005,Percent,0.56
+City,District of Columbia,2004,Number,4436
+City,District of Columbia,2003,Number,4084
+City,District of Columbia,2003,Percent,0.536
+City,District of Columbia,2001,Number,4376
+City,District of Columbia,2002,Percent,0.565
+City,District of Columbia,2002,Number,4236
+City,District of Columbia,2001,Percent,0.574
+City,District of Columbia,2000,Percent,0.603
+City,District of Columbia,2000,Number,4626
+City,District of Columbia,1998,Percent,0.629
+City,District of Columbia,1999,Number,4642
+City,District of Columbia,1999,Percent,0.617
+City,District of Columbia,1998,Number,4834
+City,District of Columbia,1997,Number,5041
+City,District of Columbia,1997,Percent,0.636
+City,District of Columbia,1996,Percent,0.661
+City,District of Columbia,1995,Number,5935
+City,District of Columbia,1996,Number,5547
+City,District of Columbia,1995,Percent,0.658
+City,District of Columbia,1994,Percent,0.688
+City,District of Columbia,1994,Number,6831
+City,District of Columbia,1993,Number,7211
+City,District of Columbia,1992,Percent,0.669
+City,District of Columbia,1993,Percent,0.678
+City,District of Columbia,1992,Number,7334
+City,District of Columbia,1991,Number,7806
+City,District of Columbia,1991,Percent,0.663
+City,District of Columbia,1990,Percent,0.649
+City,District of Columbia,1990,Number,7692
+State,Florida,1990,Number,63169
+State,Florida,1990,Percent,0.317
+State,Florida,1991,Percent,0.33
+State,Florida,1991,Number,64101
+State,Florida,1992,Number,65491
+State,Florida,1993,Percent,0.35
+State,Florida,1992,Percent,0.342
+State,Florida,1993,Number,67431
+State,Florida,1994,Number,68127
+State,Florida,1994,Percent,0.357
+State,Florida,1995,Percent,0.358
+State,Florida,1996,Number,68077
+State,Florida,1995,Number,67474
+State,Florida,1996,Percent,0.359
+State,Florida,1997,Percent,0.36
+State,Florida,1997,Number,69285
+State,Florida,1998,Number,71626
+State,Florida,1999,Percent,0.375
+State,Florida,1999,Number,73824
+State,Florida,1998,Percent,0.366
+State,Florida,2000,Number,78068
+State,Florida,2000,Percent,0.382
+State,Florida,2001,Percent,0.39
+State,Florida,2002,Number,80843
+State,Florida,2002,Percent,0.393
+State,Florida,2001,Number,80221
+State,Florida,2003,Percent,0.399
+State,Florida,2003,Number,84762
+State,Florida,2004,Number,90254
+State,Florida,2005,Percent,0.428
+State,Florida,2005,Number,96809
+State,Florida,2004,Percent,0.414
+State,Florida,2006,Number,105111
+State,Florida,2006,Percent,0.444
+State,Florida,2007,Percent,0.461
+State,Florida,2007,Number,110278
+State,Florida,2008,Number,108536
+State,Florida,2008,Percent,0.469
+State,Florida,2013,Percent,0.48
+State,Florida,2009,Percent,0.48
+State,Florida,2013,Number,103386
+State,Florida,2018,Number,102751
+State,Florida,2018,Percent,0.46
+State,Florida,2009,Number,105647
+State,Florida,2010,Number,101828
+State,Florida,2010,Percent,0.47
+State,Florida,2015,Percent,0.48
+State,Florida,2011,Number,101545
+State,Florida,2015,Number,107125
+State,Florida,2011,Percent,0.48
+State,Florida,2012,Percent,0.48
+State,Florida,2012,Number,102161
+State,Florida,2014,Number,105422
+State,Florida,2016,Percent,0.47
+State,Florida,2014,Percent,0.48
+State,Florida,2016,Number,105537
+State,Florida,2017,Number,105023
+State,Florida,2017,Percent,0.47
+State,Georgia,2017,Percent,0.45
+State,Georgia,2016,Number,58395
+State,Georgia,2017,Number,58060
+State,Georgia,2014,Percent,0.45
+State,Georgia,2016,Percent,0.45
+State,Georgia,2014,Number,59415
+State,Georgia,2012,Number,58848
+State,Georgia,2012,Percent,0.45
+State,Georgia,2011,Percent,0.45
+State,Georgia,2015,Number,59387
+State,Georgia,2011,Number,60169
+State,Georgia,2015,Percent,0.45
+State,Georgia,2010,Percent,0.46
+State,Georgia,2010,Number,61399
+State,Georgia,2009,Number,64290
+State,Georgia,2018,Percent,0.45
+State,Georgia,2018,Number,56966
+State,Georgia,2013,Number,58447
+State,Georgia,2009,Percent,0.45
+State,Georgia,2013,Percent,0.45
+State,Georgia,2008,Percent,0.454
+State,Georgia,2008,Number,66603
+State,Georgia,2007,Number,65923
+State,Georgia,2007,Percent,0.436
+State,Georgia,2006,Percent,0.424
+State,Georgia,2006,Number,62996
+State,Georgia,2004,Percent,0.392
+State,Georgia,2005,Number,57707
+State,Georgia,2005,Percent,0.406
+State,Georgia,2004,Number,54362
+State,Georgia,2003,Number,51854
+State,Georgia,2003,Percent,0.381
+State,Georgia,2001,Number,49834
+State,Georgia,2002,Percent,0.378
+State,Georgia,2002,Number,50401
+State,Georgia,2001,Percent,0.373
+State,Georgia,2000,Percent,0.37
+State,Georgia,2000,Number,49058
+State,Georgia,1998,Percent,0.362
+State,Georgia,1999,Number,46328
+State,Georgia,1999,Percent,0.366
+State,Georgia,1998,Number,44270
+State,Georgia,1997,Number,41879
+State,Georgia,1997,Percent,0.354
+State,Georgia,1996,Percent,0.35
+State,Georgia,1995,Number,39474
+State,Georgia,1996,Number,39928
+State,Georgia,1995,Percent,0.352
+State,Georgia,1994,Percent,0.355
+State,Georgia,1994,Number,39429
+State,Georgia,1993,Number,39575
+State,Georgia,1992,Percent,0.35
+State,Georgia,1993,Percent,0.358
+State,Georgia,1992,Number,38925
+State,Georgia,1991,Number,38116
+State,Georgia,1991,Percent,0.346
+State,Georgia,1990,Percent,0.328
+State,Georgia,1990,Number,36979
+State,Hawaii,1990,Number,5088
+State,Hawaii,1990,Percent,0.248
+State,Hawaii,1991,Percent,0.261
+State,Hawaii,1991,Number,5195
+State,Hawaii,1992,Number,5204
+State,Hawaii,1993,Percent,0.272
+State,Hawaii,1992,Percent,0.262
+State,Hawaii,1993,Number,5328
+State,Hawaii,1994,Number,5533
+State,Hawaii,1994,Percent,0.283
+State,Hawaii,1995,Percent,0.292
+State,Hawaii,1996,Number,5569
+State,Hawaii,1995,Number,5428
+State,Hawaii,1996,Percent,0.303
+State,Hawaii,1997,Percent,0.299
+State,Hawaii,1997,Number,5202
+State,Hawaii,1998,Number,5544
+State,Hawaii,1999,Percent,0.328
+State,Hawaii,1999,Number,5593
+State,Hawaii,1998,Percent,0.315
+State,Hawaii,2000,Number,5658
+State,Hawaii,2000,Percent,0.322
+State,Hawaii,2001,Percent,0.33
+State,Hawaii,2002,Number,5870
+State,Hawaii,2002,Percent,0.336
+State,Hawaii,2001,Number,5632
+State,Hawaii,2003,Percent,0.335
+State,Hawaii,2003,Number,6058
+State,Hawaii,2004,Number,6098
+State,Hawaii,2005,Percent,0.363
+State,Hawaii,2005,Number,6504
+State,Hawaii,2004,Percent,0.334
+State,Hawaii,2006,Number,6832
+State,Hawaii,2006,Percent,0.36
+State,Hawaii,2007,Percent,0.369
+State,Hawaii,2007,Number,7062
+State,Hawaii,2008,Number,7392
+State,Hawaii,2008,Percent,0.379
+State,Hawaii,2013,Percent,0.37
+State,Hawaii,2009,Percent,0.38
+State,Hawaii,2013,Number,7078
+State,Hawaii,2018,Number,6468
+State,Hawaii,2018,Percent,0.38
+State,Hawaii,2009,Number,7154
+State,Hawaii,2010,Number,7173
+State,Hawaii,2010,Percent,0.38
+State,Hawaii,2015,Percent,0.37
+State,Hawaii,2011,Number,7104
+State,Hawaii,2015,Number,6838
+State,Hawaii,2011,Percent,0.37
+State,Hawaii,2012,Percent,0.38
+State,Hawaii,2012,Number,7120
+State,Hawaii,2014,Number,6886
+State,Hawaii,2016,Percent,0.37
+State,Hawaii,2014,Percent,0.37
+State,Hawaii,2017,Number,6764
+State,Hawaii,2016,Number,6680
+State,Hawaii,2017,Percent,0.39
+State,Idaho,2017,Percent,0.28
+State,Idaho,2016,Number,6206
+State,Idaho,2017,Number,6229
+State,Idaho,2014,Percent,0.28
+State,Idaho,2016,Percent,0.28
+State,Idaho,2014,Number,6367
+State,Idaho,2012,Number,6291
+State,Idaho,2012,Percent,0.27
+State,Idaho,2011,Percent,0.27
+State,Idaho,2015,Number,6332
+State,Idaho,2011,Number,5968
+State,Idaho,2015,Percent,0.28
+State,Idaho,2010,Percent,0.27
+State,Idaho,2010,Number,6158
+State,Idaho,2009,Number,6092
+State,Idaho,2018,Percent,0.27
+State,Idaho,2018,Number,5777
+State,Idaho,2013,Number,6063
+State,Idaho,2009,Percent,0.26
+State,Idaho,2013,Percent,0.27
+State,Idaho,2008,Percent,0.253
+State,Idaho,2008,Number,6370
+State,Idaho,2007,Number,6372
+State,Idaho,2007,Percent,0.255
+State,Idaho,2006,Percent,0.243
+State,Idaho,2006,Number,5878
+State,Idaho,2005,Number,5290
+State,Idaho,2005,Percent,0.229
+State,Idaho,2004,Percent,0.226
+State,Idaho,2004,Number,5099
+State,Idaho,2003,Number,4865
+State,Idaho,2003,Percent,0.223
+State,Idaho,2001,Number,4557
+State,Idaho,2002,Percent,0.219
+State,Idaho,2002,Number,4595
+State,Idaho,2001,Percent,0.22
+State,Idaho,2000,Percent,0.216
+State,Idaho,2000,Number,4392
+State,Idaho,1998,Percent,0.22
+State,Idaho,1999,Number,4302
+State,Idaho,1999,Percent,0.216
+State,Idaho,1998,Number,4265
+State,Idaho,1997,Number,3848
+State,Idaho,1997,Percent,0.207
+State,Idaho,1995,Number,3590
+State,Idaho,1996,Percent,0.213
+State,Idaho,1996,Number,3969
+State,Idaho,1995,Percent,0.199
+State,Idaho,1994,Percent,0.187
+State,Idaho,1994,Number,3273
+State,Idaho,1993,Number,3268
+State,Idaho,1992,Percent,0.183
+State,Idaho,1993,Percent,0.187
+State,Idaho,1992,Number,3179
+State,Idaho,1991,Number,2924
+State,Idaho,1991,Percent,0.174
+State,Idaho,1990,Percent,0.167
+State,Idaho,1990,Number,2738
+State,Illinois,1990,Number,62148
+State,Illinois,1990,Percent,0.317
+State,Illinois,1991,Percent,0.326
+State,Illinois,1991,Number,63225
+State,Illinois,1992,Number,63979
+State,Illinois,1993,Percent,0.341
+State,Illinois,1992,Percent,0.334
+State,Illinois,1993,Number,65130
+State,Illinois,1994,Number,64933
+State,Illinois,1994,Percent,0.343
+State,Illinois,1995,Percent,0.338
+State,Illinois,1996,Number,61743
+State,Illinois,1996,Percent,0.337
+State,Illinois,1995,Number,62829
+State,Illinois,1997,Percent,0.334
+State,Illinois,1997,Number,60443
+State,Illinois,1998,Number,62211
+State,Illinois,1999,Percent,0.341
+State,Illinois,1999,Number,62088
+State,Illinois,1998,Percent,0.341
+State,Illinois,2000,Number,63852
+State,Illinois,2000,Percent,0.345
+State,Illinois,2001,Percent,0.345
+State,Illinois,2002,Number,62890
+State,Illinois,2002,Percent,0.348
+State,Illinois,2001,Number,63449
+State,Illinois,2003,Percent,0.353
+State,Illinois,2003,Number,64439
+State,Illinois,2004,Number,65560
+State,Illinois,2004,Percent,0.363
+State,Illinois,2005,Percent,0.371
+State,Illinois,2005,Number,66333
+State,Illinois,2006,Number,69961
+State,Illinois,2006,Percent,0.387
+State,Illinois,2007,Percent,0.401
+State,Illinois,2007,Number,72507
+State,Illinois,2008,Number,71932
+State,Illinois,2008,Percent,0.407
+State,Illinois,2013,Percent,0.4
+State,Illinois,2009,Percent,0.41
+State,Illinois,2013,Number,63332
+State,Illinois,2018,Number,56946
+State,Illinois,2018,Percent,0.39
+State,Illinois,2009,Number,69783
+State,Illinois,2010,Number,66907
+State,Illinois,2010,Percent,0.41
+State,Illinois,2015,Percent,0.4
+State,Illinois,2011,Number,64501
+State,Illinois,2015,Number,63947
+State,Illinois,2011,Percent,0.4
+State,Illinois,2012,Percent,0.4
+State,Illinois,2012,Number,64297
+State,Illinois,2014,Number,63555
+State,Illinois,2016,Percent,0.4
+State,Illinois,2014,Percent,0.4
+State,Illinois,2017,Number,59396
+State,Illinois,2016,Number,61292
+State,Illinois,2017,Percent,0.4
+State,Indiana,2017,Percent,0.43
+State,Indiana,2016,Number,35448
+State,Indiana,2017,Number,35142
+State,Indiana,2014,Percent,0.43
+State,Indiana,2016,Percent,0.43
+State,Indiana,2014,Number,36409
+State,Indiana,2012,Number,35948
+State,Indiana,2012,Percent,0.43
+State,Indiana,2011,Percent,0.43
+State,Indiana,2015,Number,36349
+State,Indiana,2011,Number,35774
+State,Indiana,2015,Percent,0.43
+State,Indiana,2010,Percent,0.43
+State,Indiana,2010,Number,36127
+State,Indiana,2009,Number,38001
+State,Indiana,2018,Percent,0.43
+State,Indiana,2018,Number,35303
+State,Indiana,2013,Number,35977
+State,Indiana,2009,Percent,0.44
+State,Indiana,2013,Percent,0.43
+State,Indiana,2008,Percent,0.433
+State,Indiana,2008,Number,38444
+State,Indiana,2007,Number,38137
+State,Indiana,2007,Percent,0.424
+State,Indiana,2006,Percent,0.414
+State,Indiana,2006,Number,36703
+State,Indiana,2005,Number,35009
+State,Indiana,2005,Percent,0.402
+State,Indiana,2004,Percent,0.388
+State,Indiana,2004,Number,33828
+State,Indiana,2003,Number,32100
+State,Indiana,2003,Percent,0.371
+State,Indiana,2001,Number,30676
+State,Indiana,2002,Percent,0.364
+State,Indiana,2002,Number,30929
+State,Indiana,2001,Percent,0.355
+State,Indiana,2000,Percent,0.347
+State,Indiana,2000,Number,30409
+State,Indiana,1998,Percent,0.335
+State,Indiana,1999,Number,29640
+State,Indiana,1999,Percent,0.345
+State,Indiana,1998,Number,28553
+State,Indiana,1997,Number,27184
+State,Indiana,1997,Percent,0.326
+State,Indiana,1995,Number,26456
+State,Indiana,1996,Percent,0.323
+State,Indiana,1996,Number,27002
+State,Indiana,1995,Percent,0.319
+State,Indiana,1994,Percent,0.315
+State,Indiana,1994,Number,26044
+State,Indiana,1993,Number,25844
+State,Indiana,1992,Percent,0.295
+State,Indiana,1993,Percent,0.308
+State,Indiana,1992,Number,24786
+State,Indiana,1991,Number,24294
+State,Indiana,1991,Percent,0.283
+State,Indiana,1990,Percent,0.262
+State,Indiana,1990,Number,22562
+State,Iowa,1990,Number,8282
+State,Iowa,1990,Percent,0.21
+State,Iowa,1991,Percent,0.222
+State,Iowa,1991,Number,8657
+State,Iowa,1992,Number,9058
+State,Iowa,1993,Percent,0.246
+State,Iowa,1992,Percent,0.235
+State,Iowa,1993,Number,9297
+State,Iowa,1994,Number,9211
+State,Iowa,1994,Percent,0.248
+State,Iowa,1995,Percent,0.252
+State,Iowa,1996,Number,9760
+State,Iowa,1996,Percent,0.263
+State,Iowa,1995,Number,9267
+State,Iowa,1997,Percent,0.262
+State,Iowa,1997,Number,9601
+State,Iowa,1998,Number,10155
+State,Iowa,1999,Percent,0.275
+State,Iowa,1999,Number,10330
+State,Iowa,1998,Percent,0.272
+State,Iowa,2000,Number,10711
+State,Iowa,2000,Percent,0.28
+State,Iowa,2001,Percent,0.288
+State,Iowa,2002,Number,11022
+State,Iowa,2002,Percent,0.293
+State,Iowa,2001,Number,10824
+State,Iowa,2003,Percent,0.299
+State,Iowa,2003,Number,11395
+State,Iowa,2004,Number,11913
+State,Iowa,2004,Percent,0.31
+State,Iowa,2005,Percent,0.325
+State,Iowa,2005,Number,12775
+State,Iowa,2006,Number,13720
+State,Iowa,2006,Percent,0.338
+State,Iowa,2007,Percent,0.343
+State,Iowa,2007,Number,14025
+State,Iowa,2008,Number,14140
+State,Iowa,2008,Percent,0.352
+State,Iowa,2013,Percent,0.34
+State,Iowa,2009,Percent,0.35
+State,Iowa,2013,Number,13459
+State,Iowa,2018,Number,13191
+State,Iowa,2018,Percent,0.35
+State,Iowa,2009,Number,13977
+State,Iowa,2010,Number,13258
+State,Iowa,2010,Percent,0.34
+State,Iowa,2015,Percent,0.35
+State,Iowa,2011,Number,12923
+State,Iowa,2015,Number,13951
+State,Iowa,2011,Percent,0.34
+State,Iowa,2012,Number,13456
+State,Iowa,2014,Number,13949
+State,Iowa,2012,Percent,0.35
+State,Iowa,2016,Percent,0.35
+State,Iowa,2014,Percent,0.35
+State,Iowa,2017,Number,13605
+State,Iowa,2016,Number,13801
+State,Iowa,2017,Percent,0.35
+State,Kansas,2017,Percent,0.36
+State,Kansas,2016,Number,13696
+State,Kansas,2017,Number,13024
+State,Kansas,2014,Percent,0.36
+State,Kansas,2016,Percent,0.36
+State,Kansas,2014,Number,14298
+State,Kansas,2012,Number,14813
+State,Kansas,2012,Percent,0.37
+State,Kansas,2011,Percent,0.37
+State,Kansas,2011,Number,14791
+State,Kansas,2015,Percent,0.36
+State,Kansas,2010,Percent,0.38
+State,Kansas,2015,Number,14115
+State,Kansas,2010,Number,15346
+State,Kansas,2009,Number,15692
+State,Kansas,2018,Percent,0.36
+State,Kansas,2018,Number,13187
+State,Kansas,2013,Number,14068
+State,Kansas,2009,Percent,0.38
+State,Kansas,2013,Percent,0.36
+State,Kansas,2008,Percent,0.378
+State,Kansas,2008,Number,15792
+State,Kansas,2007,Number,15327
+State,Kansas,2007,Percent,0.365
+State,Kansas,2006,Percent,0.352
+State,Kansas,2006,Number,14430
+State,Kansas,2005,Number,13647
+State,Kansas,2005,Percent,0.342
+State,Kansas,2004,Percent,0.33
+State,Kansas,2004,Number,13100
+State,Kansas,2003,Number,12475
+State,Kansas,2003,Percent,0.316
+State,Kansas,2002,Percent,0.311
+State,Kansas,2002,Number,12249
+State,Kansas,2001,Number,11628
+State,Kansas,2001,Percent,0.299
+State,Kansas,2000,Percent,0.29
+State,Kansas,2000,Number,11497
+State,Kansas,1998,Percent,0.278
+State,Kansas,1999,Number,11098
+State,Kansas,1999,Percent,0.286
+State,Kansas,1998,Number,10663
+State,Kansas,1997,Number,10274
+State,Kansas,1997,Percent,0.276
+State,Kansas,1995,Number,9619
+State,Kansas,1996,Percent,0.269
+State,Kansas,1996,Number,9847
+State,Kansas,1995,Percent,0.259
+State,Kansas,1994,Percent,0.26
+State,Kansas,1994,Number,9709
+State,Kansas,1992,Percent,0.243
+State,Kansas,1993,Number,9696
+State,Kansas,1993,Percent,0.259
+State,Kansas,1992,Number,9224
+State,Kansas,1991,Number,8746
+State,Kansas,1991,Percent,0.231
+State,Kansas,1990,Percent,0.215
+State,Kansas,1990,Number,8397
+State,Kentucky,1990,Number,12829
+State,Kentucky,1990,Percent,0.236
+State,Kentucky,1991,Percent,0.254
+State,Kentucky,1991,Number,13796
+State,Kentucky,1992,Number,14181
+State,Kentucky,1993,Percent,0.272
+State,Kentucky,1993,Number,14401
+State,Kentucky,1992,Percent,0.263
+State,Kentucky,1994,Number,14646
+State,Kentucky,1994,Percent,0.276
+State,Kentucky,1995,Percent,0.285
+State,Kentucky,1996,Number,15693
+State,Kentucky,1996,Percent,0.298
+State,Kentucky,1995,Number,14935
+State,Kentucky,1997,Percent,0.295
+State,Kentucky,1997,Number,15669
+State,Kentucky,1998,Number,16327
+State,Kentucky,1999,Percent,0.304
+State,Kentucky,1999,Number,16540
+State,Kentucky,1998,Percent,0.301
+State,Kentucky,2000,Number,17377
+State,Kentucky,2000,Percent,0.31
+State,Kentucky,2001,Percent,0.317
+State,Kentucky,2001,Number,17317
+State,Kentucky,2002,Number,18011
+State,Kentucky,2002,Percent,0.332
+State,Kentucky,2003,Percent,0.338
+State,Kentucky,2003,Number,18683
+State,Kentucky,2004,Number,19500
+State,Kentucky,2004,Percent,0.35
+State,Kentucky,2005,Percent,0.355
+State,Kentucky,2005,Number,20049
+State,Kentucky,2006,Number,20562
+State,Kentucky,2006,Percent,0.353
+State,Kentucky,2007,Percent,0.393
+State,Kentucky,2007,Number,23315
+State,Kentucky,2008,Number,23787
+State,Kentucky,2008,Percent,0.407
+State,Kentucky,2013,Percent,0.42
+State,Kentucky,2009,Percent,0.41
+State,Kentucky,2013,Number,23342
+State,Kentucky,2018,Number,22616
+State,Kentucky,2018,Percent,0.42
+State,Kentucky,2009,Number,23757
+State,Kentucky,2010,Number,22966
+State,Kentucky,2015,Number,23295
+State,Kentucky,2010,Percent,0.41
+State,Kentucky,2015,Percent,0.42
+State,Kentucky,2011,Number,22970
+State,Kentucky,2011,Percent,0.41
+State,Kentucky,2012,Number,22988
+State,Kentucky,2014,Number,23545
+State,Kentucky,2012,Percent,0.41
+State,Kentucky,2016,Percent,0.41
+State,Kentucky,2014,Percent,0.42
+State,Kentucky,2017,Number,22752
+State,Kentucky,2016,Number,22933
+State,Kentucky,2017,Percent,0.42
+State,Louisiana,2017,Percent,0.53
+State,Louisiana,2016,Number,32883
+State,Louisiana,2017,Number,32175
+State,Louisiana,2014,Percent,0.53
+State,Louisiana,2016,Percent,0.52
+State,Louisiana,2012,Percent,0.53
+State,Louisiana,2012,Number,33309
+State,Louisiana,2014,Number,34006
+State,Louisiana,2011,Percent,0.53
+State,Louisiana,2011,Number,32763
+State,Louisiana,2015,Percent,0.53
+State,Louisiana,2010,Percent,0.53
+State,Louisiana,2015,Number,34209
+State,Louisiana,2010,Number,33269
+State,Louisiana,2009,Number,34809
+State,Louisiana,2018,Percent,0.53
+State,Louisiana,2018,Number,31775
+State,Louisiana,2013,Number,33504
+State,Louisiana,2009,Percent,0.54
+State,Louisiana,2013,Percent,0.53
+State,Louisiana,2008,Percent,0.53
+State,Louisiana,2008,Number,34576
+State,Louisiana,2007,Number,34109
+State,Louisiana,2007,Percent,0.514
+State,Louisiana,2006,Percent,0.498
+State,Louisiana,2006,Number,31543
+State,Louisiana,2005,Number,29230
+State,Louisiana,2005,Percent,0.48
+State,Louisiana,2004,Percent,0.491
+State,Louisiana,2004,Number,32117
+State,Louisiana,2003,Number,30922
+State,Louisiana,2003,Percent,0.475
+State,Louisiana,2002,Percent,0.47
+State,Louisiana,2002,Number,30498
+State,Louisiana,2001,Number,30267
+State,Louisiana,2001,Percent,0.463
+State,Louisiana,2000,Percent,0.456
+State,Louisiana,2000,Number,30980
+State,Louisiana,1998,Percent,0.449
+State,Louisiana,1999,Number,30109
+State,Louisiana,1999,Percent,0.448
+State,Louisiana,1998,Number,30041
+State,Louisiana,1997,Number,29011
+State,Louisiana,1997,Percent,0.439
+State,Louisiana,1995,Number,27863
+State,Louisiana,1996,Percent,0.434
+State,Louisiana,1996,Number,28320
+State,Louisiana,1995,Percent,0.424
+State,Louisiana,1994,Percent,0.426
+State,Louisiana,1994,Number,28918
+State,Louisiana,1992,Percent,0.402
+State,Louisiana,1993,Number,29179
+State,Louisiana,1993,Percent,0.42
+State,Louisiana,1992,Number,28452
+State,Louisiana,1991,Number,27694
+State,Louisiana,1991,Percent,0.384
+State,Louisiana,1990,Percent,0.368
+State,Louisiana,1990,Number,26601
+State,Maine,1990,Number,3931
+State,Maine,1990,Percent,0.226
+State,Maine,1991,Percent,0.25
+State,Maine,1991,Number,4180
+State,Maine,1992,Number,4063
+State,Maine,1993,Percent,0.27
+State,Maine,1993,Number,4061
+State,Maine,1992,Percent,0.253
+State,Maine,1994,Number,4067
+State,Maine,1994,Percent,0.282
+State,Maine,1995,Percent,0.278
+State,Maine,1996,Number,3959
+State,Maine,1996,Percent,0.287
+State,Maine,1995,Number,3859
+State,Maine,1997,Percent,0.297
+State,Maine,1997,Number,4060
+State,Maine,1998,Number,4197
+State,Maine,1999,Percent,0.313
+State,Maine,1999,Number,4260
+State,Maine,1998,Percent,0.306
+State,Maine,2000,Number,4222
+State,Maine,2000,Percent,0.31
+State,Maine,2001,Percent,0.318
+State,Maine,2001,Number,4369
+State,Maine,2002,Number,4419
+State,Maine,2002,Percent,0.326
+State,Maine,2003,Percent,0.335
+State,Maine,2003,Number,4642
+State,Maine,2004,Number,4748
+State,Maine,2004,Percent,0.341
+State,Maine,2005,Percent,0.35
+State,Maine,2005,Number,4941
+State,Maine,2006,Number,5253
+State,Maine,2006,Percent,0.371
+State,Maine,2007,Percent,0.391
+State,Maine,2007,Number,5520
+State,Maine,2008,Number,5406
+State,Maine,2008,Percent,0.397
+State,Maine,2013,Percent,0.41
+State,Maine,2009,Percent,0.41
+State,Maine,2013,Number,5237
+State,Maine,2018,Number,4780
+State,Maine,2018,Percent,0.39
+State,Maine,2009,Number,5466
+State,Maine,2010,Number,5341
+State,Maine,2015,Number,5104
+State,Maine,2010,Percent,0.41
+State,Maine,2015,Percent,0.4
+State,Maine,2011,Number,5309
+State,Maine,2011,Percent,0.42
+State,Maine,2014,Number,5236
+State,Maine,2012,Number,5317
+State,Maine,2012,Percent,0.42
+State,Maine,2016,Percent,0.4
+State,Maine,2014,Percent,0.41
+State,Maine,2017,Number,4795
+State,Maine,2016,Number,5047
+State,Maine,2017,Percent,0.39
+State,Maryland,2017,Percent,0.4
+State,Maryland,2016,Number,29006
+State,Maryland,2017,Number,28352
+State,Maryland,2014,Percent,0.4
+State,Maryland,2016,Percent,0.4
+State,Maryland,2012,Percent,0.41
+State,Maryland,2012,Number,29704
+State,Maryland,2014,Number,29372
+State,Maryland,2011,Percent,0.41
+State,Maryland,2011,Number,30091
+State,Maryland,2015,Percent,0.4
+State,Maryland,2010,Percent,0.42
+State,Maryland,2015,Number,29522
+State,Maryland,2010,Number,30893
+State,Maryland,2009,Number,32077
+State,Maryland,2018,Percent,0.39
+State,Maryland,2018,Number,27895
+State,Maryland,2013,Number,29045
+State,Maryland,2009,Percent,0.43
+State,Maryland,2013,Percent,0.4
+State,Maryland,2008,Percent,0.424
+State,Maryland,2008,Number,32742
+State,Maryland,2007,Number,31973
+State,Maryland,2007,Percent,0.409
+State,Maryland,2006,Number,30730
+State,Maryland,2006,Percent,0.397
+State,Maryland,2005,Number,27807
+State,Maryland,2005,Percent,0.371
+State,Maryland,2004,Percent,0.357
+State,Maryland,2004,Number,26652
+State,Maryland,2003,Number,26084
+State,Maryland,2003,Percent,0.348
+State,Maryland,2002,Percent,0.348
+State,Maryland,2002,Number,25530
+State,Maryland,2001,Number,25198
+State,Maryland,2001,Percent,0.344
+State,Maryland,2000,Percent,0.346
+State,Maryland,2000,Number,25726
+State,Maryland,1999,Number,25083
+State,Maryland,1999,Percent,0.349
+State,Maryland,1998,Percent,0.344
+State,Maryland,1998,Number,24734
+State,Maryland,1997,Number,23493
+State,Maryland,1997,Percent,0.335
+State,Maryland,1995,Number,24124
+State,Maryland,1996,Percent,0.335
+State,Maryland,1996,Number,23977
+State,Maryland,1995,Percent,0.333
+State,Maryland,1994,Percent,0.337
+State,Maryland,1994,Number,24943
+State,Maryland,1992,Percent,0.305
+State,Maryland,1993,Number,24335
+State,Maryland,1993,Percent,0.325
+State,Maryland,1992,Number,23717
+State,Maryland,1991,Number,24292
+State,Maryland,1991,Percent,0.307
+State,Maryland,1990,Number,23789
+State,Maryland,1990,Percent,0.296
+State,Massachusetts,1990,Percent,0.247
+State,Massachusetts,1990,Number,22886
+State,Massachusetts,1991,Percent,0.259
+State,Massachusetts,1991,Number,22873
+State,Massachusetts,1992,Number,22618
+State,Massachusetts,1993,Percent,0.264
+State,Massachusetts,1993,Number,22380
+State,Massachusetts,1992,Percent,0.259
+State,Massachusetts,1994,Number,22291
+State,Massachusetts,1994,Percent,0.266
+State,Massachusetts,1995,Percent,0.256
+State,Massachusetts,1996,Number,20458
+State,Massachusetts,1996,Percent,0.255
+State,Massachusetts,1995,Number,20880
+State,Massachusetts,1997,Percent,0.259
+State,Massachusetts,1997,Number,20836
+State,Massachusetts,1998,Number,21210
+State,Massachusetts,1998,Percent,0.261
+State,Massachusetts,1999,Percent,0.265
+State,Massachusetts,1999,Number,21476
+State,Massachusetts,2000,Number,21654
+State,Massachusetts,2000,Percent,0.265
+State,Massachusetts,2001,Percent,0.267
+State,Massachusetts,2001,Number,21641
+State,Massachusetts,2002,Number,21620
+State,Massachusetts,2002,Percent,0.268
+State,Massachusetts,2003,Percent,0.278
+State,Massachusetts,2003,Number,22263
+State,Massachusetts,2004,Number,22392
+State,Massachusetts,2004,Percent,0.285
+State,Massachusetts,2005,Percent,0.302
+State,Massachusetts,2005,Number,23182
+State,Massachusetts,2006,Percent,0.322
+State,Massachusetts,2006,Number,24984
+State,Massachusetts,2007,Percent,0.334
+State,Massachusetts,2007,Number,26022
+State,Massachusetts,2008,Number,26191
+State,Massachusetts,2008,Percent,0.34
+State,Massachusetts,2013,Percent,0.33
+State,Massachusetts,2009,Percent,0.35
+State,Massachusetts,2013,Number,24027
+State,Massachusetts,2018,Number,22453
+State,Massachusetts,2018,Percent,0.32
+State,Massachusetts,2009,Number,26058
+State,Massachusetts,2010,Number,25258
+State,Massachusetts,2015,Number,23900
+State,Massachusetts,2010,Percent,0.35
+State,Massachusetts,2015,Percent,0.33
+State,Massachusetts,2011,Number,25359
+State,Massachusetts,2011,Percent,0.35
+State,Massachusetts,2014,Number,23872
+State,Massachusetts,2012,Number,24917
+State,Massachusetts,2012,Percent,0.34
+State,Massachusetts,2016,Percent,0.33
+State,Massachusetts,2014,Percent,0.33
+State,Massachusetts,2017,Number,23338
+State,Massachusetts,2016,Number,23535
+State,Massachusetts,2017,Percent,0.33
+State,Michigan,2017,Percent,0.41
+State,Michigan,2016,Number,46500
+State,Michigan,2017,Number,45775
+State,Michigan,2014,Percent,0.42
+State,Michigan,2016,Percent,0.41
+State,Michigan,2012,Percent,0.42
+State,Michigan,2012,Number,47795
+State,Michigan,2014,Number,47817
+State,Michigan,2011,Percent,0.42
+State,Michigan,2011,Number,48238
+State,Michigan,2015,Percent,0.42
+State,Michigan,2010,Percent,0.42
+State,Michigan,2015,Number,47532
+State,Michigan,2010,Number,47919
+State,Michigan,2009,Number,48405
+State,Michigan,2018,Percent,0.41
+State,Michigan,2018,Number,44882
+State,Michigan,2013,Number,48129
+State,Michigan,2009,Percent,0.41
+State,Michigan,2013,Percent,0.42
+State,Michigan,2008,Percent,0.402
+State,Michigan,2008,Number,48662
+State,Michigan,2007,Number,49342
+State,Michigan,2007,Percent,0.394
+State,Michigan,2006,Number,48880
+State,Michigan,2006,Percent,0.383
+State,Michigan,2005,Number,46750
+State,Michigan,2005,Percent,0.366
+State,Michigan,2004,Percent,0.357
+State,Michigan,2004,Number,46280
+State,Michigan,2003,Number,45386
+State,Michigan,2003,Percent,0.346
+State,Michigan,2002,Percent,0.341
+State,Michigan,2002,Number,44366
+State,Michigan,2001,Number,45742
+State,Michigan,2001,Percent,0.343
+State,Michigan,2000,Percent,0.333
+State,Michigan,2000,Number,45354
+State,Michigan,1999,Number,44184
+State,Michigan,1999,Percent,0.331
+State,Michigan,1998,Percent,0.339
+State,Michigan,1998,Number,45372
+State,Michigan,1997,Number,44454
+State,Michigan,1997,Percent,0.332
+State,Michigan,1995,Number,46211
+State,Michigan,1996,Percent,0.338
+State,Michigan,1996,Number,45052
+State,Michigan,1995,Percent,0.343
+State,Michigan,1994,Percent,0.35
+State,Michigan,1994,Number,48339
+State,Michigan,1992,Percent,0.268
+State,Michigan,1993,Number,36326
+State,Michigan,1993,Percent,0.26
+State,Michigan,1992,Number,38620
+State,Michigan,1991,Number,40941
+State,Michigan,1991,Percent,0.273
+State,Michigan,1990,Number,40289
+State,Michigan,1990,Percent,0.262
+State,Minnesota,1990,Percent,0.209
+State,Minnesota,1990,Number,14192
+State,Minnesota,1991,Percent,0.223
+State,Minnesota,1991,Number,14984
+State,Minnesota,1992,Number,15058
+State,Minnesota,1993,Percent,0.234
+State,Minnesota,1993,Number,15099
+State,Minnesota,1992,Percent,0.23
+State,Minnesota,1994,Number,15430
+State,Minnesota,1994,Percent,0.24
+State,Minnesota,1995,Percent,0.239
+State,Minnesota,1996,Number,15798
+State,Minnesota,1996,Percent,0.248
+State,Minnesota,1995,Number,15099
+State,Minnesota,1997,Percent,0.25
+State,Minnesota,1997,Number,16141
+State,Minnesota,1998,Number,16723
+State,Minnesota,1998,Percent,0.256
+State,Minnesota,1999,Percent,0.259
+State,Minnesota,1999,Number,17065
+State,Minnesota,2000,Number,17468
+State,Minnesota,2000,Percent,0.258
+State,Minnesota,2001,Percent,0.263
+State,Minnesota,2001,Number,17782
+State,Minnesota,2002,Number,18668
+State,Minnesota,2002,Percent,0.274
+State,Minnesota,2003,Percent,0.277
+State,Minnesota,2003,Number,19425
+State,Minnesota,2004,Number,20488
+State,Minnesota,2004,Percent,0.29
+State,Minnesota,2005,Percent,0.298
+State,Minnesota,2005,Number,21106
+State,Minnesota,2006,Percent,0.317
+State,Minnesota,2006,Number,23341
+State,Minnesota,2007,Percent,0.327
+State,Minnesota,2007,Number,24134
+State,Minnesota,2008,Number,24149
+State,Minnesota,2008,Percent,0.333
+State,Minnesota,2013,Percent,0.33
+State,Minnesota,2009,Percent,0.34
+State,Minnesota,2013,Number,22755
+State,Minnesota,2018,Number,21463
+State,Minnesota,2018,Percent,0.32
+State,Minnesota,2009,Number,23702
+State,Minnesota,2010,Number,22745
+State,Minnesota,2015,Number,22482
+State,Minnesota,2015,Percent,0.32
+State,Minnesota,2010,Percent,0.33
+State,Minnesota,2011,Number,22395
+State,Minnesota,2011,Percent,0.33
+State,Minnesota,2014,Number,22610
+State,Minnesota,2012,Number,22783
+State,Minnesota,2012,Percent,0.33
+State,Minnesota,2016,Percent,0.32
+State,Minnesota,2014,Percent,0.32
+State,Minnesota,2017,Number,21920
+State,Minnesota,2016,Number,22487
+State,Minnesota,2017,Percent,0.32
+State,Mississippi,2017,Percent,0.54
+State,Mississippi,2016,Number,20173
+State,Mississippi,2017,Number,19995
+State,Mississippi,2014,Percent,0.54
+State,Mississippi,2016,Percent,0.53
+State,Mississippi,2012,Percent,0.55
+State,Mississippi,2012,Number,21164
+State,Mississippi,2014,Number,20935
+State,Mississippi,2011,Percent,0.54
+State,Mississippi,2011,Number,21703
+State,Mississippi,2010,Percent,0.55
+State,Mississippi,2015,Percent,0.54
+State,Mississippi,2015,Number,20543
+State,Mississippi,2010,Number,21927
+State,Mississippi,2009,Number,23710
+State,Mississippi,2018,Percent,0.54
+State,Mississippi,2018,Number,20003
+State,Mississippi,2013,Number,21041
+State,Mississippi,2009,Percent,0.55
+State,Mississippi,2013,Percent,0.54
+State,Mississippi,2008,Percent,0.545
+State,Mississippi,2008,Number,24486
+State,Mississippi,2007,Number,24983
+State,Mississippi,2007,Percent,0.537
+State,Mississippi,2006,Number,24330
+State,Mississippi,2006,Percent,0.528
+State,Mississippi,2005,Number,20964
+State,Mississippi,2005,Percent,0.494
+State,Mississippi,2004,Percent,0.483
+State,Mississippi,2004,Number,20705
+State,Mississippi,2003,Percent,0.47
+State,Mississippi,2003,Number,19926
+State,Mississippi,2002,Percent,0.471
+State,Mississippi,2002,Number,19553
+State,Mississippi,2001,Number,19582
+State,Mississippi,2001,Percent,0.463
+State,Mississippi,2000,Percent,0.46
+State,Mississippi,2000,Number,20267
+State,Mississippi,1999,Number,19606
+State,Mississippi,1999,Percent,0.459
+State,Mississippi,1998,Percent,0.454
+State,Mississippi,1998,Number,19502
+State,Mississippi,1997,Number,18859
+State,Mississippi,1997,Percent,0.454
+State,Mississippi,1996,Percent,0.45
+State,Mississippi,1996,Number,18463
+State,Mississippi,1995,Number,18747
+State,Mississippi,1995,Percent,0.453
+State,Mississippi,1994,Percent,0.454
+State,Mississippi,1994,Number,19067
+State,Mississippi,1992,Percent,0.429
+State,Mississippi,1993,Number,18718
+State,Mississippi,1993,Percent,0.444
+State,Mississippi,1992,Number,18312
+State,Mississippi,1991,Number,18317
+State,Mississippi,1991,Percent,0.424
+State,Mississippi,1990,Number,17627
+State,Mississippi,1990,Percent,0.405
+State,Missouri,1990,Percent,0.286
+State,Missouri,1990,Number,22643
+State,Missouri,1991,Percent,0.302
+State,Missouri,1991,Number,23736
+State,Missouri,1992,Number,24049
+State,Missouri,1993,Percent,0.324
+State,Missouri,1993,Number,24353
+State,Missouri,1992,Percent,0.315
+State,Missouri,1994,Number,23913
+State,Missouri,1994,Percent,0.325
+State,Missouri,1995,Percent,0.321
+State,Missouri,1995,Number,23421
+State,Missouri,1996,Number,24483
+State,Missouri,1996,Percent,0.332
+State,Missouri,1997,Percent,0.331
+State,Missouri,1997,Number,24516
+State,Missouri,1998,Number,25668
+State,Missouri,1998,Percent,0.341
+State,Missouri,1999,Percent,0.341
+State,Missouri,1999,Number,25737
+State,Missouri,2000,Number,26436
+State,Missouri,2000,Percent,0.346
+State,Missouri,2001,Percent,0.348
+State,Missouri,2001,Number,26235
+State,Missouri,2002,Number,26511
+State,Missouri,2002,Percent,0.352
+State,Missouri,2003,Number,27426
+State,Missouri,2003,Percent,0.356
+State,Missouri,2004,Number,28741
+State,Missouri,2004,Percent,0.37
+State,Missouri,2005,Percent,0.378
+State,Missouri,2005,Number,29712
+State,Missouri,2006,Percent,0.393
+State,Missouri,2006,Number,32009
+State,Missouri,2007,Percent,0.405
+State,Missouri,2007,Number,33216
+State,Missouri,2008,Number,33087
+State,Missouri,2008,Percent,0.409
+State,Missouri,2013,Percent,0.4
+State,Missouri,2009,Percent,0.41
+State,Missouri,2013,Number,30372
+State,Missouri,2018,Number,29511
+State,Missouri,2018,Percent,0.4
+State,Missouri,2009,Number,32255
+State,Missouri,2010,Number,30836
+State,Missouri,2015,Number,30345
+State,Missouri,2015,Percent,0.4
+State,Missouri,2010,Percent,0.4
+State,Missouri,2011,Number,30508
+State,Missouri,2011,Percent,0.4
+State,Missouri,2014,Number,30292
+State,Missouri,2012,Number,30303
+State,Missouri,2012,Percent,0.4
+State,Missouri,2016,Percent,0.4
+State,Missouri,2016,Number,29753
+State,Missouri,2014,Percent,0.4
+State,Missouri,2017,Number,29156
+State,Missouri,2017,Percent,0.4
+State,Montana,2017,Percent,0.36
+State,Montana,2017,Number,4241
+State,Montana,2014,Percent,0.37
+State,Montana,2016,Number,4466
+State,Montana,2016,Percent,0.36
+State,Montana,2012,Percent,0.36
+State,Montana,2012,Number,4359
+State,Montana,2014,Number,4586
+State,Montana,2011,Percent,0.36
+State,Montana,2011,Number,4405
+State,Montana,2010,Percent,0.36
+State,Montana,2015,Percent,0.36
+State,Montana,2015,Number,4573
+State,Montana,2010,Number,4390
+State,Montana,2009,Number,4444
+State,Montana,2018,Number,4016
+State,Montana,2013,Number,4635
+State,Montana,2009,Percent,0.36
+State,Montana,2018,Percent,0.35
+State,Montana,2013,Percent,0.37
+State,Montana,2008,Percent,0.367
+State,Montana,2008,Number,4624
+State,Montana,2007,Number,4460
+State,Montana,2007,Percent,0.359
+State,Montana,2006,Number,4500
+State,Montana,2006,Percent,0.36
+State,Montana,2005,Number,4002
+State,Montana,2005,Percent,0.346
+State,Montana,2004,Percent,0.343
+State,Montana,2004,Number,3951
+State,Montana,2003,Percent,0.322
+State,Montana,2003,Number,3677
+State,Montana,2002,Percent,0.328
+State,Montana,2002,Number,3627
+State,Montana,2001,Number,3440
+State,Montana,2001,Percent,0.314
+State,Montana,2000,Percent,0.308
+State,Montana,2000,Number,3378
+State,Montana,1999,Number,3232
+State,Montana,1999,Percent,0.3
+State,Montana,1998,Percent,0.299
+State,Montana,1998,Number,3230
+State,Montana,1997,Number,3119
+State,Montana,1997,Percent,0.287
+State,Montana,1996,Percent,0.279
+State,Montana,1996,Number,3026
+State,Montana,1995,Number,2950
+State,Montana,1995,Percent,0.265
+State,Montana,1994,Percent,0.255
+State,Montana,1994,Number,2822
+State,Montana,1992,Percent,0.264
+State,Montana,1993,Number,3104
+State,Montana,1993,Percent,0.273
+State,Montana,1992,Number,3032
+State,Montana,1991,Number,2898
+State,Montana,1991,Percent,0.252
+State,Montana,1990,Number,2757
+State,Montana,1990,Percent,0.237
+State,Nebraska,1990,Percent,0.207
+State,Nebraska,1990,Number,5056
+State,Nebraska,1991,Percent,0.216
+State,Nebraska,1991,Number,5181
+State,Nebraska,1992,Number,5290
+State,Nebraska,1993,Percent,0.235
+State,Nebraska,1993,Number,5449
+State,Nebraska,1992,Percent,0.226
+State,Nebraska,1994,Number,5739
+State,Nebraska,1994,Percent,0.248
+State,Nebraska,1995,Percent,0.243
+State,Nebraska,1995,Number,5650
+State,Nebraska,1996,Number,5765
+State,Nebraska,1996,Percent,0.248
+State,Nebraska,1997,Percent,0.258
+State,Nebraska,1997,Number,6021
+State,Nebraska,1998,Number,6168
+State,Nebraska,1998,Percent,0.262
+State,Nebraska,1999,Percent,0.259
+State,Nebraska,1999,Number,6181
+State,Nebraska,2000,Number,6692
+State,Nebraska,2000,Percent,0.272
+State,Nebraska,2001,Percent,0.277
+State,Nebraska,2001,Number,6870
+State,Nebraska,2002,Number,7259
+State,Nebraska,2002,Percent,0.286
+State,Nebraska,2003,Number,7687
+State,Nebraska,2003,Percent,0.297
+State,Nebraska,2004,Number,7954
+State,Nebraska,2004,Percent,0.302
+State,Nebraska,2005,Percent,0.309
+State,Nebraska,2005,Number,8077
+State,Nebraska,2006,Percent,0.323
+State,Nebraska,2006,Number,8631
+State,Nebraska,2007,Percent,0.334
+State,Nebraska,2007,Number,8993
+State,Nebraska,2008,Number,9140
+State,Nebraska,2008,Percent,0.339
+State,Nebraska,2013,Percent,0.33
+State,Nebraska,2018,Percent,0.33
+State,Nebraska,2009,Percent,0.34
+State,Nebraska,2013,Number,8688
+State,Nebraska,2018,Number,8289
+State,Nebraska,2009,Number,9284
+State,Nebraska,2010,Number,8703
+State,Nebraska,2015,Number,8777
+State,Nebraska,2015,Percent,0.33
+State,Nebraska,2010,Percent,0.34
+State,Nebraska,2011,Number,8548
+State,Nebraska,2011,Percent,0.33
+State,Nebraska,2014,Number,8840
+State,Nebraska,2012,Number,8635
+State,Nebraska,2012,Percent,0.33
+State,Nebraska,2016,Percent,0.32
+State,Nebraska,2016,Number,8583
+State,Nebraska,2014,Percent,0.33
+State,Nebraska,2017,Number,8584
+State,Nebraska,2017,Percent,0.33
+State,Nevada,2017,Percent,0.48
+State,Nevada,2017,Number,17294
+State,Nevada,2014,Percent,0.46
+State,Nevada,2016,Number,17323
+State,Nevada,2016,Percent,0.48
+State,Nevada,2012,Percent,0.45
+State,Nevada,2012,Number,15770
+State,Nevada,2014,Number,16431
+State,Nevada,2011,Percent,0.44
+State,Nevada,2011,Number,15597
+State,Nevada,2010,Percent,0.44
+State,Nevada,2015,Percent,0.47
+State,Nevada,2015,Number,16934
+State,Nevada,2010,Number,15918
+State,Nevada,2009,Number,16324
+State,Nevada,2018,Number,17231
+State,Nevada,2013,Number,15865
+State,Nevada,2009,Percent,0.43
+State,Nevada,2018,Percent,0.48
+State,Nevada,2013,Percent,0.45
+State,Nevada,2008,Percent,0.425
+State,Nevada,2008,Number,16803
+State,Nevada,2007,Number,17288
+State,Nevada,2007,Percent,0.42
+State,Nevada,2006,Number,16525
+State,Nevada,2006,Percent,0.413
+State,Nevada,2005,Number,15232
+State,Nevada,2005,Percent,0.409
+State,Nevada,2004,Percent,0.397
+State,Nevada,2004,Number,13978
+State,Nevada,2003,Percent,0.391
+State,Nevada,2003,Number,13172
+State,Nevada,2002,Percent,0.374
+State,Nevada,2002,Number,12183
+State,Nevada,2001,Number,11679
+State,Nevada,2001,Percent,0.372
+State,Nevada,2000,Number,11213
+State,Nevada,2000,Percent,0.364
+State,Nevada,1999,Number,10483
+State,Nevada,1999,Percent,0.357
+State,Nevada,1998,Percent,0.35
+State,Nevada,1998,Number,10033
+State,Nevada,1997,Number,9555
+State,Nevada,1997,Percent,0.355
+State,Nevada,1996,Percent,0.393
+State,Nevada,1996,Number,11145
+State,Nevada,1995,Number,10513
+State,Nevada,1995,Percent,0.388
+State,Nevada,1994,Percent,0.35
+State,Nevada,1994,Number,8359
+State,Nevada,1993,Number,7614
+State,Nevada,1993,Percent,0.34
+State,Nevada,1992,Percent,0.333
+State,Nevada,1992,Number,7449
+State,Nevada,1991,Number,7016
+State,Nevada,1991,Percent,0.319
+State,Nevada,1990,Number,5480
+State,Nevada,1990,Percent,0.254
+State,New Hampshire,1990,Percent,0.169
+State,New Hampshire,1990,Number,2967
+State,New Hampshire,1991,Percent,0.183
+State,New Hampshire,1991,Number,2996
+State,New Hampshire,1992,Number,3068
+State,New Hampshire,1992,Percent,0.192
+State,New Hampshire,1993,Percent,0.206
+State,New Hampshire,1993,Number,3179
+State,New Hampshire,1994,Number,3338
+State,New Hampshire,1994,Percent,0.221
+State,New Hampshire,1995,Percent,0.222
+State,New Hampshire,1995,Number,3259
+State,New Hampshire,1996,Number,3400
+State,New Hampshire,1996,Percent,0.234
+State,New Hampshire,1997,Percent,0.238
+State,New Hampshire,1997,Number,3404
+State,New Hampshire,1998,Number,3482
+State,New Hampshire,1998,Percent,0.241
+State,New Hampshire,1999,Percent,0.242
+State,New Hampshire,1999,Number,3399
+State,New Hampshire,2000,Percent,0.247
+State,New Hampshire,2000,Number,3603
+State,New Hampshire,2001,Percent,0.242
+State,New Hampshire,2001,Number,3542
+State,New Hampshire,2002,Number,3546
+State,New Hampshire,2002,Percent,0.246
+State,New Hampshire,2003,Number,3571
+State,New Hampshire,2003,Percent,0.248
+State,New Hampshire,2004,Number,3852
+State,New Hampshire,2004,Percent,0.264
+State,New Hampshire,2005,Percent,0.273
+State,New Hampshire,2005,Number,3939
+State,New Hampshire,2006,Percent,0.294
+State,New Hampshire,2006,Number,4231
+State,New Hampshire,2007,Percent,0.314
+State,New Hampshire,2007,Number,4453
+State,New Hampshire,2008,Number,4495
+State,New Hampshire,2008,Percent,0.329
+State,New Hampshire,2013,Percent,0.34
+State,New Hampshire,2018,Percent,0.33
+State,New Hampshire,2009,Percent,0.33
+State,New Hampshire,2013,Number,4242
+State,New Hampshire,2018,Number,3946
+State,New Hampshire,2009,Number,4463
+State,New Hampshire,2010,Number,4275
+State,New Hampshire,2015,Number,4233
+State,New Hampshire,2015,Percent,0.34
+State,New Hampshire,2010,Percent,0.33
+State,New Hampshire,2011,Number,4440
+State,New Hampshire,2011,Percent,0.35
+State,New Hampshire,2014,Number,4147
+State,New Hampshire,2012,Number,4262
+State,New Hampshire,2012,Percent,0.35
+State,New Hampshire,2016,Percent,0.34
+State,New Hampshire,2016,Number,4130
+State,New Hampshire,2014,Percent,0.34
+State,New Hampshire,2017,Number,3951
+State,New Hampshire,2017,Percent,0.33
+State,New Jersey,2017,Percent,0.34
+State,New Jersey,2017,Number,34340
+State,New Jersey,2014,Percent,0.35
+State,New Jersey,2016,Number,35504
+State,New Jersey,2016,Percent,0.35
+State,New Jersey,2012,Percent,0.36
+State,New Jersey,2012,Number,37645
+State,New Jersey,2014,Number,36646
+State,New Jersey,2011,Percent,0.36
+State,New Jersey,2011,Number,37967
+State,New Jersey,2010,Percent,0.35
+State,New Jersey,2015,Percent,0.35
+State,New Jersey,2015,Number,36215
+State,New Jersey,2010,Number,37830
+State,New Jersey,2009,Number,38898
+State,New Jersey,2018,Number,34204
+State,New Jersey,2013,Number,36510
+State,New Jersey,2009,Percent,0.35
+State,New Jersey,2018,Percent,0.34
+State,New Jersey,2013,Percent,0.36
+State,New Jersey,2008,Percent,0.35
+State,New Jersey,2008,Number,39462
+State,New Jersey,2007,Number,39874
+State,New Jersey,2007,Percent,0.344
+State,New Jersey,2006,Number,37900
+State,New Jersey,2006,Percent,0.33
+State,New Jersey,2005,Number,35780
+State,New Jersey,2005,Percent,0.314
+State,New Jersey,2004,Percent,0.301
+State,New Jersey,2004,Number,34643
+State,New Jersey,2003,Percent,0.293
+State,New Jersey,2003,Number,34313
+State,New Jersey,2002,Percent,0.293
+State,New Jersey,2002,Number,33625
+State,New Jersey,2001,Number,33807
+State,New Jersey,2001,Percent,0.292
+State,New Jersey,2000,Number,33464
+State,New Jersey,2000,Percent,0.289
+State,New Jersey,1999,Number,32556
+State,New Jersey,1999,Percent,0.285
+State,New Jersey,1998,Percent,0.283
+State,New Jersey,1998,Number,32369
+State,New Jersey,1997,Number,31738
+State,New Jersey,1997,Percent,0.28
+State,New Jersey,1996,Percent,0.28
+State,New Jersey,1996,Number,31959
+State,New Jersey,1995,Number,31711
+State,New Jersey,1995,Percent,0.276
+State,New Jersey,1994,Percent,0.281
+State,New Jersey,1994,Number,33043
+State,New Jersey,1993,Number,31949
+State,New Jersey,1993,Percent,0.271
+State,New Jersey,1992,Percent,0.264
+State,New Jersey,1992,Number,31631
+State,New Jersey,1991,Number,31972
+State,New Jersey,1991,Percent,0.263
+State,New Jersey,1990,Number,29756
+State,New Jersey,1990,Percent,0.243
+State,New Mexico,1990,Percent,0.354
+State,New Mexico,1990,Number,9704
+State,New Mexico,1991,Percent,0.376
+State,New Mexico,1991,Number,10445
+State,New Mexico,1992,Number,11023
+State,New Mexico,1992,Percent,0.395
+State,New Mexico,1993,Percent,0.414
+State,New Mexico,1993,Number,11526
+State,New Mexico,1994,Number,11496
+State,New Mexico,1994,Percent,0.417
+State,New Mexico,1995,Percent,0.426
+State,New Mexico,1995,Number,11459
+State,New Mexico,1996,Number,11470
+State,New Mexico,1996,Percent,0.421
+State,New Mexico,1997,Percent,0.435
+State,New Mexico,1997,Number,11696
+State,New Mexico,1998,Number,12033
+State,New Mexico,1998,Percent,0.44
+State,New Mexico,1999,Percent,0.451
+State,New Mexico,1999,Number,12272
+State,New Mexico,2000,Percent,0.456
+State,New Mexico,2000,Number,12401
+State,New Mexico,2001,Percent,0.463
+State,New Mexico,2001,Number,12552
+State,New Mexico,2002,Number,13020
+State,New Mexico,2002,Percent,0.469
+State,New Mexico,2003,Number,13479
+State,New Mexico,2003,Percent,0.484
+State,New Mexico,2004,Number,13865
+State,New Mexico,2004,Percent,0.488
+State,New Mexico,2005,Percent,0.508
+State,New Mexico,2005,Number,14642
+State,New Mexico,2006,Percent,0.512
+State,New Mexico,2006,Number,15323
+State,New Mexico,2007,Percent,0.518
+State,New Mexico,2007,Number,15850
+State,New Mexico,2008,Number,15953
+State,New Mexico,2008,Percent,0.529
+State,New Mexico,2013,Percent,0.52
+State,New Mexico,2018,Percent,0.51
+State,New Mexico,2009,Percent,0.53
+State,New Mexico,2013,Number,13712
+State,New Mexico,2018,Number,11785
+State,New Mexico,2009,Number,15510
+State,New Mexico,2010,Number,14560
+State,New Mexico,2015,Number,13453
+State,New Mexico,2015,Percent,0.52
+State,New Mexico,2010,Percent,0.52
+State,New Mexico,2011,Number,13994
+State,New Mexico,2011,Percent,0.51
+State,New Mexico,2014,Number,13358
+State,New Mexico,2012,Number,14094
+State,New Mexico,2012,Percent,0.52
+State,New Mexico,2016,Percent,0.51
+State,New Mexico,2016,Number,12621
+State,New Mexico,2014,Percent,0.51
+State,New Mexico,2017,Number,12287
+State,New Mexico,2017,Percent,0.52
+State,New York,2017,Percent,0.38
+State,New York,2017,Number,87228
+State,New York,2014,Percent,0.4
+State,New York,2016,Number,90140
+State,New York,2016,Percent,0.38
+State,New York,2012,Percent,0.41
+State,New York,2012,Number,98368
+State,New York,2014,Number,94658
+State,New York,2011,Percent,0.41
+State,New York,2011,Number,99288
+State,New York,2010,Percent,0.42
+State,New York,2015,Percent,0.4
+State,New York,2015,Number,93734
+State,New York,2010,Number,101796
+State,New York,2009,Number,103050
+State,New York,2018,Number,84767
+State,New York,2013,Number,95218
+State,New York,2009,Percent,0.42
+State,New York,2018,Percent,0.37
+State,New York,2013,Percent,0.4
+State,New York,2008,Percent,0.414
+State,New York,2008,Number,103555
+State,New York,2007,Number,103098
+State,New York,2007,Percent,0.407
+State,New York,2006,Number,100115
+State,New York,2006,Percent,0.4
+State,New York,2005,Number,95410
+State,New York,2005,Percent,0.387
+State,New York,2004,Percent,0.378
+State,New York,2004,Number,94380
+State,New York,2003,Percent,0.365
+State,New York,2003,Number,92597
+State,New York,2002,Percent,0.357
+State,New York,2002,Number,89840
+State,New York,2001,Number,90746
+State,New York,2001,Percent,0.357
+State,New York,2000,Number,94594
+State,New York,2000,Percent,0.366
+State,New York,1999,Number,93613
+State,New York,1999,Percent,0.366
+State,New York,1998,Percent,0.349
+State,New York,1998,Number,90089
+State,New York,1997,Percent,0.352
+State,New York,1997,Number,90673
+State,New York,1996,Percent,0.396
+State,New York,1996,Number,104416
+State,New York,1995,Number,102791
+State,New York,1995,Percent,0.379
+State,New York,1994,Percent,0.376
+State,New York,1994,Number,104732
+State,New York,1993,Number,105101
+State,New York,1993,Percent,0.372
+State,New York,1992,Percent,0.348
+State,New York,1992,Number,100260
+State,New York,1991,Number,99738
+State,New York,1991,Percent,0.341
+State,New York,1990,Number,98110
+State,New York,1990,Percent,0.33
+State,North Carolina,1990,Percent,0.294
+State,North Carolina,1990,Number,30718
+State,North Carolina,1991,Percent,0.316
+State,North Carolina,1991,Number,32340
+State,North Carolina,1992,Number,32547
+State,North Carolina,1992,Percent,0.313
+State,North Carolina,1993,Percent,0.321
+State,North Carolina,1993,Number,32586
+State,North Carolina,1994,Number,32321
+State,North Carolina,1994,Percent,0.319
+State,North Carolina,1995,Percent,0.314
+State,North Carolina,1995,Number,31923
+State,North Carolina,1996,Number,33419
+State,North Carolina,1996,Percent,0.32
+State,North Carolina,1997,Number,34468
+State,North Carolina,1997,Percent,0.322
+State,North Carolina,1998,Number,36614
+State,North Carolina,1998,Percent,0.328
+State,North Carolina,1999,Percent,0.332
+State,North Carolina,1999,Number,37814
+State,North Carolina,2000,Percent,0.333
+State,North Carolina,2000,Number,40118
+State,North Carolina,2001,Percent,0.343
+State,North Carolina,2001,Number,40507
+State,North Carolina,2002,Number,40669
+State,North Carolina,2002,Percent,0.347
+State,North Carolina,2003,Number,41802
+State,North Carolina,2003,Percent,0.353
+State,North Carolina,2004,Number,44178
+State,North Carolina,2004,Percent,0.369
+State,North Carolina,2005,Percent,0.384
+State,North Carolina,2005,Number,47300
+State,North Carolina,2006,Percent,0.401
+State,North Carolina,2006,Number,51271
+State,North Carolina,2007,Percent,0.412
+State,North Carolina,2007,Number,53927
+State,North Carolina,2008,Number,55014
+State,North Carolina,2008,Percent,0.42
+State,North Carolina,2013,Percent,0.41
+State,North Carolina,2018,Percent,0.41
+State,North Carolina,2009,Percent,0.42
+State,North Carolina,2013,Number,49299
+State,North Carolina,2018,Number,48632
+State,North Carolina,2009,Number,53665
+State,North Carolina,2010,Number,51390
+State,North Carolina,2015,Number,49548
+State,North Carolina,2015,Percent,0.41
+State,North Carolina,2010,Percent,0.42
+State,North Carolina,2011,Number,49237
+State,North Carolina,2011,Percent,0.41
+State,North Carolina,2014,Number,49574
+State,North Carolina,2012,Number,49170
+State,North Carolina,2012,Percent,0.41
+State,North Carolina,2016,Percent,0.4
+State,North Carolina,2016,Number,48835
+State,North Carolina,2014,Percent,0.41
+State,North Carolina,2017,Number,49164
+State,North Carolina,2017,Percent,0.41
+State,North Dakota,2017,Percent,0.31
+State,North Dakota,2017,Number,3378
+State,North Dakota,2014,Percent,0.32
+State,North Dakota,2016,Number,3599
+State,North Dakota,2016,Percent,0.32
+State,North Dakota,2012,Percent,0.32
+State,North Dakota,2012,Number,3278
+State,North Dakota,2014,Number,3680
+State,North Dakota,2011,Percent,0.33
+State,North Dakota,2011,Number,3183
+State,North Dakota,2010,Percent,0.33
+State,North Dakota,2015,Percent,0.32
+State,North Dakota,2015,Number,3573
+State,North Dakota,2010,Number,2977
+State,North Dakota,2009,Number,2943
+State,North Dakota,2018,Number,3392
+State,North Dakota,2013,Number,3436
+State,North Dakota,2009,Percent,0.33
+State,North Dakota,2018,Percent,0.32
+State,North Dakota,2013,Percent,0.32
+State,North Dakota,2008,Percent,0.336
+State,North Dakota,2008,Number,3003
+State,North Dakota,2007,Number,2886
+State,North Dakota,2007,Percent,0.326
+State,North Dakota,2006,Number,2732
+State,North Dakota,2006,Percent,0.317
+State,North Dakota,2005,Number,2698
+State,North Dakota,2005,Percent,0.322
+State,North Dakota,2004,Percent,0.299
+State,North Dakota,2004,Number,2449
+State,North Dakota,2003,Percent,0.285
+State,North Dakota,2003,Number,2276
+State,North Dakota,2002,Percent,0.29
+State,North Dakota,2002,Number,2250
+State,North Dakota,2001,Number,2127
+State,North Dakota,2001,Percent,0.279
+State,North Dakota,2000,Number,2173
+State,North Dakota,2000,Percent,0.283
+State,North Dakota,1999,Number,2099
+State,North Dakota,1999,Percent,0.275
+State,North Dakota,1998,Percent,0.27
+State,North Dakota,1998,Number,2143
+State,North Dakota,1997,Percent,0.26
+State,North Dakota,1997,Number,2174
+State,North Dakota,1996,Percent,0.251
+State,North Dakota,1996,Number,2099
+State,North Dakota,1995,Number,1996
+State,North Dakota,1995,Percent,0.235
+State,North Dakota,1994,Percent,0.23
+State,North Dakota,1994,Number,1971
+State,North Dakota,1993,Number,1999
+State,North Dakota,1993,Percent,0.23
+State,North Dakota,1992,Percent,0.226
+State,North Dakota,1992,Number,1995
+State,North Dakota,1991,Number,1952
+State,North Dakota,1991,Percent,0.22
+State,North Dakota,1990,Number,1699
+State,North Dakota,1990,Percent,0.184
+State,Ohio,1990,Percent,0.289
+State,Ohio,1990,Number,48289
+State,Ohio,1991,Percent,0.307
+State,Ohio,1991,Number,50826
+State,Ohio,1992,Number,51317
+State,Ohio,1992,Percent,0.316
+State,Ohio,1993,Percent,0.33
+State,Ohio,1993,Number,52385
+State,Ohio,1994,Number,51363
+State,Ohio,1994,Percent,0.329
+State,Ohio,1995,Percent,0.33
+State,Ohio,1995,Number,50852
+State,Ohio,1996,Number,50265
+State,Ohio,1996,Percent,0.331
+State,Ohio,1997,Number,51544
+State,Ohio,1997,Percent,0.339
+State,Ohio,1998,Number,51940
+State,Ohio,1998,Percent,0.34
+State,Ohio,1999,Percent,0.341
+State,Ohio,1999,Number,52038
+State,Ohio,2000,Percent,0.346
+State,Ohio,2000,Number,53864
+State,Ohio,2001,Percent,0.351
+State,Ohio,2001,Number,53239
+State,Ohio,2002,Number,52677
+State,Ohio,2002,Percent,0.354
+State,Ohio,2003,Number,54130
+State,Ohio,2003,Percent,0.362
+State,Ohio,2004,Number,55663
+State,Ohio,2004,Percent,0.374
+State,Ohio,2005,Percent,0.389
+State,Ohio,2005,Number,57756
+State,Ohio,2006,Percent,0.405
+State,Ohio,2006,Number,61008
+State,Ohio,2007,Percent,0.422
+State,Ohio,2007,Number,63723
+State,Ohio,2008,Number,64522
+State,Ohio,2008,Percent,0.434
+State,Ohio,2013,Percent,0.44
+State,Ohio,2013,Number,60778
+State,Ohio,2018,Percent,0.43
+State,Ohio,2009,Percent,0.44
+State,Ohio,2018,Number,58331
+State,Ohio,2009,Number,63939
+State,Ohio,2010,Number,60903
+State,Ohio,2015,Number,60325
+State,Ohio,2015,Percent,0.43
+State,Ohio,2010,Percent,0.44
+State,Ohio,2011,Number,59860
+State,Ohio,2011,Percent,0.43
+State,Ohio,2014,Number,60620
+State,Ohio,2012,Number,60719
+State,Ohio,2012,Percent,0.44
+State,Ohio,2016,Percent,0.43
+State,Ohio,2016,Number,59320
+State,Ohio,2014,Percent,0.43
+State,Ohio,2017,Number,59091
+State,Ohio,2017,Percent,0.43
+State,Oklahoma,2017,Percent,0.42
+State,Oklahoma,2017,Number,21105
+State,Oklahoma,2014,Percent,0.42
+State,Oklahoma,2016,Number,22225
+State,Oklahoma,2016,Percent,0.42
+State,Oklahoma,2012,Percent,0.42
+State,Oklahoma,2012,Number,22299
+State,Oklahoma,2014,Number,22512
+State,Oklahoma,2011,Percent,0.42
+State,Oklahoma,2011,Number,21846
+State,Oklahoma,2010,Percent,0.42
+State,Oklahoma,2015,Percent,0.42
+State,Oklahoma,2015,Number,22202
+State,Oklahoma,2010,Number,22232
+State,Oklahoma,2009,Number,22918
+State,Oklahoma,2018,Number,21010
+State,Oklahoma,2009,Percent,0.42
+State,Oklahoma,2018,Percent,0.42
+State,Oklahoma,2013,Number,22511
+State,Oklahoma,2013,Percent,0.42
+State,Oklahoma,2008,Percent,0.423
+State,Oklahoma,2008,Number,23145
+State,Oklahoma,2007,Number,22760
+State,Oklahoma,2007,Percent,0.413
+State,Oklahoma,2006,Number,22090
+State,Oklahoma,2006,Percent,0.409
+State,Oklahoma,2005,Number,20245
+State,Oklahoma,2005,Percent,0.391
+State,Oklahoma,2004,Percent,0.384
+State,Oklahoma,2004,Number,19714
+State,Oklahoma,2003,Percent,0.371
+State,Oklahoma,2003,Number,18915
+State,Oklahoma,2002,Percent,0.364
+State,Oklahoma,2002,Number,18357
+State,Oklahoma,2001,Number,17637
+State,Oklahoma,2001,Percent,0.352
+State,Oklahoma,2000,Number,17054
+State,Oklahoma,2000,Percent,0.343
+State,Oklahoma,1999,Number,16252
+State,Oklahoma,1999,Percent,0.332
+State,Oklahoma,1998,Percent,0.332
+State,Oklahoma,1998,Number,16433
+State,Oklahoma,1997,Percent,0.324
+State,Oklahoma,1997,Number,15660
+State,Oklahoma,1996,Percent,0.309
+State,Oklahoma,1996,Number,14267
+State,Oklahoma,1995,Number,13927
+State,Oklahoma,1995,Percent,0.305
+State,Oklahoma,1994,Number,13616
+State,Oklahoma,1994,Percent,0.298
+State,Oklahoma,1993,Number,13441
+State,Oklahoma,1993,Percent,0.291
+State,Oklahoma,1992,Percent,0.284
+State,Oklahoma,1992,Number,13486
+State,Oklahoma,1991,Number,12973
+State,Oklahoma,1991,Percent,0.271
+State,Oklahoma,1990,Number,11998
+State,Oklahoma,1990,Percent,0.252
+State,Oregon,1990,Percent,0.257
+State,Oregon,1990,Number,11041
+State,Oregon,1991,Percent,0.266
+State,Oregon,1991,Number,11324
+State,Oregon,1992,Number,11343
+State,Oregon,1992,Percent,0.27
+State,Oregon,1993,Percent,0.282
+State,Oregon,1993,Number,11730
+State,Oregon,1994,Percent,0.287
+State,Oregon,1994,Number,12012
+State,Oregon,1995,Percent,0.289
+State,Oregon,1995,Number,12365
+State,Oregon,1996,Number,12959
+State,Oregon,1996,Percent,0.297
+State,Oregon,1997,Number,12631
+State,Oregon,1997,Percent,0.288
+State,Oregon,1998,Number,13458
+State,Oregon,1998,Percent,0.297
+State,Oregon,1999,Percent,0.304
+State,Oregon,1999,Number,13750
+State,Oregon,2000,Percent,0.301
+State,Oregon,2000,Number,13793
+State,Oregon,2001,Percent,0.304
+State,Oregon,2001,Number,13764
+State,Oregon,2002,Number,13976
+State,Oregon,2002,Percent,0.309
+State,Oregon,2003,Number,14586
+State,Oregon,2003,Percent,0.317
+State,Oregon,2004,Number,14850
+State,Oregon,2004,Percent,0.325
+State,Oregon,2005,Percent,0.333
+State,Oregon,2005,Number,15276
+State,Oregon,2006,Percent,0.343
+State,Oregon,2006,Number,16703
+State,Oregon,2007,Percent,0.351
+State,Oregon,2007,Number,17336
+State,Oregon,2008,Number,17724
+State,Oregon,2008,Percent,0.361
+State,Oregon,2013,Percent,0.36
+State,Oregon,2013,Number,16232
+State,Oregon,2018,Percent,0.36
+State,Oregon,2009,Percent,0.35
+State,Oregon,2018,Number,15303
+State,Oregon,2009,Number,16678
+State,Oregon,2010,Number,16249
+State,Oregon,2015,Number,16452
+State,Oregon,2015,Percent,0.36
+State,Oregon,2010,Percent,0.36
+State,Oregon,2011,Number,16124
+State,Oregon,2011,Percent,0.36
+State,Oregon,2014,Number,16459
+State,Oregon,2012,Number,15976
+State,Oregon,2012,Percent,0.35
+State,Oregon,2016,Percent,0.36
+State,Oregon,2016,Number,16297
+State,Oregon,2014,Percent,0.36
+State,Oregon,2017,Number,15812
+State,Oregon,2017,Percent,0.36
+State,Pennsylvania,2017,Percent,0.41
+State,Pennsylvania,2017,Number,56451
+State,Pennsylvania,2014,Percent,0.41
+State,Pennsylvania,2016,Number,56680
+State,Pennsylvania,2016,Percent,0.41
+State,Pennsylvania,2012,Percent,0.42
+State,Pennsylvania,2012,Number,59706
+State,Pennsylvania,2014,Number,58383
+State,Pennsylvania,2011,Percent,0.42
+State,Pennsylvania,2011,Number,59761
+State,Pennsylvania,2010,Percent,0.42
+State,Pennsylvania,2015,Percent,0.41
+State,Pennsylvania,2015,Number,58081
+State,Pennsylvania,2010,Number,59489
+State,Pennsylvania,2009,Number,60033
+State,Pennsylvania,2018,Number,55324
+State,Pennsylvania,2009,Percent,0.41
+State,Pennsylvania,2018,Percent,0.41
+State,Pennsylvania,2013,Number,58603
+State,Pennsylvania,2013,Percent,0.42
+State,Pennsylvania,2008,Percent,0.408
+State,Pennsylvania,2008,Number,60950
+State,Pennsylvania,2007,Number,59841
+State,Pennsylvania,2007,Percent,0.397
+State,Pennsylvania,2006,Number,57065
+State,Pennsylvania,2006,Percent,0.383
+State,Pennsylvania,2005,Number,53128
+State,Pennsylvania,2005,Percent,0.365
+State,Pennsylvania,2004,Percent,0.352
+State,Pennsylvania,2004,Number,50983
+State,Pennsylvania,2003,Percent,0.339
+State,Pennsylvania,2003,Number,49547
+State,Pennsylvania,2002,Percent,0.334
+State,Pennsylvania,2002,Number,47748
+State,Pennsylvania,2001,Number,48536
+State,Pennsylvania,2001,Percent,0.338
+State,Pennsylvania,2000,Number,47839
+State,Pennsylvania,2000,Percent,0.327
+State,Pennsylvania,1999,Number,47865
+State,Pennsylvania,1999,Percent,0.329
+State,Pennsylvania,1998,Percent,0.328
+State,Pennsylvania,1998,Number,47925
+State,Pennsylvania,1997,Percent,0.328
+State,Pennsylvania,1997,Number,47234
+State,Pennsylvania,1996,Percent,0.323
+State,Pennsylvania,1996,Number,47976
+State,Pennsylvania,1995,Number,49228
+State,Pennsylvania,1995,Percent,0.324
+State,Pennsylvania,1994,Number,51518
+State,Pennsylvania,1994,Percent,0.328
+State,Pennsylvania,1993,Number,51783
+State,Pennsylvania,1993,Percent,0.322
+State,Pennsylvania,1992,Percent,0.316
+State,Pennsylvania,1992,Number,51959
+State,Pennsylvania,1991,Number,51360
+State,Pennsylvania,1991,Percent,0.304
+State,Pennsylvania,1990,Number,49258
+State,Pennsylvania,1990,Percent,0.286
+State,Rhode Island,1990,Percent,0.263
+State,Rhode Island,1990,Number,3997
+State,Rhode Island,1991,Percent,0.276
+State,Rhode Island,1991,Number,4073
+State,Rhode Island,1992,Number,4298
+State,Rhode Island,1992,Percent,0.296
+State,Rhode Island,1993,Percent,0.317
+State,Rhode Island,1993,Number,4436
+State,Rhode Island,1994,Percent,0.321
+State,Rhode Island,1994,Number,4327
+State,Rhode Island,1995,Percent,0.311
+State,Rhode Island,1995,Number,3975
+State,Rhode Island,1996,Number,4208
+State,Rhode Island,1996,Percent,0.333
+State,Rhode Island,1997,Number,4128
+State,Rhode Island,1997,Percent,0.331
+State,Rhode Island,1998,Number,4269
+State,Rhode Island,1998,Percent,0.339
+State,Rhode Island,1999,Percent,0.343
+State,Rhode Island,1999,Number,4242
+State,Rhode Island,2000,Percent,0.355
+State,Rhode Island,2000,Number,4435
+State,Rhode Island,2001,Percent,0.357
+State,Rhode Island,2001,Number,4543
+State,Rhode Island,2002,Number,4604
+State,Rhode Island,2002,Percent,0.357
+State,Rhode Island,2003,Number,4728
+State,Rhode Island,2003,Percent,0.358
+State,Rhode Island,2004,Number,4763
+State,Rhode Island,2004,Percent,0.373
+State,Rhode Island,2005,Percent,0.385
+State,Rhode Island,2005,Number,4892
+State,Rhode Island,2006,Percent,0.405
+State,Rhode Island,2006,Number,5013
+State,Rhode Island,2007,Percent,0.44
+State,Rhode Island,2007,Number,5449
+State,Rhode Island,2008,Number,5284
+State,Rhode Island,2008,Percent,0.439
+State,Rhode Island,2013,Number,4817
+State,Rhode Island,2013,Percent,0.45
+State,Rhode Island,2018,Percent,0.44
+State,Rhode Island,2009,Percent,0.45
+State,Rhode Island,2018,Number,4582
+State,Rhode Island,2009,Number,5120
+State,Rhode Island,2010,Number,5031
+State,Rhode Island,2015,Number,4957
+State,Rhode Island,2015,Percent,0.45
+State,Rhode Island,2010,Percent,0.45
+State,Rhode Island,2011,Number,4875
+State,Rhode Island,2011,Percent,0.44
+State,Rhode Island,2014,Number,4918
+State,Rhode Island,2012,Number,5074
+State,Rhode Island,2012,Percent,0.46
+State,Rhode Island,2016,Percent,0.45
+State,Rhode Island,2016,Number,4850
+State,Rhode Island,2014,Percent,0.45
+State,Rhode Island,2017,Number,4675
+State,Rhode Island,2017,Percent,0.44
+State,South Carolina,2017,Percent,0.46
+State,South Carolina,2017,Number,26298
+State,South Carolina,2014,Percent,0.47
+State,South Carolina,2016,Number,25965
+State,South Carolina,2016,Percent,0.45
+State,South Carolina,2012,Percent,0.48
+State,South Carolina,2012,Number,27402
+State,South Carolina,2014,Number,27261
+State,South Carolina,2011,Percent,0.47
+State,South Carolina,2011,Number,27018
+State,South Carolina,2010,Percent,0.48
+State,South Carolina,2015,Percent,0.47
+State,South Carolina,2015,Number,27043
+State,South Carolina,2010,Number,27773
+State,South Carolina,2009,Number,28871
+State,South Carolina,2018,Number,26157
+State,South Carolina,2009,Percent,0.48
+State,South Carolina,2018,Percent,0.46
+State,South Carolina,2013,Number,26879
+State,South Carolina,2013,Percent,0.47
+State,South Carolina,2008,Percent,0.478
+State,South Carolina,2008,Number,30122
+State,South Carolina,2007,Percent,0.466
+State,South Carolina,2007,Number,29299
+State,South Carolina,2006,Number,28365
+State,South Carolina,2006,Percent,0.456
+State,South Carolina,2005,Number,24997
+State,South Carolina,2005,Percent,0.433
+State,South Carolina,2004,Percent,0.419
+State,South Carolina,2004,Number,23725
+State,South Carolina,2003,Percent,0.411
+State,South Carolina,2003,Number,22857
+State,South Carolina,2002,Percent,0.404
+State,South Carolina,2002,Number,22026
+State,South Carolina,2001,Number,22343
+State,South Carolina,2001,Percent,0.401
+State,South Carolina,2000,Number,22341
+State,South Carolina,2000,Percent,0.398
+State,South Carolina,1999,Number,21441
+State,South Carolina,1999,Percent,0.39
+State,South Carolina,1998,Percent,0.388
+State,South Carolina,1998,Number,20907
+State,South Carolina,1997,Percent,0.38
+State,South Carolina,1997,Number,19857
+State,South Carolina,1996,Percent,0.373
+State,South Carolina,1996,Number,19075
+State,South Carolina,1995,Number,19071
+State,South Carolina,1995,Percent,0.374
+State,South Carolina,1994,Number,19172
+State,South Carolina,1994,Percent,0.368
+State,South Carolina,1993,Number,19359
+State,South Carolina,1993,Percent,0.36
+State,South Carolina,1992,Percent,0.355
+State,South Carolina,1992,Number,19934
+State,South Carolina,1991,Percent,0.347
+State,South Carolina,1991,Number,20000
+State,South Carolina,1990,Number,19148
+State,South Carolina,1990,Percent,0.327
+State,South Dakota,1990,Percent,0.229
+State,South Dakota,1990,Number,2515
+State,South Dakota,1991,Number,2720
+State,South Dakota,1991,Percent,0.248
+State,South Dakota,1992,Number,2933
+State,South Dakota,1992,Percent,0.266
+State,South Dakota,1993,Percent,0.277
+State,South Dakota,1993,Number,2968
+State,South Dakota,1994,Percent,0.277
+State,South Dakota,1994,Number,2914
+State,South Dakota,1995,Percent,0.28
+State,South Dakota,1995,Number,2932
+State,South Dakota,1996,Number,3091
+State,South Dakota,1996,Percent,0.295
+State,South Dakota,1997,Number,3166
+State,South Dakota,1997,Percent,0.311
+State,South Dakota,1998,Number,3296
+State,South Dakota,1998,Percent,0.32
+State,South Dakota,1999,Percent,0.318
+State,South Dakota,1999,Number,3348
+State,South Dakota,2000,Percent,0.335
+State,South Dakota,2000,Number,3462
+State,South Dakota,2001,Percent,0.335
+State,South Dakota,2001,Number,3516
+State,South Dakota,2002,Number,3744
+State,South Dakota,2002,Percent,0.35
+State,South Dakota,2003,Number,3768
+State,South Dakota,2003,Percent,0.342
+State,South Dakota,2004,Number,3977
+State,South Dakota,2004,Percent,0.351
+State,South Dakota,2005,Percent,0.362
+State,South Dakota,2005,Number,4147
+State,South Dakota,2006,Percent,0.371
+State,South Dakota,2006,Number,4422
+State,South Dakota,2007,Number,4708
+State,South Dakota,2007,Percent,0.384
+State,South Dakota,2008,Number,4634
+State,South Dakota,2008,Percent,0.384
+State,South Dakota,2013,Number,4679
+State,South Dakota,2013,Percent,0.38
+State,South Dakota,2018,Percent,0.36
+State,South Dakota,2009,Percent,0.38
+State,South Dakota,2018,Number,4290
+State,South Dakota,2009,Number,4580
+State,South Dakota,2010,Number,4437
+State,South Dakota,2015,Number,4584
+State,South Dakota,2015,Percent,0.37
+State,South Dakota,2010,Percent,0.38
+State,South Dakota,2011,Number,4604
+State,South Dakota,2011,Percent,0.39
+State,South Dakota,2014,Number,4632
+State,South Dakota,2012,Number,4671
+State,South Dakota,2012,Percent,0.39
+State,South Dakota,2016,Percent,0.37
+State,South Dakota,2016,Number,4526
+State,South Dakota,2014,Percent,0.38
+State,South Dakota,2017,Number,4509
+State,South Dakota,2017,Percent,0.37
+State,Tennessee,2017,Percent,0.44
+State,Tennessee,2017,Number,35328
+State,Tennessee,2014,Percent,0.44
+State,Tennessee,2016,Number,35228
+State,Tennessee,2016,Percent,0.44
+State,Tennessee,2012,Percent,0.44
+State,Tennessee,2012,Number,35476
+State,Tennessee,2014,Number,35911
+State,Tennessee,2011,Percent,0.44
+State,Tennessee,2011,Number,35086
+State,Tennessee,2015,Percent,0.44
+State,Tennessee,2015,Number,35843
+State,Tennessee,2010,Number,35062
+State,Tennessee,2010,Percent,0.44
+State,Tennessee,2009,Number,36596
+State,Tennessee,2018,Number,35160
+State,Tennessee,2009,Percent,0.45
+State,Tennessee,2018,Percent,0.44
+State,Tennessee,2013,Percent,0.44
+State,Tennessee,2013,Number,35221
+State,Tennessee,2008,Percent,0.441
+State,Tennessee,2008,Number,37696
+State,Tennessee,2007,Percent,0.428
+State,Tennessee,2007,Number,37153
+State,Tennessee,2006,Number,34944
+State,Tennessee,2006,Percent,0.414
+State,Tennessee,2005,Number,32824
+State,Tennessee,2005,Percent,0.402
+State,Tennessee,2004,Percent,0.382
+State,Tennessee,2004,Number,30419
+State,Tennessee,2003,Percent,0.372
+State,Tennessee,2003,Number,29367
+State,Tennessee,2002,Percent,0.362
+State,Tennessee,2002,Number,28039
+State,Tennessee,2001,Number,27974
+State,Tennessee,2001,Percent,0.357
+State,Tennessee,2000,Number,27505
+State,Tennessee,2000,Percent,0.345
+State,Tennessee,1999,Number,26981
+State,Tennessee,1999,Percent,0.347
+State,Tennessee,1998,Percent,0.349
+State,Tennessee,1998,Number,26999
+State,Tennessee,1997,Percent,0.341
+State,Tennessee,1997,Number,25383
+State,Tennessee,1996,Percent,0.334
+State,Tennessee,1996,Number,24645
+State,Tennessee,1995,Number,24185
+State,Tennessee,1995,Percent,0.331
+State,Tennessee,1994,Number,24480
+State,Tennessee,1994,Percent,0.334
+State,Tennessee,1993,Number,24556
+State,Tennessee,1993,Percent,0.336
+State,Tennessee,1992,Percent,0.327
+State,Tennessee,1992,Number,24061
+State,Tennessee,1991,Percent,0.322
+State,Tennessee,1991,Number,24026
+State,Tennessee,1990,Number,22662
+State,Tennessee,1990,Percent,0.302
+State,Texas,1990,Percent,0.175
+State,Texas,1990,Number,55435
+State,Texas,1991,Number,56528
+State,Texas,1991,Percent,0.178
+State,Texas,1992,Number,55994
+State,Texas,1992,Percent,0.175
+State,Texas,1993,Percent,0.17
+State,Texas,1993,Number,54670
+State,Texas,1994,Percent,0.289
+State,Texas,1994,Number,92721
+State,Texas,1995,Percent,0.3
+State,Texas,1995,Number,96816
+State,Texas,1996,Number,100573
+State,Texas,1996,Percent,0.304
+State,Texas,1997,Number,102496
+State,Texas,1997,Percent,0.307
+State,Texas,1998,Number,107742
+State,Texas,1998,Percent,0.315
+State,Texas,1999,Percent,0.313
+State,Texas,1999,Number,109244
+State,Texas,2000,Percent,0.305
+State,Texas,2000,Number,110985
+State,Texas,2001,Percent,0.31
+State,Texas,2001,Number,113420
+State,Texas,2002,Number,120704
+State,Texas,2002,Percent,0.324
+State,Texas,2003,Number,129484
+State,Texas,2003,Percent,0.343
+State,Texas,2004,Number,137432
+State,Texas,2004,Percent,0.36
+State,Texas,2005,Percent,0.376
+State,Texas,2005,Number,145197
+State,Texas,2006,Percent,0.394
+State,Texas,2006,Number,157302
+State,Texas,2007,Number,165989
+State,Texas,2007,Percent,0.407
+State,Texas,2008,Number,169318
+State,Texas,2008,Percent,0.417
+State,Texas,2013,Number,163635
+State,Texas,2013,Percent,0.42
+State,Texas,2018,Percent,0.41
+State,Texas,2018,Number,154645
+State,Texas,2009,Percent,0.42
+State,Texas,2009,Number,170509
+State,Texas,2010,Percent,0.42
+State,Texas,2010,Number,163648
+State,Texas,2015,Number,167516
+State,Texas,2015,Percent,0.42
+State,Texas,2011,Number,158708
+State,Texas,2011,Percent,0.42
+State,Texas,2014,Number,166754
+State,Texas,2012,Number,161108
+State,Texas,2012,Percent,0.42
+State,Texas,2016,Percent,0.41
+State,Texas,2016,Number,164551
+State,Texas,2014,Percent,0.42
+State,Texas,2017,Number,156515
+State,Texas,2017,Percent,0.41
+State,Utah,2017,Percent,0.18
+State,Utah,2017,Number,8988
+State,Utah,2014,Percent,0.19
+State,Utah,2016,Number,9390
+State,Utah,2016,Percent,0.19
+State,Utah,2012,Percent,0.19
+State,Utah,2012,Number,9615
+State,Utah,2014,Number,9497
+State,Utah,2011,Percent,0.19
+State,Utah,2011,Number,9564
+State,Utah,2015,Percent,0.19
+State,Utah,2015,Number,9556
+State,Utah,2010,Number,10018
+State,Utah,2010,Percent,0.19
+State,Utah,2009,Number,10452
+State,Utah,2009,Percent,0.19
+State,Utah,2018,Number,9076
+State,Utah,2018,Percent,0.19
+State,Utah,2013,Percent,0.19
+State,Utah,2013,Number,9656
+State,Utah,2008,Percent,0.204
+State,Utah,2008,Number,11350
+State,Utah,2007,Percent,0.197
+State,Utah,2007,Number,10848
+State,Utah,2006,Number,10071
+State,Utah,2006,Percent,0.188
+State,Utah,2005,Number,9108
+State,Utah,2005,Percent,0.177
+State,Utah,2004,Number,8843
+State,Utah,2004,Percent,0.175
+State,Utah,2003,Percent,0.172
+State,Utah,2003,Number,8590
+State,Utah,2002,Percent,0.172
+State,Utah,2002,Number,8465
+State,Utah,2001,Number,8327
+State,Utah,2001,Percent,0.174
+State,Utah,2000,Number,8186
+State,Utah,2000,Percent,0.173
+State,Utah,1999,Number,7722
+State,Utah,1999,Percent,0.167
+State,Utah,1998,Percent,0.171
+State,Utah,1998,Number,7740
+State,Utah,1997,Percent,0.166
+State,Utah,1997,Number,7145
+State,Utah,1996,Percent,0.162
+State,Utah,1996,Number,6809
+State,Utah,1995,Number,6224
+State,Utah,1995,Percent,0.157
+State,Utah,1994,Number,6005
+State,Utah,1994,Percent,0.157
+State,Utah,1993,Number,5744
+State,Utah,1993,Percent,0.155
+State,Utah,1992,Percent,0.151
+State,Utah,1992,Number,5634
+State,Utah,1991,Percent,0.144
+State,Utah,1991,Number,5196
+State,Utah,1990,Number,4910
+State,Utah,1990,Percent,0.135
+State,Vermont,1990,Percent,0.201
+State,Vermont,1990,Number,1666
+State,Vermont,1991,Number,1811
+State,Vermont,1991,Percent,0.227
+State,Vermont,1992,Number,1811
+State,Vermont,1992,Percent,0.234
+State,Vermont,1993,Percent,0.242
+State,Vermont,1993,Number,1805
+State,Vermont,1994,Percent,0.253
+State,Vermont,1994,Number,1864
+State,Vermont,1995,Percent,0.249
+State,Vermont,1995,Number,1689
+State,Vermont,1996,Number,1786
+State,Vermont,1996,Percent,0.264
+State,Vermont,1997,Number,1726
+State,Vermont,1997,Percent,0.261
+State,Vermont,1998,Number,1841
+State,Vermont,1998,Percent,0.28
+State,Vermont,1999,Percent,0.289
+State,Vermont,1999,Number,1901
+State,Vermont,2000,Percent,0.281
+State,Vermont,2000,Number,1827
+State,Vermont,2001,Percent,0.31
+State,Vermont,2001,Number,1972
+State,Vermont,2002,Number,2036
+State,Vermont,2002,Percent,0.319
+State,Vermont,2003,Number,1978
+State,Vermont,2003,Percent,0.3
+State,Vermont,2004,Percent,0.323
+State,Vermont,2004,Number,2132
+State,Vermont,2005,Percent,0.323
+State,Vermont,2005,Number,2091
+State,Vermont,2006,Percent,0.345
+State,Vermont,2006,Number,2244
+State,Vermont,2007,Number,2386
+State,Vermont,2007,Percent,0.366
+State,Vermont,2008,Number,2458
+State,Vermont,2008,Percent,0.388
+State,Vermont,2013,Number,2403
+State,Vermont,2013,Percent,0.4
+State,Vermont,2018,Percent,0.39
+State,Vermont,2009,Percent,0.4
+State,Vermont,2018,Number,2093
+State,Vermont,2009,Number,2415
+State,Vermont,2010,Percent,0.39
+State,Vermont,2010,Number,2440
+State,Vermont,2015,Number,2375
+State,Vermont,2015,Percent,0.4
+State,Vermont,2011,Number,2399
+State,Vermont,2011,Percent,0.39
+State,Vermont,2014,Number,2421
+State,Vermont,2012,Number,2441
+State,Vermont,2012,Percent,0.41
+State,Vermont,2016,Percent,0.39
+State,Vermont,2016,Number,2266
+State,Vermont,2014,Percent,0.39
+State,Vermont,2017,Percent,0.4
+State,Vermont,2017,Number,2265
+State,Virginia,2017,Number,34779
+State,Virginia,2017,Percent,0.35
+State,Virginia,2014,Percent,0.34
+State,Virginia,2016,Number,34851
+State,Virginia,2016,Percent,0.34
+State,Virginia,2012,Percent,0.35
+State,Virginia,2012,Number,36306
+State,Virginia,2014,Number,35066
+State,Virginia,2011,Number,36412
+State,Virginia,2011,Percent,0.35
+State,Virginia,2015,Percent,0.34
+State,Virginia,2015,Number,35564
+State,Virginia,2010,Number,36537
+State,Virginia,2010,Percent,0.35
+State,Virginia,2009,Number,37628
+State,Virginia,2018,Number,34665
+State,Virginia,2009,Percent,0.36
+State,Virginia,2018,Percent,0.35
+State,Virginia,2013,Percent,0.35
+State,Virginia,2013,Number,35297
+State,Virginia,2008,Percent,0.358
+State,Virginia,2008,Number,38215
+State,Virginia,2007,Percent,0.352
+State,Virginia,2007,Number,38300
+State,Virginia,2006,Number,36415
+State,Virginia,2006,Percent,0.338
+State,Virginia,2005,Number,33674
+State,Virginia,2005,Percent,0.322
+State,Virginia,2004,Number,32203
+State,Virginia,2004,Percent,0.31
+State,Virginia,2003,Percent,0.304
+State,Virginia,2003,Number,30816
+State,Virginia,2002,Percent,0.303
+State,Virginia,2002,Number,30233
+State,Virginia,2001,Number,29930
+State,Virginia,2001,Percent,0.303
+State,Virginia,2000,Number,29617
+State,Virginia,2000,Percent,0.299
+State,Virginia,1999,Number,28334
+State,Virginia,1999,Percent,0.297
+State,Virginia,1998,Percent,0.298
+State,Virginia,1998,Number,28124
+State,Virginia,1997,Percent,0.293
+State,Virginia,1997,Number,26908
+State,Virginia,1996,Percent,0.288
+State,Virginia,1996,Number,26634
+State,Virginia,1995,Number,27090
+State,Virginia,1995,Percent,0.293
+State,Virginia,1994,Number,27760
+State,Virginia,1994,Percent,0.292
+State,Virginia,1993,Number,27532
+State,Virginia,1993,Percent,0.29
+State,Virginia,1992,Percent,0.283
+State,Virginia,1992,Number,27538
+State,Virginia,1991,Percent,0.279
+State,Virginia,1991,Number,27125
+State,Virginia,1990,Number,25874
+State,Virginia,1990,Percent,0.26
+State,Washington,1990,Percent,0.237
+State,Washington,1990,Number,18746
+State,Washington,1991,Number,19861
+State,Washington,1991,Percent,0.249
+State,Washington,1992,Number,20116
+State,Washington,1992,Percent,0.253
+State,Washington,1993,Percent,0.263
+State,Washington,1993,Number,20670
+State,Washington,1994,Percent,0.26
+State,Washington,1994,Number,20090
+State,Washington,1995,Percent,0.267
+State,Washington,1995,Number,20635
+State,Washington,1996,Number,21287
+State,Washington,1996,Percent,0.273
+State,Washington,1997,Number,21218
+State,Washington,1997,Percent,0.271
+State,Washington,1998,Number,22211
+State,Washington,1998,Percent,0.279
+State,Washington,1999,Percent,0.281
+State,Washington,1999,Number,22335
+State,Washington,2000,Percent,0.282
+State,Washington,2000,Number,22852
+State,Washington,2001,Percent,0.288
+State,Washington,2001,Number,22880
+State,Washington,2002,Number,22780
+State,Washington,2002,Percent,0.288
+State,Washington,2003,Number,23207
+State,Washington,2003,Percent,0.288
+State,Washington,2004,Percent,0.304
+State,Washington,2004,Number,24818
+State,Washington,2005,Percent,0.309
+State,Washington,2005,Number,25579
+State,Washington,2006,Percent,0.319
+State,Washington,2006,Number,27690
+State,Washington,2007,Number,29502
+State,Washington,2007,Percent,0.332
+State,Washington,2008,Number,30676
+State,Washington,2008,Percent,0.34
+State,Washington,2013,Number,28355
+State,Washington,2013,Percent,0.33
+State,Washington,2018,Percent,0.31
+State,Washington,2018,Number,26760
+State,Washington,2009,Percent,0.34
+State,Washington,2009,Number,29974
+State,Washington,2010,Percent,0.33
+State,Washington,2010,Number,28565
+State,Washington,2015,Number,28576
+State,Washington,2015,Percent,0.32
+State,Washington,2011,Percent,0.33
+State,Washington,2011,Number,28555
+State,Washington,2014,Number,28450
+State,Washington,2012,Number,28412
+State,Washington,2012,Percent,0.32
+State,Washington,2016,Percent,0.32
+State,Washington,2016,Number,28735
+State,Washington,2014,Percent,0.32
+State,Washington,2017,Percent,0.32
+State,Washington,2017,Number,27665
+State,West Virginia,2017,Number,8514
+State,West Virginia,2017,Percent,0.46
+State,West Virginia,2014,Percent,0.45
+State,West Virginia,2016,Number,8584
+State,West Virginia,2016,Percent,0.45
+State,West Virginia,2012,Number,9323
+State,West Virginia,2012,Percent,0.45
+State,West Virginia,2014,Number,9111
+State,West Virginia,2011,Number,9093
+State,West Virginia,2011,Percent,0.44
+State,West Virginia,2015,Percent,0.44
+State,West Virginia,2015,Number,8669
+State,West Virginia,2010,Number,8995
+State,West Virginia,2010,Percent,0.44
+State,West Virginia,2009,Number,9279
+State,West Virginia,2009,Percent,0.44
+State,West Virginia,2018,Number,8340
+State,West Virginia,2018,Percent,0.46
+State,West Virginia,2013,Percent,0.45
+State,West Virginia,2013,Number,9408
+State,West Virginia,2008,Percent,0.42
+State,West Virginia,2008,Number,9021
+State,West Virginia,2007,Percent,0.403
+State,West Virginia,2007,Number,8871
+State,West Virginia,2006,Number,7937
+State,West Virginia,2006,Percent,0.379
+State,West Virginia,2005,Number,7610
+State,West Virginia,2005,Percent,0.365
+State,West Virginia,2004,Number,7272
+State,West Virginia,2004,Percent,0.348
+State,West Virginia,2003,Percent,0.346
+State,West Virginia,2003,Number,7235
+State,West Virginia,2002,Percent,0.329
+State,West Virginia,2002,Number,6811
+State,West Virginia,2001,Percent,0.325
+State,West Virginia,2001,Number,6638
+State,West Virginia,2000,Number,6608
+State,West Virginia,2000,Percent,0.317
+State,West Virginia,1999,Number,6581
+State,West Virginia,1999,Percent,0.317
+State,West Virginia,1998,Percent,0.324
+State,West Virginia,1998,Number,6715
+State,West Virginia,1997,Percent,0.313
+State,West Virginia,1997,Number,6495
+State,West Virginia,1996,Percent,0.313
+State,West Virginia,1996,Number,6504
+State,West Virginia,1995,Number,6463
+State,West Virginia,1995,Percent,0.305
+State,West Virginia,1994,Number,6454
+State,West Virginia,1994,Percent,0.302
+State,West Virginia,1993,Number,6328
+State,West Virginia,1993,Percent,0.29
+State,West Virginia,1992,Percent,0.277
+State,West Virginia,1992,Number,6149
+State,West Virginia,1991,Percent,0.268
+State,West Virginia,1991,Number,6040
+State,West Virginia,1990,Number,5743
+State,West Virginia,1990,Percent,0.254
+State,Wisconsin,1990,Percent,0.242
+State,Wisconsin,1990,Number,17656
+State,Wisconsin,1991,Number,18235
+State,Wisconsin,1991,Percent,0.253
+State,Wisconsin,1992,Number,18444
+State,Wisconsin,1992,Percent,0.261
+State,Wisconsin,1993,Percent,0.271
+State,Wisconsin,1993,Number,18882
+State,Wisconsin,1994,Percent,0.272
+State,Wisconsin,1994,Number,18565
+State,Wisconsin,1995,Percent,0.274
+State,Wisconsin,1995,Number,18457
+State,Wisconsin,1996,Number,18413
+State,Wisconsin,1996,Percent,0.274
+State,Wisconsin,1997,Number,18707
+State,Wisconsin,1997,Percent,0.281
+State,Wisconsin,1998,Number,19211
+State,Wisconsin,1998,Percent,0.285
+State,Wisconsin,1999,Percent,0.292
+State,Wisconsin,1999,Number,19906
+State,Wisconsin,2000,Percent,0.293
+State,Wisconsin,2000,Number,20327
+State,Wisconsin,2001,Number,20686
+State,Wisconsin,2001,Percent,0.299
+State,Wisconsin,2002,Number,20551
+State,Wisconsin,2002,Percent,0.3
+State,Wisconsin,2003,Number,21300
+State,Wisconsin,2003,Percent,0.304
+State,Wisconsin,2004,Percent,0.313
+State,Wisconsin,2004,Number,21947
+State,Wisconsin,2005,Percent,0.325
+State,Wisconsin,2005,Number,23056
+State,Wisconsin,2006,Percent,0.341
+State,Wisconsin,2006,Number,24636
+State,Wisconsin,2007,Number,25790
+State,Wisconsin,2007,Percent,0.354
+State,Wisconsin,2008,Number,26260
+State,Wisconsin,2008,Percent,0.363
+State,Wisconsin,2013,Number,24657
+State,Wisconsin,2013,Percent,0.37
+State,Wisconsin,2018,Percent,0.37
+State,Wisconsin,2018,Number,23972
+State,Wisconsin,2009,Percent,0.37
+State,Wisconsin,2009,Number,26227
+State,Wisconsin,2010,Percent,0.37
+State,Wisconsin,2010,Number,25134
+State,Wisconsin,2015,Number,25113
+State,Wisconsin,2015,Percent,0.37
+State,Wisconsin,2011,Percent,0.37
+State,Wisconsin,2011,Number,25001
+State,Wisconsin,2014,Number,25411
+State,Wisconsin,2014,Percent,0.38
+State,Wisconsin,2012,Number,25115
+State,Wisconsin,2012,Percent,0.37
+State,Wisconsin,2016,Number,24811
+State,Wisconsin,2016,Percent,0.37
+State,Wisconsin,2017,Percent,0.38
+State,Wisconsin,2017,Number,24523
+State,Wyoming,2017,Number,2311
+State,Wyoming,2017,Percent,0.33
+State,Wyoming,2016,Number,2425
+State,Wyoming,2016,Percent,0.33
+State,Wyoming,2012,Percent,0.34
+State,Wyoming,2012,Number,2559
+State,Wyoming,2014,Percent,0.33
+State,Wyoming,2014,Number,2555
+State,Wyoming,2011,Number,2554
+State,Wyoming,2011,Percent,0.35
+State,Wyoming,2015,Percent,0.34
+State,Wyoming,2015,Number,2630
+State,Wyoming,2010,Number,2568
+State,Wyoming,2010,Percent,0.34
+State,Wyoming,2009,Number,2679
+State,Wyoming,2009,Percent,0.34
+State,Wyoming,2018,Number,2183
+State,Wyoming,2018,Percent,0.33
+State,Wyoming,2013,Percent,0.33
+State,Wyoming,2013,Number,2498
+State,Wyoming,2008,Percent,0.346
+State,Wyoming,2008,Number,2785
+State,Wyoming,2007,Percent,0.347
+State,Wyoming,2007,Number,2741
+State,Wyoming,2006,Number,2530
+State,Wyoming,2006,Percent,0.33
+State,Wyoming,2005,Number,2376
+State,Wyoming,2005,Percent,0.328
+State,Wyoming,2004,Number,2158
+State,Wyoming,2004,Percent,0.317
+State,Wyoming,2003,Percent,0.326
+State,Wyoming,2003,Number,2186
+State,Wyoming,2002,Percent,0.303
+State,Wyoming,2002,Number,1987
+State,Wyoming,2001,Percent,0.296
+State,Wyoming,2001,Number,1813
+State,Wyoming,2000,Number,1802
+State,Wyoming,2000,Percent,0.288
+State,Wyoming,1999,Number,1778
+State,Wyoming,1999,Percent,0.29
+State,Wyoming,1998,Percent,0.296
+State,Wyoming,1998,Number,1850
+State,Wyoming,1997,Percent,0.274
+State,Wyoming,1997,Number,1747
+State,Wyoming,1996,Percent,0.27
+State,Wyoming,1996,Number,1697
+State,Wyoming,1995,Number,1653
+State,Wyoming,1995,Percent,0.264
+State,Wyoming,1994,Number,1765
+State,Wyoming,1994,Percent,0.275
+State,Wyoming,1993,Number,1689
+State,Wyoming,1993,Percent,0.258
+State,Wyoming,1992,Percent,0.24
+State,Wyoming,1992,Number,1613
+State,Wyoming,1991,Percent,0.231
+State,Wyoming,1991,Number,1546
+State,Wyoming,1990,Number,1383
+State,Wyoming,1990,Percent,0.198
+Territory,Puerto Rico,1990,Percent,0.368
+Territory,Puerto Rico,1990,Number,24446
+Territory,Puerto Rico,1991,Number,24608
+Territory,Puerto Rico,1991,Percent,0.382
+Territory,Puerto Rico,1992,Number,25299
+Territory,Puerto Rico,1992,Percent,0.393
+Territory,Puerto Rico,1993,Percent,0.404
+Territory,Puerto Rico,1993,Number,26335
+Territory,Puerto Rico,1994,Percent,0.419
+Territory,Puerto Rico,1994,Number,26891
+Territory,Puerto Rico,1995,Percent,0.427
+Territory,Puerto Rico,1995,Number,27069
+Territory,Puerto Rico,1996,Number,27886
+Territory,Puerto Rico,1996,Percent,0.442
+Territory,Puerto Rico,1997,Number,29345
+Territory,Puerto Rico,1997,Percent,0.458
+Territory,Puerto Rico,1998,Number,28368
+Territory,Puerto Rico,1998,Percent,0.47
+Territory,Puerto Rico,1999,Percent,0.481
+Territory,Puerto Rico,1999,Number,28658
+Territory,Puerto Rico,2000,Percent,0.497
+Territory,Puerto Rico,2000,Number,29507
+Territory,Puerto Rico,2001,Number,28529
+Territory,Puerto Rico,2001,Percent,0.511
+Territory,Puerto Rico,2002,Number,27403
+Territory,Puerto Rico,2002,Percent,0.52
+Territory,Puerto Rico,2003,Number,26962
+Territory,Puerto Rico,2003,Percent,0.532
+Territory,Puerto Rico,2004,Percent,0.553
+Territory,Puerto Rico,2004,Number,28261
+Territory,Puerto Rico,2005,Percent,0.565
+Territory,Puerto Rico,2005,Number,28555
+Territory,Puerto Rico,2006,Percent,0.578
+Territory,Puerto Rico,2006,Number,28089
+Territory,Puerto Rico,2007,Number,27642
+Territory,Puerto Rico,2007,Percent,0.593
+Territory,Puerto Rico,2008,Number,27907
+Territory,Puerto Rico,2008,Percent,0.612
+Territory,Puerto Rico,2013,Number,24639
+Territory,Puerto Rico,2013,Percent,0.68
+Territory,Puerto Rico,2018,Number,14790
+Territory,Puerto Rico,2018,Percent,0.69
+Territory,Puerto Rico,2009,Percent,0.64
+Territory,Puerto Rico,2009,Number,28774
+Territory,Puerto Rico,2010,Percent,0.65
+Territory,Puerto Rico,2010,Number,27609
+Territory,Puerto Rico,2015,Number,21298
+Territory,Puerto Rico,2015,Percent,0.68
+Territory,Puerto Rico,2011,Number,27156
+Territory,Puerto Rico,2011,Percent,0.66
+Territory,Puerto Rico,2014,Number,23142
+Territory,Puerto Rico,2014,Percent,0.67
+Territory,Puerto Rico,2012,Percent,0.67
+Territory,Puerto Rico,2012,Number,26048
+Territory,Puerto Rico,2016,Percent,0.68
+Territory,Puerto Rico,2016,Number,19263
+Territory,Puerto Rico,2017,Number,16887
+Territory,Puerto Rico,2017,Percent,0.69
+Territory,Virgin Islands,2017,Percent,N.A.
+Territory,Virgin Islands,2017,Number,N.A.
+Territory,Virgin Islands,2016,Number,852
+Territory,Virgin Islands,2016,Percent,0.72
+Territory,Virgin Islands,2012,Number,1028
+Territory,Virgin Islands,2012,Percent,0.73
+Territory,Virgin Islands,2014,Percent,N.A.
+Territory,Virgin Islands,2014,Number,N.A.
+Territory,Virgin Islands,2011,Percent,0.73
+Territory,Virgin Islands,2011,Number,1092
+Territory,Virgin Islands,2015,Percent,0.68
+Territory,Virgin Islands,2015,Number,895
+Territory,Virgin Islands,2010,Number,1146
+Territory,Virgin Islands,2010,Percent,0.72
+Territory,Virgin Islands,2009,Percent,0.74
+Territory,Virgin Islands,2009,Number,1247
+Territory,Virgin Islands,2018,Number,N.A.
+Territory,Virgin Islands,2018,Percent,N.A.
+Territory,Virgin Islands,2013,Percent,N.A.
+Territory,Virgin Islands,2013,Number,N.A.
+Territory,Virgin Islands,2008,Number,1276
+Territory,Virgin Islands,2008,Percent,0.715
+Territory,Virgin Islands,2007,Percent,0.715
+Territory,Virgin Islands,2007,Number,1213
+Territory,Virgin Islands,2006,Number,1195
+Territory,Virgin Islands,2006,Percent,0.708
+Territory,Virgin Islands,2005,Percent,N.A.
+Territory,Virgin Islands,2005,Number,N.A.
+Territory,Virgin Islands,2004,Number,1078
+Territory,Virgin Islands,2004,Percent,0.685
+Territory,Virgin Islands,2003,Percent,0.688
+Territory,Virgin Islands,2003,Number,1047
+Territory,Virgin Islands,2002,Number,1099
+Territory,Virgin Islands,2002,Percent,0.673
+Territory,Virgin Islands,2001,Percent,0.668
+Territory,Virgin Islands,2001,Number,1115
+Territory,Virgin Islands,2000,Number,1043
+Territory,Virgin Islands,2000,Percent,0.667
+Territory,Virgin Islands,1999,Percent,0.671
+Territory,Virgin Islands,1999,Number,1121
+Territory,Virgin Islands,1998,Number,1253
+Territory,Virgin Islands,1998,Percent,0.696
+Territory,Virgin Islands,1997,Percent,0.678
+Territory,Virgin Islands,1997,Number,1368
+Territory,Virgin Islands,1996,Number,1224
+Territory,Virgin Islands,1996,Percent,0.643
+Territory,Virgin Islands,1995,Percent,0.625
+Territory,Virgin Islands,1995,Number,1288
+Territory,Virgin Islands,1994,Number,1597
+Territory,Virgin Islands,1994,Percent,0.667
+Territory,Virgin Islands,1993,Percent,0.675
+Territory,Virgin Islands,1993,Number,1650
+Territory,Virgin Islands,1992,Number,1590
+Territory,Virgin Islands,1992,Percent,0.632
+Territory,Virgin Islands,1991,Percent,0.634
+Territory,Virgin Islands,1991,Number,1539
+Territory,Virgin Islands,1990,Number,1412
+Territory,Virgin Islands,1990,Percent,0.623
