@@ -7,93 +7,72 @@
         <script src="https://d3js.org/d3-scale-chromatic.v2.min.js"></script>
     </head>
     <body>
-        <div id="dataviz_brushZoom"></div>
+        <div id="brush_vis"></div>
+        <div id="bar_vis"></div>
     </body>
 
     <script>
-        var height = 100
-        var width = 600
-        var margin = ({top: 10, right: 20, bottom: 20, left: 20})
+        /******* REMIXED VIS *******/
+        var brushHeight = 100
+        var brushWidth = 600
+        var brushMargin = ({top: 10, right: 20, bottom: 20, left: 20})
         var zoomed = false
         var formerSelect = []
 
         
         // Append SVG
-        var Svg = d3.select("#dataviz_brushZoom")
+        var brushSvg = d3.select("#brush_vis")
             .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("width", brushWidth + brushMargin.left + brushMargin.right)
+                .attr("height", brushHeight + brushMargin.top + brushMargin.bottom)
             .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + brushMargin.left + "," + brushMargin.top + ")");
         
 
         // Create data
         var data = []
         for (let i = 0 ; i < 100 ; i++){
-            data.push({x: Math.random() * (0.9 - 0.1) + 0.1, y: Math.random() * (8 - 1.5) + 1.5})
+            data.push({x: Math.random() * (0.98 - 0.02) + 0.02, y: Math.random() * (8 - 0.5) + 0.5})
         }
-        for (let i = 0 ; i < 300 ; i++){
-            data.push({x: Math.random() * (0.85 - 0.15) + 0.15, y: Math.random() * (7 - 2.5) + 2.5})
+        for (let i = 0 ; i < 100 ; i++){
+            data.push({x: Math.random() * (0.95 - 0.15) + 0.15, y: Math.random() * (6.5 - 3) + 3})
         }
-        for (let i = 0 ; i < 300 ; i++){
-            data.push({x: Math.random() * (0.6 - 0.3) + 0.3, y: Math.random() * (7 - 2.5) + 2.5})
+        for (let i = 0 ; i < 500 ; i++){
+            data.push({x: Math.random() * (0.9 - 0.1) + 0.1, y: Math.random() * (6 - 2.5) + 2.5})
         }
 
 
         // Create axes
         var x = d3.scaleLinear()
             .domain([0, 1])
-            .range([ 0, width ]);
+            .range([ 0, brushWidth ]);
 
-        var xAxis = Svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
+        var xAxis = brushSvg.append("g")
+            .attr("transform", "translate(0," + brushHeight + ")")
             .call(d3.axisBottom(x));
 
         var y = d3.scaleLinear()
             .domain([0, 9])
-            .range([ height, 0]);
-
-
-        // Brush handles
-        arc = d3.arc()
-            .innerRadius(0)
-            .outerRadius((height - margin.top - margin.bottom) / 2)
-            .startAngle(0)
-            .endAngle((d, i) => i ? Math.PI : -Math.PI)
-
-        brushHandle = (g, selection) => g
-            .selectAll(".handle--custom")
-            .data([{type: "w"}, {type: "e"}])
-            .join(enter => enter.append("path")
-                .attr("class", "handle--custom")
-                .attr("fill", "#666")
-                .attr("fill-opacity", 0.8)
-                .attr("stroke", "#000")
-                .attr("stroke-width", 1.5)
-                .attr("cursor", "ew-resize")
-                .attr("d", arc))
-                .attr("display", selection === null ? "none" : null)
-                .attr("transform", selection === null ? null : (d, i) => `translate(${selection[i]},${(height + margin.top - margin.bottom) / 2})`)
-                .attr("id", "brushHandle")
+            .range([ brushHeight, 0]);
 
 
         // Add a clipPath to avoid drawing anything outside that area
-        var clip = Svg.append("defs").append("svg:clipPath")
+        var clip = brushSvg.append("defs").append("svg:clipPath")
             .attr("id", "clip")
             .append("svg:rect")
-            .attr("width", width )
-            .attr("height", height )
+            .attr("width", brushWidth )
+            .attr("height", brushHeight )
             .attr("x", 0)
             .attr("y", 0)
         
 
         // Add brush
         var brush = d3.brushX()                 
-            .extent( [ [0,0], [width,height] ] ) 
+            .extent( [ [0,0], [brushWidth, brushHeight] ] ) 
 
 
         // Create the scatter variable: where both the circles and the brush take place
-        var scatter = Svg.append('g')
+        var scatter = brushSvg.append('g')
             .attr("clip-path", "url(#clip)")
             .attr("id", scatter);
         
@@ -146,7 +125,10 @@
                 .attr("cy", function (d) { return y(d.y); } )
 
             if (zoomed) zoomed = false;
-            else zoomed = true;        
+            else zoomed = true;  
+            
+            var barData = scatter.selectAll("circle")
+            console.log(barData)
         }
 
         var select = d3.selectAll(".selection")
@@ -164,6 +146,59 @@
                 updateChart(selection)
             }
         });
+
+
+        /***************************/
+
+
+        /******* SECOND VIEW *******/
+        var barMargin = {top: 10, right: 50, bottom: 40, left: 50}
+        var barWidth = 550 - barMargin.right - barMargin.left
+        var barHeight = 440 - barMargin.top - barMargin.bottom
+
+        var barSvg = d3.select("#bar_vis")
+            .append("svg")
+            .attr("width", barWidth + barMargin.right + barMargin.left)
+            .attr("height", barHeight + barMargin.top + barMargin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + barMargin.left + ", " + barMargin.top +")")
+
+        barSvg.append("rect")
+            .attr("width", barWidth)
+            .attr("height", barHeight)
+            .attr("fill", "#ececec")
+
+        var barX = d3.scaleLinear().domain([0, 1]).range([0, barWidth])  
+        var barY = d3.scaleLinear().domain([0, 9]).range([barHeight, 0])
+
+        barSvg.append("g")
+            .attr("transform", "translate(0, "+ barHeight + ")")
+            .call(d3.axisBottom(barX))
+
+        barSvg.append("g")
+            .call(d3.axisLeft(barY))
+
+
+        // var focus = svg.append("g")
+        //     .attr("class", "focus")
+        //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // var context = svg.append("g")
+        //     .attr("class", "context")
+        //     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+        
+
+        // barSvg.append('g')
+        //     .selectAll("dot")
+        //     .data(barData)
+        //     .enter()
+        //     .append("circle")
+        //     .attr("cx", function (d) { return x(d.Weight) })
+        //     .attr("cy", function (d) { return y(d.MPG) })
+        //     .attr("r", function (d) { return d.Weight/400 } )
+        //     .style("opacity", 0.5)
+        //     .style("fill", function (d) { return addColor(d.Manufacturer) })
+
         
         </script>
 </html>
