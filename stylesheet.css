@@ -9,6 +9,16 @@ body {
     font-family: 'Lato', sans-serif;
     line-height: 200%;
 }
+#switcher {
+    background-color: #278b9b; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
 .header {
     font-size: 40px;
@@ -20,15 +30,4 @@ body {
 .subHeader {
     font-size: 40px;
     margin: 0 0 20px 0;
-}
-.tooltip {
-    position: absolute;
-    z-index: 10;
-    visibility: hidden;
-    background-color: lightblue;
-    text-align: center;
-    padding: 4px;
-    border-radius: 4px;
-    font-weight: bold;
-    color: orange;
 }
