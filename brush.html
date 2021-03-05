@@ -8,6 +8,7 @@
     </head>
     <body>
         <div id="brush_vis"></div>
+        <div id="line_vis"></div>
         <div id="bar_vis"></div>
     </body>
 
@@ -15,7 +16,7 @@
         /******* REMIXED VIS *******/
         var brushHeight = 100
         var brushWidth = 600
-        var brushMargin = ({top: 10, right: 20, bottom: 20, left: 20})
+        var brushMargin = ({top: 20, right: 20, bottom: 20, left: 20})
         var zoomed = false
         var formerSelect = []
 
@@ -100,11 +101,6 @@
             .call(brush.move, [0.3, 0.5].map(x));
         
 
-        // A function that set idleTimeOut to null
-        var idleTimeout
-        function idled() { idleTimeout = null; }
-        
-
         // A function that update the chart for given boundaries
         function updateChart(selection) {  
             // If no selection, back to initial coordinate. Otherwise, update X axis domain
@@ -127,28 +123,29 @@
             if (zoomed) zoomed = false;
             else zoomed = true;  
             
-            var barData = scatter.selectAll("circle")
+            var filteredLineData = []
             var filteredBarData = []
-            // console.log(barData._groups[0])
-            // console.log(barData._groups[0][1])
-            // console.log(barData._groups[0][1].getBBox().cx)
-            // console.log(barData._groups[0][1].attr("cx");
-            // console.log(d3.selectAll(".mynode").attr("cx"));
-            var i = 0 
-            // console.log(formerSelect)
-            d3.selectAll("circle").each( function(d, i){
-                let cx = d3.select(this).attr("cx");
-                if(cx >= formerSelect[0] && cx <= formerSelect[1]){
-                    // console.log( d3.select(this).attr("cx"));
-                    // console.log( x(d3.select(this).attr("cx")));
-                    // console.log( d3.select(this).attr("cy"));
-                    // i = i + 1
-                    // console.log("getting " + i + " circles")
-                    filteredBarData.push([d3.select(this).attr("cx"), d3.select(this).attr("cy")])
-                }
-            })
+            var counter = 0 
 
-            updateBarChart(filteredBarData)
+            if (zoomed) {
+                d3.selectAll("circle").each( function(d, i){
+                    let cx = d3.select(this).attr("cx");
+                    if (cx >= formerSelect[0] && cx <= formerSelect[1]){
+                        counter += 1;
+                        filteredLineData.push([
+                            x.invert(d3.select(this).attr("cx")), 
+                            y.invert(d3.select(this).attr("cy"))
+                        ])
+                        filteredBarData.push([
+                            counter.toString(), 
+                            y.invert(d3.select(this).attr("cy")), 
+                            d3.select(this).attr("fill")
+                        ])
+                    }
+                })
+                updateBarChart(filteredBarData, x.domain())
+            } 
+            // updateLineChart(filteredLineData, x.domain())
             
         }
 
@@ -172,9 +169,66 @@
 
 
         /******* SECOND VIEW *******/
-        var barMargin = {top: 20, right: 20, bottom: 50, left: 50}
-        var barWidth = 640 - barMargin.right - barMargin.left
-        var barHeight = 300 - barMargin.top - barMargin.bottom
+        var lineMargin = {top: 20, right: 20, bottom: 20, left: 20}
+        var lineWidth = 600 
+        var lineHeight = 200 
+
+        var lineSvg = d3.select("#line_vis")
+            .append("svg")
+            .attr("width", lineWidth + lineMargin.right + lineMargin.left)
+            .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + lineMargin.left + ", " + lineMargin.top +")")
+
+        lineSvg.append("rect")
+            .attr("width", lineWidth)
+            .attr("height", lineHeight)
+            .attr("fill", "#ececec")
+
+        var lineX = d3.scaleLinear().domain([0, 1]).range([0, lineWidth])  
+        var lineY = d3.scaleLinear().domain([0, 9]).range([lineHeight, 0])
+
+        var lineXAxis = lineSvg.append("g")
+            .attr("transform", "translate(0, "+ lineHeight + ")")
+            .call(d3.axisBottom(lineX))
+
+        lineSvg.append("g")
+            .call(d3.axisLeft(lineY))
+
+
+        function updateLineChart(filteredLineData, newDomain) {
+            // console.log([Math.min(...test), Math.max(...test)])
+            var h = []
+
+            lineSvg.selectAll("dot")
+                .data(filteredLineData)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { h.push(d[0]); return lineX(d[0]) })
+                .attr("cy", function (d) { return lineY(d[1]) })
+                .attr("r", 5 )
+                .style("fill", "#69b3a2")
+
+            console.log([Math.min(...h), Math.max(...h)])
+            
+            lineX.domain(newDomain)
+            lineXAxis.transition().duration(1000).call(d3.axisBottom(lineX))
+
+
+            lineSvg.selectAll("circle")
+                .transition().duration(1000)
+                .attr("cx", function (d) { return lineX(d[0]) })
+                .attr("cy", function (d) { return lineY(d[1]) })
+
+        }
+
+
+
+
+        var barMargin = {top: 20, right: 20, bottom: 20, left: 20}
+        var barWidth = 600 
+        var barHeight = 200 
+        var previousData = []
 
         var barSvg = d3.select("#bar_vis")
             .append("svg")
@@ -188,36 +242,53 @@
             .attr("height", barHeight)
             .attr("fill", "#ececec")
 
-        var barX = d3.scaleLinear().domain([0, 1]).range([0, barWidth])  
-        var barY = d3.scaleLinear().domain([7, 9]).range([barHeight, 0])
 
-        barSvg.append("g")
-            .attr("transform", "translate(0, "+ barHeight + ")")
-            .call(d3.axisBottom(barX))
 
-        barSvg.append("g")
-            .call(d3.axisLeft(barY))
 
-        // var focus = svg.append("g")
-        //     .attr("class", "focus")
-        //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        function updateBarChart(filteredBarData, newDomain) {
 
-        // var context = svg.append("g")
-        //     .attr("class", "context")
-        //     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-        
-        function updateBarChart(filteredBarData) {
-            console.log(filteredBarData)
+            d3.selectAll('#barContent').remove();
 
-            barSvg.selectAll("dot")
+            // var sortedData = filteredBarData.slice().sort((a,b) => d3.ascending(a[2], b[2]))
+            
+            var barX = d3.scaleBand()
+                .domain(d3.range(filteredBarData.length))
+                .range([0, barWidth])
+            var barY = d3.scaleLinear().domain([0, 9]).range([barHeight, 0])
+
+            var barXAxis = barSvg.append("g")
+                .attr("transform", "translate(0, "+ barHeight + ")")
+                .call(d3.axisBottom(barX).tickFormat("").tickSize(0))
+
+            barSvg.append("g")
+                .call(d3.axisLeft(barY))
+
+            barSvg.selectAll("bar")
                 .data(filteredBarData)
                 .enter()
-                .append("circle")
-                .attr("cx", function (d) { return d[0] })
-                .attr("cy", function (d) { return d[1] })
-                .attr("r", 5 )
-                // .style("height", function(d) { return barHeight - barY(d[1]); })
-                .style("fill", "#69b3a2")
+                .append("rect")
+                .attr("id", "barContent")
+                .attr("x", function (d) { return barX(d[0]) })
+                .attr("y", function (d) { return barY(d[1]) })
+                .attr("width", barX.bandwidth())
+                .attr("height", function(d) { return barHeight - barY(d[1]) })
+                .style("fill", function (d) { return d[2] })
+
+            // var group = d3.selectAll("#barContent")
+            // group.sort(function (a,b) {
+            //     console.log("heelooo")
+            //     return d3.ascending(a, b);
+            // })
+            // .transition()
+			// .delay(function(d, i) {
+			// 	return i * 50;  // gives it a smoother effect
+			// })
+			// .duration(1000)
+			// .attr("transform", function(d, i) {
+			//   	return "translate(" + barX(i) + ",0)";
+			// });
+            
+            previousData = filteredBarData
 
         }
 
