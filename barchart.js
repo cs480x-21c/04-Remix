@@ -3,7 +3,7 @@
 
         var margin = {top: 50, right: 50, bottom: 50, left: 50}
         var width = 600
-        var height = 700
+        var height = 600
 
         var svg = d3.select("#barChart")
         .append('svg')
