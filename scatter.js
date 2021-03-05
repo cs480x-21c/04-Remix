@@ -10,24 +10,24 @@
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + margin.right + "," + margin.top + ")")
 
 
-    // d3.csv("table-2.csv").then(function(data) {
+    d3.csv("table-2.csv").then(function(data) {
 
-    //     var colorScale = d3.scale.category20()
-    //     var xScale = d3.scale.linear()
-    //       .domain([
-    //           d3.min([0,d3.min(data,function (d) { return d.president })]),
-    //           d3.max([0,d3.max(data,function (d) { return d.president })])
-    //           ])
-    //       .range([0,width])
-    //     var yScale = d3.scale.linear()
-    //       .domain([
-    //           d3.min([0,d3.min(data,function (d) { return d.age })]),
-    //           d3.max([0,d3.max(data,function (d) { return d.age })])
-    //           ])
-    //       .range([height,0])
+        var colorScale = d3.scale.category20()
+        var xScale = d3.scale.linear()
+          .domain([
+              d3.min([0,d3.min(data,function (d) { return d.president })]),
+              d3.max([0,d3.max(data,function (d) { return d.president })])
+              ])
+          .range([0,width])
+        var yScale = d3.scale.linear()
+          .domain([
+              d3.min([0,d3.min(data,function (d) { return d.age })]),
+              d3.max([0,d3.max(data,function (d) { return d.age })])
+              ])
+          .range([height,0])
 
     //       // X-axis
     //       var xAxis = d3.svg.axis()
@@ -94,7 +94,7 @@
     //         .attr('dy','.71em')
     //         .style('text-anchor','end')
     //         .text('Annualized Return')
-    //   });
+      });
 
 
 
