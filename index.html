@@ -4,8 +4,6 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
 
 <div id="map"></div>
 
@@ -52,7 +50,7 @@ var svg2 = d3.select("#map").append("svg")
 
 // setting up the axes for bar chart/scatter plot
 var x = d3.scaleLinear()
-    .domain([0, 246])        
+    .domain([0, 247])        
     .range([margin.left, (width*2) - margin.right]);      
 
 svg2
@@ -103,7 +101,7 @@ var toolTip = d3.select("#map")
 
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, d.pop); })
+  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, +d.pop); })
   .await(ready);
 
 function ready(error,topo) {
@@ -128,8 +126,8 @@ function ready(error,topo) {
       .on("mouseover",function(d){
         d3.select(this).attr("opacity",1)
         .attr("stroke-width","2px")
-
-        toolTip.text(d.properties.name)
+        d.total = data.get(d.id) || 0;
+        toolTip.text(d.properties.name+":"+d.total)
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY -30) + "px")
             .transition()
@@ -138,7 +136,7 @@ function ready(error,topo) {
        
       })
       .on("mousemove", function(d){
-        toolTip.text(d.properties.name)
+        toolTip.text(d.properties.name+":"+d.total)
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY -30) + "px")
       })
@@ -152,6 +150,23 @@ function ready(error,topo) {
         .style("opacity", 0)
       
       })
+
+  svg2.selectAll('circle')
+    .data(data.keys())
+    .enter()
+    .append('circle')
+    .attr('cx',function(d,i){
+      return x(i+1)
+    })
+    .attr('cy',function(d){
+      pop = data.get(d) || 0
+      console.log(pop)
+      return y(pop)
+    })
+    .attr('r',5)
+    .attr('fill','green')
+    .attr('opacity',0.5)
+    .attr("stroke","black")
     
 
       
