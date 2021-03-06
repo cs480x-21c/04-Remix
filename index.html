@@ -7,6 +7,12 @@
 
 <svg id="viz" width="400" height="300"></svg>
 
+<p>
+    <label> Year </label>
+    <input type="range" id="yearSlider" min="1990" max="2018" value="2018">
+</p>
+
+
 <script>
     let svg = d3.select('#viz')
         width = svg.attr('width')
@@ -43,7 +49,6 @@
         '1991': d3.map(),
         '1990': d3.map()
     }
-    let currYear = '2017'
     let colorScale = d3.scaleThreshold()
         .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
         .range(d3.schemeBlues[9])
@@ -57,15 +62,6 @@
         .await(ready)
 
     function ready(error, topo) {
-        let toolTip = d3.select('#viz')
-            .append('div')
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
 
         let mouseOver = function (d) {
             toolTip.style('opacity', 1)
@@ -81,15 +77,8 @@
                 .style('stroke', 'black')
         }
 
-        let mouseMove = function (d) {
-            toolTip
-                // .html('Non-marital Birthrate for<br>' + d.properties.Name + ' is ' + d.total * 100 + '%')
-                .style("left", (d3.mouse(this)[0]) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
-        }
-
         let mouseLeave = function (d) {
-            toolTip.style('opacity', 0)
+            // toolTip.style('opacity', 0)
             d3.selectAll('.State')
                 .transition()
                 .duration(200)
@@ -100,11 +89,31 @@
                 .style('stroke', 'transparent')
         }
 
-        svg.append('g')
-            .selectAll('path')
-            .data(topo.features)
-            .enter()
-            .append('path')
+        let toolTip = svg.append('div')
+            .style("opacity", 1)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+
+        //TODO: Where's my tool tip
+        let mouseMove = function (d) {
+            toolTip
+                .html('Non-marital Birthrate for<br>' + d.properties.NAME + ' is ' + d.total * 100 + '%')
+                .style("left", (d3.mouse(this)[0]) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        function update (currYear) {
+            //TODO: make the slider and current year more noticeable
+            console.log('Current year is: ' + currYear)
+            svg.append('g')
+                .selectAll('path')
+                .data(topo.features)
+                .enter()
+                .append('path')
                 .attr('d', d3.geoPath()
                     .projection(projection))
                 .attr('fill', function (d) {
@@ -112,13 +121,17 @@
                     return colorScale(d.total)
                 })
                 .style('stroke', 'transparent')
-                .attr('class', function(d) {return 'State'})
+                .attr('class', function (d) {
+                    return 'State'
+                })
                 .style('opacity', 0.8)
                 .on('mouseover', mouseOver)
                 .on('mouseleave', mouseLeave)
                 .on('mousemove', mouseMove)
+        }
+        update('2018')
+        d3.select('#yearSlider').on('change', function () {update(this.value)})
     }
-
 
 
 
