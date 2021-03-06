@@ -45,22 +45,23 @@
     }
 </style>
 
-<div id="div1">
-    <h1 id="mapHeader"></h1>
+<div id="div1" style=" width: 500px; float: left" >
+    <h1 style="margin-top: 0px; margin-bottom: 0px" id="mapHeader"></h1>
+    <svg id="svgMap"></svg>
+    <p>
+        <label> 1990 </label>
+        <input type="range" id="yearSlider" class="slider" min="1990" max="2018" step="1" value="2018">
+        <label> 2018 </label>
+    </p>
 </div>
-<p>
-    <label> 1990 </label>
-    <input type="range" id="yearSlider" class="slider" min="1990" max="2018" step="1" value="2018">
-    <label> 2018 </label>
-</p>
-<div id="div2">
+
+<div id="div2" style='margin-left: 550px'>
     <h1 id="lineHeader"></h1>
 </div>
 
 <script>
     // Initialization for Map svg
-    let svgMap = d3.select('#div1')
-        .append('svg')
+    let svgMap = d3.select('#svgMap')
         .attr('width', 500)
         .attr('height', 350)
 
@@ -167,7 +168,6 @@
         'Wisconsin': d3.map(),
         'Wyoming': d3.map()
     }
-    //TODO: Put national back in the data set?
     let currState = 'the United States'
 
     // Ready everything for drawing a map
@@ -315,7 +315,6 @@
         }
 
         let mouseLeave = function (d) {
-            currState = 'the United States'
             readyLineChart()
             toolTip.style('opacity', 0)
             d3.selectAll('.State')
@@ -346,7 +345,7 @@
         }
 
         function updateMap(currYear) {
-            document.getElementById('mapHeader').innerText = 'Non-marital Births in the US in ' + currYear
+            document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
 
             //TODO: make the slider better and current year labeled
             console.log('Current year is: ' + currYear)
