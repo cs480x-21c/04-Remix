@@ -7,16 +7,12 @@
 <div id="visualization2"></div>
 <script>
 
-// function mouseLocation(data) {
-
-// // get mouse location for highlight
-// const currentX = d3.mouse(this)[0];
-// const year = Math.floor((currentX / 380) * ( 2019-1950) + 1950);
-// // console.log( year )
-// return year;
-// }
-
 var dataSelect = "other";
+// set the dimensions and margins of the graph
+var margin = {top: 60, right: 230, bottom: 50, left: 50},
+    width = 1500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
 
 function areaStackDraw( data ){
 
@@ -159,7 +155,7 @@ function updateChart() {
     .data(keys)
     .enter()
     .append("rect")
-      .attr("x", 400)
+      .attr("x", 1250)
       .attr("y", function(d,i){ return 10 + i*(size+5)}) 
       .attr("width", size)
       .attr("height", size)
@@ -172,7 +168,7 @@ function updateChart() {
     .data(keys)
     .enter()
     .append("text")
-      .attr("x", 400 + size*1.2)
+      .attr("x", 1250 + size*1.2)
       .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) 
       .style("fill", function(d){ return color(d)})
       .text(function(d){ return d})
@@ -228,10 +224,7 @@ barSvg.selectAll("mybar")
     .attr("height", function(d) { return height - yBar(d[dataSelect]); })
     .attr("fill", "#69b3a2")
 }
-// set the dimensions and margins of the graph
-var margin = {top: 60, right: 230, bottom: 50, left: 50},
-    width = 660 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+
 
 
 
