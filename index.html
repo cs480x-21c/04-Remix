@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<meta charset = 'utf-8'>
+
+<script src="http://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<svg id="viz" width="400" height="300"></svg>
+
+<script>
+    let svg = d3.select('#viz')
+        width = svg.attr('width')
+        height = svg.attr('height')
+
+    let fullData = {
+        '2018': d3.map(),
+        '2017': d3.map(),
+        '2016': d3.map(),
+        '2015': d3.map(),
+        '2014': d3.map(),
+        '2013': d3.map(),
+        '2012': d3.map(),
+        '2011': d3.map(),
+        '2010': d3.map(),
+        '2009': d3.map(),
+        '2008': d3.map(),
+        '2007': d3.map(),
+        '2006': d3.map(),
+        '2005': d3.map(),
+        '2004': d3.map(),
+        '2003': d3.map(),
+        '2002': d3.map(),
+        '2001': d3.map(),
+        '2000': d3.map(),
+        '1999': d3.map(),
+        '1998': d3.map(),
+        '1997': d3.map(),
+        '1996': d3.map(),
+        '1995': d3.map(),
+        '1994': d3.map(),
+        '1993': d3.map(),
+        '1992': d3.map(),
+        '1991': d3.map(),
+        '1990': d3.map()
+    }
+    let currYear = '2017'
+    let colorScale = d3.scaleThreshold()
+        .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
+        .range(d3.schemeBlues[9])
+    let path = d3.geoPath()
+    let projection = d3.geoAlbersUsa().scale(500).translate([width/2, height/2])
+
+    d3.queue()
+        .defer(d3.json, 'gz_2010_us_040_00_5m.json')
+        .defer(d3.csv, 'data.csv', function (d) {
+            fullData[d.TimeFrame].set(d.Location, d.Data)})
+        .await(ready)
+
+    function ready(error, topo) {
+        let toolTip = d3.select('#viz')
+            .append('div')
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+
+        let mouseOver = function (d) {
+            toolTip.style('opacity', 1)
+            d3.selectAll('.State')
+                .transition()
+                .duration(200)
+                .style('opacity', .7)
+                .style('stroke', 'transparent')
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style('opacity', 1)
+                .style('stroke', 'black')
+        }
+
+        let mouseMove = function (d) {
+            toolTip
+                // .html('Non-marital Birthrate for<br>' + d.properties.Name + ' is ' + d.total * 100 + '%')
+                .style("left", (d3.mouse(this)[0]) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        let mouseLeave = function (d) {
+            toolTip.style('opacity', 0)
+            d3.selectAll('.State')
+                .transition()
+                .duration(200)
+                .style('opacity', 1)
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style('stroke', 'transparent')
+        }
+
+        svg.append('g')
+            .selectAll('path')
+            .data(topo.features)
+            .enter()
+            .append('path')
+                .attr('d', d3.geoPath()
+                    .projection(projection))
+                .attr('fill', function (d) {
+                    d.total = fullData[currYear].get(d.properties.NAME) || 0;
+                    return colorScale(d.total)
+                })
+                .style('stroke', 'transparent')
+                .attr('class', function(d) {return 'State'})
+                .style('opacity', 0.8)
+                .on('mouseover', mouseOver)
+                .on('mouseleave', mouseLeave)
+                .on('mousemove', mouseMove)
+    }
+
+
+
+
+
+</script>

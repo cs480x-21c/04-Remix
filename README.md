@@ -1,3 +1,7 @@
+I used choropleth
+used maps to convert the data
+colors look nice
+
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
