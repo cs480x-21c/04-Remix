@@ -1,6 +1,9 @@
 I used choropleth
 used maps to convert the data
 colors look nice
+responsive svg
+slider for year
+dual svg's
 
 Assignment 4 - DataVis Remix + Multiple Views
 ===

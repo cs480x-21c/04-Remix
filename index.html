@@ -5,20 +5,39 @@
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-<svg id="viz" width="400" height="300"></svg>
+<svg id="viz1" width="800" height="500"
+     viewBox="0 0 750 500"
+     preserveAspectRatio="xMidYMid meet">
+</svg>
 
 <p>
     <label> Year </label>
     <input type="range" id="yearSlider" min="1990" max="2018" value="2018">
 </p>
 
+<svg id="viz2" width="750" height="400"
+     viewBox="0 0 750 500"
+     preserveAspectRatio="xMidYMid meet">
+</svg>
 
 <script>
-    let svg = d3.select('#viz')
-        width = svg.attr('width')
-        height = svg.attr('height')
+    // Initialization for Map svg
+    let svgMap = d3.select('#viz1')
+        .call(d3.zoom().on('zoom', function () {svgMap.attr('transform', d3.event.transform)}))
+        widthMap = svgMap.attr('width')
+        heightMap = svgMap.attr('height')
 
-    let fullData = {
+    // Initialization for Line Chart svg
+    let svgLine = d3.select('#viz2')
+        // .call(d3.zoom().on('zoom', function () {svgLine.attr('transform', d3.event.transform)}))
+    let marginLine = {top: 10, right: 30, bottom: 30, left: 60},
+        widthLine = svgLine.attr('width') - marginLine.left - marginLine.right,
+        heighLine = svgLine.attr('height') - marginLine.top - marginLine.bottom
+    svgLine.append('g')
+        .attr('transform', 'translate(' + marginLine.left + ',' + marginLine.top + ')')
+
+    // Ready data storage
+    let yearlyData = {
         '2018': d3.map(),
         '2017': d3.map(),
         '2016': d3.map(),
@@ -49,21 +68,111 @@
         '1991': d3.map(),
         '1990': d3.map()
     }
+    let stateData = {
+        'Alabama': d3.map(),
+        'Alaska': d3.map(),
+        'Arizona': d3.map(),
+        'Arkansas': d3.map(),
+        'California': d3.map(),
+        'Colorado': d3.map(),
+        'Connecticut': d3.map(),
+        'Delaware': d3.map(),
+        'District of Columbia': d3.map(),
+        'Florida': d3.map(),
+        'Georgia': d3.map(),
+        'Hawaii': d3.map(),
+        'Idaho': d3.map(),
+        'Illinois': d3.map(),
+        'Indiana': d3.map(),
+        'Iowa': d3.map(),
+        'Kansas': d3.map(),
+        'Kentucky': d3.map(),
+        'Louisiana': d3.map(),
+        'Maine': d3.map(),
+        'Maryland': d3.map(),
+        'Massachusetts': d3.map(),
+        'Michigan': d3.map(),
+        'Minnesota': d3.map(),
+        'Mississippi': d3.map(),
+        'Missouri': d3.map(),
+        'Montana': d3.map(),
+        'Nebraska': d3.map(),
+        'Nevada': d3.map(),
+        'New Hampshire': d3.map(),
+        'New Jersey': d3.map(),
+        'New Mexico': d3.map(),
+        'New York': d3.map(),
+        'North Carolina': d3.map(),
+        'North Dakota': d3.map(),
+        'Ohio': d3.map(),
+        'Oklahoma': d3.map(),
+        'Oregon': d3.map(),
+        'Pennsylvania': d3.map(),
+        'Rhode Island': d3.map(),
+        'South Carolina': d3.map(),
+        'South Dakota': d3.map(),
+        'Tennessee': d3.map(),
+        'Texas': d3.map(),
+        'Utah': d3.map(),
+        'Vermont': d3.map(),
+        'Virginia': d3.map(),
+        'Washington': d3.map(),
+        'West Virginia': d3.map(),
+        'Wisconsin': d3.map(),
+        'Wyoming': d3.map()
+    }
+    //TODO: Put national back in the data set?
+    let currState = 'Alabama'
+
+    // Ready everything for drawing a map
     let colorScale = d3.scaleThreshold()
         .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
         .range(d3.schemeBlues[9])
     let path = d3.geoPath()
-    let projection = d3.geoAlbersUsa().scale(500).translate([width/2, height/2])
+    let projection = d3.geoAlbersUsa().scale(1000).translate([widthMap/2, heightMap/2])
 
+    // Queue up the Line chart data
+    d3.queue()
+        .defer(d3.csv, 'data.csv', function (d) {
+            stateData[d.Location].set(d.TimeFrame, d.Data)})
+        .await(readyLineChart)
+
+    // Queue up the Map data
     d3.queue()
         .defer(d3.json, 'gz_2010_us_040_00_5m.json')
         .defer(d3.csv, 'data.csv', function (d) {
-            fullData[d.TimeFrame].set(d.Location, d.Data)})
-        .await(ready)
+            yearlyData[d.TimeFrame].set(d.Location, d.Data)})
+        .await(readyMap)
 
-    function ready(error, topo) {
+    function readyLineChart() {
+            let data = stateData[currState]
+            let x = d3.scaleLinear()
+                .domain(d3.extent(stateData, function (d) {return d.Data}))
+                .range([0, widthLine])
+            svgLine.append('g')
+                .attr('transform', 'translate(0,' + heighLine + ')')
+                .call(d3.axisBottom(x))
 
+            let y = d3.scaleLinear()
+                .domain([0, d3.max(data, function (d) { return d.Data})])
+                .range([heighLine,0])
+            svgLine.append('g')
+                .call(d3.axisLeft(y))
+
+            svgLine.append('path')
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.TimeFrame) })
+                    .y(function(d) { return y(d.Data) })
+                )
+    }
+
+    function readyMap(error, topo) {
         let mouseOver = function (d) {
+            readyLineChart(d.properties.NAME)
             toolTip.style('opacity', 1)
             d3.selectAll('.State')
                 .transition()
@@ -89,7 +198,7 @@
                 .style('stroke', 'transparent')
         }
 
-        let toolTip = svg.append('div')
+        let toolTip = svgMap.append('div')
             .style("opacity", 1)
             .attr("class", "tooltip")
             .style("background-color", "white")
@@ -106,10 +215,10 @@
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
 
-        function update (currYear) {
-            //TODO: make the slider and current year more noticeable
+        function updateMap (currYear) {
+            //TODO: make the slider better and current year labeled
             console.log('Current year is: ' + currYear)
-            svg.append('g')
+            svgMap.append('g')
                 .selectAll('path')
                 .data(topo.features)
                 .enter()
@@ -117,7 +226,7 @@
                 .attr('d', d3.geoPath()
                     .projection(projection))
                 .attr('fill', function (d) {
-                    d.total = fullData[currYear].get(d.properties.NAME) || 0;
+                    d.total = yearlyData[currYear].get(d.properties.NAME) || 0;
                     return colorScale(d.total)
                 })
                 .style('stroke', 'transparent')
@@ -129,8 +238,9 @@
                 .on('mouseleave', mouseLeave)
                 .on('mousemove', mouseMove)
         }
-        update('2018')
-        d3.select('#yearSlider').on('change', function () {update(this.value)})
+
+        updateMap('2018')
+        d3.select('#yearSlider').on('change', function () {updateMap(this.value)})
     }
 
 
