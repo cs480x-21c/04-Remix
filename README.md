@@ -4,6 +4,7 @@ colors look nice
 responsive svg
 slider for year
 dual svg's
+path
 
 Assignment 4 - DataVis Remix + Multiple Views
 ===

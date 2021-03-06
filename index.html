@@ -5,20 +5,20 @@
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-<svg id="viz1" width="800" height="500"
-     viewBox="0 0 750 500"
+<svg id="viz1" width="500" height="300"
+     viewBox="0 0 500 300"
      preserveAspectRatio="xMidYMid meet">
 </svg>
 
+<svg id="viz2" width="500" height="300"
+     viewBox="0 0 500 300"
+     preserveAspectRatio="xMidYMid meet">
+</svg>
 <p>
     <label> Year </label>
     <input type="range" id="yearSlider" min="1990" max="2018" value="2018">
 </p>
 
-<svg id="viz2" width="750" height="400"
-     viewBox="0 0 750 500"
-     preserveAspectRatio="xMidYMid meet">
-</svg>
 
 <script>
     // Initialization for Map svg
@@ -32,7 +32,7 @@
         // .call(d3.zoom().on('zoom', function () {svgLine.attr('transform', d3.event.transform)}))
     let marginLine = {top: 10, right: 30, bottom: 30, left: 60},
         widthLine = svgLine.attr('width') - marginLine.left - marginLine.right,
-        heighLine = svgLine.attr('height') - marginLine.top - marginLine.bottom
+        heightLine = svgLine.attr('height') - marginLine.top - marginLine.bottom
     svgLine.append('g')
         .attr('transform', 'translate(' + marginLine.left + ',' + marginLine.top + ')')
 
@@ -129,7 +129,7 @@
         .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
         .range(d3.schemeBlues[9])
     let path = d3.geoPath()
-    let projection = d3.geoAlbersUsa().scale(1000).translate([widthMap/2, heightMap/2])
+    let projection = d3.geoAlbersUsa().scale(500).translate([widthMap/2, heightMap/2])
 
     // Queue up the Line chart data
     d3.queue()
@@ -145,34 +145,40 @@
         .await(readyMap)
 
     function readyLineChart() {
-            let data = stateData[currState]
-            let x = d3.scaleLinear()
-                .domain(d3.extent(stateData, function (d) {return d.Data}))
-                .range([0, widthLine])
-            svgLine.append('g')
-                .attr('transform', 'translate(0,' + heighLine + ')')
-                .call(d3.axisBottom(x))
+        console.log('Current State: ' + currState)
+        console.log(stateData['Virginia'])
+        svgLine.selectAll('svg > *').remove()
+        let data = stateData[currState]
+        let x = d3.scaleLinear()
+            .domain(d3.extent(data.keys(), function (d) {return d}))
+            .range([0, widthLine])
+        svgLine.append('g')
+            .attr('transform', 'translate(40,' + heightLine + ')')
+                .call(d3.axisBottom(x).tickFormat(d3.format('d')))
 
-            let y = d3.scaleLinear()
-                .domain([0, d3.max(data, function (d) { return d.Data})])
-                .range([heighLine,0])
-            svgLine.append('g')
-                .call(d3.axisLeft(y))
+        let y = d3.scaleLinear()
+            .domain([d3.min(data.keys(), function (d) {return data.get(d)}), d3.max(data.keys(), function (d) {return data.get(d)})])
+            .range([heightLine, 0])
+        svgLine.append('g')
+            .attr('transform', 'translate(40, 0)')
+            .call(d3.axisLeft(y))
 
-            svgLine.append('path')
-                .datum(data)
-                .attr("fill", "none")
-                .attr("stroke", "steelblue")
-                .attr("stroke-width", 1.5)
-                .attr("d", d3.line()
-                    .x(function(d) { return x(d.TimeFrame) })
-                    .y(function(d) { return y(d.Data) })
-                )
+        svgLine.append('path')
+            .datum(data.entries())
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(function(d) { return x(d.key) })
+                .y(function(d) { return y(d.value) })
+            )
+            .attr('transform', 'translate(40,0)')
     }
 
     function readyMap(error, topo) {
         let mouseOver = function (d) {
-            readyLineChart(d.properties.NAME)
+            currState = d.properties.NAME
+            readyLineChart()
             toolTip.style('opacity', 1)
             d3.selectAll('.State')
                 .transition()
