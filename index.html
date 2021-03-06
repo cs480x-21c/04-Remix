@@ -212,7 +212,7 @@
         /******* SECOND VIEW *******/
 
         var barMargin = {top: 50, right: 50, bottom: 50, left: 50}
-        var barWidth = 600 
+        var barWidth = 800 
         var barHeight = 200 
         var previousData = []
 
@@ -227,6 +227,7 @@
             .attr("width", barWidth)
             .attr("height", barHeight)
             .attr("fill", "#fff")
+            .attr("id", "graphSpace")
 
         var barY = d3.scaleLinear().domain([0, 1]).range([barHeight, 0])
         
@@ -241,10 +242,18 @@
             .attr("transform", "translate(0, "+ barHeight + ")")
             .call(d3.axisBottom(barX).tickFormat("").tickSize(0))
 
+        var initTxt = barSvg.append("text")
+            .text("Double click the brush above!")
+            .attr("id", "initTxt")
+            .attr("x", "25%")
+            .attr("y", "30%")
+            .attr("font-family", "'Poppins', sans-serif")
+
 
         function updateBarChart(filteredBarData, newDomain) {
 
             d3.selectAll('#barContent').remove();
+            d3.selectAll('#initTxt').remove();
             
             barX = d3.scaleBand()
                 .domain(d3.range(filteredBarData.length))
@@ -259,7 +268,10 @@
                 .attr("y", function (d) { return barY(d[1]) })
                 .attr("width", barX.bandwidth())
                 .attr("height", function(d) { return barHeight - barY(d[1]) })
+                .attr("rx", 1)
                 .style("fill", function (d) { return d[2] })
+                .style("stroke", "black")
+                .style("stroke-width", 0.5)
 
             previousData = filteredBarData
 
