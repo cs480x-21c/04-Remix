@@ -14,7 +14,8 @@ var margin = {top: 60, right: 230, bottom: 50, left: 50},
     height = 400 - margin.top - margin.bottom;
 
 
-function areaStackDraw( data ){
+
+function areaStackDraw( data, keys, color ){
 
 // Visualization 1 setup (stacked area chart)
 var stackSvg = d3.select("#visualization1")
@@ -24,11 +25,7 @@ var stackSvg = d3.select("#visualization1")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
-  var keys = data.columns.slice(1)
 
-var color = d3.scaleOrdinal()
-  .domain(keys)
-  .range(d3.schemeSet1);
 
 var stackedData = d3.stack()
   .keys(keys)
@@ -180,7 +177,7 @@ function updateChart() {
 // second vis
 // barchart to show data
 // append the svg object to the body of the page
-function barDraw( data ){
+function barDraw( data, color ){
 document.getElementById("visualization2").innerHTML = "";
 var barSvg = d3.select("#visualization2")
   .append("svg")
@@ -203,6 +200,11 @@ barSvg.append("g")
     .attr("transform", "translate(-10,0)rotate(-45)")
     .style("text-anchor", "end");
 
+    var keys = data.columns.slice(1)
+
+var color = d3.scaleOrdinal()
+  .domain(keys)
+  .range(d3.schemeSet1);
 // Y axis
 var yBar = d3.scaleLinear()
   .domain([0, 2000])
@@ -216,28 +218,26 @@ barSvg.selectAll("mybar")
   .enter()
   .append("rect")
     .attr("x", function(d) { 
-
-      // console.log(d[dataSelect])
       return xBar(d.year); })
     .attr("y", function(d) { return yBar(d[dataSelect]); })
     .attr("width", xBar.bandwidth())
     .attr("height", function(d) { return height - yBar(d[dataSelect]); })
-    .attr("fill", "#69b3a2")
+    .attr("fill", function(d){ return color(dataSelect)})
 }
-
 
 
 
 // Parse the Data, set up keys, color, stacking
 d3.csv("data/generation.csv", function(data) {
+  var keys = data.columns.slice(1)
 
+var color = d3.scaleOrdinal()
+  .domain(keys)
+  .range(d3.schemeSet1);
 
-areaStackDraw(data);
+areaStackDraw(data, keys, color);
 
-
-barDraw(data);
-
-
+barDraw(data, color );
 
 })
     
