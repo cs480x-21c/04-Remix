@@ -1,21 +1,30 @@
-Assignment 4 - DataVis Remix + Multiple Views
+# Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+### Original Vis and Critique
 
-### Your Task
+Original Vis, Uncovered on r/dataisbeautiful subreddit
+![Original Vis](./OriginalVis.png)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+(Post linked [Here](https://www.reddit.com/r/dataisbeautiful/comments/lz8t2i/fertility_vs_life_expectancy_1850_vs_2015_oc_see/))
 
-By remix, we mean:
+This original vis has a very specific use case in my opinion. It is meant to show the person looking at the picture that since 1850, there have been dramatic increases in life expectancy and birth rates accross the entire world. My first thought was that I could do a lot more with the data that was linked in the description. Thing is, it was already done on the site where the data was stored! There was a much more professional looking vis that I will be remixing, pictured below
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+![Well done Vis](./SecondSourceVis.PNG)
+(Link [Here](https://www.gapminder.org/fw/world-health-chart/))
+
+To make this a viable project for myself, I could not do every data dimension on every axis, for data manipulation choices alone. The primary improvement I could notice in this geographical aspects of the data were being lost. There is a color that shows what region a country is from, but this doesn't really encode its position in the world. 
+
+#### Use Case For Remix
+
+When a user is utilizing a two axis scatter that changes over time, they may want to explore a tight geographical region. The vis on this website did have a search feature, but then you have to search one at a time and they are organized by name. I found myself intrigued by the life expectancy dip during WWI in many countries, I would love to zoom in on Europe and see how the life expectancies changes geographically year over year, but this isn't possible in the current vis  
+
+Therefore, I am choosing to add a geographical component to give the data additional context and allow for a new method of exploration. 
+
+
+
+
 
 By two linked views, we mean:
 
