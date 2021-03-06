@@ -63,9 +63,6 @@
         .append('svg')
         .attr('width', 500)
         .attr('height', 350)
-    // .call(d3.zoom().on('zoom', function () {
-    //     svgMap.attr('transform', d3.event.transform)
-    // }))
 
     widthMap = svgMap.attr('width')
     heightMap = svgMap.attr('height')
@@ -115,6 +112,7 @@
         '1990': d3.map()
     }
     let stateData = {
+        'the United States': d3.map(),
         'Alabama': d3.map(),
         'Alaska': d3.map(),
         'Arizona': d3.map(),
@@ -170,7 +168,7 @@
         'Wyoming': d3.map()
     }
     //TODO: Put national back in the data set?
-    let currState = 'Alabama'
+    let currState = 'the United States'
 
     // Ready everything for drawing a map
     let colorScale = d3.scaleThreshold()
@@ -253,7 +251,7 @@
         }
         let mousemove = function (d) {
             tooltip
-                .html((d.value * 100).toPrecision((3)) + '% of births in ' + d.key)
+                .html((d.value).toPrecision((3)) + '% of births in ' + d.key)
                 .style("left", (d3.mouse(this)[0] + 70) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
@@ -317,6 +315,8 @@
         }
 
         let mouseLeave = function (d) {
+            currState = 'the United States'
+            readyLineChart()
             toolTip.style('opacity', 0)
             d3.selectAll('.State')
                 .transition()
