@@ -1,0 +1,58 @@
+body {
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-top: 50px;
+}
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    width: 75%; 
+    margin: 0 auto; 
+}
+
+.vis {
+    width: 70%;
+    margin: 0 auto; 
+    margin-top: 50px;
+}
+
+#og_vis {
+    height: 250px; 
+    overflow-y: hidden;
+}
+
+#embedded_vis {
+    width: 70%;
+    height: 100%; 
+}
+
+@media only screen and (max-width: 600px) {
+    #og_vis {
+        height: 100px; 
+        overflow-y: hidden;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #og_vis {
+        height: 200px; 
+        overflow-y: hidden;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #og_vis {
+        height: 250px; 
+        overflow-y: hidden;
+    }
+}

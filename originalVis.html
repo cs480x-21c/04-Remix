@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v6.min.js"></script> 
+    </head>
+    <body>
+        <div id="og_vis_inner"></div>
+        <script>
+            // Copy-pasted from https://observablehq.com/@d3/brush-handles with minor adjustments to make it run locally 
+            width = 500
+            height = 120
+            margin = ({top: 10, right: 20, bottom: 20, left: 20})
+
+            x = d3.scaleLinear([0, 1], [margin.left, width - margin.right])
+            y = d3.randomNormal(height / 2, height / 12)
+
+            xAxis = g => g
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x))
+
+            arc = d3.arc()
+                .innerRadius(0)
+                .outerRadius((height - margin.top - margin.bottom) / 2)
+                .startAngle(0)
+                .endAngle((d, i) => i ? Math.PI : -Math.PI)
+
+            brushHandle = (g, selection) => g
+                .selectAll(".handle--custom")
+                .data([{type: "w"}, {type: "e"}])
+                .join(
+                    enter => enter.append("path")
+                        .attr("class", "handle--custom")
+                        .attr("fill", "#666")
+                        .attr("fill-opacity", 0.8)
+                        .attr("stroke", "#000")
+                        .attr("stroke-width", 1.5)
+                        .attr("cursor", "ew-resize")
+                        .attr("d", arc)
+                )
+                    .attr("display", selection === null ? "none" : null)
+                    .attr("transform", selection === null ? null : (d, i) => `translate(${selection[i]},${(height + margin.top - margin.bottom) / 2})`)
+            
+            const svg = d3.select("#og_vis_inner")
+                .append("svg")
+                .attr("viewBox", [0, 0, width, height]);
+
+            const brush = d3.brushX()
+                .extent([[margin.left, margin.top], [width - margin.right, height - margin.bottom]])
+                .on("start brush end", brushed);
+
+            const circle = svg.append("g")
+                .attr("fill-opacity", 0.2)
+                .selectAll("circle")
+                .data(Float64Array.from({length: 800}, Math.random))
+                .join("circle")
+                .attr("transform", d => `translate(${x(d)},${y()})`)
+                .attr("r", 3.5);
+
+            svg.append("g")
+                .call(xAxis);
+
+            svg.append("g")
+                .call(brush)
+                .call(brush.move, [0.3, 0.5].map(x));
+
+            function brushed({selection}) {
+                if (selection === null) {
+                circle.attr("stroke", null);
+                } else {
+                const sx = selection.map(x.invert);
+                circle.attr("stroke", d => sx[0] <= d && d <= sx[1] ? "red" : null);
+                }
+                d3.select(this).call(brushHandle, selection);
+            }
+
+            
+        </script>
+    </body>
