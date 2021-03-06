@@ -70,7 +70,7 @@
     heightMap = svgMap.attr('height')
 
     // Initialization for Line Chart svg
-    let marginLine = {top: 10, right: 30, bottom: 30, left: 60},
+    let marginLine = {top: 10, right: 30, bottom: 30, left: 20},
         widthLine = 500 - marginLine.left - marginLine.right,
         heightLine = 300 - marginLine.top - marginLine.bottom
 
@@ -181,7 +181,7 @@
     // Queue up the Line chart data
     d3.queue()
         .defer(d3.csv, 'data.csv', function (d) {
-            stateData[d.Location].set(d.TimeFrame, d.Data)
+            stateData[d.Location].set(d.TimeFrame, d.Data * 100)
         })
         .await(readyLineChart)
 
@@ -277,6 +277,23 @@
             .on('mouseover', mouseover)
             .on('mousemove', mousemove)
             .on('mouseleave', mouseleave)
+
+        svgLine.append('text')
+            .attr('text-anchor', 'end')
+            .attr('x', widthLine)
+            .attr('y', heightLine - 10)
+            .text('Years (1990 - 2018)')
+
+        svgLine.append('text')
+            .attr('text-anchor', 'start')
+            .attr('x', 5)
+            .attr('y', 5)
+            .text('Percentage of')
+        svgLine.append('text')
+            .attr('text-anchor', 'start')
+                .attr('x', 5)
+            .attr('y', 25)
+            .text('Total Births')
     }
 
     function readyMap(error, topo) {
