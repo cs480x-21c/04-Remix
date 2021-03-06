@@ -35,32 +35,35 @@
 // setting up the margins, width and height
 var margin = {top: 50, right: 50, bottom: 50, left: 50}
 
-width = 750
-height = 500
+width1 = 600
+height1 = 400
+
+width2 = 1500
+height2 = 500
 // Adding the svg
 var svg1 = d3.select("#map").append("svg")
 .attr("class","svg1")
-.attr("width",width)
-.attr("height",height)
+.attr("width",width1)
+.attr("height",height1)
 
 var svg2 = d3.select("#map").append("svg")
 .attr("class","svg2")
-.attr("width",width*2)
-.attr("height",height)
+.attr("width",width2)
+.attr("height",height2)
 
 // setting up the axes for bar chart/scatter plot
 var x = d3.scaleLinear()
     .domain([0, 247])        
-    .range([margin.left, (width*2) - margin.right]);      
+    .range([margin.left, width2 - margin.right]);      
 
 svg2
   .append("g")
-  .attr("transform", "translate(0,"+ (height - margin.bottom) +")")     
+  .attr("transform", "translate(0,"+ (height2 - margin.bottom) +")")     
   .call(d3.axisBottom().scale(x).ticks(0));
 
 var y = d3.scaleLinear()
   .domain([0, 1500000000])       
-  .range([height - margin.bottom , margin.top]);      
+  .range([height2 - margin.bottom , margin.top]);      
 
 svg2
 .append("g")
@@ -71,13 +74,14 @@ svg2
 // Map and projection
 var path = d3.geoPath();
 var projection = d3.geoMercator()
-  .scale(width/2.5/Math.PI)
+  .scale(width1/2.5/Math.PI)
   .rotate([0,0])
   .center([0,0])
-  .translate([width/2, height/2]);
+  .translate([width1/2, height1/2]);
 
 // Data and color scale
 var data = d3.map();
+var dataCountries =  d3.map();
 var colors = ["#eff3ff","lightblue","yellow","pink","orange","red","brown"]
 var colorScale = d3.scaleThreshold()
   .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
@@ -101,7 +105,10 @@ var toolTip = d3.select("#map")
 
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, +d.pop); })
+  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { 
+    data.set(d.code, +d.pop); 
+    dataCountries.set(d.code, d.name); 
+  })
   .await(ready);
 
 function ready(error,topo) {
@@ -133,6 +140,21 @@ function ready(error,topo) {
             .transition()
             .duration(200)
             .style("opacity", 1)
+
+        svg2.selectAll("circle")
+        .attr("opacity",function(dHere){
+          if(dHere === d.id){
+            return 1
+          }else{
+            return 0.5
+          }
+          //console.log(dHere)
+        })
+        //.attr("stroke-width","2px")
+        //.transition()
+        //.duration(200)
+        //.attr("fill",'yellow')
+        //.attr('r',15)
        
       })
       .on("mousemove", function(d){
@@ -140,7 +162,7 @@ function ready(error,topo) {
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY -30) + "px")
       })
-      .on("mouseout",function(e,d){
+      .on("mouseout",function(d){
         d3.select(this).attr("opacity",0.75)
         .attr("stroke-width","1px")
 
@@ -148,6 +170,9 @@ function ready(error,topo) {
         .transition()
         .duration(300)
         .style("opacity", 0)
+
+        svg2.selectAll("circle")
+        .attr("opacity",0.5)
       
       })
 
@@ -160,13 +185,45 @@ function ready(error,topo) {
     })
     .attr('cy',function(d){
       pop = data.get(d) || 0
-      console.log(pop)
+      //console.log(pop)
       return y(pop)
     })
     .attr('r',5)
     .attr('fill','green')
     .attr('opacity',0.5)
     .attr("stroke","black")
+    .on("mouseover",function(d){
+      d3.select(this).attr("opacity",1)
+        .attr("stroke-width","2px")
+        .transition()
+        .duration(200)
+        .attr("fill",'yellow')
+        .attr('r',15)
+
+        console.log(d3.select(this).attr('cy'))
+        toolTip.text(dataCountries.get(d))
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 50) + "px")
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+
+    })
+    .on("mouseout",function(d){
+      d3.select(this).attr("opacity",0.75)
+      .attr("stroke-width","1px")
+      .transition()
+      .duration(300)
+      .attr("fill",'green')
+      .attr('r',5)
+
+      toolTip
+      .transition()
+      .duration(300)
+      .style("opacity", 0)
+
+
+    })
     
 
       
