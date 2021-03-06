@@ -1,6 +1,8 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
+Original Visualization: https://www.eia.gov/energyexplained/electricity/electricity-in-the-us.php
+
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
 
 ### Your Task

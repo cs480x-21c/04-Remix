@@ -7,6 +7,13 @@
 <div id="visualization2"></div>
 <script>
 
+function mouseLocation(data) {
+
+// get mouse location for highlight
+const currentX = d3.mouse(this)[0];
+const year = Math.floor((currentX / 380) * ( 2019-1950) + 1950);
+console.log( year )
+}
 // set the dimensions and margins of the graph
 var margin = {top: 60, right: 230, bottom: 50, left: 50},
     width = 660 - margin.left - margin.right,
@@ -44,7 +51,7 @@ d3.csv("data/generation.csv", function(data) {
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(xStack).ticks(5))
 
-  
+  stackSvg.on("mousemove", mouseLocation )
   // Y axis
   var yStack = d3.scaleLinear()
     .domain([0, 5000])
