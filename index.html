@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<html>
+
+    <body>
+
+        <svg id="svg"></svg>
+
+    </body>
+
+    <script>
+        console.log(d3);
+
+        let margin = {
+            left: 60,
+            top: 10,
+            right: 10,
+            bottom: 10
+        };
+
+        let height = 480 - margin.top - margin.bottom;
+        let width = 640 - margin.left - margin.right;
+
+        let minPopulation = 10000
+
+        let svg = d3.select('#svg');
+
+        svg.style('width', width + margin.left + margin.right)
+        .style('height', height + margin.top + margin.bottom);
+
+        let group = svg.append('g')
+        .attr('transform', `translate(${margin.left},0)`);
+
+
+        async function createLineChart() {
+
+            let data = await d3.csv('gonorrhea_data.csv');
+
+            //convert strings to ints
+            for(let d of data) {
+                d.Rate = parseInt(d.Rate);
+                d.Population = parseInt(d.Population);
+            }
+
+            //remove missing values
+            data = data.filter(d => !isNaN(d.Rate));
+
+            //filter based on population
+            //data = data.filter(d => d.Population >= minPopulation);
+
+            console.log(data);
+
+            let totalData = data.filter(d => d.Sex == 'Total');
+            let maleData = data.filter(d => d.Sex == 'Male');
+            let femaleData = data.filter(d => d.Sex == 'Female');
+
+            console.log(totalData);
+
+            let xScale = d3.scaleTime()
+            .domain([d3.timeParse('%Y')(2001), d3.timeParse('%Y')(2018)])
+            .range([0, width]);
+
+            let yScale = d3.scaleLinear()
+            .domain([0, d3.max(totalData, (d) => { return d.Rate })])
+            .range([height, 0]);
+
+
+
+            //create x axis
+            svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${height})`)
+            .call(d3.axisBottom(xScale));
+
+            //create y axis
+            svg.append('g')
+            .attr('transform', `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(yScale));
+
+            let groupings = d3.group(totalData, d => d.County);
+
+            let counties = groupings.keys();
+            let color = d3.scaleOrdinal()
+            .domain(counties)
+            .range(['red', 'blue', 'yellow', 'green', 'violet', 'steelblue', 'black', 'grey', 'pink', 'magenta']);
+
+            let line = d3.line()
+            .x((d) => { return xScale(d3.timeParse('%Y')(d.Year)); })
+            .y((d) => { return yScale(d.Rate); })
+
+            group.selectAll('line')
+            .data(groupings)
+            .enter()
+            .append('path')
+                .attr('fill', 'none')
+                .attr('stroke', (d) => { return color(d[0]) })
+                .attr('stroke-width', 1)
+                .attr('d', function(d) {
+                    return line(d[1]);
+                })
+
+        }
+
+        createLineChart();
+
+    </script>
+
+    <style></style>
+
+</html>
