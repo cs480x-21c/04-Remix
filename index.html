@@ -12,12 +12,11 @@ function mouseLocation(data) {
 // get mouse location for highlight
 const currentX = d3.mouse(this)[0];
 const year = Math.floor((currentX / 380) * ( 2019-1950) + 1950);
-console.log( year )
+// console.log( year )
+return year;
 }
-// set the dimensions and margins of the graph
-var margin = {top: 60, right: 230, bottom: 50, left: 50},
-    width = 660 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+
+function areaStackDraw( data ){
 
 // Visualization 1 setup (stacked area chart)
 var stackSvg = d3.select("#visualization1")
@@ -27,168 +26,163 @@ var stackSvg = d3.select("#visualization1")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
-
-// Parse the Data, set up keys, color, stacking
-d3.csv("data/generation.csv", function(data) {
-
   var keys = data.columns.slice(1)
 
-  var color = d3.scaleOrdinal()
-    .domain(keys)
-    .range(d3.schemeSet1);
+var color = d3.scaleOrdinal()
+  .domain(keys)
+  .range(d3.schemeSet1);
 
-  var stackedData = d3.stack()
-    .keys(keys)
-    (data)
-
-
-  // Axes
-  // X axis
-  var xStack = d3.scaleLinear()
-    .domain(d3.extent(data, function(d) { return d.year; }))
-    .range([ 0, width ]);
-  var xAxisStack = stackSvg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(xStack).ticks(5))
-
-  stackSvg.on("mousemove", mouseLocation )
-  // Y axis
-  var yStack = d3.scaleLinear()
-    .domain([0, 5000])
-    .range([ height, 0 ]);
-    stackSvg.append("g")
-    .call(d3.axisLeft(yStack).ticks(5))
-
-  // Axis labels
-  // X axis label:
-  stackSvg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height+40 )
-      .text("Year");
-
-  // Y axis label:
-  stackSvg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", 0)
-      .attr("y", -20 )
-      .text("kWh generated (billions)")
-      .attr("text-anchor", "start")
+var stackedData = d3.stack()
+  .keys(keys)
+  (data)
 
 
-  // Add a clipPath: everything out of this area won't be drawn.
-  var clip = stackSvg.append("defs").append("svg:clipPath")
-      .attr("id", "clip")
-      .append("svg:rect")
-      .attr("width", width )
-      .attr("height", height )
-      .attr("x", 0)
-      .attr("y", 0);
+// Axes
+// X axis
+var xStack = d3.scaleLinear()
+  .domain(d3.extent(data, function(d) { return d.year; }))
+  .range([ 0, width ]);
+var xAxisStack = stackSvg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(xStack).ticks(5))
 
-  // Add brushing
-  var brush = d3.brushX()                
-      .extent( [ [0,0], [width,height] ] ) 
-      .on("end", updateChart)
+yearVal = stackSvg.on("mousemove", mouseLocation );
+console.log(yearVal)
+// Y axis
+var yStack = d3.scaleLinear()
+  .domain([0, 5000])
+  .range([ height, 0 ]);
+  stackSvg.append("g")
+  .call(d3.axisLeft(yStack).ticks(5))
 
-  var areaChart = stackSvg.append('g')
-    .attr("clip-path", "url(#clip)")
+// Axis labels
+// X axis label:
+stackSvg.append("text")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height+40 )
+    .text("Year");
 
-  // Area generator
-  var area = d3.area()
-    .x(function(d) { return xStack(d.data.year); })
-    .y0(function(d) { return yStack(d[0]); })
-    .y1(function(d) { return yStack(d[1]); })
+// Y axis label:
+stackSvg.append("text")
+    .attr("text-anchor", "end")
+    .attr("x", 0)
+    .attr("y", -20 )
+    .text("kWh generated (billions)")
+    .attr("text-anchor", "start")
 
-  // area display
+
+// Add a clipPath: everything out of this area won't be drawn.
+var clip = stackSvg.append("defs").append("svg:clipPath")
+    .attr("id", "clip")
+    .append("svg:rect")
+    .attr("width", width )
+    .attr("height", height )
+    .attr("x", 0)
+    .attr("y", 0);
+
+// Add brushing
+var brush = d3.brushX()                
+    .extent( [ [0,0], [width,height] ] ) 
+    .on("end", updateChart)
+
+var areaChart = stackSvg.append('g')
+  .attr("clip-path", "url(#clip)")
+
+// Area generator
+var area = d3.area()
+  .x(function(d) { return xStack(d.data.year); })
+  .y0(function(d) { return yStack(d[0]); })
+  .y1(function(d) { return yStack(d[1]); })
+
+// area display
+areaChart
+  .selectAll("layers")
+  .data(stackedData)
+  .enter()
+  .append("path")
+    .attr("class", function(d) { return "area " + d.key })
+    .style("fill", function(d) { return color(d.key); })
+    .attr("d", area)
+
+areaChart
+  .append("g")
+    .attr("class", "brush")
+    .call(brush);
+
+var idleTimeout
+function idled() { idleTimeout = null; }
+
+// A function that update the chart for given boundaries
+function updateChart() {
+
+  extent = d3.event.selection
+  if(!extent){
+    if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); 
+    xStack.domain(d3.extent(data, function(d) { return d.year; }))
+  }else{
+    xStack.domain([ xStack.invert(extent[0]), xStack.invert(extent[1]) ])
+    areaChart.select(".brush").call(brush.move, null) 
+  }
+
+  // Update axis and area
+  xAxisStack.transition().duration(1000).call(d3.axisBottom(xStack).ticks(5))
   areaChart
-    .selectAll("layers")
-    .data(stackedData)
+    .selectAll("path")
+    .transition().duration(1000)
+    .attr("d", area)
+  }
+
+
+
+  // highlight when hovering
+  var highlight = function(d){
+    console.log(d)
+    // reduce opacity of all groups
+    d3.selectAll(".myArea").style("opacity", .1)
+    // expect the one that is hovered
+    d3.select("."+d).style("opacity", 1)
+  }
+
+  // turn off highlight
+  var noHighlight = function(d){
+    d3.selectAll(".myArea").style("opacity", 1)
+  }
+
+
+  // Legend setup
+  var size = 20
+  stackSvg.selectAll("rectLegend")
+    .data(keys)
     .enter()
-    .append("path")
-      .attr("class", function(d) { return "area " + d.key })
-      .style("fill", function(d) { return color(d.key); })
-      .attr("d", area)
-
-  areaChart
-    .append("g")
-      .attr("class", "brush")
-      .call(brush);
-
-  var idleTimeout
-  function idled() { idleTimeout = null; }
-
-  // A function that update the chart for given boundaries
-  function updateChart() {
-
-    extent = d3.event.selection
-    if(!extent){
-      if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); 
-      xStack.domain(d3.extent(data, function(d) { return d.year; }))
-    }else{
-      xStack.domain([ xStack.invert(extent[0]), xStack.invert(extent[1]) ])
-      areaChart.select(".brush").call(brush.move, null) 
-    }
-
-    // Update axis and area
-    xAxisStack.transition().duration(1000).call(d3.axisBottom(xStack).ticks(5))
-    areaChart
-      .selectAll("path")
-      .transition().duration(1000)
-      .attr("d", area)
-    }
+    .append("rect")
+      .attr("x", 400)
+      .attr("y", function(d,i){ return 10 + i*(size+5)}) 
+      .attr("width", size)
+      .attr("height", size)
+      .style("fill", function(d){ return color(d)})
+      .on("mouseover", highlight)
+      .on("mouseleave", noHighlight)
 
 
-
-    // highlight when hovering
-    var highlight = function(d){
-      console.log(d)
-      // reduce opacity of all groups
-      d3.selectAll(".myArea").style("opacity", .1)
-      // expect the one that is hovered
-      d3.select("."+d).style("opacity", 1)
-    }
-
-    // turn off highlight
-    var noHighlight = function(d){
-      d3.selectAll(".myArea").style("opacity", 1)
-    }
-
-
-    // Legend setup
-    var size = 20
-    stackSvg.selectAll("rectLegend")
-      .data(keys)
-      .enter()
-      .append("rect")
-        .attr("x", 400)
-        .attr("y", function(d,i){ return 10 + i*(size+5)}) 
-        .attr("width", size)
-        .attr("height", size)
-        .style("fill", function(d){ return color(d)})
-        .on("mouseover", highlight)
-        .on("mouseleave", noHighlight)
-
-
-    stackSvg.selectAll("rectLegend")
-      .data(keys)
-      .enter()
-      .append("text")
-        .attr("x", 400 + size*1.2)
-        .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) 
-        .style("fill", function(d){ return color(d)})
-        .text(function(d){ return d})
-        .attr("text-anchor", "left")
-        .style("alignment-baseline", "middle")
-        .on("mouseover", highlight)
-        .on("mouseleave", noHighlight)
-
-
-
-
-
+  stackSvg.selectAll("rectLegend")
+    .data(keys)
+    .enter()
+    .append("text")
+      .attr("x", 400 + size*1.2)
+      .attr("y", function(d,i){ return 10 + i*(size+5) + (size/2)}) 
+      .style("fill", function(d){ return color(d)})
+      .text(function(d){ return d})
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
+      .on("mouseover", highlight)
+      .on("mouseleave", noHighlight)
+}
 // second vis
 // barchart to show data
 // append the svg object to the body of the page
+function barDraw( data ){
+
 var barSvg = d3.select("#visualization2")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -223,12 +217,30 @@ barSvg.selectAll("mybar")
   .enter()
   .append("rect")
     .attr("x", function(d) { 
-      console.log(parseInt(d.coal))
+      console.log(d.coal)
       return xBar(d.year); })
     .attr("y", function(d) { return yBar(d.coal); })
     .attr("width", xBar.bandwidth())
     .attr("height", function(d) { return height - yBar(d.coal); })
     .attr("fill", "#69b3a2")
+}
+// set the dimensions and margins of the graph
+var margin = {top: 60, right: 230, bottom: 50, left: 50},
+    width = 660 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+
+
+// Parse the Data, set up keys, color, stacking
+d3.csv("data/generation.csv", function(data) {
+
+
+areaStackDraw(data);
+
+
+barDraw(data);
+
+
 
 })
     
