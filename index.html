@@ -1,39 +1,84 @@
 <!DOCTYPE html>
-<meta charset = 'utf-8'>
+<meta charset='utf-8'>
 
 <script src="http://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-<svg id="viz1" width="500" height="300"
-     viewBox="0 0 500 300"
-     preserveAspectRatio="xMidYMid meet">
-</svg>
+<style>
+    .slider {
+        -webkit-appearance: none;
+        width: 400px;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
 
-<svg id="viz2" width="500" height="300"
-     viewBox="0 0 500 300"
-     preserveAspectRatio="xMidYMid meet">
-</svg>
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: steelblue;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+    .myCircle:hover {
+        stroke: black;
+    }
+</style>
+
+<div id="div1">
+    <h1 id="mapHeader"> </h1>
+</div>
 <p>
-    <label> Year </label>
-    <input type="range" id="yearSlider" min="1990" max="2018" value="2018">
+    <label> 1990 </label>
+    <input type="range" id="yearSlider" class="slider" min="1990" max="2018" step="1" value="2018">
+    <label> 2018 </label>
 </p>
-
+<div id="div2">
+    <h1 id="lineHeader"> </h1>
+</div>
 
 <script>
     // Initialization for Map svg
-    let svgMap = d3.select('#viz1')
-        .call(d3.zoom().on('zoom', function () {svgMap.attr('transform', d3.event.transform)}))
-        widthMap = svgMap.attr('width')
-        heightMap = svgMap.attr('height')
+    let svgMap = d3.select('#div1')
+        .append('svg')
+        .attr('width', 500)
+        .attr('height', 350)
+        // .call(d3.zoom().on('zoom', function () {
+        //     svgMap.attr('transform', d3.event.transform)
+        // }))
+
+    widthMap = svgMap.attr('width')
+    heightMap = svgMap.attr('height')
 
     // Initialization for Line Chart svg
-    let svgLine = d3.select('#viz2')
-        // .call(d3.zoom().on('zoom', function () {svgLine.attr('transform', d3.event.transform)}))
     let marginLine = {top: 10, right: 30, bottom: 30, left: 60},
-        widthLine = svgLine.attr('width') - marginLine.left - marginLine.right,
-        heightLine = svgLine.attr('height') - marginLine.top - marginLine.bottom
-    svgLine.append('g')
+        widthLine = 500 - marginLine.left - marginLine.right,
+        heightLine = 300 - marginLine.top - marginLine.bottom
+
+    let svgLine = d3.select('#div2')
+        .append('svg')
+        .attr('width', widthLine + marginLine.left + marginLine.right)
+        .attr('height', heightLine + marginLine.top + marginLine.bottom)
+        .append('g')
         .attr('transform', 'translate(' + marginLine.left + ',' + marginLine.top + ')')
 
     // Ready data storage
@@ -108,6 +153,7 @@
         'Oklahoma': d3.map(),
         'Oregon': d3.map(),
         'Pennsylvania': d3.map(),
+        'Puerto Rico': d3.map(),
         'Rhode Island': d3.map(),
         'South Carolina': d3.map(),
         'South Dakota': d3.map(),
@@ -116,6 +162,7 @@
         'Utah': d3.map(),
         'Vermont': d3.map(),
         'Virginia': d3.map(),
+        'Virgin Islands':d3.map(),
         'Washington': d3.map(),
         'West Virginia': d3.map(),
         'Wisconsin': d3.map(),
@@ -129,38 +176,59 @@
         .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
         .range(d3.schemeBlues[9])
     let path = d3.geoPath()
-    let projection = d3.geoAlbersUsa().scale(500).translate([widthMap/2, heightMap/2])
+    let projection = d3.geoAlbersUsa().scale(700).translate([widthMap / 2, heightMap / 2])
 
     // Queue up the Line chart data
     d3.queue()
         .defer(d3.csv, 'data.csv', function (d) {
-            stateData[d.Location].set(d.TimeFrame, d.Data)})
+            stateData[d.Location].set(d.TimeFrame, d.Data)
+        })
         .await(readyLineChart)
 
     // Queue up the Map data
     d3.queue()
         .defer(d3.json, 'gz_2010_us_040_00_5m.json')
         .defer(d3.csv, 'data.csv', function (d) {
-            yearlyData[d.TimeFrame].set(d.Location, d.Data)})
+            yearlyData[d.TimeFrame].set(d.Location, d.Data)
+        })
         .await(readyMap)
 
+    let tooltip = d3.select('#div2')
+        .append('div')
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
     function readyLineChart() {
+        document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
+
+        // Debugging stuff
         console.log('Current State: ' + currState)
-        console.log(stateData['Virginia'])
-        svgLine.selectAll('svg > *').remove()
+
+        // Clear space fro drawing new chart
+        svgLine.selectAll('*').remove()
+
         let data = stateData[currState]
         let x = d3.scaleLinear()
-            .domain(d3.extent(data.keys(), function (d) {return d}))
+            .domain(d3.extent(data.keys(), function (d) {
+                return d
+            }))
             .range([0, widthLine])
         svgLine.append('g')
-            .attr('transform', 'translate(40,' + heightLine + ')')
-                .call(d3.axisBottom(x).tickFormat(d3.format('d')))
+            .attr('transform', 'translate(0,' + heightLine + ')')
+            .call(d3.axisBottom(x).tickFormat(d3.format('d')))
 
         let y = d3.scaleLinear()
-            .domain([d3.min(data.keys(), function (d) {return data.get(d)}), d3.max(data.keys(), function (d) {return data.get(d)})])
+            .domain([d3.min(data.keys(), function (d) {
+                return data.get(d)
+            }), d3.max(data.keys(), function (d) {
+                return data.get(d)
+            })])
             .range([heightLine, 0])
         svgLine.append('g')
-            .attr('transform', 'translate(40, 0)')
             .call(d3.axisLeft(y))
 
         svgLine.append('path')
@@ -169,13 +237,50 @@
             .attr("stroke", "steelblue")
             .attr("stroke-width", 2)
             .attr("d", d3.line()
-                .x(function(d) { return x(d.key) })
-                .y(function(d) { return y(d.value) })
+                .x(function (d) {
+                    return x(d.key)
+                })
+                .y(function (d) {
+                    return y(d.value)
+                })
             )
-            .attr('transform', 'translate(40,0)')
+
+
+        let mouseover = function (d) {
+            tooltip.style('opacity', 1)
+        }
+        let mousemove = function (d) {
+            tooltip
+                .html((d.value * 100).toPrecision((3)) + '% of births in ' + d.key)
+                .style("left", (d3.mouse(this)[0] + 70)+ "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+        let mouseleave = function (d) {
+            tooltip.style('opacity', 0)
+        }
+
+        svgLine
+            .append('g')
+            .selectAll('dot')
+            .data(data.entries())
+            .enter()
+            .append('circle')
+            .attr('class', 'myCircle')
+            .attr("cx", function (d) {
+                return x(d.key)
+            })
+            .attr("cy", function (d) {
+                return y(d.value)
+            })
+            .attr("r", 5)
+            .attr("fill", "steelblue")
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseleave', mouseleave)
     }
 
     function readyMap(error, topo) {
+        svgMap.selectAll('*').remove()
         let mouseOver = function (d) {
             currState = d.properties.NAME
             readyLineChart()
@@ -193,7 +298,7 @@
         }
 
         let mouseLeave = function (d) {
-            // toolTip.style('opacity', 0)
+            toolTip.style('opacity', 0)
             d3.selectAll('.State')
                 .transition()
                 .duration(200)
@@ -204,8 +309,9 @@
                 .style('stroke', 'transparent')
         }
 
-        let toolTip = svgMap.append('div')
-            .style("opacity", 1)
+        let toolTip = d3.select('#div1')
+            .append('div')
+            .style("opacity", 0)
             .attr("class", "tooltip")
             .style("background-color", "white")
             .style("border", "solid")
@@ -213,15 +319,16 @@
             .style("border-radius", "5px")
             .style("padding", "5px")
 
-        //TODO: Where's my tool tip
         let mouseMove = function (d) {
             toolTip
-                .html('Non-marital Birthrate for<br>' + d.properties.NAME + ' is ' + d.total * 100 + '%')
+                .html((d.total * 100).toPrecision(3) + '% of births in ' + d.properties.NAME)
                 .style("left", (d3.mouse(this)[0]) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
 
-        function updateMap (currYear) {
+        function updateMap(currYear) {
+            document.getElementById('mapHeader').innerText = 'Non-marital Births in the US in ' + currYear
+
             //TODO: make the slider better and current year labeled
             console.log('Current year is: ' + currYear)
             svgMap.append('g')
@@ -244,12 +351,11 @@
                 .on('mouseleave', mouseLeave)
                 .on('mousemove', mouseMove)
         }
-
         updateMap('2018')
-        d3.select('#yearSlider').on('change', function () {updateMap(this.value)})
+        d3.select('#yearSlider').on('change', function () {
+            updateMap(this.value)
+        })
     }
-
-
 
 
 </script>
