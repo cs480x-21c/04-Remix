@@ -7,14 +7,16 @@
 <div id="visualization2"></div>
 <script>
 
-function mouseLocation(data) {
+// function mouseLocation(data) {
 
-// get mouse location for highlight
-const currentX = d3.mouse(this)[0];
-const year = Math.floor((currentX / 380) * ( 2019-1950) + 1950);
-// console.log( year )
-return year;
-}
+// // get mouse location for highlight
+// const currentX = d3.mouse(this)[0];
+// const year = Math.floor((currentX / 380) * ( 2019-1950) + 1950);
+// // console.log( year )
+// return year;
+// }
+
+var dataSelect = "other";
 
 function areaStackDraw( data ){
 
@@ -46,8 +48,6 @@ var xAxisStack = stackSvg.append("g")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(xStack).ticks(5))
 
-yearVal = stackSvg.on("mousemove", mouseLocation );
-console.log(yearVal)
 // Y axis
 var yStack = d3.scaleLinear()
   .domain([0, 5000])
@@ -138,6 +138,9 @@ function updateChart() {
   // highlight when hovering
   var highlight = function(d){
     console.log(d)
+    dataSelect = d
+    console.log(dataSelect)
+    barDraw(data)
     // reduce opacity of all groups
     d3.selectAll(".myArea").style("opacity", .1)
     // expect the one that is hovered
@@ -182,7 +185,7 @@ function updateChart() {
 // barchart to show data
 // append the svg object to the body of the page
 function barDraw( data ){
-
+document.getElementById("visualization2").innerHTML = "";
 var barSvg = d3.select("#visualization2")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -217,11 +220,12 @@ barSvg.selectAll("mybar")
   .enter()
   .append("rect")
     .attr("x", function(d) { 
-      console.log(d.coal)
+
+      // console.log(d[dataSelect])
       return xBar(d.year); })
-    .attr("y", function(d) { return yBar(d.coal); })
+    .attr("y", function(d) { return yBar(d[dataSelect]); })
     .attr("width", xBar.bandwidth())
-    .attr("height", function(d) { return height - yBar(d.coal); })
+    .attr("height", function(d) { return height - yBar(d[dataSelect]); })
     .attr("fill", "#69b3a2")
 }
 // set the dimensions and margins of the graph
