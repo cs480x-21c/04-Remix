@@ -39,13 +39,14 @@
         background: #4CAF50;
         cursor: pointer;
     }
+
     .myCircle:hover {
         stroke: black;
     }
 </style>
 
 <div id="div1">
-    <h1 id="mapHeader"> </h1>
+    <h1 id="mapHeader"></h1>
 </div>
 <p>
     <label> 1990 </label>
@@ -53,7 +54,7 @@
     <label> 2018 </label>
 </p>
 <div id="div2">
-    <h1 id="lineHeader"> </h1>
+    <h1 id="lineHeader"></h1>
 </div>
 
 <script>
@@ -62,9 +63,9 @@
         .append('svg')
         .attr('width', 500)
         .attr('height', 350)
-        // .call(d3.zoom().on('zoom', function () {
-        //     svgMap.attr('transform', d3.event.transform)
-        // }))
+    // .call(d3.zoom().on('zoom', function () {
+    //     svgMap.attr('transform', d3.event.transform)
+    // }))
 
     widthMap = svgMap.attr('width')
     heightMap = svgMap.attr('height')
@@ -162,7 +163,7 @@
         'Utah': d3.map(),
         'Vermont': d3.map(),
         'Virginia': d3.map(),
-        'Virgin Islands':d3.map(),
+        'Virgin Islands': d3.map(),
         'Washington': d3.map(),
         'West Virginia': d3.map(),
         'Wisconsin': d3.map(),
@@ -202,6 +203,7 @@
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px")
+
     function readyLineChart() {
         document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
 
@@ -252,7 +254,7 @@
         let mousemove = function (d) {
             tooltip
                 .html((d.value * 100).toPrecision((3)) + '% of births in ' + d.key)
-                .style("left", (d3.mouse(this)[0] + 70)+ "px")
+                .style("left", (d3.mouse(this)[0] + 70) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
         let mouseleave = function (d) {
@@ -291,7 +293,7 @@
             .text('Percentage of')
         svgLine.append('text')
             .attr('text-anchor', 'start')
-                .attr('x', 5)
+            .attr('x', 5)
             .attr('y', 25)
             .text('Total Births')
     }
@@ -368,6 +370,33 @@
                 .on('mouseleave', mouseLeave)
                 .on('mousemove', mouseMove)
         }
+
+        svgMap.selectAll('rect')
+            .data(colorScale.range().reverse())
+            .enter()
+            .append('rect')
+            .attr('x', function (d, i) {
+                return widthMap - 80 - (i * 20)
+            })
+            .attr('y', 7)
+            .attr('width', 20)
+            .attr('height', 10)
+            .style('fill', function (d) { return d })
+
+        svgMap.append('text')
+            .attr('text-anchor', 'end')
+            .style('font-size', '12px')
+            .attr('x', widthMap - 225)
+            .attr('y', 17)
+            .text('6%')
+
+        svgMap.append('text')
+            .attr('text-anchor', 'end')
+            .style('font-size', '12px')
+            .attr('x', widthMap - 35)
+            .attr('y', 17)
+            .text('55%')
+
         updateMap('2018')
         d3.select('#yearSlider').on('change', function () {
             updateMap(this.value)
