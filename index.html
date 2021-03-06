@@ -148,13 +148,31 @@ function ready(error,topo) {
           }else{
             return 0.5
           }
-          //console.log(dHere)
         })
-        //.attr("stroke-width","2px")
-        //.transition()
-        //.duration(200)
-        //.attr("fill",'yellow')
-        //.attr('r',15)
+        .attr("stroke-width",function(dHere){
+          if(dHere === d.id){
+            return "2px"
+          }else{
+            return "1px"
+          }
+        })
+        .transition()
+        .duration(200)
+        .attr("fill",function(dHere){
+          if(dHere === d.id){
+            return "yellow"
+          }else{
+            return "green"
+          }
+        })
+        .attr("r",function(dHere){
+          if(dHere === d.id){
+            return 15
+          }else{
+            return 5
+          }
+        })
+
        
       })
       .on("mousemove", function(d){
@@ -171,8 +189,13 @@ function ready(error,topo) {
         .duration(300)
         .style("opacity", 0)
 
-        svg2.selectAll("circle")
-        .attr("opacity",0.5)
+        //svg2.selectAll("circle")
+        //.attr("opacity",0.5)
+        //.attr("stroke-width","1px")
+        //.transition()
+        //.duration(300)
+        //.attr("fill","green")
+        //.attr("r",5)
       
       })
 
@@ -192,6 +215,7 @@ function ready(error,topo) {
     .attr('fill','green')
     .attr('opacity',0.5)
     .attr("stroke","black")
+    .attr("stroke-width","1px")
     .on("mouseover",function(d){
       d3.select(this).attr("opacity",1)
         .attr("stroke-width","2px")
@@ -200,13 +224,29 @@ function ready(error,topo) {
         .attr("fill",'yellow')
         .attr('r',15)
 
-        console.log(d3.select(this).attr('cy'))
+        //console.log(d3.select(this).attr('cy'))
         toolTip.text(dataCountries.get(d))
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 50) + "px")
+        .style("left", (d3.select(this).attr('cx')) + "px")
+        .style("top", (d3.select(this).attr("cy") - 50) + height1 + "px")
         .transition()
         .duration(200)
         .style("opacity", 1)
+      
+        svg1.selectAll("path")
+        .attr("stroke-width",function(dHere){
+          if(dHere.id === d){
+            return "2px"
+          }else{
+            return "1px"
+          }
+        })
+        .attr("opacity",function(dHere){
+          if(dHere.id === d){
+            return 1
+          }else{
+            return 0.75
+          }
+        })
 
     })
     .on("mouseout",function(d){
@@ -221,6 +261,10 @@ function ready(error,topo) {
       .transition()
       .duration(300)
       .style("opacity", 0)
+
+      svg1.selectAll("path")
+      .attr("stroke-width","1px")
+      .attr("opacity",0.75)
 
 
     })

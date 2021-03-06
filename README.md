@@ -66,3 +66,4 @@ Extra Links
 References
 ---
 - https://www.d3-graph-gallery.com/graph/choropleth_basic.html
+- https://observablehq.com/@jyotisunkara/linked-bar-chart-and-scatter-plot
