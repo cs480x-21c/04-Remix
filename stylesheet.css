@@ -17,3 +17,7 @@ body {
 .line{
     fill: none;
 }
+
+div{
+    margin: 20px;
+}

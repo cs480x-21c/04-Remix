@@ -18,52 +18,15 @@
 
 
 function main() {
-
-    //Data storage
-    let dataMen = [];
-    let dataWomen = [];
-    let dataWhite = [];
-    let dataAsian = [];
-    let dataAfricanAmerican = [];
     let selector = "all";
+    let id = "all";
 
 
     //Read CSV Data
     d3.csv("csv/earned.csv").then(function (d) {
-        createDifferentDataArrays(d);
         createScatterPlot(d);
 
-
-        function createDifferentDataArrays(data) {
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].sex === "Men") {
-                    dataMen.push(data[i]);
-                }
-                if (data[i].sex === "Women") {
-                    dataWomen.push(data[i]);
-                }
-                if (data[i].race === "Black or African American") {
-                    dataAfricanAmerican.push(data[i]);
-                }
-                if (data[i].race === "White") {
-                    dataWhite.push(data[i]);
-                }
-                if (data[i].race === "Asian") {
-                    dataAsian.push(data[i]);
-                }
-            }
-        }
-
-
-        // console.log(dataMen);
-        // console.log(dataWomen);
-        // console.log(dataWhite);
-        // console.log(dataAsian);
-        // console.log(dataAfricanAmerican);
-
         function createScatterPlot(data) {
-
-            // TODO: Add a zooming functionality
 
             let timeFormat = d3.timeFormat("%Y");
             let parseTime = d3.timeParse("%Y");
@@ -261,17 +224,16 @@ function main() {
                     });
 
                 function updatePlot(selector){
-                    console.log(selector);
+                    //console.log(selector);
                     //select all circles
                     svg.selectAll("circle")
                         .style("opacity", function (d) {
-                            console.log("Test");
                             return setOpacity(d, selector)});
                     //remove ones that don't have selector
                 }
 
                 document.getElementById("reset").addEventListener("click", function(d){
-                    selector = "all"
+                    selector = "all";
                     updatePlot(selector);
                 })
             }
@@ -339,7 +301,7 @@ function main() {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("id", "scatterdots")
+        .attr("id", "linegraph")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
@@ -376,6 +338,7 @@ function main() {
         // Add the valueline path.
         svg.append("path")
             .data([data])
+            .attr("id", "menline")
             .attr("class", "line")
             .attr("stroke", "#45b6fe")
             .attr("d", valueline);
@@ -383,14 +346,16 @@ function main() {
         // Add the valueline2 path.
         svg.append("path")
             .data([data])
+            .attr("id", "womenline")
             .attr("class", "line")
-            .style("stroke", "#e75480")
+            .attr("stroke", "#e75480")
             .attr("d", valueline2);
 
         svg.append("path")
             .data([data])
+            .attr("id", "bothsexesline")
             .attr("class", "line")
-            .style("stroke", "#6a0dad")
+            .attr("stroke", "#6a0dad")
             .attr("d", valueline3);
 
         // Add the X Axis
@@ -402,6 +367,21 @@ function main() {
         svg.append("g")
             .call(d3.axisLeft(y));
 
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', height + 30)
+            .attr('text-anchor', 'end')
+            .attr('class', 'label')
+            .text('Year');
+
+        svg.append('text')
+            .attr('x', -100)
+            .attr('y', 60)
+            .attr('text-anchor', 'end')
+            .attr('transform', "translate(-100,60)rotate(270)")
+            .attr('class', 'label')
+            .text('Median Weekly Earnings');
+
         addLegend()
         function addLegend(){
             //Men
@@ -410,41 +390,101 @@ function main() {
                 .attr("cy", 15)
                 .attr("r", 8)
                 .attr("fill", "#45b6fe")
-                .style("opacity", 0.5);
+                .style("opacity", 0.5)
+                .on("click", function(d){
+                    id = "Men";
+                    setFocus(id);
+                });
+
             svg.append("text")
                 .attr("x", 30)
                 .attr("y", 21)
                 .attr("stroke", "#0000")
-                .text("Men");
+                .text("Men")
+                .on("click", function(d){
+                    id = "Men";
+                    setFocus(id);
+                });
+
             //Women
             svg.append("circle")
                 .attr("cx", 15)
                 .attr("cy", 40)
                 .attr("r", 8)
                 .attr("fill", "#e75480")
-                .style("opacity", 0.5);
-
+                .style("opacity", 0.5)
+                .on("click", function(d){
+                    id = "Women";
+                    setFocus(id);
+                });
 
             svg.append("text")
                 .attr("x", 30)
                 .attr("y", 46)
                 .attr("stroke", "#0000")
-                .text("Women");
+                .text("Women")
+                .on("click", function(d){
+                    id = "Women";
+                    setFocus(id);
+                });
+
             //Both Sexes
             svg.append("circle")
                 .attr("cx", 15)
                 .attr("cy", 65)
                 .attr("r", 8)
                 .attr("fill", "#6a0dad")
-                .style("opacity", 0.5);
+                .style("opacity", 0.5)
+                .on("click", function(d){
+                    id = "Both Sexes";
+                    setFocus(id);
+                });
 
             svg.append("text")
                 .attr("x", 30)
                 .attr("y", 70)
                 .attr("stroke", "#0000")
-                .text("Both Sexes");
+                .text("Both Sexes")
+                .on("click", function(d){
+                    id = "Both Sexes";
+                    setFocus(id);
+                });
 
         }
+
+        function setFocus(id){
+            let lineMen = document.getElementById("menline");
+            let lineWomen = document.getElementById("womenline");
+            let lineBoth = document.getElementById("bothsexesline");
+
+            if(id === "Men"){
+                lineMen.setAttribute("stroke", "#45b6fe");
+                lineWomen.setAttribute("stroke", "gray");
+                lineBoth.setAttribute("stroke", "gray");
+            }
+            if(id === "Women"){
+                lineMen.setAttribute("stroke", "gray");
+                lineWomen.setAttribute("stroke", "#e75480");
+                lineBoth.setAttribute("stroke", "gray");
+            }
+            if(id === "Both Sexes"){
+                lineMen.setAttribute("stroke", "gray");
+                lineWomen.setAttribute("stroke", "gray");
+                lineBoth.setAttribute("stroke", "#6a0dad");
+            }
+            if(id === "all"){
+                lineMen.setAttribute("stroke", "#45b6fe");
+                lineWomen.setAttribute("stroke", "#e75480");
+                lineBoth.setAttribute("stroke", "#6a0dad");
+            }
+
+        }
+
+        document.getElementById("reset").addEventListener("click", function(d){
+            id = "all";
+            setFocus(id);
+        })
+
 
 
 
