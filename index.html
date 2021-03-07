@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <title>Assignment 4 - Remix</title>
+    </head>
+    <body>
+        <div id="charts">
+            <div id="teamCompare"></div>
+            <div id="teamInspect"></div>
+        </div>
+        <div id="teamSelector"></div>
+        <script>
+            d3.select("#charts")
+                .style("display","flex")
+                .style("width", "100vw")
+                .style("height", "70vh");
+            var comparisons = d3.select("#teamCompare")
+                .style("width","50vw")
+                .style("height","70vh");
+            var inspections = d3.select("#teamInspect")
+                .style("width","50vw")
+                .style("height","70vh")
+                .style("background-color","blue");
+            var selections = d3.select("#teamSelector")
+                .style("width", "100vw")
+                .style("height","30vh")
+                .style("background-color","green");
+            var divHeights = document.getElementById('teamCompare').clientHeight;
+            var divWidths = document.getElementById('teamCompare').clientWidth;
+            var chartMargins = {top: 30, right: 50, bottom: 10, left: 50};
+            var chartWidths = (divWidths/2) - chartMargins.left - chartMargins.right;
+            var chartHeights = (divHeights/2) - chartMargins.top - chartMargins.bottom;
+            
+            // Building team comparisons parallel coordinate graph
+            // Axes: Expected Goals from team, actual goals from team, expected goals against team, actual goals against team    
+            var comparisonssvg = d3.select("#teamCompare").append("svg")
+                .attr("width", chartWidths + chartMargins.left + chartMargins.right)
+                .attr("height", chartHeights + chartMargins.top + chartMargins.bottom)
+                .append("g")
+                .attr("transform", "translate(" + chartMargins.left + "," + chartMargins.top + ")");
+            // builds y axes, storing each dimension in a linear scale 
+            dimensions = ["xGF", "GF", "xGA", "GA"];
+            var y = {};
+            for(i in dimensions){
+                name = dimensions[i]
+                y[name] = d3.scaleLinear()
+                    .domain([20,80])
+                    .range([chartHeights, 0])
+            }
+            console.log(y)
+            // builds x scale -> finding best position for each y axis
+            x = d3.scalePoint()
+                .range([0,chartWidths])
+                .domain(dimensions);
+
+            // Drawing chart axes
+            comparisonssvg.selectAll("teamAxis")
+                .data(dimensions)
+                .enter()
+                .append("g")
+                .attr("class", "axis")
+                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                .each(function(d) {d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));})
+                .append("text")
+                    .style("text-anchor", "middle")
+                    .attr("y", -9)
+                    .text(function(d) {return d;})
+                    .style("fill", "black");
+            // Parsing csv of NHL team data
+            d3.csv("teamdata.csv", function(data){
+                // builds paths by row in the csv based on attribute name and reference in y
+                function path(d){
+                    return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+                }
+                // Drawing data on chart
+                comparisonssvg.selectAll("teamPaths")
+                    .data(data)
+                    .enter()
+                    .append("path")
+                        .attr("class", function(d) {return "line " + d.Team})
+                        .attr("d", path)
+                        .style("fill", "none")
+                        // .style("stroke", function(d){ return( color(d.Team))})
+                        .style("stroke", "black")
+                        .style("opacity", 0.5)                    
+            })
+        </script>
+    </body>
+</html>
