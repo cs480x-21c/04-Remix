@@ -1,7 +1,7 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-[gh pages link here]
+https://mollywirtz.github.io/04-Remix/index.html
 
 Remix
 ---
