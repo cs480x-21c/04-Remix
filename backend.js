@@ -1,21 +1,4 @@
-//VIS DESC//
-
-//Scatterplot that shows all data
-//bottom has list of economic events
-
-//Option to select Male, Female
-//Option to switch to barchart view + piechart view
-
-// One barchart that shows Men from 2010-2020 median weekly income by race (y-axis)
-// Horizontal barchart
-// Linked barchart that takes this vis and converts to piechart
-// piechart has age group and median income for men
-
-// One barchart that shows Women from 2010-2020 median weekly income by race (y-axis)
-// Horizontal barchart
-// Linked barchart that takes this vis and converts to piechart
-// piechart has age group and median income for women
-
+// TODO: Add interactivity between vis
 
 function main() {
     let selector = "all";
