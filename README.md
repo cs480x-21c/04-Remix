@@ -1,7 +1,11 @@
 https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/gp9ignx/
+
 https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/
+
 https://github.com/berthubert/bnt162b2
 
+
+https://romanwicky.github.io/04-Remix/index.html
 
 
 
