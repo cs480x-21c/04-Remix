@@ -252,19 +252,36 @@
 
         function updateBarChart(filteredBarData, newDomain) {
 
-            d3.selectAll('#barContent').remove();
+            d3.selectAll('.barContent').remove();
             d3.selectAll('#initTxt').remove();
+
+            var barIdCounter = 0
+
+            var sortedData = filteredBarData.slice().sort((a,b) => d3.ascending(a[2], b[2]));
             
             barX = d3.scaleBand()
-                .domain(d3.range(filteredBarData.length))
+                .domain(sortedData)
                 .range([0, barWidth])
 
+            sortedData.forEach(data => {
+                barIdCounter = barIdCounter + 1
+                data.push(barIdCounter.toString())
+            })
+
+            barX.domain(sortedData.map(function(d) {
+                return d[3];
+            }))
+
+            console.log(sortedData)
+
             barSvg.selectAll("bar")
-                .data(filteredBarData)
+                .data(sortedData)
                 .enter()
                 .append("rect")
-                .attr("id", "barContent")
-                .attr("x", function (d) { return barX(d[0]) })
+                .attr("class", "barContent")
+                .attr("id", function (d) { return d[3] })
+                // .attr("x", function (d) { return barX(d[0]) })
+                .attr("x", function (d) { return barX(d[3]) })
                 .attr("y", function (d) { return barY(d[1]) })
                 .attr("width", barX.bandwidth())
                 .attr("height", function(d) { return barHeight - barY(d[1]) })
@@ -273,7 +290,7 @@
                 .style("stroke", "black")
                 .style("stroke-width", 0.5)
 
-            previousData = filteredBarData
+            previousData = sortedData
 
         }        
     </script>
