@@ -41,9 +41,11 @@
             </p>
             <br/>
             <p>
-                On the brush zoom, the linked view also updates with the same data points in the form
-                of a bar graph. This makes it easier to visualize the y-values of each data point, while 
-                the x-value is still shown using the color of the bar. 
+                For the linked view I chose to use a bar graph to better visualize the y-values 
+                of the brushed data. On the double-click of the brushed data, the second view 
+                updates to show that selected data in bar form. The added y-axis in combination 
+                with the bars make visualizing the y-values easier, while the color scale continues 
+                to indicate the x-value of each data point. 
             </p>
         </div>
         <div id="remix_vis" class="vis"></div>
@@ -67,7 +69,6 @@
         // Append SVG
         var remixSvg = d3.select("#remix_vis")
             .append("svg")
-            // .attr("viewBox", [0, 0, remixWidth, remixHeight])
                 .attr("width", remixWidth + remixMargin.left + remixMargin.right)
                 .attr("height", remixHeight + remixMargin.top + remixMargin.bottom)
             .append("g")
@@ -98,8 +99,6 @@
         var remixXAxis = remixSvg.append("g")
             .attr("transform", "translate(0," + remixHeight + ")")
             .call(d3.axisBottom(remixX));
-            // .attr("transform", `translate(0,${remixHeight - remixMargin.bottom})`)
-            // .call(d3.axisBottom(x))
 
         var remixY = d3.scaleLinear()
             .domain([0, 1])
@@ -113,12 +112,12 @@
             .attr("width", remixWidth )
             .attr("height", remixHeight )
             .attr("x", 0)
-            .attr("y", 0)
+            .attr("y", 0);
         
 
         // Add brush
         var remixBrush = d3.brushX()                 
-            .extent( [ [0,0], [remixWidth, remixHeight] ] ) 
+            .extent( [ [0,0], [remixWidth, remixHeight] ] ) ;
 
 
         // Create the scatter variable: where both the circles and the brush take place
@@ -163,12 +162,12 @@
                 remixScatter.select(".brush").call(remixBrush.move, null) // This remove the grey brush area as soon as the selection has been done
             }
             // Update axis and circle position
-            remixXAxis.transition().duration(1000).call(d3.axisBottom(remixX))
+            remixXAxis.transition().duration(1000).call(d3.axisBottom(remixX));
             remixScatter
                 .selectAll("circle")
                 .transition().duration(1000)
                 .attr("cx", function (d) { return remixX(d.x); } )
-                .attr("cy", function (d) { return remixY(d.y); } )
+                .attr("cy", function (d) { return remixY(d.y); } );
 
             if (zoomed) zoomed = false;
             else zoomed = true;  
@@ -187,8 +186,8 @@
                             d3.select(this).attr("fill")
                         ])
                     }
-                })
-                updateBarChart(filteredBarData, remixX.domain())
+                });
+                updateBarChart(filteredBarData, remixX.domain());
             }             
         }
 
@@ -221,33 +220,33 @@
             .attr("width", barWidth + barMargin.right + barMargin.left)
             .attr("height", barHeight + barMargin.top + barMargin.bottom)
             .append("g")
-            .attr("transform", "translate(" + barMargin.left + ", " + barMargin.top +")")
+            .attr("transform", "translate(" + barMargin.left + ", " + barMargin.top +")");
 
         barSvg.append("rect")
             .attr("width", barWidth)
             .attr("height", barHeight)
             .attr("fill", "#fff")
-            .attr("id", "graphSpace")
+            .attr("id", "graphSpace");
 
-        var barY = d3.scaleLinear().domain([0, 1]).range([barHeight, 0])
+        var barY = d3.scaleLinear().domain([0, 1]).range([barHeight, 0]);
         
         barSvg.append("g")
-            .call(d3.axisLeft(barY).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1]))
+            .call(d3.axisLeft(barY).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1]));
 
         var barX = d3.scaleBand()
             .domain(d3.range(1))
-            .range([0, barWidth])
+            .range([0, barWidth]);
 
         var barXAxis = barSvg.append("g")
             .attr("transform", "translate(0, "+ barHeight + ")")
-            .call(d3.axisBottom(barX).tickFormat("").tickSize(0))
+            .call(d3.axisBottom(barX).tickFormat("").tickSize(0));
 
         var initTxt = barSvg.append("text")
             .text("Double click the brush above!")
             .attr("id", "initTxt")
             .attr("x", "25%")
             .attr("y", "30%")
-            .attr("font-family", "'Poppins', sans-serif")
+            .attr("font-family", "'Poppins', sans-serif");
 
 
         function updateBarChart(filteredBarData, newDomain) {
@@ -261,18 +260,16 @@
             
             barX = d3.scaleBand()
                 .domain(sortedData)
-                .range([0, barWidth])
+                .range([0, barWidth]);
 
             sortedData.forEach(data => {
                 barIdCounter = barIdCounter + 1
                 data.push(barIdCounter.toString())
-            })
+            });
 
             barX.domain(sortedData.map(function(d) {
                 return d[3];
-            }))
-
-            console.log(sortedData)
+            }));
 
             barSvg.selectAll("bar")
                 .data(sortedData)
@@ -280,7 +277,6 @@
                 .append("rect")
                 .attr("class", "barContent")
                 .attr("id", function (d) { return d[3] })
-                // .attr("x", function (d) { return barX(d[0]) })
                 .attr("x", function (d) { return barX(d[3]) })
                 .attr("y", function (d) { return barY(d[1]) })
                 .attr("width", barX.bandwidth())
@@ -288,9 +284,9 @@
                 .attr("rx", 1)
                 .style("fill", function (d) { return d[2] })
                 .style("stroke", "black")
-                .style("stroke-width", 0.5)
+                .style("stroke-width", 0.5);
 
-            previousData = sortedData
+            previousData = sortedData;
 
         }        
     </script>

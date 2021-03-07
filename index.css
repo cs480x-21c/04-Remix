@@ -21,9 +21,13 @@ p {
 }
 
 .vis {
-    width: 70%;
+    width: 80%;
     margin: 0 auto; 
-    margin-top: 50px;
+    margin-top: 30px;
+}
+
+#bar_vis {
+    margin-top: 0;
 }
 
 #og_vis {
