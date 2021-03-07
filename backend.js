@@ -353,7 +353,7 @@ function main() {
             d.both_sexes = +d.both_sexes;
         });
 
-        console.log(data);
+        //console.log(data);
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
 
@@ -401,6 +401,52 @@ function main() {
         // Add the Y Axis
         svg.append("g")
             .call(d3.axisLeft(y));
+
+        addLegend()
+        function addLegend(){
+            //Men
+            svg.append("circle")
+                .attr("cx", 15)
+                .attr("cy", 15)
+                .attr("r", 8)
+                .attr("fill", "#45b6fe")
+                .style("opacity", 0.5);
+            svg.append("text")
+                .attr("x", 30)
+                .attr("y", 21)
+                .attr("stroke", "#0000")
+                .text("Men");
+            //Women
+            svg.append("circle")
+                .attr("cx", 15)
+                .attr("cy", 40)
+                .attr("r", 8)
+                .attr("fill", "#e75480")
+                .style("opacity", 0.5);
+
+
+            svg.append("text")
+                .attr("x", 30)
+                .attr("y", 46)
+                .attr("stroke", "#0000")
+                .text("Women");
+            //Both Sexes
+            svg.append("circle")
+                .attr("cx", 15)
+                .attr("cy", 65)
+                .attr("r", 8)
+                .attr("fill", "#6a0dad")
+                .style("opacity", 0.5);
+
+            svg.append("text")
+                .attr("x", 30)
+                .attr("y", 70)
+                .attr("stroke", "#0000")
+                .text("Both Sexes");
+
+        }
+
+
 
 
 
