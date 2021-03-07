@@ -25,6 +25,8 @@ function main() {
     let dataWhite = [];
     let dataAsian = [];
     let dataAfricanAmerican = [];
+    let selector = "all";
+
 
     //Read CSV Data
     d3.csv("csv/earned.csv").then(function (d) {
@@ -61,6 +63,8 @@ function main() {
 
         function createScatterPlot(data) {
 
+            // TODO: Add a zooming functionality
+
             let timeFormat = d3.timeFormat("%Y");
             let parseTime = d3.timeParse("%Y");
 
@@ -75,13 +79,15 @@ function main() {
                 height = 600 - margin.top - margin.bottom;
 
             // append the svg object to the body of the page
-            let svg = d3.select("#my_dataviz")
+            let svg = d3.select("#scatterplot")
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
+                .attr("id", "scatterdots")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
+
 
             // Add X axis
             let x = d3.scaleTime()
@@ -120,22 +126,22 @@ function main() {
                     return y(d.median_weekly_earn);
                 })
                 .attr("r", 2.5)
-                .style("opacity", 0.5)
+                .style("opacity", function(d){
+                    return setOpacity(d, selector);
+                })
                 .style("fill", function (d) {
                     return setColor(d);
                 })
                 .on('mouseover', function (d) {
                     d3.select(this).transition()
                         .duration('50')
-                        .attr('r', '10')
-                        .style("opacity", 1.0);
+                        .attr('r', '10');
 
                 })
                 .on('mouseout', function (d) {
                     d3.select(this).transition()
                         .duration('50')
-                        .attr('r', '2.5')
-                        .style("opacity", 0.5);
+                        .attr('r', '2.5');
                 })
 
 
@@ -180,32 +186,95 @@ function main() {
                 .attr('y1', d => 0)
                 .attr('y2', d => height);
 
-            // TODO: Fix this
 
-            let ordinal = d3.scaleOrdinal()
-                .domain(["Men", "Women", "Both Sexes"])
-                .range(["#45b6fe", "#e75480", "#6a0dad"]);
+            //drawLegend()
+            // draw circles
+            // draw text
+            // add click event "onclick"
+            addLegend()
+            function addLegend(){
+                //Men
+                svg.append("circle")
+                    .attr("cx", 15)
+                    .attr("cy", 15)
+                    .attr("r", 8)
+                    .attr("fill", "#45b6fe")
+                    .style("opacity", 0.5)
+                    .on("click", function(d){
+                        selector = "Men"
+                        updatePlot(selector);
 
-            svg.append("g")
-                .attr("class", "legendOrdinal")
-                .attr("transform", "translate(20,20)");
+                    });
+                svg.append("text")
+                    .attr("x", 30)
+                    .attr("y", 21)
+                    .attr("stroke", "#0000")
+                    .text("Men")
+                    .on("click", function(d){
+                        selector = d3.select(this).text();
+                        updatePlot(selector);
 
-            let legendOrdinal = d3.legendColor()
-                .shape("path", d3.symbol().type(d3.symbolCircle).size(100)())
-                .shapePadding(10)
-                .scale(ordinal);
+                    });
+                //Women
+                svg.append("circle")
+                    .attr("cx", 15)
+                    .attr("cy", 40)
+                    .attr("r", 8)
+                    .attr("fill", "#e75480")
+                    .style("opacity", 0.5)
+                    .on("click", function(d){
+                        selector = "Women"
+                        updatePlot(selector);
 
-            svg.select(".legendOrdinal")
-                .call(legendOrdinal)
-                .on("click", function (d) {
-                    //select all the dots who have the same Sex as the legend one clicked
+                    });
+                svg.append("text")
+                    .attr("x", 30)
+                    .attr("y", 46)
+                    .attr("stroke", "#0000")
+                    .text("Women")
+                    .on("click", function(d){
+                        selector = d3.select(this).text();
+                        updatePlot(selector);
 
-                    //Check if opacity is already 0
+                    });
+                //Both Sexes
+                svg.append("circle")
+                    .attr("cx", 15)
+                    .attr("cy", 65)
+                    .attr("r", 8)
+                    .attr("fill", "#6a0dad")
+                    .style("opacity", 0.5)
+                    .on("click", function(d){
+                        selector = "Both Sexes"
+                        updatePlot(selector);
 
-                    //Set to either 0 opacity or .5
-                    //d3.selectAll("." + d.name).transition().style("opacity", currentOpacity == .5 ? 0:.5)
+                    });
+                svg.append("text")
+                    .attr("x", 30)
+                    .attr("y", 70)
+                    .attr("stroke", "#0000")
+                    .text("Both Sexes")
+                    .on("click", function(d){
+                        selector = d3.select(this).text();
+                        updatePlot(selector);
 
+                    });
+
+                function updatePlot(selector){
+                    console.log(selector);
+                    //select all circles
+                    svg.selectAll("circle")
+                        .style("opacity", function (d) {
+                            console.log("Test");
+                            return setOpacity(d, selector)});
+                    //remove ones that don't have selector
+                }
+
+                document.getElementById("reset").addEventListener("click", function(d){
+                    selector = "all"
+                    updatePlot(selector);
                 })
+            }
 
 
         }
@@ -223,33 +292,118 @@ function main() {
 
             }
         }
+
+        function setOpacity(d, selector){
+            //console.log(selector);
+            if(selector === "all"){
+                return 0.5;
+            }
+            else if(selector === "Men"){
+                if(d.sex === "Men"){
+                    return 0.5;
+                }
+                if(d.sex === "Women" || d.sex === "Both Sexes"){
+                    return 0.0;
+                }
+            }
+            else if(selector === "Women"){
+                if(d.sex === "Women"){
+                    return 0.5;
+                }
+                if(d.sex === "Men" || d.sex === "Both Sexes"){
+                    return 0.0;
+                }
+            }
+            else if(selector === "Both Sexes"){
+                if(d.sex === "Both Sexes"){
+                    return 0.5;
+                }
+                if(d.sex === "Men" || d.sex === "Women"){
+                    return 0.0;
+                }
+            }
+        }
     });
 
-    document.getElementById("switcher").addEventListener("click", onClick => {
-        d3.select("svg").remove();
-        createBarGraph();
-    });
+    //implement line graph
+    //Clicking on the legend will filter which line graphs to show
+    //Clicking Reset resets both views
 
-    function createBarGraph(){
+    let margin = {top: 10, right: 30, bottom: 30, left: 60},
+        width = 720 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
 
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 720 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
+    // append the svg object to the body of the page
+    let svg = d3.select("#linegraph")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("id", "scatterdots")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
-        // append the svg object to the body of the page
-        var svg = d3.select("#my_dataviz")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
+    d3.csv("csv/earnedtopbyyear.csv").then(function(data){
+        let parseTime = d3.timeParse("%Y");
 
-        d3.csv("csv/earnedtopbyyear.csv").then( function (data){
-
-
+        data.forEach(function (d) {
+            d.year = parseTime(d.year);
+            d.men = +d.men;
+            d.women = +d.women;
+            d.both_sexes = +d.both_sexes;
         });
 
-    }
+        console.log(data);
+        let x = d3.scaleTime().range([0, width]);
+        let y = d3.scaleLinear().range([height, 0]);
+
+        let  valueline = d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(d.men); });
+
+        let valueline2 = d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(d.women); });
+
+        let valueline3 = d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(d.both_sexes); });
+
+        // Scale the range of the data
+        x.domain(d3.extent(data, function(d) { return d.year; }));
+        y.domain([200, 1800]);
+
+        // Add the valueline path.
+        svg.append("path")
+            .data([data])
+            .attr("class", "line")
+            .attr("stroke", "#45b6fe")
+            .attr("d", valueline);
+
+        // Add the valueline2 path.
+        svg.append("path")
+            .data([data])
+            .attr("class", "line")
+            .style("stroke", "#e75480")
+            .attr("d", valueline2);
+
+        svg.append("path")
+            .data([data])
+            .attr("class", "line")
+            .style("stroke", "#6a0dad")
+            .attr("d", valueline3);
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // Add the Y Axis
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+
+
+    })
 
 }
