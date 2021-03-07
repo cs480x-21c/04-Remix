@@ -6,6 +6,9 @@
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 <style>
+    .tooltip {
+        position: absolute;
+    }
     .slider {
         -webkit-appearance: none;
         width: 400px;
@@ -192,7 +195,13 @@
         })
         .await(readyMap)
 
-    let tooltip = d3.select('#div2')
+    let tooltip = svgLine
+        // .append('rect')
+        //     .attr('background-color', 'white')
+        //     .attr('stroke-width', '1px')
+        //     .attr('stroke', 'black')
+        //     .style('border-radius', '5px')
+
         .append('div')
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -200,7 +209,7 @@
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px")
+        .style("padding", '5px')
 
     function readyLineChart() {
         document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
@@ -327,9 +336,9 @@
                 .style('stroke', 'transparent')
         }
 
-        let toolTip = d3.select('#div1')
+        let toolTip = svgMap
             .append('div')
-            .style("opacity", 0)
+            .style("opacity", 1)
             .attr("class", "tooltip")
             .style("background-color", "white")
             .style("border", "solid")
@@ -347,7 +356,6 @@
         function updateMap(currYear) {
             document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
 
-            //TODO: make the slider better and current year labeled
             console.log('Current year is: ' + currYear)
             svgMap.append('g')
                 .selectAll('path')
