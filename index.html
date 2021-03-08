@@ -56,19 +56,13 @@ var x = d3.scaleLinear()
     .domain([0, 247])        
     .range([margin.left, width2 - margin.right]);      
 
-svg2
-  .append("g")
-  .attr("transform", "translate(0,"+ (height2 - margin.bottom) +")")     
-  .call(d3.axisBottom().scale(x).ticks(0));
+
 
 var y = d3.scaleLinear()
   .domain([0, 1500000000])       
   .range([height2 - margin.bottom , margin.top]);      
 
-svg2
-.append("g")
-.attr("transform", "translate("+ margin.left+","+ 0 +")")     
-.call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
+
 
 svg2.append("text")
         .attr("transform",
@@ -288,6 +282,27 @@ function ready(error,topo) {
 
 
     })
+
+    console.log(data.keys())
+
+    svg2
+  .append("g")
+  .attr("transform", "translate(0,"+ (height2 - margin.bottom) +")")     
+  .call(d3.axisBottom().scale(x).ticks(0))
+  //.tickFormat(function(d,i){
+    //return data.keys()[i]
+  //}))
+  //.selectAll("text")	
+  //.style("text-anchor", "end")
+  //.attr("dx", "-.8em")
+  //.attr("dy", ".15em")
+  //.attr("transform", "rotate(-90)");
+  
+
+  svg2
+.append("g")
+.attr("transform", "translate("+ margin.left+","+ 0 +")")     
+.call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
     
 
       
