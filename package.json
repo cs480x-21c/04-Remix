@@ -1,0 +1,8 @@
+{
+  "name": "04-Remix",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "d3-composite-projections": "^1.4.0"
+  }
+}
