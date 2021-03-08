@@ -3,10 +3,8 @@ Assignment 4 - DataVis Remix + Multiple Views
 
 REMIX
 ---
-
-- Critique: 
-
-Original visualization: ![origVis](img/origVis.JPG)
+Original visualization: 
+![origVis](img/origVis.JPG)
 
 - Redesign: Redesign some aspect of it, using better task abstractions, encodings, etc. Implement your redesign
 
