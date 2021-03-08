@@ -72,7 +72,7 @@
     heightMap = svgMap.attr('height')
 
     // Initialization for Line Chart svg
-    let marginLine = {top: 10, right: 30, bottom: 30, left: 20},
+    let marginLine = {top: 10, right: 30, bottom: 30, left: 30},
         widthLine = 500 - marginLine.left - marginLine.right,
         heightLine = 300 - marginLine.top - marginLine.bottom
 
@@ -174,9 +174,18 @@
     let currState = 'the United States'
 
     // Ready everything for drawing a map
+    // const bins = [.06, .12, .18, .24, .3, .36, .42, .48, .54]
+    const bins = [.05, .10, .15, .20, .25, .30, .35, .40, .45, .50, .55]
+    const numBins = bins.length
+    const interpolatedColors = []
+    for (let i = 0; i < numBins; i++) {
+        interpolatedColors.push(d3.interpolateBlues(i/numBins))
+    }
+
     let colorScale = d3.scaleThreshold()
-        .domain([.06, .12, .18, .24, .3, .36, .42, .48, .54])
-        .range(d3.schemeBlues[9])
+        .domain(bins)
+        .range(interpolatedColors)
+
     let path = d3.geoPath()
     let projection = d3.geoAlbersUsa().scale(700).translate([widthMap / 2, heightMap / 2])
 
@@ -209,7 +218,7 @@
         document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
 
         // Debugging stuff
-        console.log('Current State: ' + currState)
+        // console.log('Current State: ' + currState)
 
         // Clear space fro drawing new chart
         svgLine.selectAll('*').remove()
@@ -350,7 +359,7 @@
         function updateMap(currYear) {
             document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
 
-            console.log('Current year is: ' + currYear)
+            // console.log('Current year is: ' + currYear)
             svgMap.append('g')
                 .selectAll('path')
                 .data(topo.features)
@@ -377,26 +386,22 @@
             .enter()
             .append('rect')
             .attr('x', function (d, i) {
-                return widthMap - 80 - (i * 20)
+                return widthMap - 80 - (i * 30)
             })
-            .attr('y', 7)
-            .attr('width', 20)
+            .attr('y', 20)
+            .attr('width', 30)
             .attr('height', 10)
             .style('fill', function (d) { return d })
 
-        svgMap.append('text')
-            .attr('text-anchor', 'end')
+        svgMap.selectAll('text')
+            .data(colorScale.domain().reverse())
+            .enter()
+            .append('text')
+            .attr('text-anchor', 'start')
             .style('font-size', '12px')
-            .attr('x', widthMap - 225)
-            .attr('y', 17)
-            .text('6%')
-
-        svgMap.append('text')
-            .attr('text-anchor', 'end')
-            .style('font-size', '12px')
-            .attr('x', widthMap - 35)
-            .attr('y', 17)
-            .text('55%')
+            .attr('x', function (d, i) {return widthMap - (30 * i) - 55})
+            .attr('y', 15)
+            .text(function (d) {return ((d * 100) >= 10 ? (d * 100).toPrecision(2) : (d * 100).toPrecision(1)) + '%'})
 
         updateMap('2018')
         d3.select('#yearSlider').on('change', function () {
