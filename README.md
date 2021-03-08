@@ -11,11 +11,11 @@ I wanted to remix a UMAP visualization that I created in ggplot.
 
 One thing that I don't like about this vis is the color. I find ggplot's default colors difficult to differentiate after 10 clusters. Some of the clusters are difficult to tell the difference between. This plot had 22 clusters that required different colors. I used colorgorical to generate a 22-element color palette with the highest perceptual difference possible.
 
-![plot1]("photos:nohover.png")
+![plot1](photos:nohover.png)
 
 I also wanted to add an element where you can clearly see information about the expression data driving the embedding. UMAPs are very interesting and create clusters based on expression profile, but you cannot glean any specific infomration about that profile from the plot itself.
 
-![plot2]("photos:exhover.png")
+![plot2](photos:exhover.png)
 
 I added to the UMAP plot a bar chart that takes the average of expression profiles for marker genes associated with a particular cell type. On hover over a point, the average expression profile for that cell's cluster is displayed on the bar chart. The above image shows a hover over a cell that appears to be an excitatory neuron cluster.
 
