@@ -2,10 +2,10 @@
     var width = 600
     var height = 700
 
-    var margin = { top: 50, right: 30, bottom: 50, left: 100 }
+    var margin = { top: 100, right: 100, bottom: 100, left: 100 }
 
 
-    var svg = d3.select("#scatterPlot")
+    var svg2 = d3.select("#scatterPlot")
     .append('svg')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -94,7 +94,7 @@
     //         .attr('dy','.71em')
     //         .style('text-anchor','end')
     //         .text('Annualized Return')
-      });
+      //});
 
 
 
