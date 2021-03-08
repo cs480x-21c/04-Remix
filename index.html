@@ -70,6 +70,26 @@ svg2
 .attr("transform", "translate("+ margin.left+","+ 0 +")")     
 .call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
 
+svg2.append("text")
+        .attr("transform",
+        "translate(" + (width2/2)+","+
+                (height2 - (margin.bottom/2)) + ")")
+        .style("text-anchor","middle")
+        .text("Countries")
+
+svg2.append("text")
+        .attr("y",height2/2 + 10)
+        .attr("x",-12)
+        .attr("transform",function(d){  
+           return "rotate(-90,-12,235)"
+        })
+        //.attr("transform",
+        //"translate(" + (margin.left - 25)+","+
+        //(height2/2) + ")")
+        .style("text-anchor","middle")
+        .text("Population")
+ 
+
 
 // Map and projection
 var path = d3.geoPath();
