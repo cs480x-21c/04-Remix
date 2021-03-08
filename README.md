@@ -1,6 +1,8 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
+Link for the visualization and linked views: https://suryanshg.github.io/04-Remix/
+
 REMIX
 ---
 Original visualization: 
