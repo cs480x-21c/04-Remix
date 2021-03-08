@@ -47,6 +47,10 @@
     fill: steelblue;
   }
 
+  .select.bar {
+    fill: rgb(81, 207, 22);
+  }
+
   .axis path, .axis line {
     fill: none;
     stroke: #000;
@@ -90,6 +94,7 @@
     .q6-9 { fill:#92c5de; }
     .q7-9 { fill:#4393c3; }
     .q8-9 { fill:#2166ac; }
+    .q8-20 { fill:#4cff05; }
 
   #map {
     float: right;

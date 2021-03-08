@@ -1,3 +1,5 @@
+//http://bl.ocks.org/stevenae/8362841#county_map.css
+
 // Various formatters.
 var formatNumber = d3.format(",d"),
   formatChange = d3.format("+,d"),
@@ -55,8 +57,8 @@ var nation = crossfilter(),
   populations = population.group();
 
 queue()
-    .defer(d3.json, "http://bl.ocks.org/stevenae/raw/8362841/counties.json")
-    .defer(d3.tsv, "./county_growth.tsv", function(d) {
+    .defer(d3.json, "https://raw.githubusercontent.com/Brian-Earl/04-Remix/main/counties.json")
+    .defer(d3.tsv, "https://raw.githubusercontent.com/Brian-Earl/04-Remix/main/county_growth.tsv", function(d) {
 
       for(var propertyName in d) {
         if (propertyName == "Area") {
@@ -74,6 +76,28 @@ queue()
     })
     .await(ready);
 
+let mouseOver = function(d) {
+    d3.selectAll(".counties")
+        .selectAll("path")
+            .style("opacity", .5)
+    d3.select(this)
+        .style("opacity", 1)
+        .style("stroke", "black")
+        .call(tip.show(d))
+}
+
+let mouseLeave = function(d) {
+    d3.selectAll(".counties")
+        .selectAll("path")
+            .style("opacity", 1)
+    d3.select(this)
+    .style("stroke", "#C0C0C0")
+    .call(tip.hide)
+}
+
+let mouseClick = function(e){
+}
+
 function ready(error, us) {
   svg.append("g")
       .attr("class", "counties")
@@ -83,8 +107,9 @@ function ready(error, us) {
       .attr("class", function(d) { return quantize(rateById.get(d.id)); })
       .attr("id", function(d) { return d.id; })
       .attr("d", path)
-      .on('mouseover',tip.show)
-      .on('mouseout', tip.hide);
+      .on('mouseover', mouseOver)
+      .on('mouseout', mouseLeave)
+      .on("click", mouseClick)
 
   var charts = [
 
@@ -171,7 +196,7 @@ function ready(error, us) {
               .data(["background", "foreground"])
             .enter().append("path")
               .attr("class", function(d) { return d + " bar"; })
-              .datum(group.all());
+              .datum(group.all())
 
           g.selectAll(".foreground.bar")
               .attr("clip-path", "url(#clip-" + id + ")");
@@ -204,7 +229,8 @@ function ready(error, us) {
           }
         }
 
-        g.selectAll(".bar").attr("d", barPath);
+        g.selectAll(".bar")
+            .attr("d", barPath)
       });
 
       function barPath(groups) {
