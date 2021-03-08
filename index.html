@@ -204,7 +204,7 @@
         })
         .await(readyMap)
 
-    let tooltip = svgLine
+    let tooltipLine = d3.select('#div2')
         .append('div')
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -258,17 +258,17 @@
             )
 
 
-        let mouseover = function (d) {
-            tooltip.style('opacity', 1)
+        let mouseover = function () {
+            tooltipLine.style('opacity', 1)
         }
         let mousemove = function (d) {
-            tooltip
+            tooltipLine
                 .html((d.value).toPrecision((3)) + '% of births in ' + d.key)
-                .style("left", (d3.mouse(this)[0] + 70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
+                .style("left", (d3.mouse(this)[0] + 70 + 535) + "px")
+                .style("top", (d3.mouse(this)[1] + 75) + "px")
         }
-        let mouseleave = function (d) {
-            tooltip.style('opacity', 0)
+        let mouseleave = function () {
+            tooltipLine.style('opacity', 0)
         }
 
         svgLine
@@ -313,7 +313,7 @@
         let mouseOver = function (d) {
             currState = d.properties.NAME
             readyLineChart()
-            toolTip.style('opacity', 1)
+            tooltipMap.style('opacity', 1)
             d3.selectAll('.State')
                 .transition()
                 .duration(200)
@@ -328,7 +328,7 @@
 
         let mouseLeave = function (d) {
             readyLineChart()
-            toolTip.style('opacity', 0)
+            tooltipMap.style('opacity', 0)
             d3.selectAll('.State')
                 .transition()
                 .duration(200)
@@ -339,7 +339,7 @@
                 .style('stroke', 'transparent')
         }
 
-        let toolTip = svgMap
+        let tooltipMap = d3.select('#div1')
             .append('div')
             .style("opacity", 1)
             .attr("class", "tooltip")
@@ -350,7 +350,7 @@
             .style("padding", "5px")
 
         let mouseMove = function (d) {
-            toolTip
+            tooltipMap
                 .html((d.total * 100).toPrecision(3) + '% of births in ' + d.properties.NAME)
                 .style("left", (d3.mouse(this)[0]) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
