@@ -5,6 +5,9 @@ The primary aim of this assignment is to showcase your **individual** skills at 
 
 ## Vis to Remix
 
+Link to visualization:
+https://nshedd.github.io/04-Remix/index.html
+
 I wanted to remix a UMAP visualization that I created in ggplot.
 
 ![orig](photos/orig_vis.png)
