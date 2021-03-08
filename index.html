@@ -16,14 +16,6 @@
             flex-direction: row;
             /* flex-wrap: nowrap; */
         }
-        /* #mix_column{
-            display: flex;
-            flex-direction: column;
-        }
-        #spice_column{
-            display: flex;
-            flex-direction: column;
-        } */
         div{
             border: 2px solid pink;
             width: fit-content;
@@ -111,19 +103,19 @@
             .data(mixes)
             .enter()
             .append("circle")
-            .attr("r",function (d,i){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
-            .attr("cx", function(d,i){return (xScale(left_bump)+point_bump);})
+            .attr("r",function (d){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
+            .attr("cx", function(d){return (xScale(left_bump)+point_bump);})
             // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
-            .attr("cy", function(d,i){return yLeftScale(d.mix_name);})//this is for bandscale
+            .attr("cy", function(d){return yLeftScale(d.mix_name) + 30;})//this is for bandscale
             .attr("fill", "green");
         svg1.selectAll('dots')
             .data(spices)
             .enter()
             .append("circle")
             .attr("r", 5)
-            .attr("cx", function(d,i){return (xScale(right_bump)-point_bump);})
+            .attr("cx", function(d){return (xScale(right_bump)-point_bump);})
             // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
-            .attr("cy", function(d,i){return yRightScale(d.Spice);})//this is for bandscale
+            .attr("cy", function(d){return yRightScale(d.Spice) + 9;})//this is for bandscale
             .attr("fill", "purple");
 
         // left-axis
@@ -143,20 +135,37 @@
             .call(yRightAxis)
             .append("text")
             .attr("class", "label")
-            // .attr("dy", ".71em")
             .style("text-anchor", "end")
             .text("Spices");
-        // console.log("help")
+
+        const p = d3.path();
+        for(m in mixes){
+            // console.log("mixes[m] is",mixes[m])
+            for(i=0; i<mixes[m].ingredients.length; i++){
+                // console.log("in mixes,",mixes[m],"["+m+"] is "+mixes[m].ingredients[i]+" at y="+yRightScale(mixes[m].ingredients[i]));
+                // console.log("\t"+yRightScale(mixes[m].ingredients[i]));
+                svg1.append('line')
+                    .attr("x1", (xScale(left_bump)+point_bump) )
+                    .attr("y1",function(d){
+                        return (yLeftScale(mixes[m].mix_name)+30);
+                    })
+                    .attr("x2", (xScale(right_bump)-point_bump) )
+                    .attr("y2",function(d){ 
+                        ing = mixes[m].ingredients[i];
+                        // console.log( ing+" is at "+yRightScale(ing) );
+                        return yRightScale(ing)+9;
+                    })
+                    .attr("stroke", "blue")
+                    .attr("stroke-width",1);
+            }
+        }
     }
 
 </script>
 
 <body>
     <div id="box">
-        <div id="main_plot">
-            <!-- <div id="mix_column"></div>
-            <div id="spice_column"></div> -->
-        </div>
+        <div id="main_plot"></div>
         <div id="supporting_plots"></div>
     </div>
 </body>
