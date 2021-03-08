@@ -54,6 +54,12 @@ Requirements
 - Description of the technical achievements you attempted with this visualization.
 - Description of the design achievements you attempted with this visualization.
 
+Technical Achievements
+---
+
+Design Achievements
+---
+
 Extra Links
 ---
 
