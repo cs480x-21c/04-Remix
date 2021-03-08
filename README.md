@@ -39,7 +39,7 @@ Linked View:
 
 The x-axis represent countries and the y-axis represent their respective populations. The reason why I chose this visualization idiom is because we have learnt in class that spacial position is more perceptive than hue. So to highlight the difference between population of different countries, the scatter plot utilizes the spacial position (height difference) as opposed to the color scale used by the map visualization.
 
-The two views are linked in the following way:
+The two views are linked in the following way using "Linked Highlighting":
 
 Link from Map to Scatterplot:
 
@@ -55,9 +55,15 @@ Thus, the two views are linked to each other.
 
 Technical Achievements
 ---
+- Experimented with a new data structure, d3.map(), to link data between the geoJson and csv files.
+- Utilized a different scaling method, d3.scaleThreshold(), to map population sizes to a color.
+- Experimented with CSS styles.
 
 Design Achievements
 ---
+- Added tool tips for both views.
+- Added interactivity for both views by using mouseover, mousemove and mouseout events.
+- Added different tick format for the y-axis of the scatterplot.
 
 Extra Links
 ---
