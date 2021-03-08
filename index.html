@@ -2,141 +2,128 @@
 <html>
 
 <head>
-<link rel="shortcut icon" href="#">
+  <link rel="shortcut icon" href="#">
 </head>
 
 <body>
-  <div>
-    <div>
-      <h2>Bar Chart</h2>
-      <div class='' id="bar"></div>
+  <div class="container-fluid">
+  	<h1>D3 Brush and linking Tutorial <small>VAST 2017 Minichallenge 1</small></h1>
+    <div class="row">
+  		<div class="col-xs-12">
+  			<h2>Timeline</h2>
+  			<div id="timeline"></div>
+  		</div>
+
+
+  		<!-- On small screens fills the full grid, on medium+ ones only half -->
+  		<div class="col-xs-12 col-md-4">
+  			<h2>Car Types</h2>
+  			<div class="barChart" id="carTypes"></div>
+  		</div>
+
+  		<!-- On small screens fills the full grid, on medium+ ones only half -->
+  		<div class="col-xs-12 col-md-8">
+  			<h2>Gates</h2>
+  			<div class="barChart" id="gates"></div>
+  		</div>
+
     </div>
   </div>
 
   <!-- https://cdnjs.com/libraries/crossfilter -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
-
+<script src="js/barChart.js"></script>
   <script>
 
-      var margin = {top: 20, right: 20, bottom: 70, left: 40},
-          width = 600 - margin.left - margin.right,
-          height = 300 - margin.top - margin.bottom;
 
-      // Parse the date / time
+// var chartTimeline = timeSeriesChart()
+//   .width(1000)
+//   .x(function (d) { return d.key;})
+//   .y(function (d) { return d.value;});
+// var barChartGate = barChart()
+//   .width(600)
+//   .x(function (d) { return d.key;})
+//   .y(function (d) { return d.value;});
+var barChartSector = barChart()
+  .x(function (d) { return d.key;})
+  .y(function (d) { return d.value;});
 
-      var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+d3.csv("earnings.csv",
+  // function (d) {
+  //   // This function is applied to each row of the dataset
+  //   d.Timestamp = dateFmt(d.Timestamp);
+  //   return d;
+  // },
+  function (data) {
 
-      var y = d3.scale.linear().range([height, 0]);
+    var csData = crossfilter(data);
 
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .orient("bottom")
-          .ticks(10);
+    // We create dimensions for each attribute we want to filter by
+    csData.sector = csData.dimension(function (d) { return d.Sector; }).filterFunction(function(d) { return d!=='Total'});
+    csData.year = csData.dimension(function (d) { return d.Year; });
+    csData.sex = csData.dimension(function (d) { return d.Sex; });
+    csData.earnings = csData.dimension(function (d) { return d.EarningsGel; });
+    csData.total = csData.dimension(function (d) { return d.Total; });
+    // var dimData = csData.sector.top(Infinity);
+    //     dimData.forEach(function (x) {
+    //         console.log(JSON.stringify(x));
+    //     });
+    // We bin each dimension
+    csData.sectorGroup = csData.sector.group().reduceSum(function(d) { return d.Total;});
+    csData.yearGroup = csData.year.group();
+    csData.sexGroup = csData.sex.group();
 
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          .ticks(10);
+    var dimData = csData.yearGroup.top(Infinity);
+        dimData.forEach(function (x) {
+            console.log(JSON.stringify(x));
+        });
+    // chartTimeline.onBrushed(function (selected) {
+    //   csData.name.filter(selected);
+    //   update();
+    // });
 
-      var svg = d3.select("body").append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
-    d3.csv("labourForceMod.csv", function(data) {
-      data.forEach(function(d) {
-              d.number = +d.number;
-          });
-
-        x.domain(data.map(function(d) { return d.year; }));
-        y.domain([0, d3.max(data, function(d) { return d.number; })]);
-
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-          .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", "-.55em")
-            .attr("transform", "rotate(-90)" );
-
-        svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
-          .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Value ($)");
-
-        svg.selectAll("bar")
-            .data(data)
-          .enter().append("rect")
-            .style("fill", "steelblue")
-            .attr("x", function(d) { return x(d.year); })
-            .attr("width", x.rangeBand())
-            .attr("y", function(d) { return y(d.number); })
-            .attr("height", function(d) { return height - y(d.number); });
-
-
-
-    //  var csvData = crossfilter(data);
-      //
-      // csvData.name = csvData.dimension(function(d) {
-      //   return d.name
-      // });
-      // csvData.year = csvData.dimension(function(d) {
-      //   return d.year
-      // });
-      // csvData.number = csvData.dimension(function(d) {
-      //   return d.number
-      // });
-      //
-      // csvData.nameGroups = csvData.name.group();
-      // csvData.yearGroups = csvData.year.group();
-      // csvData.numberGroups = csvData.number.group();
-      // csvData.yearT = csvData.year.group(function(d) { return d.number; });
-
-      // https://stackoverflow.com/questions/21992120/retrieving-values-in-crossfilter-dimension
-      // console.log(typeof  csvData.year);
-      // console.log(typeof  csvData.yearGroups);
-      // var dimData = csvData.year.top(1);
-      // dimData.forEach(function(x) {
-      //   console.log(JSON.stringify(x));
-      // })
-      // var dimData = csvData.yearGroups.top(1);
-      // dimData.forEach(function(x) {
-      //   console.log(JSON.stringify(x));
-      // })
-
-      // barChartF.onMouseOver(function(d) {
-      // //  csvData.year.filter(d.key);
-      //   update();
-      // }).onMouseOut(function() {
-      //   // Clear the filter
-      // //  csvData.year.filterAll();
-      //   update();
-      // });
-      //
-      // function update() {
-      //   console.log("update");
-      // //  console.log(csvData.yearT.all())
-      //   d3.select("#bar")
-      //     .datum(csvData.yearT.all())
-      //     .call(barChartF)
-      //     .select(".x.axis") //Adjusting the tick labels after drawn
-      //     .selectAll(".tick text")
-      //     .attr("transform", "translate(-8,-1) rotate(-45)");
-      // }
-      //
-      // update();
-
+    barChartSector.onMouseOver(function (d) {
+      csData.sector.filter(d.key);
+      update();
+    }).onMouseOut(function () {
+      // Clear the filter
+      csData.sector.filterAll();
+      update();
     });
+
+    // barChartGate.onMouseOver(function (d) {
+    //   csData.dimGateName.filter(d.key);
+    //   update();
+    // }).onMouseOut(function () {
+    //   // Clear the filter
+    //   csData.dimGateName.filterAll();
+    //   update();
+    // });
+
+    function update() {
+      // d3.select("#timeline")
+      //   .datum(csData.timesByHour.all())
+      //   .call(chartTimeline);
+
+      d3.select("#carTypes")
+        .datum(csData.sectorGroup.all())
+        .call(barChartSector);
+
+      // d3.select("#gates")
+      //   .datum(csData.gateNames.all())
+      //   .call(barChartGate)
+      //   .select(".x.axis") //Adjusting the tick labels after drawn
+      //   .selectAll(".tick text")
+      //   .attr("transform", "translate(-8,-1) rotate(-45)");
+    }
+
+    update();
+
+
+  }
+);
+
   </script>
 
 </body>
