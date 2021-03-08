@@ -7,7 +7,7 @@ The primary aim of this assignment is to showcase your **individual** skills at 
 
 I wanted to remix a UMAP visualization that I created in ggplot.
 
-![orig]("orig_vis.png")
+![orig](orig_vis.png)
 
 One thing that I don't like about this vis is the color. I find ggplot's default colors difficult to differentiate after 10 clusters. Some of the clusters are difficult to tell the difference between. This plot had 22 clusters that required different colors. I used colorgorical to generate a 22-element color palette with the highest perceptual difference possible.
 
