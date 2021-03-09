@@ -1,0 +1,14 @@
+#coldChart {
+    height: 600px;
+    width: 500px;
+
+}
+#warmChart {
+    height: 500px;
+    width: 500px;
+
+}
+
+.bar{
+    fill: steelblue;
+}
