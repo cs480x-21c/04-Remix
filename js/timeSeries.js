@@ -1,8 +1,8 @@
 /* global d3 */
 function timeSeriesChart() {
   var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-    width = 760,
-    height = 120,
+    width = 1000,
+    height = 400,
     xValue = function(d) {
       return d[0];
     },

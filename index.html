@@ -2,130 +2,183 @@
 <html>
 
 <head>
+  <!-- favicon error -->
   <link rel="shortcut icon" href="#">
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 0px;
+    }
+
+    .bar {
+      fill: orange;
+    }
+
+    .bar:hover {
+      fill: orangered;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container-fluid">
-  	<h1>D3 Brush and linking Tutorial <small>VAST 2017 Minichallenge 1</small></h1>
-    <div class="row">
-  		<div class="col-xs-12">
-  			<h2>Timeline</h2>
-  			<div id="timeline"></div>
-  		</div>
 
 
-  		<!-- On small screens fills the full grid, on medium+ ones only half -->
-  		<div class="col-xs-12 col-md-4">
-  			<h2>Car Types</h2>
-  			<div class="barChart" id="carTypes"></div>
-  		</div>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+  <!-- <script src="https://d3js.org/d3-array.v2.min.js"></script>
+<script src="https://d3js.org/d3-geo.v2.min.js"></script> -->
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reductio/1.0.0/reductio.min.js" integrity="sha512-dpNFXYxfvCC775pj8TELHq4usthTiHrwSx4IcgZBnsHvBTIU1pm8jWXQaNhzY+AxjrlxgLXVtxktAWOo/0oCKA==" crossorigin="anonymous"></script>
+  <script src="js/barChart.js"></script>
 
-  		<!-- On small screens fills the full grid, on medium+ ones only half -->
-  		<div class="col-xs-12 col-md-8">
-  			<h2>Gates</h2>
-  			<div class="barChart" id="gates"></div>
-  		</div>
+  <svg width=960 height=600>
+  </svg>
 
+  <div id="info">
+  </div>
+  <div class="grid-container">
+    <div class="grid-child">
+      <h2>Earnings by Year (GEL)</h2>
+      <div class="barChart" id="earningsByYear"></div>
+    </div>
+    <div class="grid-child">
+      <h2>Earnings by Region (GEL)</h2>
+      <div class="barChart" id="earningsByRegion"></div>
     </div>
   </div>
-
-  <!-- https://cdnjs.com/libraries/crossfilter -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="js/barChart.js"></script>
   <script>
-
-
-// var chartTimeline = timeSeriesChart()
-//   .width(1000)
-//   .x(function (d) { return d.key;})
-//   .y(function (d) { return d.value;});
-// var barChartGate = barChart()
-//   .width(600)
-//   .x(function (d) { return d.key;})
-//   .y(function (d) { return d.value;});
-var barChartSector = barChart()
-  .x(function (d) { return d.key;})
-  .y(function (d) { return d.value;});
-
-d3.csv("earnings.csv",
-  // function (d) {
-  //   // This function is applied to each row of the dataset
-  //   d.Timestamp = dateFmt(d.Timestamp);
-  //   return d;
-  // },
-  function (data) {
-
-    var csData = crossfilter(data);
-
-    // We create dimensions for each attribute we want to filter by
-    csData.sector = csData.dimension(function (d) { return d.Sector; }).filterFunction(function(d) { return d!=='Total'});
-    csData.year = csData.dimension(function (d) { return d.Year; });
-    csData.sex = csData.dimension(function (d) { return d.Sex; });
-    csData.earnings = csData.dimension(function (d) { return d.EarningsGel; });
-    csData.total = csData.dimension(function (d) { return d.Total; });
-    // var dimData = csData.sector.top(Infinity);
-    //     dimData.forEach(function (x) {
-    //         console.log(JSON.stringify(x));
-    //     });
-    // We bin each dimension
-    csData.sectorGroup = csData.sector.group().reduceSum(function(d) { return d.Total;});
-    csData.yearGroup = csData.year.group();
-    csData.sexGroup = csData.sex.group();
-
-    var dimData = csData.yearGroup.top(Infinity);
-        dimData.forEach(function (x) {
-            console.log(JSON.stringify(x));
-        });
-    // chartTimeline.onBrushed(function (selected) {
-    //   csData.name.filter(selected);
-    //   update();
-    // });
-
-    barChartSector.onMouseOver(function (d) {
-      csData.sector.filter(d.key);
-      update();
-    }).onMouseOut(function () {
-      // Clear the filter
-      csData.sector.filterAll();
-      update();
+    Promise.all(
+      [
+        d3.json('georgia.geojson'),
+        d3.csv("earningsRegions.csv")
+      ]
+    ).then(([countries, earnings]) => {
+      createMap(countries, earnings)
     });
 
-    // barChartGate.onMouseOver(function (d) {
-    //   csData.dimGateName.filter(d.key);
-    //   update();
-    // }).onMouseOut(function () {
-    //   // Clear the filter
-    //   csData.dimGateName.filterAll();
-    //   update();
-    // });
 
-    function update() {
-      // d3.select("#timeline")
-      //   .datum(csData.timesByHour.all())
-      //   .call(chartTimeline);
+    var barChartYear = barChart()
+      .x(function(d) {
+        return d.key;
+      })
+      .y(function(d) {
+        return d.value;
+      });
 
-      d3.select("#carTypes")
-        .datum(csData.sectorGroup.all())
-        .call(barChartSector);
+    var barChartRegion = barChart()
+      .x(function(d) {
+        return d.key;
+      })
+      .y(function(d) {
+        return d.value;
+      });
 
-      // d3.select("#gates")
-      //   .datum(csData.gateNames.all())
-      //   .call(barChartGate)
-      //   .select(".x.axis") //Adjusting the tick labels after drawn
-      //   .selectAll(".tick text")
-      //   .attr("transform", "translate(-8,-1) rotate(-45)");
+
+    function createMap(regions, earnings) {
+
+      //console.map(regions);
+      var width = 600;
+      var height = 600;
+
+      var proj = d3.geoEqualEarth();
+
+      proj.fitSize([height, width], regions);
+
+      var gpath = d3.geoPath()
+        .projection(proj);
+
+
+      var color =
+        d3.scaleSequential(d3.interpolateBlues)
+        .domain(d3.extent(regions.features, d => gpath.area(d)));
+
+
+
+      var svg = d3.select('svg')
+        .selectAll('path')
+        .data(regions.features)
+        .enter()
+        .append('path')
+        .attr('d', function(d) {
+          return gpath(d);
+        })
+        .attr('stroke-width', 1)
+        .attr('stroke', 'black')
+        //  .attr('label', d=> console.log(d.properties['NAME_1']))
+        //  .attr('country', d=> console.log(d.properties['NAME_1']))
+        .attr('fill', d => color(gpath.area(d)))
+        .on("mouseover", function(e, d) {
+          console.log(d.properties['NAME_1']);
+        })
+        .on("mouseout", function(d, i) {});
+
+
+
+      var data = crossfilter(earnings);
+
+
+
+
+      data.year = data.dimension(function(d) {
+        return d.Year;
+      });
+
+      data.region = data.dimension(function(d) {
+        return d.Region;
+      });
+
+      //logGroup(byYear.top(Infinity));
+      // TODO only include Totals
+      data.yearGroup = data.year.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+      data.regionGroup = data.region.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+
+      //      logGroup(yearGroup.top(Infinity));
+
+      barChartRegion.onMouseOver(function(e, d) {
+        //console.log(d.key);
+        data.region.filterExact(d.key);
+        update();
+      }).onMouseOut(function() {
+        data.region.filterAll();
+        update();
+      });
+
+      barChartYear.onMouseOver(function(e, d) {
+        //  console.log(d.key);
+        data.year.filterExact(d.key);
+        update();
+      }).onMouseOut(function() {
+        data.year.filterAll();
+        update();
+      });
+
+
+
+      function update() {
+        d3.select("#earningsByYear")
+          .datum(data.yearGroup.all())
+          .call(barChartYear);
+        d3.select("#earningsByRegion")
+          .datum(data.regionGroup.all())
+          .call(barChartRegion);
+      }
+
+      update();
+
+      function logGroup(data) {
+        data.forEach(function(x) {
+          console.log(JSON.stringify(x));
+        });
+      }
     }
-
-    update();
-
-
-  }
-);
-
   </script>
-
 </body>
+
 
 </html>
