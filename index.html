@@ -18,6 +18,18 @@
     .bar:hover {
       fill: orangered;
     }
+
+    .tooltip-map {
+      position: absolute;
+      text-align: left;
+      padding: .5rem;
+      background: #FFFFFF;
+      color: #313639;
+      border: 1px solid #313639;
+      border-radius: 8px;
+      pointer-events: none;
+      font-size: 1em;
+    }
   </style>
 </head>
 
@@ -108,11 +120,40 @@
         .attr('stroke', 'black')
         //  .attr('label', d=> console.log(d.properties['NAME_1']))
         //  .attr('country', d=> console.log(d.properties['NAME_1']))
-        .attr('fill', d => color(gpath.area(d)))
-        .on("mouseover", function(e, d) {
+        .attr('fill', d => color(gpath.area(d)));
+
+      var tip = d3.select("body").append("div")
+        .attr("class", "tooltip-map")
+        .style("opacity", 0);
+
+      svg.on("mouseover", function(e, d) {
           console.log(d.properties['NAME_1']);
+          //  console.log(e);
+          d3.select(this).transition()
+            .duration('50')
+            .attr('opacity', '0.5');
+
+          tip.transition()
+            .duration(50)
+            .style("opacity", 1);
+
+
+          //  let num = (Math.round((d.value / d.data.all) * 100)).toString() + '%';
+          var message = "Region: "+d.properties['NAME_1'] + "<br>"+
+                        "Year: " + "<br>"+
+                        "Avg Salary: ";
+          tip.html(message)
+            .style("left", (e.pageX + 10) + "px")
+            .style("top", (e.pageY - 15) + "px");
         })
-        .on("mouseout", function(d, i) {});
+        .on("mouseout", function(e, d) {
+          d3.select(this).transition()
+            .duration('50')
+            .attr('opacity', '1');
+          tip.transition()
+            .duration('50')
+            .style("opacity", 0);
+        });
 
 
 

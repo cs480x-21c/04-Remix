@@ -1,6 +1,13 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
+
+- Changed geojson name Ajaria to Adjara
+
+Resources used:
+Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions
+hover tool https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
+
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
 
 ### Your Task
@@ -32,21 +39,15 @@ Incorporating a brief writeup with your remix is a good idea.
 Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
 You could have text directly on the page, an "info" button, an about page, etc.
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
+### More on Two Linked Views
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
 
 Requirements
 ---
 
 0. Your code should be forked from the GitHub repo and linked using GitHub pages.
 1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
+2. Your project should use d3 to build a visualization of the dataset.
 3. Your writeup (readme.md in the repo) should contain the following:
 
 - Working link to the visualization hosted on gh-pages or other external sources.
