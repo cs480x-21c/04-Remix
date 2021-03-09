@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<style>
+  .leftbox {
+      float:left;
+      width:25%;
+      height:280px;
+  }
+  .middlebox{
+      float:left;
+      width:50%;
+      height:280px;
+  }
+  .rightbox{
+      float:right;
+      background:blue;
+      width:25%;
+      height:280px;
+  }
+  h1{
+      color:green;
+      text-align:center;
+  }
+</style>
+
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
 
 <!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<main class="boxes">
+  <div class="leftbox" id="my_dataviz"></div>
+  <div class="middlebox" id="viz2"></div>
+  <div class="leftbox" id="viz3"></div>
+</main>
 
 <script>
 
+  var brushYearStart = 2006;
+  var brushYearEnd = 2016;
+  var interp = d3.interpolateNumber(brushYearStart, brushYearEnd);
+
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 20, left: 50},
+  var margin = {top: 10, right: 10, bottom: 20, left: 50},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
@@ -24,22 +56,26 @@
             "translate(" + margin.left + "," + margin.top + ")");
 
   // Parse the Data
-  d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_stacked.csv", function(data) {
+  d3.csv("https://raw.githubusercontent.com/Brian-Earl/04-Remix/main/data.csv", function(data) {
+
 
     // List of subgroups = header of the csv files = soil condition here
     var subgroups = data.columns.slice(1)
 
-    // List of groups = species here = value of the first column called group -> I show them on the X axis
-    var groups = d3.map(data, function(d){return(d.group)}).keys()
 
-    // Add X axis
+    // List of groups = species here = value of the first column called group -> I show them on the X axis
+    var groups = d3.map(data, function(d){return(d.year)}).keys()
+
     var x = d3.scaleBand()
         .domain(groups)
         .range([0, width])
         .padding([0.2])
+
+    var x_axis = d3.axisBottom(x).tickSizeOuter(0)
+
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickSizeOuter(0));
+      .call(x_axis);
 
     // Add Y axis
     var y = d3.scaleLinear()
@@ -48,10 +84,11 @@
     svg.append("g")
       .call(d3.axisLeft(y));
 
+    var colors = ['#e41a1c','#377eb8','#4daf4a', '#e4a000']
     // color palette = one color per subgroup
     var color = d3.scaleOrdinal()
       .domain(subgroups)
-      .range(['#e41a1c','#377eb8','#4daf4a'])
+      .range(colors)
 
     //stack the data? --> stack per subgroup
     var stackedData = d3.stack()
@@ -69,10 +106,84 @@
         // enter a second time = loop subgroup per subgroup to add all rectangles
         .data(function(d) { return d; })
         .enter().append("rect")
-          .attr("x", function(d) { return x(d.data.group); })
+          .attr("x", function(d) { return x(d.data.year); })
           .attr("y", function(d) { return y(d[1]); })
           .attr("height", function(d) { return y(d[0]) - y(d[1]); })
           .attr("width",x.bandwidth())
-  })
 
+      var brushYears = svg.append("g")
+        brushYears.append("text")
+          .attr("id", "brushYears")
+          .classed("yearText", true)
+          .text(brushYearStart + " - " + brushYearEnd)
+          .attr("x", 35)
+          .attr("y", 12);
+
+
+    brush = svg.append("g")
+      .attr("class", "brush")
+      .call(d3.brushX()
+          .on("start brush", brushed));
+
+        console.log(x)
+        console.log(x.bandwidth())
+        console.log(x.step())
+        console.log((x.step() - x.bandwidth())/2)
+    var temp = x.bandwidth() + (x.step() - x.bandwidth())/2
+
+    function brushed() {
+
+      b = d3.event.selection
+
+      var left = (b[0]-x.bandwidth())/(width - x.bandwidth())
+      var leftBound = Math.ceil(interp(left))
+      var right = (b[1]-x.step())/(width - x.step())
+      var rightBound = Math.ceil(interp(right))
+
+      if(rightBound > brushYearEnd)
+        rightBound = brushYearEnd
+      if(leftBound < brushYearStart)
+        leftBound = brushYearStart
+
+      d3.select("#brushYears").text(leftBound + " - " + rightBound);
+
+			var areaArray = d3.event.selection;
+    }
+
+
+    var widthLegend = 160 - margin.left - margin.right
+    var svgLegend = d3.select("#viz2")
+    .append("svg")
+      .attr("width", widthLegend + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    var legend = svgLegend.selectAll(".legend")
+      .data(colors)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(-430," + i * 19 + ")"; });
+
+    legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", function(d, i) {return colors.slice().reverse()[i];});
+
+    legend.append("text")
+      .attr("x", width + 5)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "start")
+      .text(function(d, i) {
+        switch (i) {
+          case 0: return "Anjou pears";
+          case 1: return "Naval oranges";
+          case 2: return "McIntosh apples";
+          case 3: return "Red Delicious apples";
+        }
+      });
+  })
   </script>
