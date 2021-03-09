@@ -113,7 +113,7 @@
 
       function make_y_gridlines() {
           return d3.axisLeft(y)
-              .ticks(5)
+              .ticks(10)
       }
 
       svg.append("g")
@@ -246,21 +246,30 @@
           x.domain(barData.map(function(d) { return d.fruit; }));
           y.domain([0, d3.max(barData, function(d) { return d.value; })]);
 
+          function make_x_gridlines_second(){
+            return d3.axisBottom(x)
+                .ticks(4)
+          }
 
-          // svgBar.append("g")
-          // .attr("class", "grid")
-          // .attr("transform", "translate(0," + height + ")")
-          // .call(make_x_gridlines()
-          //     .tickSize(-height)
-          //     .tickFormat("")
-          // )
+          function make_y_gridlines_second(){
+              return d3.axisLeft(y)
+                  .ticks(y.ticks().length)
+          }
 
-          // svgBar.append("g")
-          //     .attr("class", "grid")
-          //     .call(make_y_gridlines()
-          //         .tickSize(-width)
-          //         .tickFormat("")
-          //     )
+          svgBar.append("g")
+          .attr("class", "grid")
+          .attr("transform", "translate(0," + height + ")")
+          .call(make_x_gridlines_second()
+              .tickSize(-height)
+              .tickFormat("")
+          )
+
+          svgBar.append("g")
+              .attr("class", "grid")
+              .call(make_y_gridlines_second()
+                  .tickSize(-width)
+                  .tickFormat("")
+              )
 
           svgBar.selectAll(".bar")
               .data(barData)
