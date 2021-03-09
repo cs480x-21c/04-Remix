@@ -1,0 +1,50 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<div id="multichart">
+    <svg id="scatter"></svg>
+    <svg id="chloropleth"></svg>
+    <svg id="legend"></svg>
+  </div>
+
+
+<script>
+    
+    var listCsv = ["/co2_emissions_tonnes_per_person.csv", "/income_per_person_gdppercapita_ppp_inflation_adjusted.csv", "/population_total.csv"];
+    var listPromises = []
+    for (var i = 0; i < listCsv.length; i++) 
+    {
+        const promise = new Promise((resolve, reject) => {
+            resolve(d3.csv(listCsv[i]));
+        });
+        listPromises.push(promise);
+    }
+    Promise.all(listPromises).then((values) => {
+        
+        //main code area
+        var co2Data = values[0];
+        var incomeData = values[1];
+        var populationData = values[2];
+
+        //clean/process data into a structure we like
+        
+        //make 2 axis scatter
+        //size by pop data
+        //x axis is income
+        //y axis co2 output
+        //zoomable
+        //scrollable by time
+
+        //make a chloropleth map of the world
+        //make it zoomable
+        //hovering over a country highlights it in a table
+        //some visual indication of the data point for this time step
+        //link to other svg
+
+
+    });
+
+
+
+
+</script>
+
