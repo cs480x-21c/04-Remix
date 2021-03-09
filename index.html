@@ -68,6 +68,9 @@
                     .style("fill", "black");
             // Parsing csv of NHL team data
             d3.csv("teamdata.csv", function(data){
+                for(var i = 0; i < data.length; i++){
+                    console.log(data[i].xGF);
+                }
                 // builds paths by row in the csv based on attribute name and reference in y
                 function path(d){
                     return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
