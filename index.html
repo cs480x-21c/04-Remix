@@ -8,8 +8,17 @@
     .grid-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 0px;
+      grid-gap: 6px;
     }
+
+    .row {
+      display: flex;
+    }
+
+    /* .block {
+      width: 100px;
+      display: table-cell;
+    } */
 
     .bar {
       fill: orange;
@@ -18,6 +27,7 @@
     .bar:hover {
       fill: orangered;
     }
+
 
     .tooltip-map {
       position: absolute;
@@ -45,17 +55,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reductio/1.0.0/reductio.min.js" integrity="sha512-dpNFXYxfvCC775pj8TELHq4usthTiHrwSx4IcgZBnsHvBTIU1pm8jWXQaNhzY+AxjrlxgLXVtxktAWOo/0oCKA==" crossorigin="anonymous"></script>
   <script src="js/barChart.js"></script>
 
-  <svg width=960 height=600>
-  </svg>
 
-  <div id="info">
-  </div>
-  <div class="grid-container">
-    <div class="grid-child">
+
+  <div class="row">
+    <div class="block">
+      <svg width=960 height=600>
+      </svg>
+    </div>
+    <div class="block">
       <h2>Earnings by Year (GEL)</h2>
       <div class="barChart" id="earningsByYear"></div>
     </div>
-    <div class="grid-child">
+  </div>
+  <div class="row">
+
+    <div class="block">
       <h2>Earnings by Region (GEL)</h2>
       <div class="barChart" id="earningsByRegion"></div>
     </div>
@@ -90,9 +104,72 @@
 
     function createMap(regions, earnings) {
 
-      //console.map(regions);
+
       var width = 600;
       var height = 600;
+
+      var currentMin = 0;
+      var currentMax = 1000;
+
+      var currentValue = -1;
+
+      //Crossfilter values for data
+      var data = crossfilter(earnings);
+
+      data.year = data.dimension(function(d) {
+        return d.Year;
+      });
+      data.region = data.dimension(function(d) {
+        return d.Region;
+      });
+
+      data.region.filterExact("Total");
+
+      data.yearGroup = data.year.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+
+      data.regionGroup = data.region.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+
+      //Hover over bar chart to choose year
+      barChartYear.onMouseOver(function(e, d) {
+        currentMin = data.year.top(1)[0].AvgEarning;
+        currentMax = data.year.bottom(1)[0].AvgEarning;
+        // console.log("MIN barChart " + currentMin);
+        // console.log("MAX barChart" + currentMax);
+        data.year.filterExact(d.key);
+        update();
+      }).onMouseOut(function() {
+        data.year.filterAll();
+        update();
+      });
+
+      update();
+
+      //Update/Create the bar chart
+      function update() {
+
+        d3.select("#earningsByYear")
+          .datum(data.yearGroup.all())
+          .call(barChartYear);
+
+        // d3.select("#earningsByRegion")
+        //   .datum(data.regionGroup.all())
+        //   .call(barChartRegion);
+      }
+
+      //console.log crossfilter data
+      function logGroup(data) {
+        data.forEach(function(x) {
+          console.log(JSON.stringify(x));
+        });
+      }
+
+
+
+      //CREATE MAP
 
       var proj = d3.geoEqualEarth();
 
@@ -101,11 +178,19 @@
       var gpath = d3.geoPath()
         .projection(proj);
 
-
+      //define color
       var color =
-        d3.scaleSequential(d3.interpolateBlues)
-        .domain(d3.extent(regions.features, d => gpath.area(d)));
-
+        d3.scaleSequential(d3.interpolateRdBu)
+        .domain(d3.extent([currentMin, currentMax])) //[currentMin, currentMax]))
+      //  .range(["white","red"]);
+      console.log(d3.extent([currentMin, currentMax]));
+      console.log("Min " + currentMin + "  " + color(currentMin));
+      console.log("Max " + currentMax + "  " + color(currentMax));
+      var color =
+        d3.scaleSequential(d3.interpolateTurbo) //interpolateRdBu
+        .domain(d3.extent(regions.features, function(d) {
+          return gpath.area(d)
+        }));
 
 
       var svg = d3.select('svg')
@@ -118,17 +203,33 @@
         })
         .attr('stroke-width', 1)
         .attr('stroke', 'black')
-        //  .attr('label', d=> console.log(d.properties['NAME_1']))
-        //  .attr('country', d=> console.log(d.properties['NAME_1']))
-        .attr('fill', d => color(gpath.area(d)));
+        .attr('fill', function(d) {
+          console.log("Region "+d.properties['NAME_1']);
+          return color(gpath.area(d));
+          //pass AvgEarning of each region to color
+
+        });
 
       var tip = d3.select("body").append("div")
         .attr("class", "tooltip-map")
         .style("opacity", 0);
 
       svg.on("mouseover", function(e, d) {
-          console.log(d.properties['NAME_1']);
-          //  console.log(e);
+          // Filter the data to only include the Region Hovered On
+          data.region.filterExact(d.properties['NAME_1']);
+
+          //Update the current data min and Max
+          currentMin = data.year.top(1)[0].AvgEarning;
+          currentMax = data.year.bottom(1)[0].AvgEarning;
+
+          //       console.log(d3.extent([currentMin, currentMax]));
+          // console.log("Min "+currentMin + "  "+color(currentMin));
+          //     console.log("Max "+currentMax + "  "+color(currentMax));
+          // console.log("MIN map "+currentMin);
+          // console.log("MAX map"+ currentMax);
+          //logGroup(data.yearGroup.top(Infinity));
+          update();
+
           d3.select(this).transition()
             .duration('50')
             .attr('opacity', '0.5');
@@ -137,16 +238,17 @@
             .duration(50)
             .style("opacity", 1);
 
+          var message = d.properties['NAME_1'];
 
-          //  let num = (Math.round((d.value / d.data.all) * 100)).toString() + '%';
-          var message = "Region: "+d.properties['NAME_1'] + "<br>"+
-                        "Year: " + "<br>"+
-                        "Avg Salary: ";
           tip.html(message)
             .style("left", (e.pageX + 10) + "px")
             .style("top", (e.pageY - 15) + "px");
         })
         .on("mouseout", function(e, d) {
+          data.region.filterAll();
+          data.region.filterExact("Total");
+          update();
+
           d3.select(this).transition()
             .duration('50')
             .attr('opacity', '1');
@@ -156,67 +258,27 @@
         });
 
 
-
-      var data = crossfilter(earnings);
-
-
-
-
-      data.year = data.dimension(function(d) {
-        return d.Year;
-      });
-
-      data.region = data.dimension(function(d) {
-        return d.Region;
-      });
-
-      //logGroup(byYear.top(Infinity));
-      // TODO only include Totals
-      data.yearGroup = data.year.group().reduceSum(function(d) {
-        return d.AvgEarning;
-      });
-      data.regionGroup = data.region.group().reduceSum(function(d) {
-        return d.AvgEarning;
-      });
-
-      //      logGroup(yearGroup.top(Infinity));
-
-      barChartRegion.onMouseOver(function(e, d) {
-        //console.log(d.key);
-        data.region.filterExact(d.key);
-        update();
-      }).onMouseOut(function() {
-        data.region.filterAll();
-        update();
-      });
-
-      barChartYear.onMouseOver(function(e, d) {
-        //  console.log(d.key);
-        data.year.filterExact(d.key);
-        update();
-      }).onMouseOut(function() {
-        data.year.filterAll();
-        update();
-      });
-
-
-
-      function update() {
-        d3.select("#earningsByYear")
-          .datum(data.yearGroup.all())
-          .call(barChartYear);
-        d3.select("#earningsByRegion")
-          .datum(data.regionGroup.all())
-          .call(barChartRegion);
-      }
-
-      update();
-
-      function logGroup(data) {
-        data.forEach(function(x) {
-          console.log(JSON.stringify(x));
-        });
-      }
+      // var mapZoom = d3.zoom()
+      //   .on('zoom', zoomed);
+      //
+      // var zoomSettings = d3.zoomIdentity
+      //   .translate(250, 250)
+      //   .scale(120);
+      //
+      // d3.select('svg')
+      //   .call(mapZoom)
+      //   .call(mapZoom.transform, zoomSettings);
+      //
+      //
+      // function zoomed(e) {
+      //   proj.translate([e.transform.x, e.transform.y])
+      //   .scale(e.transform.k);
+      //
+      //   //redrowing map
+      //   d3.selectAll('path')
+      //   .attr('d', gpath);
+      //
+      // }
     }
   </script>
 </body>

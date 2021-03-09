@@ -26,8 +26,7 @@ function barChart() {
 
   function chart(selection) {
     selection.each(function(data) {
-      //console.log("Bar")
-    //  console.log(data);
+
       // Select the svg element, if it exists.
 
       var svg = d3.select(this).selectAll("svg").data([data]);
@@ -45,12 +44,6 @@ function barChart() {
         svg.merge(svgEnter).attr("width", width)
         .attr("height", height);
 
-      //   var tip = d3.tip()
-      //     .attr('class', 'd3-tip')
-      //     .offset([-10, 0])
-      //     .html(function(d) {
-      //       return "<strong>Frequency:</strong> <span style='color:red'>" + "elene" + "</span>";
-      //     });
       // // Update the inner dimensions.
       var g = svg.merge(svgEnter).select("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -78,6 +71,10 @@ function barChart() {
         .attr("text-anchor", "end")
         .text("Frequency");
 
+    var tip =g.select("div")
+          .attr("class", "tooltip-map")
+          .style("opacity", 0);
+
       var bars = g.selectAll(".bar")
         .data(function(d) {
           return d;
@@ -93,6 +90,7 @@ function barChart() {
           return innerHeight - Y(d);
         })
         .on("mouseover", onMouseOver)
+
         .on("mouseout", onMouseOut);
 
       bars.exit().remove();
