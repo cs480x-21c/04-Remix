@@ -41,10 +41,19 @@
 <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
 
 <!-- Create a div where the graph will take place -->
-<main class="boxes">
+<main class>
   <div class="leftbox" id="my_dataviz"></div>
   <div class="middlebox" id="viz2"></div>
   <div class="rightbox" id="viz3"></div>
+
+  <br><br><br>
+  <div id="lineButtons">
+    <input type="radio" name="lineButton" onclick="renderDefault()" id="hidden" checked> Default<br>
+    <input type="radio" name="lineButton" onclick="renderPalette1()" id="lines"> Palette 1<br>
+    <input type="radio" name="lineButton" onclick="renderPalette2()" id="polygon"> Palette 2<br>
+    <input type="radio" name="lineButton" onclick="renderPalette3()" id="polygon"> Palette 3<br>
+
+  </div>
 </main>
 
 <script>
@@ -131,6 +140,12 @@
               .tickFormat("")
           )
 
+      for(i=0; i<stackedData.length;i++){
+        for(j=0;j<stackedData[i].length;j++){
+          stackedData[i][j].push(stackedData[i].key)
+        }
+      }
+
       svg.append("g")
         .selectAll("g")
         .data(stackedData)
@@ -143,6 +158,7 @@
             .attr("y", function(d) { return y(d[1]); })
             .attr("height", function(d) { return y(d[0]) - y(d[1]); })
             .attr("width",x.bandwidth())
+            .attr("id", function(d){return d[2].concat(d.data.year)})
 
 
         var brushYears = svg.append("g")
@@ -222,6 +238,12 @@
         function detailedBar(yearStart=brushYearStart, yearEnd=brushYearEnd){
           var barDataTemp = [0,0,0,0]
 
+          function range(start, end) {
+            return Array(end - start + 1).fill().map((_, idx) => start + idx)
+          }
+
+          yearsList = range(yearStart, yearEnd)
+
           for (i = 0; i < data.length; i++) {
             if((parseInt(data[i].year) >= yearStart) && (parseInt(data[i].year) <= yearEnd)){
               barDataTemp[0] += parseInt(data[i].redDelicious)
@@ -280,6 +302,24 @@
               .attr("y", function(d) { return y(d.value); })
               .attr("height", function(d) { return height - y(d.value); })
               .attr("fill", function(d) { return color(d.key); })
+              .on("mouseover", function(d) {highlightAllBars(d)})
+              .on("mouseleave", function(d) {unhighlightAllBars(d)})
+
+          function highlightAllBars(d){
+            for(i=0;i<yearsList.length;i++){
+              svg.select("#" + d.key + yearsList[i])
+                .attr("fill", function(d) { return "#000000"; })
+            }
+          }
+
+          function unhighlightAllBars(d){
+            for(i=0;i<yearsList.length;i++){
+              svg.select("#" + d.key + yearsList[i])
+                .style("opacity", "1.0")
+                .attr("fill", function(d) { return toString(color(d.key)) })
+            }
+          }
+
 
           svgBar.append("g")
               .attr("transform", "translate(0," + height + ")")
@@ -294,4 +334,34 @@
   }
 
   renderChart()
+
+  function clearCharts(){
+    svgBar.selectAll("*").remove();
+    svg.selectAll("*").remove();
+    d3.select("#viz2").selectAll("*").remove();
+  }
+
+  function renderDefault(){
+    clearCharts()
+    colors = ['#e41a1c','#377eb8','#4daf4a', '#e4a000']
+    renderChart()
+  }
+
+  function renderPalette1(){
+    clearCharts()
+    colors = ['#FF4242','#235FA4','#6fDE6E', '#E8F086']
+    renderChart()
+  }
+
+  function renderPalette2(){
+    clearCharts()
+    colors = ['#E5323B','#A997DF','#BDD9BF', '#FFC857']
+    renderChart()
+  }
+
+  function renderPalette3(){
+    clearCharts()
+    colors = ['#cc2D35','#058ED9','#848FA2', '#E1DAAE']
+    renderChart()
+  }
   </script>

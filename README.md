@@ -3,7 +3,43 @@ Assignment 4 - DataVis Remix + Multiple Views.
 
 My project can be found at [here](https://bearl.dev/04-Remix/) and it is a remixed of [this](http://bl.ocks.org/mstanaland/6100713) project from bl.ocks.org.
 
+## Project Description
 
+The original viz was a simple stacked bar chart where the X axis represents a year and the Y axis represents the amount of fruit with each bar in the stack representing a different type of fruit. The original article doesn't describe the specifics of the data so all information on it has to be inferred by the data and original viz directly.  Originally, the bar chart looked like this: 
+
+![Original Viz](D:\Documents\GitHub\04-Remix\img\originalViz.PNG)
+
+Looking at the chart I was immediately dissatisfied with the visuals for two major reasons. First was the overall aesthetics and color choice. The choice of reds, yellows and blacks is very hard on the eyes and visually unappealing. Looking directly at the hex values of the colors used, you can see that only this small portion of the color scale.  
+
+ ![](D:\Documents\GitHub\04-Remix\img\ColorScale.PNG)
+
+Looking at the individual colors, the colors used for Anjou Pears and Naval Oranges are very close and almost create a gradient as the light yellow almost fades into the white background.  
+
+My second major issue relates to the first as I, someone who is not visually impaired, has trouble with the colors, I'd image someone who is would struggle as well. Running the photo of the viz through a [color blindness simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/), I've created the following images.
+
+|                       Red Color Blind                        |                      Green Color Blind                       |                       BLue Color Blind                       |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| ![Red Blind](D:\Documents\GitHub\04-Remix\img\originalVizRedBlind.png) | ![Green Blind](D:\Documents\GitHub\04-Remix\img\originalVizGreenBlind.png) | ![Blue Blind](D:\Documents\GitHub\04-Remix\img\originalVizBlueBlind.png) |
+
+Looking at them, I find that the gradient issue I mentioned earlier is still present and in some cases is much worst such as with those with red color blindness and and green color blindness. With these two, the differences in color between the Anjou Pears and Naval Oranges is almost indistinguishable and requires close looking to spot the difference. Upon this realization, I knew that the color palette had to significantly change and I then began my remix of the project. 
+
+This is what my final viz looked like:
+
+![](D:\Documents\GitHub\04-Remix\img\VizScreenshot.PNG)
+
+For my remix, the first thing I did was to change the color palette to the one you see above. Additionally, I found the article [Inclusice Color Palettes for the Web](https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e) which features three color palettes designed to accommodate those with color blindness. I implemented these palettes and allow the user to chose which one they want by using the four buttons on the far right.  
+
+To add interactivity, I added the chart you see on the right. This chart is the sum of the values of each fruit, separated and organized in a bar chart. By default, the chart displays the average of each fruit for ever year, however, the user is able to brush over the years to see the sum of the values of a select number of years. In the picture below, I brushed over the years of 2009-2013 and the bar graph updated to match the newly selected years. 
+
+![](D:\Documents\GitHub\04-Remix\img\VizScreenshotBrush.PNG)
+
+I also added intractability to the bar chart on the right. By hovering your mouse over a bar, all of the sections said bar represents of the left chart will be highlighted. In the picture below, I'm hovering my mouse over the McIntosh Apples bar on the right, because the bar chart represents the entire chart on the left, all of the McIntosh Apples sections are highlighted. 
+
+![](D:\Documents\GitHub\04-Remix\img\VizScreenshotHighlight.PNG)
+
+This also works when a section is brushed. In the picture below, the left chart has been brushed for the years 2009-2013 so when I hover my mouse over the McIntosh Apples section of the chart on the right, only the McIntosh Apples sections of the brush years will be highlighted.
+
+![](D:\Documents\GitHub\04-Remix\img\VizScreenshotBrushHighlight.PNG)
 
 # Achievements
 
@@ -11,64 +47,10 @@ My project can be found at [here](https://bearl.dev/04-Remix/) and it is a remix
 ## **Technical Achievements**
 
 - I converted the project from using d3 v3 into  using d3 v4.
-- The data in the project was all stored locally as an array of objects called `data`. I took all of the data and put it into the CSV named `data.csv` 
+- The data in the project was all stored locally as an array of objects called `data`. I took all of the data and put it into the CSV named `data.csv`. 
+- Implemented [d3-interpolate](https://github.com/d3/d3-interpolate) to convert the brush coordinates into the appropriate years the brush covered which I then used to gather the data needed to update the linked bar chart. 
 
 ### **Design Achievements**
 
-- 
-
-
-
-
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. ~~Your code should be forked from the GitHub repo and linked using GitHub pages.~~
-1. ~~Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.~~
-2. ~~Your project should use d3 to build a visualization of the dataset.~~ 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- ~~Working link to the visualization hosted on gh-pages or other external sources.~~
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
+- For the newly added bar chart, the grid pattern dynamically updates to match the number of ticks on the Y axis legend.
+- Besides the default palette, the user has the choice of viewing the charts with three additional palettes. These palettes are taken from the article [Inclusice Color Palettes for the Web](https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e), these palettes are designed to accommodate those with color blindness.  
