@@ -3,7 +3,7 @@ import * as d3 from "d3";
 
 import {COVID_DATA} from "./Data";
 
-const MARGIN = 50;
+const MARGIN = 80;
 const WIDTH = 900 - (2 * MARGIN);
 const HEIGHT = 400 - (2 * MARGIN);
 
@@ -55,6 +55,19 @@ class BarChart extends Component {
             .attr("height", (d) => HEIGHT - yScale(d.Cases))
             .attr("width", xScale.bandwidth)
             .style("fill", "#AC2B37");
+
+        graph.append("text")
+            .attr("x",  -(HEIGHT / 2))
+            .attr("y", -30)
+            .attr("transform", "rotate(-90)")
+            .attr("text-anchor", "middle")
+            .text("Cases")
+
+        graph.append("text")
+            .attr("x", (WIDTH / 2))
+            .attr("y", HEIGHT + MARGIN)
+            .attr("text-anchor", "middle")
+            .text("Date");
     }
 
     render() {
