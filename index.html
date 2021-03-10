@@ -11,27 +11,28 @@
   }
 
   svg {
-    border: 3px solid hotpink;
+    border: 3px solid darkcyan;
   }
 
   * {
 
     font-family: 'Open Sans', sans-serif;
   }
-
+  body {
+    font-size: 125%;
+  background-color: #fafcfb;
+}
   h1 {
-    font-size: 150%;
-    text-align: center;
-  }
-
-  h2 {
-    text-align: center;
+    font-size: 200%;
   }
 </style>
 
-
-
 <h1>US Energy Production by source</h1>
+<body>
+  This is a remix of the US Energy Information Administration's stacked 
+  area chart of US energy generation by source (https://www.eia.gov/energyexplained/electricity/electricity-in-the-us.php).
+  Two additional visualizations have been added - a bar chart showing energy production by selected source as well as a pie chart showing percent compositions over the entire historical dataset.
+</body>
 <div id="visualization1"></div>
 <div id="visualization2"></div>
 <div id="visualization3"></div>
@@ -42,7 +43,7 @@
   // set the dimensions and margins of the graph
   var margin = { top: 60, right: 230, bottom: 50, left: 50 },
     width = 1500 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 600 - margin.top - margin.bottom;
 
 
 
@@ -94,6 +95,14 @@
       .attr("y", -20)
       .text("kWh generated (billions)")
       .attr("text-anchor", "start")
+    
+      stackSvg.append("text")
+      .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "24px") 
+        .style("text-decoration", "underline")  
+        .text("U.S. electricity gneration by major energy source, 1950-2019");
 
 
     // Add a clipPath: everything out of this area won't be drawn.
@@ -108,7 +117,7 @@
     // Add brushing
     var brush = d3.brushX()
       .extent([[0, 0], [width, height]])
-      .on("end", updateChart)
+      .on("end", update)
 
     var areaChart = stackSvg.append('g')
       .attr("clip-path", "url(#clip)")
@@ -128,6 +137,8 @@
       .attr("class", function (d) { return "area " + d.key })
       .style("fill", function (d) { return color(d.key); })
       .attr("d", area)
+      .on("mouseover", highlight)
+      .on("mouseleave", noHighlight)
 
     areaChart
       .append("g")
@@ -137,9 +148,7 @@
     var idleTimeout
     function idled() { idleTimeout = null; }
 
-    // A function that update the chart for given boundaries
-
-    function updateChart() {
+    function update() {
 
       extent = d3.event.selection
       if (!extent) {
@@ -150,7 +159,6 @@
         areaChart.select(".brush").call(brush.move, null)
       }
 
-      // Update axis and area
       xAxisStack.transition().duration(1000).call(d3.axisBottom(xStack).ticks(5))
       areaChart
         .selectAll("path")
@@ -162,7 +170,7 @@
 
     // highlight when hovering
     var highlight = function (d) {
-      console.log(d)
+      // console.log(d)
       dataSelect = d
       console.log(dataSelect)
       barDraw(data)
@@ -206,6 +214,7 @@
       .on("mouseover", highlight)
       .on("mouseleave", noHighlight)
   }
+
   // second vis
   // barchart to show data
   // append the svg object to the body of the page
@@ -232,6 +241,27 @@
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
 
+      barSvg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height + 40)
+      .text("Year");
+
+    // Y axis label:
+    barSvg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", 0)
+      .attr("y", -20)
+      .text("kWh generated (billions)")
+      .attr("text-anchor", "start")
+    
+      barSvg.append("text")
+      .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "24px") 
+        .style("text-decoration", "underline")  
+        .text("U.S. electricity gneration by major energy source, 1950-2019");
     var keys = data.columns.slice(1)
 
     var color = d3.scaleOrdinal()
@@ -320,6 +350,8 @@
       .text(function (d) { return d.data.key })
       .attr("transform", function (d) { return "translate(" + arcMaker.centroid(d) + ")"; })
       .style("text-anchor", "middle")
+      .style("text-size", "1px")
+
   }
 
   // Parse the Data, set up keys, color, stacking
