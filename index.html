@@ -278,7 +278,7 @@ function ready(error,topo) {
     })
     // mousemout handler, restores everything back to normal
     .on("mouseout",function(d){
-      d3.select(this).attr("opacity",0.75)
+      d3.select(this).attr("opacity",0.5)
       .attr("stroke-width","1px")
       .transition()
       .duration(300)
