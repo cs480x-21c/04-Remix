@@ -369,6 +369,8 @@ function main() {
                 .attr("stroke", "#6a0dad")
                 .attr("d", valueline3);
 
+
+
             // Add the X Axis
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
@@ -377,7 +379,6 @@ function main() {
             // Add the Y Axis
             svg.append("g")
                 .call(d3.axisLeft(y));
-
 
 
             svg.append('text')
@@ -394,6 +395,32 @@ function main() {
                 .attr('transform', "translate(-100,60)rotate(270)")
                 .attr('class', 'label')
                 .text('Median Weekly Earnings');
+
+            const grid = svg.append('g')
+                .attr('class', 'grid');
+
+            grid.append('g')
+                .selectAll('line')
+                .data(y.ticks())
+                .join('line')
+                .attr('stroke', '#d3d3d3')
+                .attr('opacity', .2)
+                .attr('x1', 0)
+                .attr('x2', width)
+                .attr('y1', d => 0.5 + y(d))
+                .attr('y2', d => 0.5 + y(d));
+
+            grid.append('g')
+                .selectAll('line')
+                .data(x.ticks())
+                .join('line')
+                .attr('stroke', '#d3d3d3')
+                .attr('opacity', .2)
+                .attr('x1', d => 0.5 + x(d))
+                .attr('x2', d => 0.5 + x(d))
+                .attr('y1', 0)
+                .attr('y2', height);
+
 
             addLegend();
 
