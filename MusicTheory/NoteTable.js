@@ -1,9 +1,9 @@
 
 
-
-function makeNoteTable(equalTemperamentDifference, frequencyLayout, keyboardLayout)
+function makeNoteTable(equalTemperamentDifference, equalTemperament, keyboardLayout)
 {
     let noteTable = [];
+    let systemFrequencies = [];
     let octaveLayout = teoria.note(gStartKey).scale("chromatic").simple();
 
     // Sorts the imput distance by the keys so they are in the same
@@ -21,53 +21,30 @@ function makeNoteTable(equalTemperamentDifference, frequencyLayout, keyboardLayo
                 return obj;
             }, {});
 
-    // Calculate the system values
+    // Calculate the system values using the cents and equal temprament
     for (let k = 0; k < keyboardLayout.length;)
     {
         for (let value of Object.values(sortedDifference))
         {
-            noteTable[k] = frequencyLayout[k] * centsToScale(value);
+            systemFrequencies[k] = equalTemperament[k] * centsToScale(value);
             k++;
         }
     }
 
-    for (let i = 0; i < noteTable.length; i++)
+    // sew the systemFrequencies and keyboard layout together into objects to make the note table
+    // makes the note table easy to work with in d3 and easy to get the frequencies
+    for (let n = 0; n < systemFrequencies.length; n++)
     {
-        let h = teoria.note.fromFrequency(noteTable[i]);
-        let b = h.note.scientific();
+        noteTable[n] = {key: keyboardLayout[n], frequency: systemFrequencies[n]};
     }
-    
 
-            // for (let [key, value] of Object.entries(yourobject)) {
-            //     console.log(key, value);
-            // }
-    
-    // let noteTable = [];
-    // // Starting frequency
-    // noteTable[0] = startingFrequency;
-
-    // now we have the sorted intervals in 3rd's
-    //  no idea how YYYthis should work, I might need the other table 
-    // (differences from equal temperament, just add it to the current data)
-    //  
-
-    // possible process order
-    // C E, => 200[s], 200*cts[s+4]
-    // E G#/Ab
-    // G#/Ab C
-    //  
-
-    // let s = 0;
-    // let h = wellTemperamentSystem[sample[s]];
-    // noteTable[s + 4] = noteTable[s] * centsToScale(wellTemperamentSystem[sample[s]].size_in_cents);
-
+    return noteTable;
 }
 
 function compareChroma(element, note)
 {
     return teoria.note(element).chroma() === teoria.note(note).chroma();
 }
-
 
 function centsToScale(n)
 {
