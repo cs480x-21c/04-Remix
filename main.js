@@ -5,6 +5,8 @@ let gKeyboardOctaves = 2;
 let gKeysPerOctave = 12;
 let gConcertPitch = 3520.0;
 
+let gCurrentScale;
+
 function main()
 {
     // Load all 3 files
@@ -25,9 +27,9 @@ function main()
                 let equalTemperamentDifference = gData[0]["Equal_Temperament_Difference"];
                 
                 // Default scale starts with the first note name of the first system
-                let currentScale = Object.keys(majorThirds)[0].split(" ")[0];
+                gCurrentScale = Object.keys(majorThirds)[0].split(" ")[0];
 
                 // Makes the fist full vis
-                makeVis(majorThirds, equalTemperamentDifference, currentScale);
+                makeVis(majorThirds, equalTemperamentDifference);
             });
 }

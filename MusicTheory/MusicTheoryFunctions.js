@@ -1,7 +1,11 @@
 
 
-function makeNoteTable(equalTemperamentDifference, equalTemperament, keyboardLayout)
-{
+function makeNoteTable(equalTemperamentDifference)
+{ 
+    let keyboardLayout = [];
+    let equalTemperament = [];
+    makeKeyboardLayout(keyboardLayout, equalTemperament);
+
     let noteTable = [];
     let systemFrequencies = [];
     let octaveLayout = teoria.note(gStartKey).scale("chromatic").simple();
@@ -41,6 +45,11 @@ function makeNoteTable(equalTemperamentDifference, equalTemperament, keyboardLay
     return noteTable;
 }
 
+/**
+ * Compares the chroma of an element 
+ * @param {*} element 
+ * @param {*} note 
+ */
 function compareChroma(element, note)
 {
     return teoria.note(element).chroma() === teoria.note(note).chroma();
@@ -51,4 +60,19 @@ function centsToScale(n)
     return Math.pow(2, n/1200);
 }
 
+function makeKeyboardLayout(keyboardLayout, equalTemperament)
+{
+    for (let octave = 0; octave < gKeyboardOctaves; octave++)
+    {
+        teoria.note(gStartKey + octave.toString(10))
+            .scale("chromatic")
+            .notes()
+            .forEach((element, index) =>
+             {
+                let i = index + octave * gKeysPerOctave;
+                keyboardLayout[i] = element.scientific();
+                equalTemperament[i] = element.fq(gConcertPitch);
+            });
+    }
+}
 
