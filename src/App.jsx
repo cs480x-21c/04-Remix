@@ -2,6 +2,7 @@ import {Component} from "preact";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faVirus} from "@fortawesome/free-solid-svg-icons";
 import BarChart from "./BarChart";
+import BubbleChart from "./BubbleChart";
 
 class App extends Component {
     render() {
@@ -21,7 +22,9 @@ class App extends Component {
                     <div class="bg-white shadow-lg rounded-md flex-1 p-4">
                         <BarChart />
                     </div>
-                    <div class="bg-white shadow-lg rounded-md flex-1 p-4"></div>
+                    <div class="bg-white shadow-lg rounded-md flex-1 p-4 flex justify-center items-center content-center">
+                        <BubbleChart />
+                    </div>
                 </div>
             </div>
         )
