@@ -1,7 +1,29 @@
 <html>
     <head>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="//d3js.org/d3.v3.min.js"></script>
         <title>Assignment 4 - Remix</title>
+        <meta charset="utf-8">
+        <style>
+        .background path {
+            fill: none;
+            stroke: #ddd;
+            shape-rendering: crispEdges;
+        }
+        .foreground path {
+        fill: none;
+        stroke: steelblue;
+        }
+        .axis line,
+        .axis path {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+        }
+        .axis text {
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+        cursor: move;
+        }
+        </style>
     </head>
     <body>
         <div id="charts">
@@ -27,66 +49,60 @@
                 .style("background-color","green");
             var divHeights = document.getElementById('teamCompare').clientHeight;
             var divWidths = document.getElementById('teamCompare').clientWidth;
-            var chartMargins = {top: 30, right: 50, bottom: 10, left: 50};
-            var chartWidths = (divWidths/2) - chartMargins.left - chartMargins.right;
-            var chartHeights = (divHeights/2) - chartMargins.top - chartMargins.bottom;
-            
+            var margin = {top: 30, right: 20, bottom: 10, left: 20};
+            var width = (divWidths) - margin.left - margin.right;
+            var height = (divHeights/1.75) - margin.top - margin.bottom;
+            var x = d3.scale.ordinal().rangePoints([0, width], 1)
+            var y = {};
+            var dragging = {};
+            var line = d3.svg.line();
+            var axis = d3.svg.axis().orient("left"), background, foreground;
             // Building team comparisons parallel coordinate graph
             // Axes: Expected Goals from team, actual goals from team, expected goals against team, actual goals against team    
-            var comparisonssvg = d3.select("#teamCompare").append("svg")
-                .attr("width", chartWidths + chartMargins.left + chartMargins.right)
-                .attr("height", chartHeights + chartMargins.top + chartMargins.bottom)
+            var teamsvg = d3.select("#teamCompare").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
                 .append("g")
-                .attr("transform", "translate(" + chartMargins.left + "," + chartMargins.top + ")");
-            // builds y axes, storing each dimension in a linear scale 
-            dimensions = ["xGF", "GF", "xGA", "GA"];
-            var y = {};
-            for(i in dimensions){
-                name = dimensions[i]
-                y[name] = d3.scaleLinear()
-                    .domain([20,80])
-                    .range([chartHeights, 0])
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            // Returns the path for a given data point.
+            function path(d) {
+                return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
             }
-            console.log(y)
-            // builds x scale -> finding best position for each y axis
-            x = d3.scalePoint()
-                .range([0,chartWidths])
-                .domain(dimensions);
+            d3.csv("teamdata.csv", function(teamData) {
+                x.domain(dimensions = d3.keys(teamData[0]).filter(function(d) {
+                    return d != "team" && (y[d] = d3.scale.linear()
+                        .domain(d3.extent(teamData, function(p) { return +p[d]; }))
+                        .range([height, 0]));
+                }));
 
-            // Drawing chart axes
-            comparisonssvg.selectAll("teamAxis")
-                .data(dimensions)
-                .enter()
-                .append("g")
-                .attr("class", "axis")
-                .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-                .each(function(d) {d3.select(this).call(d3.axisLeft().ticks(5).scale(y[d]));})
-                .append("text")
-                    .style("text-anchor", "middle")
-                    .attr("y", -9)
-                    .text(function(d) {return d;})
-                    .style("fill", "black");
-            // Parsing csv of NHL team data
-            d3.csv("teamdata.csv", function(data){
-                for(var i = 0; i < data.length; i++){
-                    console.log(data[i].xGF);
-                }
-                // builds paths by row in the csv based on attribute name and reference in y
-                function path(d){
-                    return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
-                }
-                // Drawing data on chart
-                comparisonssvg.selectAll("teamPaths")
-                    .data(data)
-                    .enter()
-                    .append("path")
-                        .attr("class", function(d) {return "line " + d.Team})
-                        .attr("d", path)
-                        .style("fill", "none")
-                        // .style("stroke", function(d){ return( color(d.Team))})
-                        .style("stroke", "black")
-                        .style("opacity", 0.5)                    
-            })
+                // background = svg.append("g")
+                //         .attr("class", "background")
+                //     .selectAll("path")
+                //         .data(teamData)
+                //     .enter().append("path")
+                //         .attr("d", path);
+
+                foreground = teamsvg.append("g")
+                        .attr("class", "foreground")
+                    .selectAll("path")
+                        .data(teamData)
+                    .enter().append("path")
+                        .attr("d", path);
+                // Add group element for each dimension
+                var g = teamsvg.selectAll(".dimension")
+                        .data(dimensions)
+                    .enter().append("g")
+                        .attr("class", "dimension")
+                        .attr("transform", function(d){ return "translate(" + x(d) + ")"; });
+                // Adding axis and title
+                g.append("g")
+                        .attr("class", "axis")
+                        .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+                    .append("text")
+                        .style("text-anchor", "middle")
+                        .attr("y", -9)
+                        .text(function(d) {return d; });
+            });
         </script>
     </body>
 </html>
