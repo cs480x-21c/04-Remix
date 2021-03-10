@@ -31,7 +31,10 @@
             <div id="teamInspect"></div>
         </div>
         <div id="teamSelector">
-            <img class="BOS" src="bos.png" width="200" height = "200" onclick="">
+            <div id="teamLogos">
+
+            </div>
+            <img class="BOS" src="bos.png" width="100vw" height = "100vw">
         </div>
         <script>
             d3.select("#charts")
@@ -79,8 +82,15 @@
                     .style("stroke", "#FF0000")
             }
 
+            selectedTeam = null;
             // Event Listener to the associated team logo button
-            d3.select("img .BOS").on("click", setFocus("BOS"));
+            d3.select("img.BOS").on("click", function() {
+                d3.selectAll("path")
+                   .style("stroke", "#ddd");
+                d3.select("path.BOS")
+                    .style("stroke", "red");
+            });
+
 
 
             d3.csv("teamdata.csv", function(teamData) {
@@ -96,8 +106,7 @@
                         .data(teamData)
                     .enter().append("path")
                         .attr("class", function(d){ return d.team})
-                        .attr("d", path);
-
+                        .attr("d", path);                    
 
                 // Add group element for each dimension
                 var g = teamsvg.selectAll(".dimension")
