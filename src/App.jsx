@@ -1,6 +1,7 @@
 import {Component} from "preact";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faVirus} from "@fortawesome/free-solid-svg-icons";
+import BarChart from "./BarChart";
 
 class App extends Component {
     render() {
@@ -17,8 +18,10 @@ class App extends Component {
                     </div>
                 </div>
                 <div class="flex flex-row flex-grow space-x-4">
-                    <div class="bg-white shadow-lg rounded-md flex-1"></div>
-                    <div class="bg-white shadow-lg rounded-md flex-1"></div>
+                    <div class="bg-white shadow-lg rounded-md flex-1 p-4">
+                        <BarChart />
+                    </div>
+                    <div class="bg-white shadow-lg rounded-md flex-1 p-4"></div>
                 </div>
             </div>
         )
