@@ -7,6 +7,28 @@ function main() {
     createLineGraph();
     createScatterPlot();
 
+    function setOpacity(d, selector) {
+        //console.log(selector);
+        //console.log(d);
+        //console.log(d.sex)
+
+        if (selector === "all") {
+            return 0.5;
+        } else if (selector === "Men") {
+            if (d.sex === "Men") {
+                return 0.5;
+            } else return 0.0;
+        } else if (selector === "Women") {
+            if (d.sex === "Women") {
+                return 0.5;
+            } else return 0.0;
+        } else if (selector === "Both Sexes") {
+            if (d.sex === "Both Sexes") {
+                return 0.5;
+            } else return 0.0;
+        }
+    }
+
     function createScatterPlot() {
         //Read CSV Data
         d3.csv("csv/earned.csv").then(function (data) {
@@ -254,27 +276,6 @@ function main() {
                 }
             }
 
-            function setOpacity(d, selector) {
-                //console.log(selector);
-                //console.log(d);
-                //console.log(d.sex)
-
-                if (selector === "all") {
-                    return 0.5;
-                } else if (selector === "Men") {
-                    if (d.sex === "Men") {
-                        return 0.5;
-                    } else return 0.0;
-                } else if (selector === "Women") {
-                    if (d.sex === "Women") {
-                        return 0.5;
-                    } else return 0.0;
-                } else if (selector === "Both Sexes") {
-                    if (d.sex === "Both Sexes") {
-                        return 0.5;
-                    } else return 0.0;
-                }
-            }
         });
 
     }
@@ -377,6 +378,8 @@ function main() {
             svg.append("g")
                 .call(d3.axisLeft(y));
 
+
+
             svg.append('text')
                 .attr('x', width / 2)
                 .attr('y', height + 30)
@@ -391,28 +394,6 @@ function main() {
                 .attr('transform', "translate(-100,60)rotate(270)")
                 .attr('class', 'label')
                 .text('Median Weekly Earnings');
-
-            function setOpacity(d, selector) {
-                //console.log(selector);
-                //console.log(d);
-                //console.log(d.sex)
-
-                if (selector === "all") {
-                    return 0.5;
-                } else if (selector === "Men") {
-                    if (d.sex === "Men") {
-                        return 0.5;
-                    } else return 0.0;
-                } else if (selector === "Women") {
-                    if (d.sex === "Women") {
-                        return 0.5;
-                    } else return 0.0;
-                } else if (selector === "Both Sexes") {
-                    if (d.sex === "Both Sexes") {
-                        return 0.5;
-                    } else return 0.0;
-                }
-            }
 
             addLegend();
 
@@ -514,6 +495,8 @@ function main() {
                     });
 
             }
+
+
 
             function setFocus(id) {
                 let lineMen = document.getElementById("menline");
