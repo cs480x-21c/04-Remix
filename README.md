@@ -1,5 +1,5 @@
-### Assignment 4 - DataVis Remix + Multiple Views
-Danya Baron
+## Assignment 4 - DataVis Remix + Multiple Views
+### Danya Baron
 ===
 
 https://danyabaron.github.io/04-Remix/
