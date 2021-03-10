@@ -3,9 +3,9 @@ import * as d3 from "d3";
 
 import {COVID_DATA} from "./Data";
 
-const MARGIN = 80;
-const WIDTH = 900 - (2 * MARGIN);
-const HEIGHT = 400 - (2 * MARGIN);
+const MARGIN = {LEFT: 50, RIGHT: 10, BOTTOM: 50, TOP: 10}
+const WIDTH = 900 - MARGIN.LEFT - MARGIN.RIGHT;
+const HEIGHT = 400 - MARGIN.TOP - MARGIN.BOTTOM;
 
 class BarChart extends Component {
     constructor(props) {
@@ -26,11 +26,11 @@ class BarChart extends Component {
 
         let svg = d3.select(this.containerRef.current)
             .append("svg")
-            .attr("width", WIDTH + (MARGIN * 2))
-            .attr("height", HEIGHT + (MARGIN * 2));
+            .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
+            .attr("height", HEIGHT + MARGIN.TOP + MARGIN.BOTTOM);
 
         let graph = svg.append("g")
-            .attr("transform", `translate(${MARGIN}, ${MARGIN})`);
+            .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`);
 
         graph.append("g")
             .call(d3.axisLeft(yScale));
@@ -65,7 +65,7 @@ class BarChart extends Component {
 
         graph.append("text")
             .attr("x", (WIDTH / 2))
-            .attr("y", HEIGHT + MARGIN)
+            .attr("y", HEIGHT + MARGIN.BOTTOM)
             .attr("text-anchor", "middle")
             .text("Date");
     }
