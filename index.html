@@ -59,21 +59,16 @@
 
   <div class="row">
     <div class="block">
-      <svg width=960 height=600>
+      <h2>Average Monthly Earnings by Region(GEL)</h2>
+      <svg width=800 height=600>
       </svg>
     </div>
     <div class="block">
-      <h2>Earnings by Year (GEL)</h2>
+      <h2>Average Monthly Earnings by Year (GEL)</h2>
       <div class="barChart" id="earningsByYear"></div>
     </div>
   </div>
-  <div class="row">
 
-    <div class="block">
-      <h2>Earnings by Region (GEL)</h2>
-      <div class="barChart" id="earningsByRegion"></div>
-    </div>
-  </div>
   <script>
     Promise.all(
       [
@@ -133,12 +128,12 @@
         return d.AvgEarning;
       });
 
+      reductio().avg('AvgEarning')(data.regionGroup);
+
       //Hover over bar chart to choose year
       barChartYear.onMouseOver(function(e, d) {
         currentMin = data.year.top(1)[0].AvgEarning;
         currentMax = data.year.bottom(1)[0].AvgEarning;
-        // console.log("MIN barChart " + currentMin);
-        // console.log("MAX barChart" + currentMax);
         data.year.filterExact(d.key);
         update();
       }).onMouseOut(function() {
@@ -155,9 +150,6 @@
           .datum(data.yearGroup.all())
           .call(barChartYear);
 
-        // d3.select("#earningsByRegion")
-        //   .datum(data.regionGroup.all())
-        //   .call(barChartRegion);
       }
 
       //console.log crossfilter data
@@ -182,15 +174,6 @@
       var color =
         d3.scaleSequential(d3.interpolateRdBu)
         .domain(d3.extent([currentMin, currentMax])) //[currentMin, currentMax]))
-      //  .range(["white","red"]);
-      console.log(d3.extent([currentMin, currentMax]));
-      console.log("Min " + currentMin + "  " + color(currentMin));
-      console.log("Max " + currentMax + "  " + color(currentMax));
-      var color =
-        d3.scaleSequential(d3.interpolateTurbo) //interpolateRdBu
-        .domain(d3.extent(regions.features, function(d) {
-          return gpath.area(d)
-        }));
 
 
       var svg = d3.select('svg')
@@ -204,8 +187,24 @@
         .attr('stroke-width', 1)
         .attr('stroke', 'black')
         .attr('fill', function(d) {
-          console.log("Region "+d.properties['NAME_1']);
-          return color(gpath.area(d));
+
+          //No data on Abkhazia due to political reasons
+          if (d.properties['NAME_1'] === "Abkhazia") {
+            return "white";
+          }
+
+          data.region.filterExact(d.properties['NAME_1']);
+
+          var gr = data.regionGroup.top(Infinity);
+          var i;
+          for (i = 0; i < gr.length; i++) {
+          if(gr[i].key === d.properties['NAME_1']){
+            return color(gr[i].value.avg);
+          }
+          }
+          data.region.filterAll();
+          data.region.filterExact("Total");
+          return "black";//color(gpath.area(d));
           //pass AvgEarning of each region to color
 
         });
@@ -217,18 +216,20 @@
       svg.on("mouseover", function(e, d) {
           // Filter the data to only include the Region Hovered On
           data.region.filterExact(d.properties['NAME_1']);
-
           //Update the current data min and Max
-          currentMin = data.year.top(1)[0].AvgEarning;
-          currentMax = data.year.bottom(1)[0].AvgEarning;
-
+          var message = d.properties['NAME_1'];
+          if (d.properties['NAME_1'] !== "Abkhazia") {
+            currentMin = data.year.top(1)[0].AvgEarning;
+            currentMax = data.year.bottom(1)[0].AvgEarning;
+            update();
+          }
           //       console.log(d3.extent([currentMin, currentMax]));
           // console.log("Min "+currentMin + "  "+color(currentMin));
           //     console.log("Max "+currentMax + "  "+color(currentMax));
           // console.log("MIN map "+currentMin);
           // console.log("MAX map"+ currentMax);
           //logGroup(data.yearGroup.top(Infinity));
-          update();
+
 
           d3.select(this).transition()
             .duration('50')
@@ -238,7 +239,7 @@
             .duration(50)
             .style("opacity", 1);
 
-          var message = d.properties['NAME_1'];
+
 
           tip.html(message)
             .style("left", (e.pageX + 10) + "px")
