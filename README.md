@@ -2,7 +2,9 @@ Assignment 4 - DataVis Remix + Multiple Views
 ===
 
 Original Visualization: https://www.eia.gov/energyexplained/electricity/electricity-in-the-us.php
+
 Remix Visualization link: https://clay-ol.github.io/04-Remix/ 
+
   This is a remix of the US Energy Information Administration's stacked 
   area chart of US energy generation by source.
 Two additional visualizations have been added - a bar chart showing energy production by selected source as well as a pie chart showing percent compositions over the entire historical dataset.
