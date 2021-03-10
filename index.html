@@ -30,7 +30,9 @@
             <div id="teamCompare"></div>
             <div id="teamInspect"></div>
         </div>
-        <div id="teamSelector"></div>
+        <div id="teamSelector">
+            <img class="BOS" src="bos.png" width="200" height = "200" onclick="">
+        </div>
         <script>
             d3.select("#charts")
                 .style("display","flex")
@@ -54,9 +56,8 @@
             var height = (divHeights/1.75) - margin.top - margin.bottom;
             var x = d3.scale.ordinal().rangePoints([0, width], 1)
             var y = {};
-            var dragging = {};
             var line = d3.svg.line();
-            var axis = d3.svg.axis().orient("left"), background, foreground;
+            var axis = d3.svg.axis().orient("left"), background;
             // Building team comparisons parallel coordinate graph
             // Axes: Expected Goals from team, actual goals from team, expected goals against team, actual goals against team    
             var teamsvg = d3.select("#teamCompare").append("svg")
@@ -68,6 +69,20 @@
             function path(d) {
                 return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
             }
+
+            function setFocus(teamName){
+                // set every path to grey(the background)
+                d3.selectAll(".background")
+                    .transition().duration(100)
+                    .style("stroke", "#ddd")
+                d3.select("path ."+teamName)
+                    .style("stroke", "#FF0000")
+            }
+
+            // Event Listener to the associated team logo button
+            d3.select("img .BOS").on("click", setFocus("BOS"));
+
+
             d3.csv("teamdata.csv", function(teamData) {
                 x.domain(dimensions = d3.keys(teamData[0]).filter(function(d) {
                     return d != "team" && (y[d] = d3.scale.linear()
@@ -75,19 +90,15 @@
                         .range([height, 0]));
                 }));
 
-                // background = svg.append("g")
-                //         .attr("class", "background")
-                //     .selectAll("path")
-                //         .data(teamData)
-                //     .enter().append("path")
-                //         .attr("d", path);
-
-                foreground = teamsvg.append("g")
-                        .attr("class", "foreground")
+                background = teamsvg.append("g")
+                        .attr("class", "background path")
                     .selectAll("path")
                         .data(teamData)
                     .enter().append("path")
+                        .attr("class", function(d){ return d.team})
                         .attr("d", path);
+
+
                 // Add group element for each dimension
                 var g = teamsvg.selectAll(".dimension")
                         .data(dimensions)
@@ -101,8 +112,8 @@
                     .append("text")
                         .style("text-anchor", "middle")
                         .attr("y", -9)
-                        .text(function(d) {return d; });
-            });
+                        .text(function(d) {return d; });        
+            }); 
         </script>
     </body>
 </html>
