@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<div id="map"></div>
+
+<style>
+  body {
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  .tooltip {
+    position: absolute;
+    font-size: 20px;
+    pointer-events: none;
+    background-color: rgb(236, 195, 90);
+    padding: 5px 5px 5px 5px;
+}
+
+  .svg1 {
+    transform: translate(0px,0px);
+    background-color: rgb(125, 125, 236);
+  }
+
+  .svg2 {
+    transform: translate(0px,0px);
+  }
+</style>
+
+<script>
+
+// setting up the margins, width and height
+var margin = {top: 50, right: 50, bottom: 50, left: 50}
+
+var width1 = 600,height1 = 400
+
+var width2 = 1500,height2 = 500
+
+// Adding the svgs
+var svg1 = d3.select("#map").append("svg")
+.attr("class","svg1")
+.attr("width",width1)
+.attr("height",height1)
+
+var svg2 = d3.select("#map").append("svg")
+.attr("class","svg2")
+.attr("width",width2)
+.attr("height",height2)
+
+// setting up the axes for scatter plot
+var x = d3.scaleLinear()
+    .domain([0, 247])        
+    .range([margin.left, width2 - margin.right]);      
+
+var y = d3.scaleLinear()
+  .domain([0, 1500000000])       
+  .range([height2 - margin.bottom , margin.top]);      
+
+svg2.append("text")
+        .attr("transform",
+        "translate(" + (width2/2)+","+
+                (height2 - (margin.bottom/2)) + ")")
+        .style("text-anchor","middle")
+        .text("Countries")
+
+svg2.append("text")
+        .attr("y",height2/2 + 10)
+        .attr("x",-12)
+        .attr("transform",function(d){  
+           return "rotate(-90,-12,235)"
+        })
+        .style("text-anchor","middle")
+        .text("Population")
+
+// Adding map and projection
+var path = d3.geoPath();
+var projection = d3.geoMercator()
+  .scale(width1/2.5/Math.PI)
+  .rotate([0,0])
+  .center([0,0])
+  .translate([width1/2, height1/2]);
+
+// creating data structures for storing data from the csv files
+var data = d3.map();
+var dataCountries =  d3.map();
+
+// Adding color scale
+var colors = ["#eff3ff","lightblue","yellow","pink","orange","red","brown"]
+var colorScale = d3.scaleThreshold()
+  .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+  .range(colors);
+
+// Load external data and boot, this did not work...
+
+//Promise.all([
+//d3.json("world.geojson"),
+//d3.csv("world_population.csv",function(d){
+ // data.set(d.code,d.pop)
+//})
+//]).then(ready);
+
+// added the common tool tip
+var toolTip = d3.select("#map") 
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+
+
+// Loading data, using queue, defer and await functions
+d3.queue()
+  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { 
+    data.set(d.code, +d.pop); 
+    dataCountries.set(d.code, d.name); 
+  })
+  .await(ready);
+
+// drawing the visualizations once the data is ready
+function ready(error,topo) {
+
+  // drawing map
+  svg1.append("g")
+    .selectAll("path")
+    .data(topo.features)
+    .enter()
+    .append("path")
+      // draw each country
+      .attr("d", d3.geoPath()
+        .projection(projection)
+      )
+      // set the color of each country
+      .attr("fill", function (d) {
+        d.total = data.get(d.id) || 0;
+        return colorScale(d.total);
+      })
+      // setting the stroke
+      .attr("stroke","black")
+      .attr("stroke-width","1px")
+      // setting the opacity
+      .attr("opacity",0.75)
+      // mouseover handler
+      .on("mouseover",function(d){
+
+        // make significant styling changes
+        d3.select(this).attr("opacity",1)
+        .attr("stroke","black")
+        .attr("stroke-width","2px")
+
+        // adding tool tips
+        d.total = data.get(d.id) || 0;
+        toolTip.text(d.properties.name+":"+d.total)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY -30) + "px")
+            .transition()
+            .duration(200)
+            .style("opacity", 1)
+
+        // linking the interactions with the scatter plot
+        svg2.selectAll("circle")
+        .attr("opacity",function(dHere){
+          if(dHere === d.id){
+            return 1
+          }else{
+            return 0.5
+          }
+        })
+        .attr("stroke-width",function(dHere){
+          if(dHere === d.id){
+            return "2px"
+          }else{
+            return "1px"
+          }
+        })
+        .transition()
+        .duration(200)
+        .attr("fill",function(dHere){
+          if(dHere === d.id){
+            return "yellow"
+          }else{
+            return "green"
+          }
+        })
+        .attr("r",function(dHere){
+          if(dHere === d.id){
+            return 15
+          }else{
+            return 5
+          }
+        })
+
+       
+      })
+      // mousemove handler
+      .on("mousemove", function(d){
+
+        // keeping the tool tip
+        toolTip.text(d.properties.name+":"+d.total)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY -30) + "px")
+      })
+      // mouseout handler, restores everything to normal except the highlighted scatter point for the respective country
+      .on("mouseout",function(d){
+        d3.select(this).attr("opacity",0.75)
+        .attr("stroke","black")
+        .attr("stroke-width","1px")
+
+        toolTip
+        .transition()
+        .duration(300)
+        .style("opacity", 0)
+
+        //svg2.selectAll("circle")
+        //.attr("opacity",0.5)
+        //.attr("stroke-width","1px")
+        //.transition()
+        //.duration(300)
+        //.attr("fill","green")
+        //.attr("r",5)
+      })
+
+  
+  // Drawing the scatter plot
+  svg2.selectAll('circle')
+    .data(data.keys())
+    .enter()
+    .append('circle')
+    .attr('cx',function(d,i){
+      return x(i+1)
+    })
+    .attr('cy',function(d){
+      pop = data.get(d) || 0
+      return y(pop)
+    })
+    .attr('r',5)
+    .attr('fill','green')
+    .attr('opacity',0.5)
+    .attr("stroke","black")
+    .attr("stroke-width","1px")
+    // mouseover handler
+    .on("mouseover",function(d){
+
+      // highlights the scatter point
+        d3.select(this).attr("opacity",1)
+        .attr("stroke-width","2px")
+        .transition()
+        .duration(200)
+        .attr("fill",'yellow')
+        .attr('r',15);
+
+        // adds the tool tip
+        toolTip.text(dataCountries.get(d)+":"+data.get(d))
+        .style("left", (d3.select(this).attr('cx')) + "px")
+        .style("top", (d3.select(this).attr("cy") - 50) + height1 + "px")
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+      
+        // Linked Highlighting with the world map
+        svg1.selectAll("path")
+        .attr("stroke-width",function(dHere){
+          if(dHere.id === d){
+            return "2px"
+          }else{
+            return "1px"
+          }
+        })
+        .attr("opacity",function(dHere){
+          if(dHere.id === d){
+            return 1
+          }else{
+            return 0.75
+          }
+        })
+
+    })
+    // mousemout handler, restores everything back to normal
+    .on("mouseout",function(d){
+      d3.select(this).attr("opacity",0.5)
+      .attr("stroke-width","1px")
+      .transition()
+      .duration(300)
+      .attr("fill",'green')
+      .attr('r',5)
+
+      toolTip
+      .transition()
+      .duration(300)
+      .style("opacity", 0)
+
+      svg1.selectAll("path")
+      .attr("stroke-width","1px")
+      .attr("opacity",0.75)
+
+
+    })
+
+  // appending the axes
+  svg2
+  .append("g")
+  .attr("transform", "translate(0,"+ (height2 - margin.bottom) +")")     
+  .call(d3.axisBottom().scale(x).ticks(0))
+
+  svg2
+  .append("g")
+  .attr("transform", "translate("+ margin.left+","+ 0 +")")     
+  .call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
+    
+
+      
+}
+
+</script>

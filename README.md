@@ -1,58 +1,71 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Link for the visualization and linked views: https://suryanshg.github.io/04-Remix/
 
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+REMIX
 ---
+Original visualization: 
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+![origVis](img/origVis.JPG)
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+The original visualization is a world map I found online. It is color-coded with the d3.blueSchemes with 7 different shades of blue to represent population of a country. Higher color shade corresponds to higher population. For example, Dark blue for China and India, very light blue for Antarctic.
+
+Problems with it:
+- Bad color scale: Countries with high population are distinguishable from low/medium population, but not distinguishable amongst high population countries. Moreover, intermediate shades of blue are very difficult to percept. Also, differences between colors of same scale are difficult to percept.
+- No boundaries around countries: Since the color of Antarctica is very light blue (almost white), it seems that the original map doesn't have it. Same goes for the boundries between other countries, such as India and China.
+- No interactive features
+
+Remix visualization: 
+
+![remix](img/remix.JPG)
+
+This remix version of the above visualization tries to fix the above-mentioned problems. For color scale, I used different hues to depict different population sizes. Brown corresponds to the highest populations, followed by red to depict high populations. Orange, pink, yellow and light blue represent descending population sizes, with very light blue representing a population close to 0. Also, the background is changed to blue color for depicting oceans and seas. I have added strokes for boundaries between countries as well as countries and water bodies. 
+
+The interactions I have added are based on mouseover, mousemove and mouseout events. They are:
+- Increased stroke width
+- Increased opacity (from original 0.75 to 1)
+- A tool tip representing country name and respective population
+
+Interactions on remix visualization: 
+
+![remix1](img/remixInteraction.png)
+
+LINKED VIEWS
+---
+For Linked Views, I considered making a view about displaying population data using a scatter plot.
+
+Linked View: 
+
+![linkedView](img/linkedView.png)
+
+The x-axis represent countries and the y-axis represent their respective populations. The reason why I chose this visualization idiom is because we have learnt in class that spacial position is more perceptive than hue. So to highlight the difference between population of different countries, the scatter plot utilizes the spacial position (height difference) as opposed to the color scale used by the map visualization.
+
+The two views are linked in the following way using "Linked Highlighting":
+
+Link from Map to Scatterplot:
+
+![linkedView1](img/linkedView1.png)
+
+Link from Scatterplot to Map:
+
+![linkedView2](img/linkedView2.png)
+
+Here hovering over a country in map, highlights its respective scatter dot in the scatter plot and increases its opacity and size, and changes its color. Hovering over a scatter dot in the scatterplot highlights the respective country in the map by increasing its opacity and strokewidth.
+
+Thus, the two views are linked to each other.
+
+Technical Achievements
+---
+- Experimented with a new data structure, d3.map(), to link data between the geoJson and csv files.
+- Utilized a different scaling method, d3.scaleThreshold(), to map population sizes to a color.
+- Experimented with CSS styles.
+
+Design Achievements
+---
+- Added tool tips for both views.
+- Added interactivity for both views by using mouseover, mousemove and mouseout events.
+- Added different tick format for the y-axis of the scatterplot.
 
 Extra Links
 ---
@@ -62,3 +75,8 @@ Extra Links
 - https://github.com/d3/d3-brush
 - https://observablehq.com/collection/@d3/d3-brush
 - https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+
+References
+---
+- https://www.d3-graph-gallery.com/graph/choropleth_basic.html
+- https://observablehq.com/@jyotisunkara/linked-bar-chart-and-scatter-plot
