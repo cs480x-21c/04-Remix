@@ -1,12 +1,40 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com"> 
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
-<!-- Create a div where the graph will take place -->
+<style>
+  div {
+    min-width: 400px;
+    min-height: 300px;
+  }
+  svg {
+    border: 3px solid hotpink;
+  }
+  *{
+ 
+    font-family: 'Open Sans', sans-serif;
+  }
+  h1{
+    font-size: 150%;
+    text-align: center;
+  }
+  h2{
+    text-align: center;
+  }
+
+</style>
+
+
+
+<h1>US Energy Production by source</h1>
 <div id="visualization1"></div>
 <div id="visualization2"></div>
+<div id="visualization3"></div>
 <script>
 
+// until a source is selected, default to 'other'
 var dataSelect = "other";
 // set the dimensions and margins of the graph
 var margin = {top: 60, right: 230, bottom: 50, left: 50},
@@ -107,6 +135,7 @@ var idleTimeout
 function idled() { idleTimeout = null; }
 
 // A function that update the chart for given boundaries
+
 function updateChart() {
 
   extent = d3.event.selection
@@ -225,7 +254,72 @@ barSvg.selectAll("mybar")
     .attr("fill", function(d){ return color(dataSelect)})
 }
 
+function pieDraw(data, color){
+        iterations = 0
+        var svg_pie = d3.select("#visualization3")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
+        var radius = height / 2 - 10 // add margin to prevent clipping
+
+        console.log(data)
+        var coalTotal = 0;
+        var gasTotal = 0;
+        var nuclearTotal = 0;
+        var renewablesTotal = 0;
+        var otherTotal = 0;
+        var overallTotal = 0;
+        for( var i = 0; i < data.length; i++){
+          coalTotal += parseInt(data[i].coal);
+          gasTotal += parseInt(data[i].gas);
+          nuclearTotal += parseInt(data[i].nuclear);
+          renewablesTotal += parseInt(data[i].renewables);
+          otherTotal += parseInt( data[i].other );
+        }
+        var pie = d3.pie()
+          .value(function (d) { return d.value; })
+
+
+        var totals = { 
+          "coal": coalTotal,
+      "gas": gasTotal,
+    "nuclear": nuclearTotal,
+  "renewables": renewablesTotal,
+"other": otherTotal}
+var pieData = pie(d3.entries(totals))
+        var arcMaker = d3.arc()
+          .innerRadius(0)
+          .outerRadius(radius)
+        console.log(pieData)
+        svg_pie
+          .selectAll('data')
+          .data(pieData)
+          .enter()
+          .append('path')
+          .attr('d', arcMaker)
+          .attr("fill", function(d){
+            return color(d.data.key)})
+          .attr("stroke", "black")
+          .style("stroke-width", "2px")
+
+        // svg_pie
+        //   .selectAll('data')
+        //   .data(pieData)
+        //   .enter()
+        //   .append('circle')
+        //   .attr('r', function (d) {
+        //     if (randomTwo.includes(d.data.key)) {
+        //       return 5
+        //     }
+        //     else {
+        //       return 0
+        //     }
+        //   })
+        //   .attr("transform", function (d) { return "translate(" + arcMaker.centroid(d) + ")"; })        
+      }
 
 // Parse the Data, set up keys, color, stacking
 d3.csv("data/generation.csv", function(data) {
@@ -239,6 +333,7 @@ areaStackDraw(data, keys, color);
 
 barDraw(data, color );
 
+pieDraw(data, color );
 })
     
     </script>
