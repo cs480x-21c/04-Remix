@@ -1,0 +1,13 @@
+# Build Files & Miscellaneous
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+# WebStorm Files
+.idea/
+*.ipr
+*.iws
+*.ids
+*.iml
