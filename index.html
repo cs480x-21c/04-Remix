@@ -1,0 +1,150 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<button type="button" onclick="setMode('Party')">Party</button>
+<button type="button" onclick="setMode('House')">House/Sen.</button>
+<button type="button" onclick="setMode('Detail')">Detail</button>
+<svg id="vis"></svg>
+
+<script>
+    console.log(d3);
+
+    if(sessionStorage.getItem("Mode") != "Party" && sessionStorage.getItem("Mode") != "House" && sessionStorage.getItem("Mode") != "Detail") {
+        sessionStorage.setItem("Mode", "Party");
+    }
+    
+    function setMode(mode) {
+        sessionStorage.setItem("Mode", mode);
+        location.reload();
+    }
+
+    var wid = 1400;
+    var hgt = 3600;
+    /*
+    Arrays store info in the following positions:
+    0 - #/% Protestant              11 - #/% White                      16 - #/% Men
+    1 - #/% Catholic                12 - #/% Latino/Hispanic            17 - #/% Women
+    2 - #/% Mormon                  13 - #/% Black
+    3 - #/% Orthodox Christian      14 - #/% Asian/Pacific Islander
+    4 - #/% Muslim                  15 - #/% Native American
+    5 - #/% Jewish
+    6 - #/% Hindu
+    7 - #/% Budhist
+    8 - #/% Other
+    9 - #/% Dont know
+    10 - #/% Unaffiliated
+
+    Population: %
+    Democrat/Republican Senate: # out of 100
+    Democrat/Republican House: # out of 435
+    Democrats: 283 total seats, 237 house 46 senate
+    Republicans: 249 total seats, 197 house 52 senate
+    Colors: Hexadecimal codes
+    */
+    var titles = ["Protestants", "Catholics", "Mormons", "Orthodox Christians", "Muslims", "Hebrews", "Hindus", "Buddhists", "Other Religions", "Unknown/Refuse to answer", "Unaffiliated/Nonreligious",
+        "White/Caucasians", "Latino/Hispanics", "Black/African Americans", "Asian/Pacific Islanders", "Native Americans",
+        "Men", "Women"]
+    var popltn = [48, 21, 2, 1, 1, 2, 1, 1, 2, 1, 23,
+        60.1, 18.5, 13.4, 6.1, 1.3,
+        49.2, 50.8];
+    var demhou = [97, 87, 1, 3, 3, 24, 3, 1, 2, 14, 0,
+        129, 37, 53, 16, 2,
+        147, 90];
+    var demsen = [20, 12, 1, 0, 0, 8, 0, 1, 0, 4, 1,
+        39, 2, 2, 3, 0,
+        29, 17];
+    var rpbhou = [136, 54, 5, 2, 0, 2, 0, 0, 0, 0, 0,
+        184, 9, 1, 1, 2,
+        182, 15];
+    var rpbsen = [40, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0,
+        48, 3, 1, 0, 0,
+        44, 8];
+    var colors = ["#332288", "#117733", "#44AA99", "#8EFF22", "#88CCEE", "#DDCC77", "#CC6677", "#AA4499", "#882255", "#191919", "#AAAAAA",
+        "#D4D4D4", "#FFB000", "#FE6100", "#DC267F", "#57FF42",
+        "#0AC3FF", "#EF0087"]
+
+    var svg = d3.select('#vis')
+        .attr('width', wid)
+        .attr('height', hgt);
+
+    function makeCirc(x, y, r, c) {
+        svg.append('circle')
+            .attr('cx', x)
+            .attr('cy', y)
+            .attr('r', 10 * Math.log(r + 1))
+            .attr('fill', colors[c])
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2);
+    }
+
+    function createVisA(i) {
+        svg.append("text")
+            .attr("x", wid / 2)
+            .attr("y", (200 * i) + 50)
+            .text("Representation of " + titles[i] + " in:")
+            .style("text-anchor", "middle");
+        svg.append("text")
+            .attr("x", wid / 2)
+            .attr("y", (200 * i) + 180)
+            .text("Population")
+            .style("text-anchor", "middle");
+        makeCirc(wid / 2, (200 * i) + 100, popltn[i], i);
+        if(sessionStorage.getItem("Mode") == "Party") {
+            makeCirc(wid / 2 + 120, (200 * i) + 100, (rpbhou[i] + rpbsen[i]) / 2.83, i);
+            makeCirc(wid / 2 - 120, (200 * i) + 100, (demhou[i] + demsen[i]) / 2.49, i);
+            svg.append("text")
+                .attr("x", wid / 2 + 120)
+                .attr("y", (200 * i) + 160)
+                .text("Republicans")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", wid / 2 - 120)
+                .attr("y", (200 * i) + 160)
+                .text("Democrats")
+                .style("text-anchor", "middle");
+        } else if(sessionStorage.getItem("Mode") == "House") {
+            makeCirc(wid / 2 + 120, (200 * i) + 100, (rpbhou[i] + demhou[i]) / 4.34, i);
+            makeCirc(wid / 2 - 120, (200 * i) + 100, (rpbsen[i] + demsen[i]) / .98, i);
+            svg.append("text")
+                .attr("x", wid / 2 + 120)
+                .attr("y", (200 * i) + 160)
+                .text("House of Rep.")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", wid / 2 - 120)
+                .attr("y", (200 * i) + 160)
+                .text("Senate")
+                .style("text-anchor", "middle");
+        } else if(sessionStorage.getItem("Mode") == "Detail") {
+            makeCirc(wid / 2 + 120, (200 * i) + 100, rpbsen[i] / .52, i);
+            makeCirc(wid / 2 + 240, (200 * i) + 100, rpbhou[i] / 1.97, i);
+            makeCirc(wid / 2 - 120, (200 * i) + 100, demsen[i] / .46, i);
+            makeCirc(wid / 2 - 240, (200 * i) + 100, demhou[i] / 2.37, i);
+            svg.append("text")
+                .attr("x", wid / 2 + 120)
+                .attr("y", (200 * i) + 160)
+                .text("Republican Senate")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", wid / 2 + 240)
+                .attr("y", (200 * i) + 180)
+                .text("Republican House")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", wid / 2 - 120)
+                .attr("y", (200 * i) + 160)
+                .text("Democrat Senate")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", wid / 2 - 240)
+                .attr("y", (200 * i) + 180)
+                .text("Democrat House")
+                .style("text-anchor", "middle");
+        }
+    }
+
+    for (i = 0; i < popltn.length; i++) {
+        createVisA(i);
+    }
+
+
+</script>
