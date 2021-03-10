@@ -8,5 +8,11 @@ export default defineConfig({
     jsxFragment: 'Fragment',
     jsxInject: `import { h, Fragment } from 'preact'`
   },
-  plugins: [preactRefresh()]
+  plugins: [preactRefresh()],
+  resolve: {
+    alias: {
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat'
+    }
+  }
 })
