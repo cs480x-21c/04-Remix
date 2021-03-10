@@ -35,12 +35,11 @@
 // setting up the margins, width and height
 var margin = {top: 50, right: 50, bottom: 50, left: 50}
 
-width1 = 600
-height1 = 400
+var width1 = 600,height1 = 400
 
-width2 = 1500
-height2 = 500
-// Adding the svg
+var width2 = 1500,height2 = 500
+
+// Adding the svgs
 var svg1 = d3.select("#map").append("svg")
 .attr("class","svg1")
 .attr("width",width1)
@@ -51,18 +50,14 @@ var svg2 = d3.select("#map").append("svg")
 .attr("width",width2)
 .attr("height",height2)
 
-// setting up the axes for bar chart/scatter plot
+// setting up the axes for scatter plot
 var x = d3.scaleLinear()
     .domain([0, 247])        
     .range([margin.left, width2 - margin.right]);      
 
-
-
 var y = d3.scaleLinear()
   .domain([0, 1500000000])       
   .range([height2 - margin.bottom , margin.top]);      
-
-
 
 svg2.append("text")
         .attr("transform",
@@ -77,15 +72,10 @@ svg2.append("text")
         .attr("transform",function(d){  
            return "rotate(-90,-12,235)"
         })
-        //.attr("transform",
-        //"translate(" + (margin.left - 25)+","+
-        //(height2/2) + ")")
         .style("text-anchor","middle")
         .text("Population")
- 
 
-
-// Map and projection
+// Adding map and projection
 var path = d3.geoPath();
 var projection = d3.geoMercator()
   .scale(width1/2.5/Math.PI)
@@ -93,15 +83,17 @@ var projection = d3.geoMercator()
   .center([0,0])
   .translate([width1/2, height1/2]);
 
-// Data and color scale
+// creating data structures for storing data from the csv files
 var data = d3.map();
 var dataCountries =  d3.map();
+
+// Adding color scale
 var colors = ["#eff3ff","lightblue","yellow","pink","orange","red","brown"]
 var colorScale = d3.scaleThreshold()
   .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
   .range(colors);
 
-// Load external data and boot
+// Load external data and boot, this did not work...
 
 //Promise.all([
 //d3.json("world.geojson"),
@@ -110,13 +102,14 @@ var colorScale = d3.scaleThreshold()
 //})
 //]).then(ready);
 
+// added the common tool tip
 var toolTip = d3.select("#map") 
 .append("div")
 .style("opacity", 0)
 .attr("class", "tooltip")
 
 
-
+// Loading data, using queue, defer and await functions
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { 
@@ -125,8 +118,10 @@ d3.queue()
   })
   .await(ready);
 
+// drawing the visualizations once the data is ready
 function ready(error,topo) {
-  // Draw the map
+
+  // drawing map
   svg1.append("g")
     .selectAll("path")
     .data(topo.features)
@@ -141,13 +136,20 @@ function ready(error,topo) {
         d.total = data.get(d.id) || 0;
         return colorScale(d.total);
       })
+      // setting the stroke
       .attr("stroke","black")
       .attr("stroke-width","1px")
+      // setting the opacity
       .attr("opacity",0.75)
+      // mouseover handler
       .on("mouseover",function(d){
+
+        // make significant styling changes
         d3.select(this).attr("opacity",1)
         .attr("stroke","black")
         .attr("stroke-width","2px")
+
+        // adding tool tips
         d.total = data.get(d.id) || 0;
         toolTip.text(d.properties.name+":"+d.total)
             .style("left", (d3.event.pageX) + "px")
@@ -156,6 +158,7 @@ function ready(error,topo) {
             .duration(200)
             .style("opacity", 1)
 
+        // linking the interactions with the scatter plot
         svg2.selectAll("circle")
         .attr("opacity",function(dHere){
           if(dHere === d.id){
@@ -190,11 +193,15 @@ function ready(error,topo) {
 
        
       })
+      // mousemove handler
       .on("mousemove", function(d){
+
+        // keeping the tool tip
         toolTip.text(d.properties.name+":"+d.total)
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY -30) + "px")
       })
+      // mouseout handler, restores everything to normal except the highlighted scatter point for the respective country
       .on("mouseout",function(d){
         d3.select(this).attr("opacity",0.75)
         .attr("stroke","black")
@@ -212,9 +219,10 @@ function ready(error,topo) {
         //.duration(300)
         //.attr("fill","green")
         //.attr("r",5)
-      
       })
 
+  
+  // Drawing the scatter plot
   svg2.selectAll('circle')
     .data(data.keys())
     .enter()
@@ -224,7 +232,6 @@ function ready(error,topo) {
     })
     .attr('cy',function(d){
       pop = data.get(d) || 0
-      //console.log(pop)
       return y(pop)
     })
     .attr('r',5)
@@ -232,15 +239,18 @@ function ready(error,topo) {
     .attr('opacity',0.5)
     .attr("stroke","black")
     .attr("stroke-width","1px")
+    // mouseover handler
     .on("mouseover",function(d){
-      d3.select(this).attr("opacity",1)
+
+      // highlights the scatter point
+        d3.select(this).attr("opacity",1)
         .attr("stroke-width","2px")
         .transition()
         .duration(200)
         .attr("fill",'yellow')
-        .attr('r',15)
+        .attr('r',15);
 
-        //console.log(d3.select(this).attr('cy'))
+        // adds the tool tip
         toolTip.text(dataCountries.get(d)+":"+data.get(d))
         .style("left", (d3.select(this).attr('cx')) + "px")
         .style("top", (d3.select(this).attr("cy") - 50) + height1 + "px")
@@ -248,6 +258,7 @@ function ready(error,topo) {
         .duration(200)
         .style("opacity", 1)
       
+        // Linked Highlighting with the world map
         svg1.selectAll("path")
         .attr("stroke-width",function(dHere){
           if(dHere.id === d){
@@ -265,6 +276,7 @@ function ready(error,topo) {
         })
 
     })
+    // mousemout handler, restores everything back to normal
     .on("mouseout",function(d){
       d3.select(this).attr("opacity",0.75)
       .attr("stroke-width","1px")
@@ -285,31 +297,19 @@ function ready(error,topo) {
 
     })
 
-    console.log(data.keys())
-
-    svg2
+  // appending the axes
+  svg2
   .append("g")
   .attr("transform", "translate(0,"+ (height2 - margin.bottom) +")")     
   .call(d3.axisBottom().scale(x).ticks(0))
-  //.tickFormat(function(d,i){
-    //return data.keys()[i]
-  //}))
-  //.selectAll("text")	
-  //.style("text-anchor", "end")
-  //.attr("dx", "-.8em")
-  //.attr("dy", ".15em")
-  //.attr("transform", "rotate(-90)");
-  
 
   svg2
-.append("g")
-.attr("transform", "translate("+ margin.left+","+ 0 +")")     
-.call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
+  .append("g")
+  .attr("transform", "translate("+ margin.left+","+ 0 +")")     
+  .call(d3.axisLeft().scale(y).tickFormat(d3.format(".2s")))
     
 
       
-    }
-
-    
+}
 
 </script>
