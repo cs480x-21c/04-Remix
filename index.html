@@ -39,7 +39,8 @@
             data: {
                 totalData: null,
                 maleData: null,
-                femaleData: null
+                femaleData: null,
+                selectedGroup: null
             },
             mounted: async function() {
                 await this.createLineChart();
@@ -64,15 +65,17 @@
                     data = data.filter(d => !isNaN(d.Rate));
 
                     //filter based on population
-                    data = data.filter(d => d.Population >= minPopulation);
-                    
-                    console.log(data);
+                    data = data.filter(d => {
+
+                        if(d.Sex == 'Total') {
+                            return d.Population >= minPopulation
+                        } else return true;
+                        
+                    });
 
                     let totalData = data.filter(d => d.Sex == 'Total');
                     let maleData = data.filter(d => d.Sex == 'Male');
                     let femaleData = data.filter(d => d.Sex == 'Female');
-
-                    console.log(totalData);
 
                     let xScale = d3.scaleTime()
                     .domain([d3.timeParse('%Y')(2001), d3.timeParse('%Y')(2018)])
@@ -81,8 +84,6 @@
                     let yScale = d3.scaleLinear()
                     .domain([0, d3.max(totalData, (d) => { return d.Rate })])
                     .range([height, 0]);
-
-
 
                     //create x axis
                     svg.append('g')
@@ -98,6 +99,10 @@
                     let maleGroupings = d3.group(maleData, d => d.County);
                     let femaleGroupings = d3.group(femaleData, d => d.County);
 
+                    this.totalData = totalGroupings;
+                    this.maleData = maleGroupings;
+                    this.femaleData = femaleGroupings;
+
                     let counties = totalGroupings.keys();
                     let color = d3.scaleOrdinal()
                     .domain(counties)
@@ -108,6 +113,7 @@
                     .y((d) => { return yScale(d.Rate); })
 
                     console.log(totalGroupings)
+                    console.log(maleGroupings)
 
                     group.selectAll('line')
                     .data(totalGroupings)
@@ -126,11 +132,106 @@
                         .on('mouseout', function (event, d) {
                             d3.select(event.target).attr('stroke-width', 1);
                         })
+                        .on('mousedown', (event, d) => {
+                            this.createBarChart(d);
+                        })
 
                 },
 
-                createBarChart() {
-                    console.log('bar chart');
+                createBarChart(clickedData) {
+                    let county = clickedData[0];
+                    let maleData = this.maleData.get(county);
+                    let femaleData = this.femaleData.get(county);
+                    let aggregatedData = maleData.concat(femaleData);
+
+                    aggregatedData.sort((a,b) => {
+                        if(a.Year == b.Year) {
+                            return b.Sex - a.Sex;
+                        } else return a.Year - b.Year;
+                    })
+
+                    let transformedData = new Map();
+
+                    for(let i = 0; i<=aggregatedData.length-2; i += 2) {
+                        
+                        let year = aggregatedData[i].Year;
+                        let maleRate = aggregatedData[i].Rate;
+                        let femaleRate = aggregatedData[i+1].Rate;
+
+                        let obj = {
+                            maleRate: maleRate,
+                            femaleRate: femaleRate
+                        };
+
+                        transformedData.set(year, obj);
+                    }
+                    
+                    let barHeight = 480 - margin.top - margin.bottom;
+                    let barWidth = 640 - margin.left - margin.right;
+
+                    svg = d3.select('#barSvg')
+                    .style('height', barHeight + margin.top + margin.bottom)
+                    .style('width', barWidth + margin.left + margin.right)
+
+                    svg.selectAll('*').remove();
+
+                    let group = svg.append('g')
+                    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+                    let subgroups = ['Male', 'Female'];
+
+                    let xScale = d3.scaleBand()
+                    .domain(transformedData.keys())
+                    .range([0, barWidth])
+                    .padding(.1);
+
+                    let yScale = d3.scaleLinear()
+                    .domain([0, d3.max(transformedData, (d) => { return Math.max(d[1].maleRate, d[1].femaleRate) })])
+                    .range([barHeight, 0]);
+
+                    let subScale = d3.scaleBand()
+                    .domain(subgroups)
+                    .range([0, xScale.bandwidth()])
+                    .padding(.1);
+
+                    //create x axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, ${barHeight})`)
+                    .call(d3.axisBottom(xScale));
+
+                    //create y axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, 0)`)
+                    .call(d3.axisLeft(yScale));
+
+                    console.log(transformedData);
+                    
+                    let yearGroup = group.selectAll('yearGroup')
+                        .data(transformedData)
+                        .enter()
+                        .append('g')
+                            .attr('transform', d => { return `translate(${xScale(d[0])})` });
+
+                    yearGroup.selectAll('maleBar')
+                    .data(d => [d])
+                    .enter()
+                    .append('rect')
+                    .attr('fill', 'steelblue')
+                    .attr('x', subScale('Male'))
+                    .attr('y', d => yScale(d[1].maleRate) - margin.top)
+                    .attr('width', subScale.bandwidth())
+                    .attr('height', d => barHeight - yScale(d[1].maleRate))
+
+                    yearGroup.selectAll('femaleBar')
+                    .data(d => [d])
+                    .enter()
+                    .append('rect')
+                    .attr('fill', 'red')
+                    .attr('x', subScale('Female'))
+                    .attr('y', d => yScale(d[1].femaleRate) - margin.top)
+                    .attr('width', subScale.bandwidth())
+                    .attr('height', d => barHeight - yScale(d[1].femaleRate))
+
                 }
 
             }
