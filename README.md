@@ -1,58 +1,16 @@
-Assignment 4 - DataVis Remix + Multiple Views
+### Assignment 4 - DataVis Remix + Multiple Views
+Danya Baron
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+https://danyabaron.github.io/04-Remix/
+Original Visualization: https://www.reddit.com/r/dataisbeautiful/comments/ls9jlo/oc_last_10_us_presidents_age_when_they_at_the/
 
-### Your Task
+## Description
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+I found this original visualization on r/dataisbeautiful. They took a data set from Wikipedia with all of the US presidents' ages when they started their presidency, and their ages at the end of their presidency. The original visualization was a bar chart comparing these ages of the US Presidents.
 
-By remix, we mean:
+For my visualization I took the CSV file from Wikipedia and used that data to create a bar chart and a scatter plot. I used primarily d3.js for this assignment. Due to time constraints, personal issues, and other classes, I was unable to get my interaction completely working. I was planning on doing a mousehover event so when you hover over a rectangle of the bar chart, the corresponding circle in the scatter plot will also be highlighted.
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
 
 Extra Links
 ---

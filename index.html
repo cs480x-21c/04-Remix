@@ -53,13 +53,10 @@
             box-sizing: border-box; 
          }
     </style>
-    <!-- <svg></svg> -->
-    <!-- <script src="barchart.js"></script> -->
-    <!-- <script src="scatter.js"></script> -->
+
 
     <script>
-        // var x = d3.scaleBand().rangeRound([0, width]);
-        // var y = d3.scaleLinear().range([height, 0]);
+     
 
         var margin = {top: 50, right: 50, bottom: 50, left: 50}
         var width = 600
@@ -73,14 +70,11 @@
         .attr("id", "barchart")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+        var activeDistrict;
+
         // bar chart
         d3.csv("table-2.csv").then(function(data) {
             console.log(data);
-
-            // data.forEach(function (d) {
-            //     d.age = parseInt(d.AgeStart);
-            //     d.President  = d.President;
-            // })
 
         var x = d3.scaleBand()
             .domain(data.map(function(d) {return d.president}))
@@ -112,26 +106,38 @@
             .style("stroke-width", "1.5px")
 
 
-        svg.selectAll("bar")
+        var barchart = svg.selectAll("bar")
             .data(data)
             .enter().append("rect")
             // .append("g")
             .attr("class", "bar")
-            .style("fill", "steelblue")
+            .style("fill", "blue")
             // .style("stroke", "black")
             // .padding(30)
             .attr("x", function(d) { return x(d.president); })
             // x.bandwith isn't working for some reason will come back to debug
             .attr("width", 40)
             .attr("y", function(d) { return y(d.age); })
-            .attr("height", function(d) { return height - y(d.age); });
-        });
+            .attr("height", function(d) { return height - y(d.age); })
+            .attr("class", function(d,i) { return "pt" + i; })
+    //         .on("mouseover", function(d, i) {
+    //             console.log(i)
+    //             d3.select("rect.pt" + i)
+    //             .attr("fill", "Orchid")
+                
+    //          })
+    //         .on("mouseout", function(d, i) {
+    //             d3.select("rect" + i)
+    //             .attr("fill", "slateblue")
+                
+    // })
+});
 
 
         // scatter
         var scatterWidth = 600
         var scatterHeight = 700
-        // var radius = Math.min(scatterWidth, scatterHeight) / 2;
+      
 
         var scatterMargin = { top: 50, right: 50, bottom: 50, left: 50 }
         
@@ -184,10 +190,25 @@
                 .attr('cx',function (d) { 
                     return scatterX(d.president)})
                 .attr('cy',function (d) { return scatterY(d.age) })
+                .attr("class", function(d,i) { return "pt" + i; })
                 .attr('r','10')
-                .attr('stroke','steelblue')
-                .attr('fill', 'steelblue')
+                .attr('stroke','blue')
+                .attr('fill', 'blue')
                 .attr('stroke-width',1)
+                .on("mouseover", function(d, i) {
+                    console.log(i)
+                    console.log(d)
+                    d3.selectAll('.pt' + i)
+                    console.log(i)
+                    .attr("fill", "Orchid")
+                    .attr("r", 10)
+
+                })
+                .on("mouseout", function(d, i) {
+                    d3.selectAll('.pt' + i)
+                    .attr("fill", "slateblue")
+                    .attr("r", 5)
+                })
         });
 
 
