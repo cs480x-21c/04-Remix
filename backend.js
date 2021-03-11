@@ -187,7 +187,7 @@ function main() {
                 let d_row_filter;
 
                 let year = JSON.stringify(d_row.year).substr(1,4);
-                console.log(year);
+                //console.log(year);
 
                 if(selector === "all"){
                     d_row_filter = [year, d_row.sex, d_row.median_weekly_earn, d_row.ethnic_origin, d_row.age];

@@ -15,12 +15,11 @@ hides all other data points not of that type.
 Screenshots
 ---
 - All of these screenshots are zoomed out to show the whole vis.
-![image](images/demo1.png)
+![image](images/d1.png)
 
 Selecting one value on legend updates the focus on the other graph
 ---
-![image](images/demo2.png)
-![image](images/seconddemo3.png)
+![image](images/d2.png)
 
 Original Vis Critique
 ---
@@ -48,6 +47,8 @@ Technical Achievements
 - Added a jitter value to the scatterplot to spread out the values, makes the easier to distinguish
 - Figured out how to make a multi-line graph with different lines for each sex. This also helped with easy filtering as I assigned an ID to each line.
 - Added a D3.brush components, which creates a table of all the selected circles showing Year, Sex, Income, Ethnic Background, and Age
+- Table is updated for every new brush, reset button clears d3.brush and table
+- Learned how to use boostrap CSS for the table
 
 
 Sources from Original Vis
