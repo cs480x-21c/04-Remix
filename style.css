@@ -1,0 +1,48 @@
+body {
+    background-color: #EEEEEE;
+    font-size: 14px;
+    font-family: 'verdana';
+    font-weight: normal;
+    padding: 100px 100px 100px 100px
+}
+
+h1 {
+    color: #15c4e8
+}
+
+input[type=submit] {
+    padding: 10px 20px 10px 20px;
+    background-color: #15c4e8;
+    border-radius: 5px;
+}
+
+input[type=text] {
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #15c4e8;
+    border-radius: 4px;
+    border: none;
+}
+
+button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path
+
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+/******
+ * please stop looking here I ran out of funny things to say
+******/
