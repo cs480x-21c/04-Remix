@@ -1,64 +1,69 @@
-Assignment 4 - DataVis Remix + Multiple Views
+Assignment 4 - DataVis Remix + Multiple Views - Roman Wicky van Doyer
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Link
 ---
+https://romanwicky.github.io/04-Remix/index.html
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
+Description
 ---
+For this project, I found an original VIS on r/dataisbeautiful that shows the average median income (by week) in the United States by Sex and Ethnicity.
+For my remix, I decided to create an interactive linked-vis with a scatter plot, and multi-line graph in D3.
+The legend is the interactivity part of the vis, where selecting a sex (Men, Women, Both Sexes) in either graphs
+hides all other data points not of that type.
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+Screenshots
+---
+- All of these screenshots are zoomed out to show the whole vis.
+![image](images/demo1.png)
+
+Selecting one value on legend updates the focus on the other graph
+---
+![image](images/demo2.png)
+![image](images/seconddemo3.png)
+
+Original Vis Critique
+---
+![image](images/originalvis.jpg)
+
+This VIS uses a 3D bargraph with a colormap showing the median weekly earnings. This graph was separated between Men and Women.
+There are a couple issues with this graph:
+- The 3D bar graph makes it hard to distinguish the different median weekly earnings in between races
+- The ColorMap makes it impossible to know values of median weekly income
+- Blurring between different bar-graphs can make it hard to distinguish 
+Shown here:
+  ![image](images/demo4.png)
+
+Design Achievements
+---
+- Added a mouseover and mouseout on the scatterplot to make the radius of the selected dot larger
+- Added a legend to represent each dot color with sex
+- Made it so the line-graphs become gray when not selected, allowing for users to compare the selected line graph
+- Button interaction: reset graph button resets the focus to all data points
+- Learned how to make a grid background for graphs
+- Color scheme to separate the different dots in the scatterplot - corresponding with the colors on the line graph
+
+Technical Achievements
+---
+- CSS styling for the button
+- Added a mouseover and mouseout on the scatterplot to make the radius of the selected dot larger
+- Added a jitter value to the scatterplot to spread out the values, makes the easier to distinguish
+- Figured out how to make a multi-line graph with different lines for each sex. This also helped with easy filtering as I assigned an ID to each line.
+- Added a D3.brush components, which creates a table of all the selected circles showing Year, Sex, Income, Ethnic Background, and Age
+
+
+Sources from Original Vis
+---
+- https://github.com/berthubert/bnt162b2
+- https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/
+- https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/gp9ignx/
+
+Sources
+---
+- https://www.d3-graph-gallery.com/graph/line_several_group.html
+- https://www.d3-graph-gallery.com/graph/scatter_basic.html
+- https://www.d3-graph-gallery.com/graph/violin_jitter.html
+- https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
+- http://bl.ocks.org/feyderm/6bdbc74236c27a843db633981ad22c1b
+
+
