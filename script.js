@@ -3,7 +3,7 @@
 
 Promise.all([
 	d3.json("countries-50m.json"),
-	d3.csv("data.csv")
+	d3.csv("languages.csv")
 ]).then(([world, data]) => {
 	createMap(world, data)
 	createChart(data)
