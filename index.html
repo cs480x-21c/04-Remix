@@ -40,7 +40,8 @@
 
   // until a source is selected, default to 'other'
   var dataSelect = "other";
-  // set the dimensions and margins of the graph
+  
+  // dims and margins
   var margin = { top: 60, right: 230, bottom: 50, left: 50 },
     width = 1500 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
@@ -62,7 +63,6 @@
     var stackedData = d3.stack()
       .keys(keys)
       (data)
-
 
     // Axes
     // X axis
@@ -102,10 +102,9 @@
         .attr("text-anchor", "middle")  
         .style("font-size", "24px") 
         .style("text-decoration", "underline")  
-        .text("U.S. electricity gneration by major energy source, 1950-2019");
+        .text("U.S. electricity generation by major energy source, 1950-2019");
 
-
-    // Add a clipPath: everything out of this area won't be drawn.
+    // clippath for zooming
     var clip = stackSvg.append("defs").append("svg:clipPath")
       .attr("id", "clip")
       .append("svg:rect")
@@ -149,7 +148,6 @@
     function idled() { idleTimeout = null; }
 
     function update() {
-
       extent = d3.event.selection
       if (!extent) {
         if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
@@ -167,24 +165,20 @@
     }
 
 
-
     // highlight when hovering
     var highlight = function (d) {
-      // console.log(d)
       dataSelect = d
-      console.log(dataSelect)
+      // update linked visual with selected data
       barDraw(data)
       // reduce opacity of all groups
       d3.selectAll(".myArea").style("opacity", .1)
       // expect the one that is hovered
       d3.select("." + d).style("opacity", 1)
     }
-
     // turn off highlight
     var noHighlight = function (d) {
       d3.selectAll(".myArea").style("opacity", 1)
     }
-
 
     // Legend setup
     var size = 20
@@ -289,16 +283,16 @@
   }
 
   function pieDraw(data, color) {
-    var pieWidth = 600;
-    var pieHeight = 600;
+    var pieWidth = 500;
+    var pieHeight = 500;
     var svg_pie = d3.select("#visualization3")
       .append("svg")
       .attr("width", pieWidth)
       .attr("height", pieHeight)
       .append("g")
-      .attr("transform", "translate(" + pieWidth / 2 + "," + pieHeight / 2 + ")");
+      .attr("transform", "translate(" + (pieWidth )/ 2 + "," +( pieHeight)/ 2 + ")");
 
-    var radius = pieHeight / 2 - 10 // add margin to prevent clipping
+    var radius = (pieHeight - 100)/ 2 - 10 // add margin to prevent clipping
 
     console.log(data)
     var coalTotal = 0;
@@ -351,6 +345,14 @@
       .attr("transform", function (d) { return "translate(" + arcMaker.centroid(d) + ")"; })
       .style("text-anchor", "middle")
       .style("text-size", "1px")
+
+      svg_pie.append("text")
+      .attr("x", 0)             
+        .attr("y", -200)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "15px") 
+        .style("text-decoration", "underline")  
+        .text("U.S. electricity generation totals by major energy source, 1950-2019");
 
   }
 
