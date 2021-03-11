@@ -5,11 +5,14 @@ Links:
 https://github.com/d3/d3-scale-chromatic
 
 
-- Changed geojson name Ajaria to Adjara
+
 
 Resources used:
-Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions
-hover tool https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
+Earning Stats: https://www.geostat.ge/en/modules/categories/39/wages
+  - Used "Average monthly nominal earnings by regions"
+Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions - Changed Region Name Ajaria to Adjara
+Hover Tool Guide: https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
+
 
 ### Your Task
 

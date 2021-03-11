@@ -58,12 +58,12 @@ function barChart() {
         .attr("transform", "translate(0," + innerHeight + ")")
         .call(d3.axisBottom(xScale))
         .selectAll("text")
-   .attr("y", 0).attr("x", 9).attr("dy", "0.35em").attr("transform", "rotate(65)").style("text-anchor", "start");
+        .attr("y", 0).attr("x", 9).attr("dy", "0.35em").attr("transform", "rotate(65)").style("text-anchor", "start");
 
 
       //ticks
       g.select(".y.axis")
-        .call(d3.axisLeft(yScale).ticks(5))
+        .call(d3.axisLeft(yScale))
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
@@ -71,16 +71,16 @@ function barChart() {
         .attr("text-anchor", "end")
         .text("Frequency");
 
-    var tip =g.select("div")
-          .attr("class", "tooltip-map")
-          .style("opacity", 0);
+      var tip = g.select("div")
+        .attr("class", "tooltip-map")
+        .style("opacity", 0);
 
       var bars = g.selectAll(".bar")
         .data(function(d) {
           return d;
         });
 
-        bars.enter().append("rect")
+      bars.enter().append("rect")
         .attr("class", "bar")
         .merge(bars)
         .attr("x", X)

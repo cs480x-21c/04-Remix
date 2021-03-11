@@ -15,11 +15,6 @@
       display: flex;
     }
 
-    /* .block {
-      width: 100px;
-      display: table-cell;
-    } */
-
     .bar {
       fill: orange;
     }
@@ -27,7 +22,6 @@
     .bar:hover {
       fill: orangered;
     }
-
 
     .tooltip-map {
       position: absolute;
@@ -44,23 +38,17 @@
 </head>
 
 <body>
-
-
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-  <!-- <script src="https://d3js.org/d3-array.v2.min.js"></script>
-<script src="https://d3js.org/d3-geo.v2.min.js"></script> -->
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reductio/1.0.0/reductio.min.js" integrity="sha512-dpNFXYxfvCC775pj8TELHq4usthTiHrwSx4IcgZBnsHvBTIU1pm8jWXQaNhzY+AxjrlxgLXVtxktAWOo/0oCKA==" crossorigin="anonymous"></script>
   <script src="js/barChart.js"></script>
 
-
-
   <div class="row">
     <div class="block">
       <h2>Average Monthly Earnings by Region(GEL)</h2>
-      <svg width=800 height=600>
+      <svg id="map" width=750 height=400>
       </svg>
     </div>
     <div class="block">
@@ -79,7 +67,6 @@
       createMap(countries, earnings)
     });
 
-
     var barChartYear = barChart()
       .x(function(d) {
         return d.key;
@@ -88,15 +75,6 @@
         return d.value;
       });
 
-    var barChartRegion = barChart()
-      .x(function(d) {
-        return d.key;
-      })
-      .y(function(d) {
-        return d.value;
-      });
-
-
     function createMap(regions, earnings) {
 
 
@@ -104,7 +82,9 @@
       var height = 600;
 
       var currentMin = 0;
-      var currentMax = 1000;
+      var currentMax = 1300;
+      var defaultMin = 0;
+      var defaultMax = 1300;
 
       var currentValue = -1;
 
@@ -132,39 +112,32 @@
 
       //Hover over bar chart to choose year
       barChartYear.onMouseOver(function(e, d) {
-        currentMin = data.year.top(1)[0].AvgEarning;
-        currentMax = data.year.bottom(1)[0].AvgEarning;
         data.year.filterExact(d.key);
+        currentMin = 0; //data.year.top(1)[0].AvgEarning;
+        currentMax = data.year.bottom(1)[0].AvgEarning;
         update();
+        //change color on the map
+        changeColor();
+
       }).onMouseOut(function() {
+        currentMin = defaultMin;
+        currentMax = defaultMax;
         data.year.filterAll();
         update();
+        changeColor();
       });
 
       update();
 
       //Update/Create the bar chart
       function update() {
-
         d3.select("#earningsByYear")
           .datum(data.yearGroup.all())
           .call(barChartYear);
-
       }
-
-      //console.log crossfilter data
-      function logGroup(data) {
-        data.forEach(function(x) {
-          console.log(JSON.stringify(x));
-        });
-      }
-
-
 
       //CREATE MAP
-
       var proj = d3.geoEqualEarth();
-
       proj.fitSize([height, width], regions);
 
       var gpath = d3.geoPath()
@@ -174,7 +147,6 @@
       var color =
         d3.scaleSequential(d3.interpolateRdBu)
         .domain(d3.extent([currentMin, currentMax])) //[currentMin, currentMax]))
-
 
       var svg = d3.select('svg')
         .selectAll('path')
@@ -187,50 +159,60 @@
         .attr('stroke-width', 1)
         .attr('stroke', 'black')
         .attr('fill', function(d) {
-
           //No data on Abkhazia due to political reasons
           if (d.properties['NAME_1'] === "Abkhazia") {
             return "white";
           }
-
           data.region.filterExact(d.properties['NAME_1']);
 
           var gr = data.regionGroup.top(Infinity);
           var i;
           for (i = 0; i < gr.length; i++) {
-          if(gr[i].key === d.properties['NAME_1']){
-            return color(gr[i].value.avg);
-          }
+            if (gr[i].key === d.properties['NAME_1']) {
+              return color(gr[i].value.avg);
+            }
           }
           data.region.filterAll();
           data.region.filterExact("Total");
-          return "black";//color(gpath.area(d));
-          //pass AvgEarning of each region to color
-
+          return "black"; //color(gpath.area(d));
         });
 
+      function changeColor() {
+        svg.attr('fill', function(d) {
+          // console.log(d.properties['NAME_1']);
+          //No data on Abkhazia due to political reasons
+          if (d.properties['NAME_1'] === "Abkhazia") {
+            return "white";
+          }
+          data.region.filterExact(d.properties['NAME_1']);
+          var gr = data.regionGroup.top(Infinity);
+          var i;
+          for (i = 0; i < gr.length; i++) {
+            if (gr[i].key === d.properties['NAME_1']) {
+              return color(gr[i].value.avg);
+            }
+          }
+          data.region.filterAll();
+          data.region.filterExact("Total");
+          return "black"; //color(gpath.area(d));
+        });
+      }
       var tip = d3.select("body").append("div")
         .attr("class", "tooltip-map")
         .style("opacity", 0);
 
       svg.on("mouseover", function(e, d) {
           // Filter the data to only include the Region Hovered On
+          console.log("Min " + currentMin);
+          console.log("Max " + currentMax);
           data.region.filterExact(d.properties['NAME_1']);
           //Update the current data min and Max
           var message = d.properties['NAME_1'];
           if (d.properties['NAME_1'] !== "Abkhazia") {
-            currentMin = data.year.top(1)[0].AvgEarning;
-            currentMax = data.year.bottom(1)[0].AvgEarning;
+            currentMin = data.year.bottom(1)[0].AvgEarning;
+            currentMax = data.year.top(1)[0].AvgEarning;
             update();
           }
-          //       console.log(d3.extent([currentMin, currentMax]));
-          // console.log("Min "+currentMin + "  "+color(currentMin));
-          //     console.log("Max "+currentMax + "  "+color(currentMax));
-          // console.log("MIN map "+currentMin);
-          // console.log("MAX map"+ currentMax);
-          //logGroup(data.yearGroup.top(Infinity));
-
-
           d3.select(this).transition()
             .duration('50')
             .attr('opacity', '0.5');
@@ -239,13 +221,13 @@
             .duration(50)
             .style("opacity", 1);
 
-
-
           tip.html(message)
             .style("left", (e.pageX + 10) + "px")
             .style("top", (e.pageY - 15) + "px");
         })
         .on("mouseout", function(e, d) {
+          currentMin = defaultMin;
+          currentMax = defaultMax;
           data.region.filterAll();
           data.region.filterExact("Total");
           update();
@@ -259,30 +241,31 @@
         });
 
 
-      // var mapZoom = d3.zoom()
-      //   .on('zoom', zoomed);
-      //
-      // var zoomSettings = d3.zoomIdentity
-      //   .translate(250, 250)
-      //   .scale(120);
-      //
-      // d3.select('svg')
-      //   .call(mapZoom)
-      //   .call(mapZoom.transform, zoomSettings);
-      //
-      //
-      // function zoomed(e) {
-      //   proj.translate([e.transform.x, e.transform.y])
-      //   .scale(e.transform.k);
-      //
-      //   //redrowing map
-      //   d3.selectAll('path')
-      //   .attr('d', gpath);
-      //
-      // }
+      var mapZoom = d3.zoom()
+        .on('zoom', zoomed);
+
+      var zoomSettings = d3.zoomIdentity
+        .translate(-3330, 5475)
+        .scale(6450);
+
+      d3.select('#map')
+        .call(mapZoom)
+        .call(mapZoom.transform, zoomSettings);
+
+      function zoomed(e) {
+        proj.translate([e.transform.x, e.transform.y])
+          .scale(e.transform.k);
+        d3.select('#map').selectAll('path')
+          .attr('d', gpath);
+
+      }
+
+      function logGroup(data) {
+        data.forEach(function(x) {
+          console.log(JSON.stringify(x));
+        });
+      }
     }
   </script>
 </body>
-
-
 </html>
