@@ -28,7 +28,6 @@ var color = d3.scaleOrdinal()
 	.domain(labels)
 
 
-//TODO: RESET FILTER??
 function highlight(hover) {
 	var map = d3.select('#map')
 	var chart = d3.select('#chart')
@@ -214,6 +213,7 @@ function createChart(data) {
 	var svg = d3.select("body").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
+		.attr('id', 'chart')
 		.append("g")
 			.attr("transform", 
 				"translate(" + margin.left + "," + margin.top + ")");
@@ -267,10 +267,6 @@ function createChart(data) {
 								.attr('opacity', 0)
 						}
 					})
-
-					//map.selectAll('circle')
-					//	.attr('opacity', 0.5)
-				
 				}
 			})
 
@@ -284,9 +280,7 @@ function createChart(data) {
 	  .call(d3.axisLeft(y));
 	  
 	svg.append("text")             
-	  .attr("transform",
-			  "translate(" + (width/2) + " ," + 
-								  (height + margin.top + 20) + ")")
+	  .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
 	  .style("text-anchor", "middle")
 	  .text("Number of Languages");
 }
