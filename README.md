@@ -49,7 +49,7 @@ Technical Achievements
 - Added a mouseover and mouseout on the scatterplot to make the radius of the selected dot larger
 - Added a jitter value to the scatterplot to spread out the values, makes the easier to distinguish
 - Figured out how to make a multi-line graph with different lines for each sex. This also helped with easy filtering as I assigned an ID to each line.
-- Added a D3.brush components, which creates a table of all the selected circles
+- Added a D3.brush components, which creates a table of all the selected circles showing Year, Sex, Income, Ethnic Background, and Age
 
 
 Sources from Original Vis
@@ -64,5 +64,6 @@ Sources
 - https://www.d3-graph-gallery.com/graph/scatter_basic.html
 - https://www.d3-graph-gallery.com/graph/violin_jitter.html
 - https://bl.ocks.org/d3noob/c506ac45617cf9ed39337f99f8511218
+- http://bl.ocks.org/feyderm/6bdbc74236c27a843db633981ad22c1b
 
 
