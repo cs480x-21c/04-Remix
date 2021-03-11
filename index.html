@@ -30,6 +30,9 @@
             flex-wrap: wrap;
             width: 50%;
         }
+        #title{
+            width: 50%;
+        }
         .logo{
             width: 4.5vw;
             height: 4.5vw;
@@ -75,6 +78,7 @@
                 <img class="logo" id="WIN" text= "Winnipeg Jets" src="media/win.png">
                 <img class="logo" id="WSH" text= "Washington Captials " src="media/wsh.png">
             </div>
+            <div id="title"></div>
         </div>
         <script>
             d3.select("#charts")
@@ -92,7 +96,10 @@
                 .style("background-color","blue");
             var selections = d3.select("#teamSelector")
                 .style("width", "100vw")
-                .style("height","30vh");
+                .style("height","30vh")
+                .style("display","flex")
+                .style("flex-direction","row");
+
             var divHeights = document.getElementById('teamCompare').clientHeight;
             var divWidths = document.getElementById('teamCompare').clientWidth;
             var margin = {top: 30, right: 20, bottom: 10, left: 20};
