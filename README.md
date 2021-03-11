@@ -2,7 +2,7 @@
 
 ## Overview
 
-A live and up-to-date version of my visualization can be found at [4802a4.dcole.dev](4802a4.dcole.dev).
+A live and up-to-date version of my visualization can be found at [https://4802a4.dcole.dev](4802a4.dcole.dev).
 
 For this assignment, I chose the WPI Covid Dashboard to remix. I identified a number of flaws:
 * Rolling averages only given for the current day
