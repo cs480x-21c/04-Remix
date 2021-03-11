@@ -50,3 +50,7 @@ table {
 .table-body{
     height: 400px;
 }
+
+tr:nth-child(even) {
+    background-color: #d9d9d9;
+}
