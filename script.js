@@ -3,27 +3,28 @@ Promise.all([
 	d3.csv("data.csv")
 ]).then(([world, data]) => {
 	createMap(world, data)
+	createChart(data)
 })
 
+var labels = [
+	'Vulnerable',
+	'Definitely endangered',
+	'Severely endangered',
+	'Critically endangered',
+	'Extinct'
+]
+
+var color = d3.scaleOrdinal()
+	.range([
+		'#C8F55F',
+		'#FFD000',
+		'#EB8C00',
+		'#FF4600',
+		'#F50033'
+	])
+	.domain(labels)
 
 function createMap(world, data) {
-	var labels = [
-		'Vulnerable',
-		'Definitely endangered',
-		'Severely endangered',
-		'Critically endangered',
-		'Extinct'
-	]
-
-	var counts = {}
-	labels.forEach(function (d) {
-		counts[d] = 0
-	})
-
-	data.forEach(function (d) {
-		counts[d['Degree of endangerment']] += 1
-	});
-
 	lockedID = null
 
 	//var land = topojson.feature(world, world.objects.land)
@@ -52,16 +53,6 @@ function createMap(world, data) {
 			.attr('stroke-width', 1)
 			.attr('stroke', '#252525')
 			.attr('fill', 'white')
-
-	var color = d3.scaleOrdinal()
-		.range([
-			'#C8F55F',
-			'#FFD000',
-			'#EB8C00',
-			'#FF4600',
-			'#F50033'
-		])
-		.domain(labels)
 
 	let tooltip = d3.select('body') //ref: http://bl.ocks.org/biovisualize/1016860
 		.append('div')
@@ -94,7 +85,7 @@ function createMap(world, data) {
 
 					let tip = 'Name: ' + i['Name in English'] +
 						"<br>Endangerment Status: " + i['Degree of endangerment'] +
-						"<br>Speakers: " + i['Number of speakers'] +
+						"<br>Speakers: " + (i['Number of speakers'] == "" ? "N/A" : i['Number of speakers']) +
 						"<br>Countries Spoken: " + i['Countries']
 
 					return tooltip.html(tip).style('visibility', 'visible');
@@ -115,6 +106,18 @@ function createMap(world, data) {
 
 
 
+	function filter(source, show) {
+		var status = source.attr('id').substring('legend_'.length, source.attr('id').length)
+
+		source.attr('fill', show ? color(status.replace(/_/g, ' ')) : 'gray')
+
+		map.selectAll("#" + status)
+			.attr('opacity', show ? 0.5 : 0)
+
+		source.attr('show', show)
+	}
+
+
 	// LEGEND
 	map.selectAll('legend_dots')
 		.data(labels)
@@ -125,10 +128,20 @@ function createMap(world, data) {
 			.attr('r', 8)
 			.attr('opacity', 0.5)
 			.attr('id', d => 'legend_' + d.replace(/\s/g,'_'))
-			.style('fill', d => color(d))
+			.attr('fill', d => color(d))
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
 			.attr('stroke-opacity', 0.5)
+			.attr('show', true)
+			.on('click', function() {
+				filter(d3.select(this), d3.select(this).attr('show') != 'true')
+			})
+			.on('mouseover', function() {
+				d3.select(this).attr('opacity', 1);
+			})
+			.on('mouseout', function() {
+				d3.select(this).attr('opacity', 0.5)
+			})
 
 	map.selectAll('legend_labels')
 		.data(labels)
@@ -139,36 +152,28 @@ function createMap(world, data) {
 			.text(d => d)
 			.attr('text-anchor', 'left')
 			.style('alignment-baseline', 'middle')
-			.attr('id', d => 'legend_text_' + d.replace(/\s/g,'_'))
+			.attr('id', d => 'legend_text_' + d.replace(/\s/g,'_'))  
+}
 
 
+function createChart(data) {
+	var map = d3.select('#map')
 
+	var counts = {}
+	labels.forEach(function (d) {
+		counts[d] = 0
+	})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	data.forEach(function (d) {
+		counts[d['Degree of endangerment']] += 1
+	});
 
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
 
-	// set the dimensions and margins of the graph
-	var margin = {top: 20, right: 20, bottom: 30, left: 110},
+	var margin = {top: 20, right: 20, bottom: 50, left: 110},
 		width = 960 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+		height = 520 - margin.top - margin.bottom;
 
-	// set the ranges
 	var y = d3.scaleBand()
 		.range([0, height])
 		.domain(labels)
@@ -178,9 +183,6 @@ function createMap(world, data) {
 		.range([0, width])
 		.domain([0, d3.max(Object.keys(counts).map(key => counts[key]))])
 
-	// append the svg object to the body of the page
-	// append a 'group' element to 'svg'
-	// moves the 'group' element to the top left margin
 	var svg = d3.select("body").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
@@ -264,5 +266,10 @@ function createMap(world, data) {
 	svg.append("g")
 	  .call(d3.axisLeft(y));
 	  
-	  
+	svg.append("text")             
+	  .attr("transform",
+			  "translate(" + (width/2) + " ," + 
+								  (height + margin.top + 20) + ")")
+	  .style("text-anchor", "middle")
+	  .text("Number of Languages");
 }
