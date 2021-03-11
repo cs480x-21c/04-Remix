@@ -14,14 +14,13 @@
 
     var coldSVG = d3.select("#coldChart")
         .append("svg")
-            .attr("width", width)
-            .attr("height", height)
+        .attr("width", width)
+        .attr("height", height)
 
     var warmSVG = d3.select("#warmChart")
         .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-
+        .attr("width", width)
+        .attr("height", height)
 
 
     var xScale = d3.scaleBand().range([0, width]).padding(0.4),
@@ -32,125 +31,119 @@
 
 
     //Code for warmest days
-    d3.csv("weatherdata.csv", function(error, data) {
-        if (error) {
-            throw error;
-        }
-        data.forEach(function (d) {
-            d.Warmest = parseInt(d.Warmest);
-            d.State = d.State;
 
-        })
+        d3.csv("weatherdata.csv", function (error, data) {
+            if (error) {
+                throw error;
+            }
+            data.forEach(function (d) {
+                d.Warmest = parseInt(d.Warmest);
+                d.State = d.State;
 
-        data.sort(function(a, b) {
-            return d3.descending(a.Warmest, b.Warmest)
-        })
-
-        xScale.domain(data.map(function(d) { return d.State; }));
-        yScale.domain([0, d3.max(data, function(d) { return d.Warmest; })]);
-
-        // g.append("g")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(d3.axisBottom(xScale));
-        //
-        // g.append("g")
-        //     .call(d3.axisLeft(yScale).tickFormat(function(d){
-        //         return d;
-        //     }).ticks(10));
-
-
-
-        warmSVG.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) { return xScale(d.State); })
-            .attr("y", function(d) { return yScale(d.Warmest); })
-            .attr("width", xScale.bandwidth())
-            .attr('id', function(d) {
-                return d.State;
             })
-            .attr("height", function(d) { return height - yScale(d.Warmest); })
-            .on('mouseover', function (d, i){
-                console.log(d.Warmest)
-                d3.select(this).style("fill","blue")
 
-                coldSVG
-                    .style("fill", "#696969");
+            data.sort(function (a, b) {
+                return d3.descending(a.Warmest, b.Warmest)
+            })
+
+            xScale.domain(data.map(function (d) {
+                return d.State;
+            }));
+            yScale.domain([0, d3.max(data, function (d) {
+                return d.Warmest;
+            })]);
+
+
+
+            warmSVG.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) {
+                    return xScale(d.State);
                 })
-            .on('mouseout', function (d){ d3.select(this).style("fill","steelblue");})
+                .attr("y", function (d) {
+                    return yScale(d.Warmest);
+                })
+                .attr("width", xScale.bandwidth())
+                .attr('id', function (d) {
+                    console.log(d.State + "Warm");
+                    return d.State + "Warm";
 
+                })
+                .attr("height", function (d) {
+                    return height - yScale(d.Warmest);
+                })
+                .on('mouseover', function (d) {
+                    //console.log(this.id)
+                    d3.select(this).style("fill", "blue");
+                    d3.select("#" + d.State + "Cold").style("fill", "blue");
+                    //console.log(d.State + "Cold")
+                })
+                .on('mouseout', function (d) {
+                    d3.select(this).style("fill", "steelblue");
+                    d3.select("#" + d.State + "Cold").style("fill", "steelblue");
+                })
 
-        var xAxis = warmSVG.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale));
-
-        xAxis.selectAll("text").remove()
-
-       warmSVG.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(function(d){
-                return  d;
-            }).ticks(15));
-    });
-
+        });
 
     //Code for Coldest Days
-    d3.csv("weatherdata.csv", function(error, data) {
-        if (error) {
-            throw error;
-        }
-        data.forEach(function (d) {
-            d.Coldest = parseInt(d.Coldest);
-            d.State = d.State;
 
-        })
+        coldSVG.selectAll("*").remove()
 
-        data.sort(function(a, b) {
-            return d3.descending(a.Coldest, b.Coldest)
-        })
+        d3.csv("weatherdata.csv", function (error, data) {
+            if (error) {
+                throw error;
+            }
+            data.forEach(function (d) {
+                d.Coldest = parseInt(d.Coldest);
+                d.State = d.State;
 
-        xScale.domain(data.map(function(d) { return d.State; }));
-        yScale.domain([0, d3.min(data, function(d) { return d.Coldest; })]);
-
-        // g.append("g")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(d3.axisBottom(xScale));
-        //
-        // g.append("g")
-        //     .call(d3.axisLeft(yScale).tickFormat(function(d){
-        //         return d;
-        //     }).ticks(10));
-
-
-
-        coldSVG.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) { return xScale(d.State); })
-            .attr("y", function(d) { return yScale(d.Coldest); })
-            .attr("width", xScale.bandwidth())
-            .attr('id', function(d) {
-                return d.State;
             })
-            .attr("height", function(d) { return height - yScale(d.Coldest); })
-            .on('mouseover', function (d){
-                console.log(this.id)
-                d3.select(this).style("fill","blue");})
-            .on('mouseout', function (d){ d3.select(this).style("fill","steelblue");})
+
+            data.sort(function (a, b) {
+                return d3.descending(a.Coldest, b.Coldest)
+            })
+
+            xScale.domain(data.map(function (d) {
+                return d.State;
+            }));
+            yScale.domain([0, d3.min(data, function (d) {
+                return d.Coldest;
+            })]);
 
 
-        var xAxis = coldSVG.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale));
+            coldSVG.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) {
+                    return xScale(d.State);
+                })
+                .attr("y", function (d) {
+                    return yScale(d.Coldest);
+                })
+                .attr("width", xScale.bandwidth())
+                .attr('id', function (d) {
+                    return d.State + "Cold";
+                })
+                .attr("height", function (d) {
+                    return height - yScale(d.Coldest);
+                })
+                .on('mouseover', function (d) {
+                    console.log(this.id)
+                    d3.select(this).style("fill", "blue");
+                    d3.select("#" + d.State + "Warm").style("fill", "blue");
 
-        xAxis.selectAll("text").remove()
+                })
+                .on('mouseout', function (d) {
+                    d3.select(this).style("fill", "steelblue");
+                    d3.select("#" + d.State + "Warm").style("fill", "steelblue");
+                })
 
-        coldSVG.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(function(d){
-                return  d;
-            }).ticks(15));
-    });
+        });
+
+
 </script>
 </body>
 </html>
