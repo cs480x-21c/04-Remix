@@ -5,8 +5,6 @@ let gKeyboardOctaves = 2;
 let gKeysPerOctave = 12;
 let gConcertPitch = 3520.0;
 
-let gCurrentScale;
-
 function main()
 {
     // Load all 3 files
@@ -17,7 +15,7 @@ function main()
     // Make drop down, fill it with the current options
     let optionsNames = ["Francesco Antonio Vallotti's Well Temperament",
         "George Fredrick Handel's Well Temperament",
-        "William_Tans'ur's Well Temperament"];
+        "William Tans'ur's Well Temperament"];
 
     for (let i = 0; i < optionsNames.length; i++)
     {
@@ -32,16 +30,7 @@ function main()
                 // Each data set
                 gData = values;
 
-                // Major thirds are used to create the circle vis
-                let majorThirds = gData[0]["Major_Thirds"];
-                
-                // The difference is used to build the note table
-                let equalTemperamentDifference = gData[0]["Equal_Temperament_Difference"];
-                
-                // Default scale starts with the first note name of the first system
-                gCurrentScale = Object.keys(majorThirds)[0].split(" ")[0];
-
                 // Makes the fist full vis
-                makeVis(majorThirds, equalTemperamentDifference);
+                makeVis(0);
             });
 }

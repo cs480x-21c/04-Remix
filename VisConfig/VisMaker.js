@@ -18,39 +18,37 @@ const keyboardColor = {K: 1}
 
 let svg;
 
-function makeVis(majorThirds, equalTemperamentDifference)
-{        
-    // Makes the note table (the other main form of data)
-    // array of objects where each is {key: 'C0', frequency: 131.256}
-    let noteTable = makeNoteTable(equalTemperamentDifference);
+// The keys need access to these variables
+let gNoteTable;
+let gCurrentScale;
 
-    svg = d3.select("#first_vis")
-        .attr("width", width)
-        .attr("height", height);
-
-    // Makes the top keyboard vis
-    makeKeyboardVis(noteTable);
-    
-    // Makes the bottom circle vis
-    makeCircleVis(majorThirds);
-}
-
-function remakeVis(selectedIndex)
-{
+function makeVis(selectedIndex)
+{      
     // Major thirds are used to create the circle vis
     let majorThirds = gData[selectedIndex]["Major_Thirds"];
                     
     // The difference is used to build the note table
     let equalTemperamentDifference = gData[selectedIndex]["Equal_Temperament_Difference"];
-                    
+                        
     // Default scale starts with the first note name of the first system
     gCurrentScale = Object.keys(majorThirds)[0].split(" ")[0];
     
-    // Makes the fist full vis
-    makeVis(majorThirds, equalTemperamentDifference);
+    // Makes the note table (the other main form of data)
+    // array of objects where each is {key: 'C0', frequency: 131.256}
+    gNoteTable = makeNoteTable(equalTemperamentDifference);
+
+    svg = d3.select("#first_vis")
+        .attr("width", width)
+        .attr("height", height);
+
+    // Makes the top keyboard vis, uses the global note table
+    makeKeyboardVis();
+    
+    // Makes the bottom circle vis
+    makeCircleVis(majorThirds);
 }
 
-function makeKeyboardVis(noteTable)
+function makeKeyboardVis()
 {
     // const layout = {topViz:{top: 10, bottom: 10, left: 10, right: 10},
     // bottomVis:{top: 10, bottom: 10, left: 10, right: 10}, 
@@ -60,26 +58,13 @@ function makeKeyboardVis(noteTable)
     let whiteKeyHeight = ((layout.division - layout.topViz.top) - layout.topViz.bottom);
     let blackKeyAdjust = whiteKeyWidth/Math.pow(keyboard.blackKeys.widthReduce, 2);
 
-    // Gets the key type from the key name: 0 is white keys, 1 is black keys
-    let keyType = (kName) => 
-    {
-        let k = 0;
-        // We assume that black keys include an accidental
-        if (kName.includes("b") || kName.includes("#"))
-        {
-            k = 1;
-        }
-        return k;
-    }
-
-
     // The x position of each key is just calculated
     //  doin it while drawing keys is just a pain
     let keyxArray = [];
     let whiteKeyx = layout.topViz.left;
-    for (let n = 0; n < noteTable.length; n++)
+    for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(noteTable[n].key);
+        let kt = keyType(gNoteTable[n].key);
         switch (kt)
         {
             case WHITE_KEY:
@@ -93,9 +78,6 @@ function makeKeyboardVis(noteTable)
                 break;
         }
     }
-    
-    keyx = (k) => { return ; };
-    
     // Key y coordinate, always the same value
     let keyy = (k) => {return layout.topViz.top};
 
@@ -111,54 +93,35 @@ function makeKeyboardVis(noteTable)
 
     let keyColor = d3.scaleOrdinal()
         .domain([WHITE_KEY, BLACK_KEY])
-        .range(["#FFFFFF", "#404040"]);
+        .range(["#FFFFFF", "#FFFFFF"]);
 
     let drawKey = (kt, n) =>
     {
         svg.append("rect")
-            .attr('id', noteTable[n].key)
-            .attr('x', keyxArray[n]) 
-            .attr('y', keyy(kt))
-            .attr('width', keyWidth(kt))
-            .attr('height', keyHeight(kt))
-            .style("stroke", "black")
-            .style("stroke-width", 1)
-            .style("fill", keyColor(kt))
-            .on("mousedown", function (e) 
-            {
-                let k = keyboardColor.K;
-                if (keyType(this.id) === BLACK_KEY)
-                {
-                    k + 2;
-                }
-
-                // color adjust
-                this.style.fill = d3.color(this.style.fill).darker(k);
-
-                // Play sound
-            })
-            .on("mouseup", function(e)
-            {
-                let k = keyboardColor.K;
-                if (keyType(this.id) === BLACK_KEY)
-                {
-                    k - 2;
-                }
-
-                // color adjust
-                this.style.fill = d3.color(this.style.fill).brighter(k);
-
-                // Play sound
-            });
+        .attr('id', gNoteTable[n].key)
+        .attr('x', keyxArray[n]) 
+        .attr('y', keyy(kt))
+        .attr('width', keyWidth(kt))
+        .attr('height', keyHeight(kt))
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .style("fill", keyColor(kt))
+        .on("mousedown", key_mouseDown)
+        .on("mouseup", key_mouseUpOrLeave)
+        .on("mouseleave", key_mouseUpOrLeave)
+        .on("mouseenter", key_mouseOver);
     }
 
-    // 
+    drawVisKeys(drawKey);
+}
 
-    // Key drawing must be done white then black, since black keys are on top
+function drawVisKeys(drawKey)
+{
+    // Key drawing must be done white then black, becaus SVGs follow painter's algorithm
     // Draw white keys
-    for (let n = 0; n < noteTable.length; n++)
+    for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(noteTable[n].key);
+        let kt = keyType(gNoteTable[n].key);
         if (kt === WHITE_KEY)
         {
             drawKey(kt, n);
@@ -166,10 +129,9 @@ function makeKeyboardVis(noteTable)
     }
 
     // Draw black keys
-    previousWhiteKeyx = layout.topViz.left; // used to judge where black keys should be
-    for (let n = 0; n < noteTable.length; n++)
+    for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(noteTable[n].key);
+        let kt = keyType(gNoteTable[n].key);
         if (kt === BLACK_KEY)
         {
             drawKey(kt, n);
@@ -177,6 +139,33 @@ function makeKeyboardVis(noteTable)
     }
 
     // Draw names
+}
+
+function key_mouseOver(e)
+{
+    // color adjust
+    this.style.fill = d3.color(this.style.fill).darker(keyboardColor.K * 0.5);
+}
+
+function key_mouseDown(e)
+{
+    // color adjust
+    this.style.fill = d3.color(this.style.fill).darker(keyboardColor.K);
+
+    // Play sound, use ID to get the frequency froom the note table
+}
+
+function key_mouseUpOrLeave(e)
+{
+    // color adjust
+    this.style.fill = d3.color(this.style.fill).brighter(keyboardColor.K);
+
+    // Stop playing or pause sound
+}
+
+function drawKey(kt, n, keyxArray)
+{
+    
 }
 
 function makeCircleVis(majorThirds)

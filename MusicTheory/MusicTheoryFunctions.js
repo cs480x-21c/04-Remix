@@ -76,3 +76,14 @@ function makeKeyboardLayout(keyboardLayout, equalTemperament)
     }
 }
 
+function keyType(kName)
+{
+    let k = 0;
+        // We assume that black keys include an accidental
+        if (kName.includes("b") || kName.includes("#"))
+        {
+            k = 1;
+        }
+        return k;
+}
+

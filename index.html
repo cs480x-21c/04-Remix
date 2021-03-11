@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <title>A4: Remix</title>
 
+    <!-- Api's/Libraries that I used -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="teoria-master/teoria.js"></script>
+    <script src="https://unpkg.com/web-audio-daw@4.11.0/build/wad.js"></script>
 
     <script src="VisConfig/VisMaker.js"></script>
     <script src="MusicTheory/MusicTheoryFunctions.js"></script>
@@ -15,12 +17,9 @@
       
     <body onload="main()">
         <label for="selectSystem">Choose a Well Temperament System:</label>
-        <select name="selectSystem" id="selectSystem" onchange="remakeVis(this.selectedIndex);">
+        <select name="selectSystem" id="selectSystem" onchange="makeVis(this.selectedIndex);">
         </select>
         <svg id="first_vis" tabindex="1"> </svg>
         
-        
-        
-
     </body>
 </html>
