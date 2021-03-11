@@ -152,7 +152,7 @@ function main() {
                 d3.select(this).call(brush.move, null);
 
                 let d_brushed =  d3.selectAll(".brushed").data();
-                console.log(d_brushed);
+                //console.log(d_brushed);
 
                 // populate table if one or more elements is brushed
                 if (d_brushed.length > 0) {
