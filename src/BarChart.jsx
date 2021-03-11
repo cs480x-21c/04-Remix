@@ -14,7 +14,7 @@ class BarChart extends Component {
         this.containerRef = createRef();
     }
 
-    componentDidMount() {
+    drawChart() {
         let xScale = d3.scaleBand()
             .range([0, WIDTH])
             .domain(COVID_DATA.map((d) => d.Date))
@@ -54,7 +54,21 @@ class BarChart extends Component {
             .attr("y", (d) => yScale(d.Cases))
             .attr("height", (d) => HEIGHT - yScale(d.Cases))
             .attr("width", xScale.bandwidth)
-            .style("fill", "#AC2B37");
+            .style("fill", d => {
+                if (this.props.selectedDate !== null) {
+                    if (d.Date === this.props.selectedDate) {
+                        return "#AC2B37";
+                    } else {
+                        return "#8F6468";
+                    }
+                } else {
+                    return "#AC2B37";
+                }
+            })
+            .style("cursor", "pointer")
+            .on("mousedown", (e, d) => {
+                this.props.callback(d.Date);
+            });
 
         graph.append("text")
             .attr("x",  -(HEIGHT / 2))
@@ -68,6 +82,15 @@ class BarChart extends Component {
             .attr("y", HEIGHT + MARGIN.BOTTOM)
             .attr("text-anchor", "middle")
             .text("Date");
+    }
+
+    componentDidUpdate(previousProps, previousState, snapshot) {
+        this.containerRef.current.removeChild(this.containerRef.current.firstChild);
+        this.drawChart();
+    }
+
+    componentDidMount() {
+        this.drawChart();
     }
 
     render() {

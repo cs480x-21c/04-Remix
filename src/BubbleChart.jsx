@@ -14,7 +14,7 @@ class BubbleChart extends Component {
         this.containerRef = createRef();
     }
 
-    componentDidMount() {
+    drawChart() {
         let svg = d3.select(this.containerRef.current)
             .append("svg")
             .attr("width", WIDTH + MARGIN.LEFT + MARGIN.RIGHT)
@@ -31,7 +31,7 @@ class BubbleChart extends Component {
             .size([WIDTH, HEIGHT])
             .padding(3)
             (d3.hierarchy({children: caseData})
-            .sum(d => d.value));
+                .sum(d => d.value));
 
         // Find radius of largest circle
         let largestRadius = data.leaves().sort((a, b) => (a.r / b.r))[0].r;
@@ -43,7 +43,21 @@ class BubbleChart extends Component {
             .attr("cx", d => d.x)
             .attr("cy", d => d.y)
             .attr("r", d => d.r)
-            .style("fill", "#AC2B37");
+            .style("fill", d => {
+                if (this.props.selectedDate !== null) {
+                    if (d.data.name === this.props.selectedDate) {
+                        return "#AC2B37";
+                    } else {
+                        return "#8F6468";
+                    }
+                } else {
+                    return "#AC2B37";
+                }
+            })
+            .style("cursor", "pointer")
+            .on("mousedown", (e, d) => {
+                this.props.callback(d.data.name);
+            });
 
         graph.selectAll("g")
             .data(data.leaves())
@@ -54,9 +68,21 @@ class BubbleChart extends Component {
             .style("text-anchor", "middle")
             .style("alignment-baseline", "middle")
             .style("font-size", d => `${4 * ((d.r / largestRadius) ** 2)}em`)
-            .style("fill", "#A9B0B7")
-            .text(d => d.data.name);
+            .style("fill", "#000000")
+            .style("cursor", "pointer")
+            .text(d => d.data.name)
+            .on("mousedown", (e, d) => {
+                this.props.callback(d.data.name);
+            });
+    }
 
+    componentDidUpdate(previousProps, previousState, snapshot) {
+        this.containerRef.current.removeChild(this.containerRef.current.firstChild);
+        this.drawChart();
+    }
+
+    componentDidMount() {
+        this.drawChart();
     }
 
     render() {

@@ -143,5 +143,10 @@ export const COVID_DATA = [
         "Date": "3/8",
         "Test Results": 2425,
         "Cases": 6
+    },
+    {
+        "Date": "3/9",
+        "Test Results": 965,
+        "Cases": 1
     }
 ];
