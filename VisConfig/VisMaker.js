@@ -14,6 +14,8 @@ const layout = {topViz:{top: 10, bottom: 50, left: 10, right: 10},
 
 const keyboard = {blackKeys:{heightReduce: 2, widthReduce: 2}};
 
+const keyboardColor = {K: 1}
+
 let svg;
 
 function makeVis(majorThirds, equalTemperamentDifference)
@@ -94,25 +96,52 @@ function makeKeyboardVis(noteTable)
         .domain([WHITE_KEY, BLACK_KEY])
         .range([whiteKeyHeight, whiteKeyHeight / keyboard.blackKeys.heightReduce]);
 
-    let keyColor = d3.scaleLinear()
+    let keyColor = d3.scaleOrdinal()
         .domain([WHITE_KEY, BLACK_KEY])
-        .range(["white", "black"]);
-
-    
+        .range(["#FFFFFF", "#404040"]);
 
     let drawKey = (kt, n) =>
     {
         svg.append("rect")
+            .attr('id', noteTable[n].key)
             .attr('x', keyxArray[n]) 
             .attr('y', keyy(kt))
             .attr('width', keyWidth(kt))
             .attr('height', keyHeight(kt))
             .style("stroke", "black")
             .style("stroke-width", 1)
-            .style("fill", keyColor(kt));
+            .style("fill", keyColor(kt))
+            .on("mousedown", function (e) 
+            {
+                let k = keyboardColor.K;
+                if (keyType(this.id) === BLACK_KEY)
+                {
+                    k + 2;
+                }
+
+                // color adjust
+                this.style.fill = d3.color(this.style.fill).darker(k);
+
+                // Play sound
+            })
+            .on("mouseup", function(e)
+            {
+                let k = keyboardColor.K;
+                if (keyType(this.id) === BLACK_KEY)
+                {
+                    k - 2;
+                }
+
+                // color adjust
+                this.style.fill = d3.color(this.style.fill).brighter(k);
+
+                // Play sound
+            });
     }
 
-    // Key drawing must be done white then black
+    // 
+
+    // Key drawing must be done white then black, since black keys are on top
     // Draw white keys
     for (let n = 0; n < noteTable.length; n++)
     {
@@ -132,27 +161,7 @@ function makeKeyboardVis(noteTable)
         {
             drawKey(kt, n);
         }
-        else
-        {
-            //keyxw();
-        }
     }
-    
-    
-
-    // svg.selectAll("rectangle")
-    //     .data(noteTable)
-    //     .enter()
-    //     .append("rect")
-    //         .attr('x', (k, n) => { return keyx(keyType(k.key), n); })
-    //         .attr('y', (k) => { return keyy(keyType(k.key)); })
-    //         .attr('width', (k) => { return keyWidth(keyType(k.key)); })
-    //         .attr('height', (k) => { return keyHeight(keyType(k.key)); })
-    //         .style("stroke", "black")
-    //         .style("stroke-width", 1)
-    //         .style("fill", "white");
-
-
 
     // Draw names
 }
