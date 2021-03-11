@@ -378,6 +378,7 @@ function main() {
                     updatePlot(selector);
                     d3.selectAll(".row_data").remove();
                     d3.select("table").style("visibility", "hidden");
+                    d3.selectAll(".brushed").attr("class", "non_brushed");
                 })
             }
 
