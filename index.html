@@ -57,7 +57,6 @@
 
     <script>
      
-
         var margin = {top: 50, right: 50, bottom: 50, left: 50}
         var width = 600
         var height = 700
@@ -109,32 +108,51 @@
         var barchart = svg.selectAll("bar")
             .data(data)
             .enter().append("rect")
-            // .append("g")
             .attr("class", "bar")
             .style("fill", "blue")
-            // .style("stroke", "black")
-            // .padding(30)
             .attr("x", function(d) { return x(d.president); })
             // x.bandwith isn't working for some reason will come back to debug
             .attr("width", 40)
             .attr("y", function(d) { return y(d.age); })
             .attr("height", function(d) { return height - y(d.age); })
-            .attr("class", function(d,i) { 
-                return "pt" + d[i]; 
-                console.log(d[i]);
-            })
+            .attr("class", function(d,i) { return "bar" + d.initial; })
+
+            .on("mouseover", function(evt, d) {
+                    console.log(evt)
+                    console.log(d)
+                    console.log('.circle' + d.initial)
+
+                    d3.select('.circle' + d.initial)
+                    
+                    .attr("fill", "Orchid")
+                    .attr("r", 20)
+
+                })
+                .on("mouseout", function(evt, d) {
+                    d3.select('.circle' + d.initial)
+                    .attr("fill", "blue")
+                    .attr("r", 10)
+                })
             
-            .on("mouseover", function(d, i) {
-                console.log(d[i])
-                d3.select(".pt" + d[i])
-                .attr("fill", "Orchid")
-                
-             })
-            .on("mouseout", function(d, i) {
-                d3.select(".pt" + d[i])
-                .attr("fill", "slateblue")
-                
-    })
+            
+
+            // .on("mouseover", function(evt, d) {
+            //         console.log(evt)
+            //         console.log(d)
+            //         console.log('.circle' + d.initial)
+
+            //         d3.select('.circle' + d.initial)
+                    
+            //         .attr("fill", "Orchid")
+            //         .attr("r", 20)
+
+            //     })
+            //     .on("mouseout", function(evt, d) {
+            //         d3.select('.circle' + d.initial)
+            //         .attr("fill", "blue")
+            //         .attr("r", 10)
+            //     })
+
 });
 
         // scatter
@@ -193,25 +211,25 @@
                 .attr('cx',function (d) { 
                     return scatterX(d.president)})
                 .attr('cy',function (d) { return scatterY(d.age) })
-                .attr("class", function(d,i) { return "pt" + d[i]; })
+                .attr("class", function(d,i) { return "circle" + d.initial; })
                 .attr('r','10')
                 .attr('stroke','blue')
                 .attr('fill', 'blue')
                 .attr('stroke-width',1)
-                .on("mouseover", function(d, i) {
-                    // console.log(i)
-                    // console.log(d)
-                    d3.selectAll('.pt' + d[i])
-                    console.log(i)
-                    .attr("fill", "Orchid")
-                    .attr("r", 10)
 
-                })
-                .on("mouseout", function(d, i) {
-                    d3.selectAll('.pt' + d[i])
-                    .attr("fill", "slateblue")
-                    .attr("r", 5)
-                })
+            .on("mouseover", function(evt, d) {
+                console.log(evt)
+                console.log(d)
+
+                console.log('.bar' + d.initial)
+                d3.select('.bar' + d.initial)
+                    .style("fill", "Orchid") 
+             })
+            .on("mouseout", function(evt, d) {
+                d3.select(".bar" + d.initial)
+                .style("fill", "blue")
+            })
+              
         });
 
 

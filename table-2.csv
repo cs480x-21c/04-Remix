@@ -1,11 +1,11 @@
-president,age
-Richard Nixon,60
-Gerald Ford,90
-Jimmy Carter,94
-Ronald Reagan,69
-George H. W. Bush,82
-Bill Clinton,46
-George W. Bush,54
-Barack Obama,47
-Donald Trump,70
-Joe Biden,78
+president,age,initial
+Richard Nixon,60,RN
+Gerald Ford,90,GF
+Jimmy Carter,94,JC
+Ronald Reagan,69,RR
+George H. W. Bush,82,GBH
+Bill Clinton,46,BC
+George W. Bush,54,GBW
+Barack Obama,47,BO
+Donald Trump,70,DT
+Joe Biden,78,JB
