@@ -109,6 +109,28 @@ class BarChart extends Component {
                 this.props.callback(d.Date);
             })
 
+        // 7 day rolling average of cases
+        graph.append("path")
+            .datum(COVID_DATA.slice(6))
+            .attr("fill", "none")
+            .attr("stroke", "red")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(d => xScale(d.Date) + (xScale.bandwidth() / 2))
+                .y(d => yScaleLeft(d.Cases7DAvg))
+            );
+
+        // 7 day rolling average of test results
+        graph.append("path")
+            .datum(COVID_DATA.slice(6))
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(d => xScale(d.Date) + (xScale.bandwidth() / 2))
+                .y(d => yScaleRight(d.Results7DAvg))
+            );
+
         // Legend
         svg.append("circle")
             .attr("cx",MARGIN.LEFT + 10)

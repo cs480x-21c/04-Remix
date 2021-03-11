@@ -24,7 +24,7 @@ class BubbleChart extends Component {
             .attr("transform", `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`);
 
         let caseData = COVID_DATA.map(d => {
-            return {name: d.Date, value: (d.Cases + 1)} // Add 1 to avoid 0 size bubbles for days with no cases
+            return {name: d.Date, value: d.Cases}
         });
 
         let data = d3.pack()
