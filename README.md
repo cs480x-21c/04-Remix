@@ -8,7 +8,7 @@ Original Visualization: https://www.reddit.com/r/dataisbeautiful/comments/ls9jlo
 
 ## Description
 
-I found this original visualization on r/dataisbeautiful. They took a data set from Wikipedia with all of the US presidents' ages when they started their presidency, and their ages at the end of their presidency. The original visualization was a bar chart comparing these ages of the US Presidents.
+I found this original visualization on r/dataisbeautiful. They took a data set from Wikipedia with all of the US presidents' ages when they started their presidency, and their ages at the end of their presidency. The original visualization was a bar chart comparing these ages of the US Presidents of when they started their presidency.
 
 Original Viz:
 ![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/reddit-vis.png)
