@@ -7,6 +7,7 @@
         .background path {
             fill: none;
             stroke: #ddd;
+            stroke-width: 4px;
             shape-rendering: crispEdges;
         }
         .foreground path {
@@ -23,6 +24,16 @@
         text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
         cursor: move;
         }
+        #teamLogos{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 50%;
+        }
+        .logo{
+            width: 4.5vw;
+            height: 4.5vw;
+        }
         </style>
     </head>
     <body>
@@ -32,9 +43,38 @@
         </div>
         <div id="teamSelector">
             <div id="teamLogos">
-
+                <img class="logo" id="ANA" text= "Anaheim Ducks" src="media/ana.png">
+                <img class="logo" id="ARI" text= "Arizona Coyotes" src="media/ari.png">
+                <img class="logo" id="BOS" text= "Boston Bruins" src="media/bos.png">
+                <img class="logo" id="BUF" text= "Buffalo Sabres" src="media/buf.png">
+                <img class="logo" id="CAR" text= "Carolina Hurricanes"src="media/car.png">
+                <img class="logo" id="CBJ" text= "Columbus Blue Jackets"src="media/cbj.png">
+                <img class="logo" id="CGY" text= "Calgary Flames"src="media/cgy.png">
+                <img class="logo" id="CHI" text= "Chicago Blackhawks" src="media/chi.png">
+                <img class="logo" id="COL" text= "Colorado Avalanche" src="media/col.png">
+                <img class="logo" id="DAL" text= "Dallas Stars" src="media/dal.png">
+                <img class="logo" id="DET" text= "Detroit Red Wings" src="media/det.png">
+                <img class="logo" id="EDM" text= "Edmonton Oilers" src="media/edm.png">
+                <img class="logo" id="FLA" text= "Florida Panthers" src="media/fla.png">
+                <img class="logo" id="LAK" text= "Los Angeles Kings"src="media/lak.png">
+                <img class="logo" id="MIN" text= "Minnesota Wild" src="media/min.png">
+                <img class="logo" id="MTL" text= "Montreal Canadiens" src="media/mtl.png">
+                <img class="logo" id="NJD" text= "New Jersey Devils" src="media/njd.png">
+                <img class="logo" id="NSH" text= "Nashville Panthers" src="media/nsh.png">
+                <img class="logo" id="NYI" text= "New York Islanders" src="media/nyi.png">
+                <img class="logo" id="NYR" text= "New York Rangers" src="media/nyr.png">
+                <img class="logo" id="OTT" text= "Ottawa Senators" src="media/ott.png">
+                <img class="logo" id="PHI" text= "Philadelphia Flyers" src="media/phi.png">
+                <img class="logo" id="PIT" text= "Pittsburgh Penguins" src="media/pit.png">
+                <img class="logo" id="SJS" text= "San Jose Sharks" src="media/sjs.png">
+                <img class="logo" id="STL" text= "St. Louis Blues" src="media/stl.png">
+                <img class="logo" id="TBL" text= "Tampa Bay Lightning" src="media/tbl.png">
+                <img class="logo" id="TOR" text= "Toronto Maple Leafs" src="media/tor.png">
+                <img class="logo" id="VAN" text= "Vancouver Canucks" src="media/van.png">
+                <img class="logo" id="VGK" text= "Vegas Golden Knights" src="media/vgk.png">
+                <img class="logo" id="WIN" text= "Winnipeg Jets" src="media/win.png">
+                <img class="logo" id="WSH" text= "Washington Captials " src="media/wsh.png">
             </div>
-            <img class="BOS" src="bos.png" width="100vw" height = "100vw">
         </div>
         <script>
             d3.select("#charts")
@@ -43,15 +83,16 @@
                 .style("height", "70vh");
             var comparisons = d3.select("#teamCompare")
                 .style("width","50vw")
-                .style("height","70vh");
+                .style("height","70vh")
+                .style("background-color","#F8F8F8");
             var inspections = d3.select("#teamInspect")
                 .style("width","50vw")
                 .style("height","70vh")
+                // .style("background-color","#F8F8F8");
                 .style("background-color","blue");
             var selections = d3.select("#teamSelector")
                 .style("width", "100vw")
-                .style("height","30vh")
-                .style("background-color","green");
+                .style("height","30vh");
             var divHeights = document.getElementById('teamCompare').clientHeight;
             var divWidths = document.getElementById('teamCompare').clientWidth;
             var margin = {top: 30, right: 20, bottom: 10, left: 20};
@@ -82,15 +123,48 @@
                     .style("stroke", "#FF0000")
             }
 
-            selectedTeam = null;
+            //Dictionairy of team for primary color
+            var teamColors = {
+                "ANA": "#F47A38",
+                "ARI": "#8C2633",
+                "BOS": "#FFB81C",
+                "BUF": "#002654",
+                "CAR": "#CC0000",
+                "CBJ": "#002654",
+                "CGY": "#C8102E",
+                "CHI": "#CF0A2C",
+                "COL": "#6F263D",
+                "DAL": "#006847",
+                "DET": "#CE1126",
+                "EDM": "#041E42",
+                "FLA": "#B9975B",
+                "LAK": "#111111",
+                "MIN": "#154734",
+                "MTL": "#AF1E2D",
+                "NJD": "#CE1126",
+                "NSH": "#FFB81C",
+                "NYI": "#F47D30",
+                "NYR": "#0038A8",
+                "OTT": "#C52032",
+                "PHI": "#F74902",
+                "PIT": "#000000",
+                "SJS": "#006D75",
+                "STL": "#002F87",
+                "TBL": "#002868",
+                "TOR": "#00205B",
+                "VAN": "#00205B",
+                "VGK": "#B4975A",
+                "WIN": "#041E42",
+                "WSH": "#AC162C"
+            }
             // Event Listener to the associated team logo button
-            d3.select("img.BOS").on("click", function() {
+            d3.selectAll("img").on("click", function(){
+                currentID = this.id;
                 d3.selectAll("path")
-                   .style("stroke", "#ddd");
-                d3.select("path.BOS")
-                    .style("stroke", "red");
+                    .style("stroke", "#ddd");
+                d3.select("path."+currentID)
+                    .style("stroke", teamColors[currentID]);
             });
-
 
 
             d3.csv("teamdata.csv", function(teamData) {
