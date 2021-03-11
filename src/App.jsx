@@ -24,7 +24,7 @@ class App extends Component {
                             <FontAwesomeIcon icon={faVirus}/>
                         </div>
                         <div>
-                            Improved WPI Covid Dashboard
+                            Alternative WPI Covid Dashboard
                         </div>
                     </div>
                 </div>
