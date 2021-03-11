@@ -13,7 +13,7 @@ I wanted to remix a UMAP visualization that I created in ggplot.
 This data is from Lake et al., 2018 and is single-nucleus RNA-seq data from the frontal cortex of the brain. It is publically available and can be dowloaded in Fasta format from their publication, or pre-processed from Geo.
 I uploaded the code that I used for data analysis. I did not upload the original data file, as it is large and sparse. In the data analysis file, I included code for writing the embedding and expression csvs that I used to generate the plots
 
-![orig](photos/orig_vis.png) { width=50% }
+![orig](photos/orig_vis.png){ width=50% }
 
 One thing that I don't like about this vis is the color. I find ggplot's default colors difficult to differentiate after 10 clusters. Some of the clusters are difficult to tell the difference between. This plot had 22 clusters that required different colors. I used colorgorical to generate a 22-element color palette with the highest perceptual difference possible.
 
