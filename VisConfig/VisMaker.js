@@ -24,11 +24,9 @@ function makeVis(majorThirds, equalTemperamentDifference)
     // array of objects where each is {key: 'C0', frequency: 131.256}
     let noteTable = makeNoteTable(equalTemperamentDifference);
 
-    // TODO: clear svg
     svg = d3.select("#first_vis")
         .attr("width", width)
         .attr("height", height);
-
 
     // Makes the top keyboard vis
     makeKeyboardVis(noteTable);
@@ -37,13 +35,28 @@ function makeVis(majorThirds, equalTemperamentDifference)
     makeCircleVis(majorThirds);
 }
 
+function remakeVis(selectedIndex)
+{
+    // Major thirds are used to create the circle vis
+    let majorThirds = gData[selectedIndex]["Major_Thirds"];
+                    
+    // The difference is used to build the note table
+    let equalTemperamentDifference = gData[selectedIndex]["Equal_Temperament_Difference"];
+                    
+    // Default scale starts with the first note name of the first system
+    gCurrentScale = Object.keys(majorThirds)[0].split(" ")[0];
+    
+    // Makes the fist full vis
+    makeVis(majorThirds, equalTemperamentDifference);
+}
+
 function makeKeyboardVis(noteTable)
 {
     // const layout = {topViz:{top: 10, bottom: 10, left: 10, right: 10},
     // bottomVis:{top: 10, bottom: 10, left: 10, right: 10}, 
     // division: 500};
 
-    let whiteKeyWidth = ((width - layout.topViz.left) - layout.topViz.right) / ((WHITE_KEYS_PER_OCTAVE * gKeyboardOctaves) + 1);
+    let whiteKeyWidth = ((width - layout.topViz.left) - layout.topViz.right) / (WHITE_KEYS_PER_OCTAVE * gKeyboardOctaves);
     let whiteKeyHeight = ((layout.division - layout.topViz.top) - layout.topViz.bottom);
     let blackKeyAdjust = whiteKeyWidth/Math.pow(keyboard.blackKeys.widthReduce, 2);
 

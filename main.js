@@ -14,6 +14,18 @@ function main()
         d3.json("data/Theoretically_Correct_Well_Temperament_Tuned_by_George_Fredrick_Handel's_Rules.json"),
         d3.json("data/Well_Temperament_Tuned_by_William_Tans'ur's_Rules.json")]
 
+    // Make drop down, fill it with the current options
+    let optionsNames = ["Francesco Antonio Vallotti's Well Temperament",
+        "George Fredrick Handel's Well Temperament",
+        "William_Tans'ur's Well Temperament"];
+
+    for (let i = 0; i < optionsNames.length; i++)
+    {
+        let option = document.createElement("option");
+        option.text = optionsNames[i];
+        document.getElementById("selectSystem").add(option);
+    }
+
     Promise.all(dataFiles)
         .then((values) =>
             {
