@@ -7,6 +7,25 @@ Promise.all([
 
 
 function createMap(world, data) {
+	var labels = [
+		'Vulnerable',
+		'Definitely endangered',
+		'Severely endangered',
+		'Critically endangered',
+		'Extinct'
+	]
+
+	var counts = {}
+	labels.forEach(function (d) {
+		counts[d] = 0
+	})
+
+	data.forEach(function (d) {
+		counts[d['Degree of endangerment']] += 1
+	});
+
+	lockedID = null
+
 	//var land = topojson.feature(world, world.objects.land)
 	var countries = topojson.feature(world, world.objects.countries)
 
@@ -34,15 +53,7 @@ function createMap(world, data) {
 			.attr('stroke', '#252525')
 			.attr('fill', 'white')
 
-	var labels = [
-		'Vulnerable',
-		'Definitely endangered',
-		'Severely endangered',
-		'Critically endangered',
-		'Extinct'
-	]
-
-	color = d3.scaleOrdinal()
+	var color = d3.scaleOrdinal()
 		.range([
 			'#C8F55F',
 			'#FFD000',
@@ -76,21 +87,29 @@ function createMap(world, data) {
 			)
 			.attr('fill', d => color(d['Degree of endangerment']))
 			.attr('opacity', 0.5)
-			.attr('id', d => d['Degree of endangerment'].replace(/\s/g,'') )
+			.attr('id', d => d['Degree of endangerment'].replace(/\s/g,'_') )
 			.on('mouseover', function (d, i) {
-				d3.select(this).attr('opacity', 1);
+				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+					d3.select(this).attr('opacity', 1);
 
-				let tip = 'Name: ' + i['Name in English'] +
-					"<br>Endangerment Status: " + i['Degree of endangerment'] +
-					"<br>Speakers: " + i['Number of speakers'] +
-					"<br>Countries Spoken: " + i['Countries']
+					let tip = 'Name: ' + i['Name in English'] +
+						"<br>Endangerment Status: " + i['Degree of endangerment'] +
+						"<br>Speakers: " + i['Number of speakers'] +
+						"<br>Countries Spoken: " + i['Countries']
 
-				return tooltip.html(tip).style('visibility', 'visible');
+					return tooltip.html(tip).style('visibility', 'visible');
+				}
 			})
-			.on('mousemove', d => tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX - 60) + 'px'))
+			.on('mousemove', function(d) {
+				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+					tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX - 60) + 'px')
+				}
+			})
 			.on('mouseout', function () {
-				tooltip.style('visibility', 'hidden');
-				d3.select(this).attr('opacity', 0.5);
+				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+					tooltip.style('visibility', 'hidden');
+					d3.select(this).attr('opacity', 0.5);
+				}
 			})
 
 
@@ -103,9 +122,9 @@ function createMap(world, data) {
 		.append('circle')
 			.attr('cx', width - 160)
 			.attr('cy', (d, i) => 75 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
-			.attr('r', 5)
+			.attr('r', 8)
 			.attr('opacity', 0.5)
-			.attr('id', 'legend')
+			.attr('id', d => 'legend_' + d.replace(/\s/g,'_'))
 			.style('fill', d => color(d))
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
@@ -115,11 +134,12 @@ function createMap(world, data) {
 		.data(labels)
 		.enter()
 		.append('text')
-			.attr('x', width - 150)
-			.attr('y', (d, i) => 76 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
+			.attr('x', width - 145)
+			.attr('y', (d, i) => 76.5 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
 			.text(d => d)
 			.attr('text-anchor', 'left')
 			.style('alignment-baseline', 'middle')
+			.attr('id', d => 'legend_text_' + d.replace(/\s/g,'_'))
 
 
 
@@ -139,16 +159,6 @@ function createMap(world, data) {
 
 
 
-
-
-	var counts = {}
-	labels.forEach(function (d) {
-		counts[d] = 0
-	})
-
-	data.forEach(function (d) {
-		counts[d['Degree of endangerment']] += 1
-	});
 
 
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
@@ -179,6 +189,27 @@ function createMap(world, data) {
 				"translate(" + margin.left + "," + margin.top + ")");
 
 	
+	function highlight(hover) {
+		svg.selectAll("rect")
+			.attr('opacity', 0.3)
+					
+			map.selectAll("circle")
+				.attr('opacity', 0)
+
+			hover.attr('opacity', 0.75);
+					
+			map.selectAll('#' + hover.attr('id'))
+				.attr('opacity', 0.5)
+
+			labels.forEach(function(d) {
+				map.selectAll('#legend_'+d.replace(/\s/g,'_'))
+					.attr('opacity', 0.5)	
+			})
+
+			map.selectAll('#legend')
+				.attr('opacity', 0.5)
+	}
+
 
 	// append the rectangles for the bar chart
 	svg.selectAll("rect")
@@ -189,28 +220,39 @@ function createMap(world, data) {
 			.attr("y", d => y(d) )
 			.attr("height", y.bandwidth())
 			.attr("width", d => x(counts[d]) )
+			.attr('x', 1)
 			.attr('fill', d => color(d))
-			.attr('id', d => d.replace(/\s/g,'') )
+			.attr('opacity', 0.5)
+			.attr('stroke-width', 1)
+			.attr('stroke', 'black')
+			.attr('stroke-opacity', 0.5)
+			.attr('id', d => d.replace(/\s/g,'_') )
 			.on('mouseover', function () {
-				svg.selectAll("rect")
-					.attr('opacity', 0.3)
-				
-				map.selectAll("circle")
-					.attr('opacity', 0)
+				if (lockedID == null) {
+					highlight(d3.select(this))
+				}
+			})
+			.on('click', function() {
+				tID = d3.select(this).attr('id')
+				if (lockedID != tID) {
+					lockedID = tID
+					highlight(d3.select(this))
 
-				d3.select(this).attr('opacity', 1);
-				map.selectAll('#' + d3.select(this).attr('id').replace(/\s/g,''))
-					.attr('opacity', 0.5)
-
-				map.selectAll('#legend')
-					.attr('opacity', 0.5)
+					d3.select(this)
+						.attr('opacity', 1)
+				} else {
+					lockedID = null
+					d3.select(this).attr('opacity', 0.75);
+				}
 			})
 			.on('mouseout', function () {
-				svg.selectAll("rect")
-					.attr('opacity', 1)
-				
-				map.selectAll('circle')
-				.attr('opacity', 0.5)
+				if (lockedID == null) {
+					svg.selectAll("rect")
+						.attr('opacity', 0.5)
+					
+					map.selectAll('circle')
+						.attr('opacity', 0.5)
+				}
 			})
 
 	// add the x Axis
