@@ -26,7 +26,7 @@ class BarChart extends Component {
 
         let yScaleRight = d3.scaleLinear()
             .range([HEIGHT, 0])
-            .domain([0, 2500]);
+            .domain([0, 3000]);
 
         let svg = d3.select(this.containerRef.current)
             .append("svg")
@@ -108,6 +108,33 @@ class BarChart extends Component {
             .on("mousedown", (e, d) => {
                 this.props.callback(d.Date);
             })
+
+        // Legend
+        svg.append("circle")
+            .attr("cx",MARGIN.LEFT + 10)
+            .attr("cy",MARGIN.TOP)
+            .attr("r", 6)
+            .style("fill", "#AC2B37");
+
+        svg.append("circle")
+            .attr("cx",MARGIN.LEFT + 10)
+            .attr("cy",MARGIN.TOP + 20)
+            .attr("r", 6)
+            .style("fill", "#A9B0B7");
+
+        svg.append("text")
+            .attr("x", MARGIN.LEFT + 20)
+            .attr("y", MARGIN.TOP + 1)
+            .text("Cases")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle");
+
+        svg.append("text")
+            .attr("x", MARGIN.LEFT + 20)
+            .attr("y", MARGIN.TOP + 21)
+            .text("Test Results")
+            .style("font-size", "15px")
+            .attr("alignment-baseline","middle");
     }
 
     componentDidUpdate(previousProps, previousState, snapshot) {
