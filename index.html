@@ -251,6 +251,15 @@
                     .attr('y', d => yScale(d[1].maleRate) - margin.top)
                     .attr('width', subScale.bandwidth())
                     .attr('height', d => barHeight - yScale(d[1].maleRate))
+                    .attr('class', 'maleBar')
+                    .on('mouseover', (event) => {
+                        d3.selectAll('.femaleBar')
+                        .attr('opacity', 0.3);
+                    })
+                    .on('mouseout', (event) => {
+                        d3.selectAll('.femaleBar')
+                        .attr('opacity', 1);
+                    })
 
                     yearGroup.selectAll('femaleBar')
                     .data(d => [d])
@@ -261,6 +270,15 @@
                     .attr('y', d => yScale(d[1].femaleRate) - margin.top)
                     .attr('width', subScale.bandwidth())
                     .attr('height', d => barHeight - yScale(d[1].femaleRate))
+                    .attr('class', 'femaleBar')
+                    .on('mouseover', (event) => {
+                        d3.selectAll('.maleBar')
+                        .attr('opacity', 0.3);
+                    })
+                    .on('mouseout', (event) => {
+                        d3.selectAll('.maleBar')
+                        .attr('opacity', 1);
+                    })
 
                     //add title and legend
                     let title = svg.append('text')
