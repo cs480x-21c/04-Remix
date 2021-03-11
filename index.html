@@ -42,7 +42,7 @@
     <body>
         <div id="charts">
             <div id="teamCompare"></div>
-            <div id="teamInspect"></div>
+            <div id="playerCompare"></div>
         </div>
         <div id="teamSelector">
             <div id="teamLogos">
@@ -89,11 +89,10 @@
                 .style("width","50vw")
                 .style("height","70vh")
                 .style("background-color","#F8F8F8");
-            var inspections = d3.select("#teamInspect")
+            var inspections = d3.select("#playerCompare")
                 .style("width","50vw")
                 .style("height","70vh")
-                // .style("background-color","#F8F8F8");
-                .style("background-color","blue");
+                .style("background-color","#F8F8F8");
             var selections = d3.select("#teamSelector")
                 .style("width", "100vw")
                 .style("height","30vh")
@@ -109,13 +108,19 @@
             var y = {};
             var line = d3.svg.line();
             var axis = d3.svg.axis().orient("left"), background;
-            // Building team comparisons parallel coordinate graph
+            // Building team and player comparison parallel coordinate graphs
             // Axes: Expected Goals from team, actual goals from team, expected goals against team, actual goals against team    
             var teamsvg = d3.select("#teamCompare").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            var playersvg = d3.select("#playerCompare").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
             // Returns the path for a given data point.
             function path(d) {
                 return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
@@ -204,6 +209,39 @@
                         .attr("y", -9)
                         .text(function(d) {return d; });        
             }); 
+
+            d3.csv("playerdata.csv", function(playerData){
+                x.domain(dimensions = d3.keys(playerData[0]).filter(function(d) {
+                    return d != "player" && d != "position" && d != "team"  && (y[d] = d3.scale.linear()
+                        .domain(d3.extent(playerData, function(p) { return +p[d]; }))
+                        .range([height, 0]));
+                }));
+
+                background = playersvg.append("g")
+                        .attr("class", "background path")
+                    .selectAll("path")
+                        .data(playerData)
+                    .enter().append("path")
+                        .attr("class", function(d){ return d.team})
+                        .attr("d", path);    
+
+
+                // Add group element for each dimension
+                var g = playersvg.selectAll(".dimension")
+                        .data(dimensions)
+                    .enter().append("g")
+                        .attr("class", "dimension")
+                        .attr("transform", function(d){ return "translate(" + x(d) + ")"; });
+                // Adding axis and title
+                g.append("g")
+                        .attr("class", "axis")
+                        .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+                    .append("text")
+                        .style("text-anchor", "middle")
+                        .attr("y", -9)
+                        .text(function(d) {return d; });   
+
+            });
         </script>
     </body>
 </html>
