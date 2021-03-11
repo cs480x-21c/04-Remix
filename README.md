@@ -47,10 +47,11 @@ This also works when a section is brushed. In the picture below, the left chart 
 ## **Technical Achievements**
 
 - I converted the project from using d3 v3 into  using d3 v4.
-- The data in the project was all stored locally as an array of objects called `data`. I took all of the data and put it into the CSV named `data.csv`. 
-- Implemented [d3-interpolate](https://github.com/d3/d3-interpolate) to convert the brush coordinates into the appropriate years the brush covered which I then used to gather the data needed to update the linked bar chart. 
+- The data in the project was all stored in a local variable called `data` as an array of objects. I took all of the data and converted it into a CSV named `data.csv` found in this repo. 
+- I implemented [d3-interpolate](https://github.com/d3/d3-interpolate) to convert the brush coordinates into the appropriate years the brush is covering which is then used to update the linked bar chart on the right.
 
 ### **Design Achievements**
 
 - For the newly added bar chart, the grid pattern dynamically updates to match the number of ticks on the Y axis legend.
 - Besides the default palette, the user has the choice of viewing the charts with three additional palettes. These palettes are taken from the article [Inclusice Color Palettes for the Web](https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e), these palettes are designed to accommodate those with color blindness.  
+- When using the right bar chart to highlight segments of the left stacked bar chart, the corresponding bar on the right chart will also be highlighted to give the user feedback that the bar is being selected.  

@@ -302,22 +302,26 @@
               .attr("y", function(d) { return y(d.value); })
               .attr("height", function(d) { return height - y(d.value); })
               .attr("fill", function(d) { return color(d.key); })
-              .on("mouseover", function(d) {highlightAllBars(d)})
-              .on("mouseleave", function(d) {unhighlightAllBars(d)})
+              .on("mouseover", function(d) {highlightAllBars(d, this)})
+              .on("mouseleave", function(d) {unhighlightAllBars(d, this)})
 
-          function highlightAllBars(d){
+          function highlightAllBars(d, t){
             for(i=0;i<yearsList.length;i++){
               svg.select("#" + d.key + yearsList[i])
                 .attr("fill", function(d) { return "#000000"; })
             }
+            d3.select(t)
+            	.attr("fill", function(d) { return "#000000"; });
           }
 
-          function unhighlightAllBars(d){
+          function unhighlightAllBars(d, t){
             for(i=0;i<yearsList.length;i++){
               svg.select("#" + d.key + yearsList[i])
                 .style("opacity", "1.0")
                 .attr("fill", function(d) { return toString(color(d.key)) })
             }
+            d3.select(t)
+            	.attr("fill", function(d) { return color(d.key) });
           }
 
 
