@@ -24,12 +24,12 @@ I added to the UMAP plot a bar chart that takes the average of expression profil
 
 I chose not to include a barplot-to-scatterplot interaction, because I didn't think that it would be informative based on the visualization that I planned.
 
-# Technical achievments:
+### Technical achievments:
   - Advanced data processing to obtain UMAP plot coordinates and scaled gene expression information
   - Linked visualizations pulling from 2 unique csv files
   - Values of the barplot change based on the mouseover
 
-# Design achievments:
+### Design achievments:
   - Added mouseover and mouseout events to make clusters easier to disinguish
 
 ### Your Task
