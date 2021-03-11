@@ -172,6 +172,7 @@
         'Wyoming': d3.map()
     }
     let currState = 'the United States'
+    let currYear = 2018
 
     // Ready everything for drawing a map
     // const bins = [.06, .12, .18, .24, .3, .36, .42, .48, .54]
@@ -204,26 +205,40 @@
         })
         .await(readyMap)
 
-    let tooltipLine = d3.select('#div2')
-        .append('div')
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", '5px')
 
     function readyLineChart() {
+        svgLine.selectAll('*').remove()
         document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
 
-        // Debugging stuff
-        // console.log('Current State: ' + currState)
+        let tooltipLine = d3.select('#div2')
+            .append('div')
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", '5px')
 
-        // Clear space fro drawing new chart
-        svgLine.selectAll('*').remove()
+        function mouseover(d) {
+            tooltipLine.style('opacity', 1)
+            currYear = d.key
+            updateMap()
+        }
+
+        function mousemove(d) {
+            tooltipLine
+                .html((d.value).toPrecision((3)) + '% of births in ' + d.key)
+                .style("left", (d3.mouse(this)[0] + 70 + 535) + "px")
+                .style("top", (d3.mouse(this)[1] + 75) + "px")
+        }
+
+        function mouseleave () {
+            tooltipLine.style('opacity', 0)
+        }
 
         let data = stateData[currState]
+
         let x = d3.scaleLinear()
             .domain(d3.extent(data.keys(), function (d) {
                 return d
@@ -256,20 +271,6 @@
                     return y(d.value)
                 })
             )
-
-
-        let mouseover = function () {
-            tooltipLine.style('opacity', 1)
-        }
-        let mousemove = function (d) {
-            tooltipLine
-                .html((d.value).toPrecision((3)) + '% of births in ' + d.key)
-                .style("left", (d3.mouse(this)[0] + 70 + 535) + "px")
-                .style("top", (d3.mouse(this)[1] + 75) + "px")
-        }
-        let mouseleave = function () {
-            tooltipLine.style('opacity', 0)
-        }
 
         svgLine
             .append('g')
@@ -308,9 +309,27 @@
             .text('Total Births')
     }
 
+    let loadedMap
     function readyMap(error, topo) {
+        loadedMap = topo
+        updateMap()
+    }
+
+    function updateMap() {
         svgMap.selectAll('*').remove()
-        let mouseOver = function (d) {
+        document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
+
+        let tooltipMap = d3.select('#div1')
+            .append('div')
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+
+        function mouseOver(d) {
             currState = d.properties.NAME
             readyLineChart()
             tooltipMap.style('opacity', 1)
@@ -326,7 +345,7 @@
                 .style('stroke', 'black')
         }
 
-        let mouseLeave = function (d) {
+        function mouseLeave (d) {
             readyLineChart()
             tooltipMap.style('opacity', 0)
             d3.selectAll('.State')
@@ -339,47 +358,32 @@
                 .style('stroke', 'transparent')
         }
 
-        let tooltipMap = d3.select('#div1')
-            .append('div')
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
-
-        let mouseMove = function (d) {
+        function mouseMove (d) {
             tooltipMap
                 .html((d.total * 100).toPrecision(3) + '% of births in ' + d.properties.NAME)
                 .style("left", (d3.mouse(this)[0]) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
         }
 
-        function updateMap(currYear) {
-            document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
-
-            // console.log('Current year is: ' + currYear)
-            svgMap.append('g')
-                .selectAll('path')
-                .data(topo.features)
-                .enter()
-                .append('path')
-                .attr('d', d3.geoPath()
-                    .projection(projection))
-                .attr('fill', function (d) {
-                    d.total = yearlyData[currYear].get(d.properties.NAME) || 0;
-                    return colorScale(d.total)
-                })
-                .style('stroke', 'transparent')
-                .attr('class', function (d) {
-                    return 'State'
-                })
-                .style('opacity', 0.8)
-                .on('mouseover', mouseOver)
-                .on('mouseleave', mouseLeave)
-                .on('mousemove', mouseMove)
-        }
+        svgMap.append('g')
+            .selectAll('path')
+            .data(loadedMap.features)
+            .enter()
+            .append('path')
+            .attr('d', d3.geoPath()
+                .projection(projection))
+            .attr('fill', function (d) {
+                d.total = yearlyData[currYear].get(d.properties.NAME) || 0;
+                return colorScale(d.total)
+            })
+            .style('stroke', 'transparent')
+            .attr('class', function (d) {
+                return 'State'
+            })
+            .style('opacity', 0.8)
+            .on('mouseover', mouseOver)
+            .on('mouseleave', mouseLeave)
+            .on('mousemove', mouseMove)
 
         svgMap.selectAll('rect')
             .data(colorScale.range().reverse())
@@ -402,12 +406,11 @@
             .attr('x', function (d, i) {return widthMap - (30 * i) - 55})
             .attr('y', 15)
             .text(function (d) {return ((d * 100) >= 10 ? (d * 100).toPrecision(2) : (d * 100).toPrecision(1)) + '%'})
-
-        updateMap('2018')
-        d3.select('#yearSlider').on('change', function () {
-            updateMap(this.value)
-        })
     }
 
+    d3.select('#yearSlider').on('change', function () {
+        currYear = this.value
+        updateMap()
+    })
 
 </script>
