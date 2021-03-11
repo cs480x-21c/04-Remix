@@ -20,7 +20,7 @@ I also wanted to add an element where you can clearly see information about the 
 
 ![plot2](photos/exhover.png)
 
-I added to the UMAP plot a bar chart that takes the average of expression profiles for marker genes associated with a particular cell type. On hover over a point, the average expression profile for that cell's cluster is displayed on the bar chart. The above image shows a hover over a cell that appears to be an excitatory neuron cluster.
+I added to the UMAP plot a bar chart that takes the average of expression profiles for marker genes associated with a particular cell type. On hover over a point, the average expression profile for that cell's cluster is displayed on the bar chart. The above image shows a hover over a cell that appears to be an excitatory neuron cluster. It also maintains the color of the cluster, but grays out all of the other cells
 
 Technical achievments:
 
