@@ -20,21 +20,23 @@
   </style>
 
 <body>
-
+    <div id='scatter'></div>
+    <div id='plot'></div>
+    <div id='img'></div>
 </body>
 
 <script>
     console.log(d3);
 
 var margin = {top: 30, right: 20, bottom: 50, left: 50},
-        width = 1000 - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        width = 900 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
 // Ranges for axis (pixels)
 
 
 // SVG graph will be made on
-var svg = d3.select("body")
+var svg = d3.select("#scatter")
     .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -84,7 +86,11 @@ d3.csv("first_ascent.csv", function(error, data) {
         div.transition()
             .duration('50')
             .style("opacity", 0);
-    });
+        })
+        .on('click', function(d,i) {
+            d3.select("#spider").remove();
+            generateSpiderChart(d.Route);
+        });
 
     // Appends x-axis
     svg.append("g")
@@ -175,4 +181,120 @@ d3.csv("first_ascent.csv", function(error, data) {
     }
 
 });
+
+function generateSpiderChart(route) {
+
+    let data = [];
+    let currentClimb = [];
+    let features = ["Stars","Difficulty","Popularity","Length"];
+    
+    d3.csv("RouteData.csv", function(error, data) {
+    data.forEach(function(d) {
+        if(d.Name == route) {
+            currentClimb = {'Stars': +d.Stars * 2, 'Difficulty': normalizeData(+d.Difficulty, 5.11, 5.16), 'Popularity': normalizeData(+d.Popularity, 0, 30000), 'Length': normalizeData(+d.Length, 20, 300)};
+        }
+    });
+
+    let avgPop = normalizeData(4051.064516, 0, 30000);
+    let avgStar = 2 * 3.612903226;
+    let avgLen = normalizeData(97.80645161, 20, 300);
+    let avgDiff = normalizeData(5.140241935, 5.11, 5.16);
+    let avgData = {'Stars': avgStar, 'Difficulty': avgDiff, 'Popularity': avgPop, 'Length': avgLen};
+
+    let totalData = [avgData, currentClimb]
+
+	let margin = {top: 25, right: 50, bottom: 25, left: 50};
+	let width = 700 - margin.left - margin.right;
+	let height = 700 - margin.top - margin.bottom;
+
+	// append the svg object to the body of the page
+	let svg = d3.select("#plot")
+		.append("svg")
+            .attr("id", "spider")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	let radialScale = d3.scaleLinear()
+	  .domain([0, 10])
+	  .range([0, 250]);
+
+    let ticks = [2,4,6,8,10]
+
+    ticks.forEach(t =>
+        svg.append("circle")
+            .attr("cx", 300)
+            .attr("cy", 300)
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("r", radialScale(t))
+    );
+
+	for (var i = 0; i < features.length; i++) {
+
+        let ft_name = features[i];
+        let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+        let line_coordinate = angleToCoordinate(angle, 10);
+        let label_coordinate = angleToCoordinate(angle, 10.5);
+
+        //draw axis line
+        svg.append("line")
+            .attr("x1", 300)
+            .attr("y1", 300)
+            .attr("x2", line_coordinate.x)
+            .attr("y2", line_coordinate.y)
+            .attr("stroke","black");
+
+        //draw axis label
+        svg.append("text")
+            .attr("x", label_coordinate.x)
+            .attr("y", label_coordinate.y)
+            .text(ft_name);
+    }
+
+    let line = d3.line()
+        .x(d => d.x)
+        .y(d => d.y);
+    let colors = ["gold", "blue"];
+
+    for (var i = 0; i < totalData.length; i ++){
+        let d = totalData[i];
+        let color = colors[i];
+        let coordinates = getPathCoordinates(d);
+
+        //draw the path element
+        svg.append("path")
+            .datum(coordinates)
+            .attr("d", line)
+            .attr("stroke-width", 3)
+            .attr("stroke", color)
+            .attr("fill", color)
+            .attr("stroke-opacity", 1)
+            .attr("opacity", 0.5);
+    }
+
+    function angleToCoordinate(angle, value) {
+        let x = Math.cos(angle) * radialScale(value);
+        let y = Math.sin(angle) * radialScale(value);
+        return {"x": 300 + x, "y": 300 - y};
+    }
+		
+    function getPathCoordinates(data_point){
+        let coordinates = [];
+        for (var i = 0; i < features.length; i++){
+            let ft_name = features[i];
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
+        }
+        return coordinates;
+    }
+
+    function normalizeData(d, min, max) {
+        return ((d - min) / (max - min)) * 10;
+    }
+
+    }
+)};
+
 </script>
