@@ -119,20 +119,23 @@
             .attr("width", 40)
             .attr("y", function(d) { return y(d.age); })
             .attr("height", function(d) { return height - y(d.age); })
-            .attr("class", function(d,i) { return "pt" + i; })
-    //         .on("mouseover", function(d, i) {
-    //             console.log(i)
-    //             d3.select("rect.pt" + i)
-    //             .attr("fill", "Orchid")
+            .attr("class", function(d,i) { 
+                return "pt" + d[i]; 
+                console.log(d[i]);
+            })
+            
+            .on("mouseover", function(d, i) {
+                console.log(d[i])
+                d3.select(".pt" + d[i])
+                .attr("fill", "Orchid")
                 
-    //          })
-    //         .on("mouseout", function(d, i) {
-    //             d3.select("rect" + i)
-    //             .attr("fill", "slateblue")
+             })
+            .on("mouseout", function(d, i) {
+                d3.select(".pt" + d[i])
+                .attr("fill", "slateblue")
                 
-    // })
+    })
 });
-
 
         // scatter
         var scatterWidth = 600
@@ -190,22 +193,22 @@
                 .attr('cx',function (d) { 
                     return scatterX(d.president)})
                 .attr('cy',function (d) { return scatterY(d.age) })
-                .attr("class", function(d,i) { return "pt" + i; })
+                .attr("class", function(d,i) { return "pt" + d[i]; })
                 .attr('r','10')
                 .attr('stroke','blue')
                 .attr('fill', 'blue')
                 .attr('stroke-width',1)
                 .on("mouseover", function(d, i) {
-                    console.log(i)
-                    console.log(d)
-                    d3.selectAll('.pt' + i)
+                    // console.log(i)
+                    // console.log(d)
+                    d3.selectAll('.pt' + d[i])
                     console.log(i)
                     .attr("fill", "Orchid")
                     .attr("r", 10)
 
                 })
                 .on("mouseout", function(d, i) {
-                    d3.selectAll('.pt' + i)
+                    d3.selectAll('.pt' + d[i])
                     .attr("fill", "slateblue")
                     .attr("r", 5)
                 })
