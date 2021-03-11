@@ -1,8 +1,9 @@
 ## Assignment 4 - DataVis Remix + Multiple Views
-### Danya Baron
-===
+Danya Baron
+
 
 https://danyabaron.github.io/04-Remix/
+
 Original Visualization: https://www.reddit.com/r/dataisbeautiful/comments/ls9jlo/oc_last_10_us_presidents_age_when_they_at_the/
 
 ## Description
