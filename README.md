@@ -1,7 +1,9 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-This visualization is a remix of one I found ![here](https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/). The data set used is earnings.csv in my repository, and I decided to remix the visualization by using a multi-line chart with a pie chart for additional details. The line chart displays both men's and women's median weekly earnings from 2010 up until 2021. This includes all races and ethnicities, however by clicking on a year on the x-axis, the pie chart on the right hand side will update to show the race/ethnicity breakdown of earnings for that year. This visualization is currently hosted on github pages and can be found ![here](https://jasondykstra.github.io/04-Remix/) (https://jasondykstra.github.io/04-Remix/).
+This visualization is a remix of one I found ![here](https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/). I wanted to remix this visualization because a 3D bar chart was not the best way to visualize this data. The original visualization was difficult to interpret and felt over-done. Because of this, I wanted to implement a multi-line chart to visualize the overall trends of the data, and a pie chart or treemap to visualize the specifics.
+
+The data set used is earnings.csv in my repository, and I decided to remix the visualization by using a multi-line chart with a pie chart for additional details. The line chart displays both men's and women's median weekly earnings from 2010 up until 2021. This includes all races and ethnicities, however by clicking on a year on the x-axis, the pie chart on the right hand side will update to show the race/ethnicity breakdown of earnings for that year. This visualization is currently hosted on github pages and can be found ![here](https://jasondykstra.github.io/04-Remix/) (https://jasondykstra.github.io/04-Remix/).
 
 ![Picture of main page of visualization](img/main.png)
 
