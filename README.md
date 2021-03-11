@@ -14,6 +14,7 @@ hides all other data points not of that type.
 
 Screenshots
 ---
+- All of these screenshots are zoomed out to show the whole vis.
 ![image](images/demo1.png)
 
 Selecting one value on legend updates the focus on the other graph
@@ -47,8 +48,8 @@ Technical Achievements
 - CSS styling for the button
 - Added a mouseover and mouseout on the scatterplot to make the radius of the selected dot larger
 - Added a jitter value to the scatterplot to spread out the values, makes the easier to distinguish
-- Figured out how to make a multi-line graph with different lines for each sex. This also helped with easy filtering as I assigned
-an ID to each line.
+- Figured out how to make a multi-line graph with different lines for each sex. This also helped with easy filtering as I assigned an ID to each line.
+- Added a D3.brush components, which creates a table of all the selected circles
 
 
 Sources from Original Vis
