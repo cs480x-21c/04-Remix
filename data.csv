@@ -1,0 +1,202 @@
+﻿Number,Country,Height,Continent
+170,Afghanistan,156.1,AS
+83,Albania,162.2,EU
+73,Algeria,162.3,AF
+29,American Samoa,172.3,OC
+31,Andorra,165.5,EU
+159,Angola,158.1,AF
+30,Antigua and Barbuda,165.7,NA
+85,Argentina,161.2,SA
+107,Armenia,159.9,AS
+36,Australia,164.7,OC
+24,Austria,166.9,EU
+92,Azerbaijan,161.4,AS
+71,Bahamas,163.5,NA
+121,Bahrain,158.3,AS
+197,Bangladesh,152.4,AS
+40,Barbados,165.7,NA
+23,Belarus,166.9,EU
+44,Belgium,163.4,EU
+146,Belize,158.1,NA
+158,Benin,158.4,AF
+21,Bermuda (UK),166.1,NA
+179,Bhutan,155.2,AS
+175,Bolivia,155.6,SA
+7,Bosnia and Herzegovina,167.5,EU
+94,Botswana,162.1,AF
+69,Brazil,162.4,SA
+186,Brunei,154.9,AS
+61,Bulgaria,164.6,EU
+109,Burkina Faso,161.3,AF
+178,Burundi,155.1,AF
+189,Cambodia,154.7,AS
+112,Cameroon,160.4,AF
+35,Canada,164.7,NA
+55,Cape Verde,163.1,AF
+145,Central African Republic,159.7,AF
+103,Chad,162.1,AF
+114,Chile,159.4,SA
+58,China,163.5,AS
+137,Colombia,158.0,SA
+171,Comoros,156.5,AF
+22,Cook Islands,172.8,OC
+99,Costa Rica,160.4,NA
+14,Croatia,166.8,EU
+104,Cuba,160.1,NA
+108,Cyprus,160.6,EU
+8,Czech Republic,168.0,EU
+167,Democratic Republic of the Congo,156.3,AF
+4,Denmark,169.5,EU
+124,Djibouti,159.8,AF
+17,Dominica,166.9,NA
+88,Dominican Republic,161.2,NA
+177,Ecuador,155.2,SA
+90,Egypt,160.9,AF
+155,El Salvador,156.4,NA
+162,Equatorial Guinea,158.0,AF
+151,Eritrea,157.6,AF
+3,Estonia,168.7,EU
+148,Eswatini,158.9,AF
+163,Ethiopia,157.2,AF
+142,Federated States of Micronesia,159.7,OC
+65,Fiji,164.3,OC
+16,Finland,166.5,EU
+37,France,164.5,EU
+27,French Polynesia (France),166.5,OC
+128,Gabon,160.0,AF
+132,Gambia,161.7,AF
+56,Georgia,163.2,AS
+20,Germany,166.2,EU
+143,Ghana,158.9,AF
+26,Greece,165.8,EU
+93,Greenland (Denmark),161.4,NA
+28,Grenada,166.0,NA
+200,Guatemala,150.9,NA
+140,Guinea,158.8,AF
+156,Guinea-Bissau,158.7,AF
+117,Guyana,159.6,SA
+110,Haiti,160.6,NA
+168,Honduras,155.2,NA
+91,Hong Kong,160.6,AS
+57,Hungary,162.5,EU
+5,Iceland,168.9,EU
+184,India,155.2,AS
+188,Indonesia,154.4,AS
+79,Iran,161.2,AS
+111,Iraq,158.7,AS
+33,Ireland,164.5,EU
+67,Israel,162.2,AS
+84,Italy,161.8,EU
+157,Ivory Coast,158.7,AF
+49,Jamaica,164.3,AF
+125,Japan,158.5,AS
+100,Jordan,159.5,AS
+76,Kazakhstan,161.7,AS
+136,Kenya,159.4,AF
+119,Kiribati,161.0,OC
+25,Kosovo,165.7,EU
+95,Kuwait,160.1,AF
+116,Kyrgyzstan,160.2,AS
+199,Laos,153.1,AS
+6,Latvia,168.8,EU
+41,Lebanon,163.7,AS
+169,Lesotho,156.7,AF
+182,Liberia,156.5,AF
+59,Libya,162.6,AF
+10,Lithuania,167.6,EU
+34,Luxembourg,165.1,EU
+196,Madagascar,153.1,AF
+183,Malawi,156.1,AF
+161,Malaysia,157.1,AS
+180,Maldives,154.3,AS
+78,Mali,162.0,AF
+74,Malta,163.0,EU
+190,Marshall Islands,154.8,OC
+164,Mauritania,160.1,AF
+115,Mauritius,158.9,AF
+150,Mexico,157.9,NA
+62,Moldova,163.0,EU
+126,Mongolia,159.9,AS
+2,Montenegro,170.0,EU
+72,Morocco,161.2,AF
+193,Mozambique,155.4,AF
+185,Myanmar,154.7,AS
+135,Namibia,160.3,AF
+152,Nauru,157.8,OC
+198,Nepal,152.4,AS
+1,Netherlands,170.4,EU
+45,New Zealand,164.7,OC
+165,Nicaragua,155.6,NA
+133,Niger,159.8,AF
+138,Nigeria,158.1,AF
+32,Niue (NZ),167.0,OC
+86,North Korea,161.2,AS
+75,North Macedonia,160.9,EU
+18,Norway,166.4,EU
+131,Oman,158.4,AS
+181,Pakistan,154.8,AS
+130,Palau,159.5,OC
+82,Palestine,161.3,AS
+147,Panama,158.2,NA
+191,Papua New Guinea,156.9,OC
+106,Paraguay,159.8,SA
+187,Peru,154.4,SA
+194,Philippines,154.1,AS
+19,Poland,165.8,EU
+89,Portugal,161.2,EU
+43,Puerto Rico,163.1,NA
+102,Qatar,160.7,AS
+134,Republic of the Congo,158.8,AF
+42,Romania,164.7,EU
+51,Russia,164.5,AS
+176,Rwanda,156.7,AF
+81,Saint Kitts and Nevis,162.8,NA
+48,Saint Lucia,165.5,NA
+39,Saint Vincent and the Grenadines,165.3,NA
+66,Samoa,163.8,OC
+129,São Tomé and Príncipe,159.8,AF
+139,Saudi Arabia,158.8,AS
+53,Senegal,163.9,AF
+9,Serbia,168.3,EU
+64,Seychelles,162.5,AF
+174,Sierra Leone,157.3,AF
+97,Singapore,161.3,AS
+12,Slovakia,167.1,EU
+11,Slovenia,167.2,EU
+192,Solomon Islands,156.8,OC
+120,Somalia,159.9,AF
+149,South Africa,158.6,AF
+60,South Korea,163.2,AS
+70,Spain,162.0,EU
+172,Sri Lanka,155.9,AS
+113,Sudan,160.4,AF
+80,Suriname,162.3,SA
+15,Sweden,166.7,EU
+38,Switzerland,164.3,EU
+123,Syria,159.4,AS
+101,Taiwan,160.7,AS
+160,Tajikistan,158.1,AS
+173,Tanzania,156.9,AF
+122,Thailand,159.4,AS
+201,Timor-Leste,152.7,AS
+141,Togo,159.1,AF
+47,Tokelau (NZ),166.1,OC
+50,Tonga,166.1,OC
+54,Trinidad and Tobago,163.4,NA
+63,Tunisia,161.7,AF
+68,Turkey,161.8,AS
+77,Turkmenistan,162.8,AS
+96,Tuvalu,163.6,OC
+154,Uganda,158.5,AF
+13,Ukraine,166.6,EU
+98,United Arab Emirates,160.5,AS
+46,United Kingdom,163.9,EU
+52,United States,163.3,NA
+87,Uruguay,161.6,SA
+118,Uzbekistan,160.3,AS
+144,Vanuatu,160.5,OC
+105,Venezuela,160.0,SA
+153,Vietnam,158.4,AS
+195,Yemen,154.8,AS
+166,Zambia,157.3,AF
+127,Zimbabwe,159.8,AF
