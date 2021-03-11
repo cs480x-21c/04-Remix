@@ -20,7 +20,7 @@ Screenshots
 Selecting one value on legend updates the focus on the other graph
 ---
 ![image](images/demo2.png)
-![image](images/demo3.png)
+![image](images/seconddemo3.png)
 
 Original Vis Critique
 ---
