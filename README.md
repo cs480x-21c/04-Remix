@@ -1,64 +1,17 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+This visualization is a remix of one I found ![here](https://www.reddit.com/r/dataisbeautiful/comments/luz3es/median_us_weekly_earnings_by_sex_raceethnicity/). The data set used is earnings.csv in my repository, and I decided to remix the visualization by using a multi-line chart with a pie chart for additional details. The line chart displays both men's and women's median weekly earnings from 2010 up until 2021. This includes all races and ethnicities, however by clicking on a year on the x-axis, the pie chart on the right hand side will update to show the race/ethnicity breakdown of earnings for that year. This visualization is currently hosted on github pages and can be found ![here](https://jasondykstra.github.io/04-Remix/) (https://jasondykstra.github.io/04-Remix/).
 
-### Your Task
+![Picture of main page of visualization](img/main.png)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+# Technical Achievements
+This project of course has a linked view as per the requirements. By clicking on the year in the x-axis, the pie chart will update accordingly. On top of this, if you hover your mouse over the multi-line chart you will see the median weekly earnings for both the men and the women per quarter. The tooltip will look like this:
 
-By remix, we mean:
+![Picture of hovering over multi-line chart](img/hover.png)
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+Creating the line and the small circles as a visual was difficult, on top of having to find the closest quarter to the mouse cursor. I achieved this by overlaying a large rectangle on the graph since "g" elements can't detect mouse movement, and retrieved the x coordinate values of the year ticks on the x-axis. By splitting the gaps up into four sections, I could determine the spots where each quarter of the year would be, and updated the line to snap to the quarter closest to the mouse cursor. 
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+# Design Achievements
+I was able to create the graphs side by side using divs. Both charts lay on their respective SVGs which are inside of divs. Both of those divs are inside of a parent container which uses the flexbox display mode to align the inner divs horizontally. Additionally, I was able to use these adjusted coordinates insdie of the SVG to center text, labels, and charts. On the pie chart specifically, I was able to put labels on the outside of the pie chart neatly by determining which side of the pie chart the label was on. If the label was on the left side of the chart I would anchor the text to the left, and if the lable was on the right hand side of the pie chart I would anchor the text to the left. For both the pie chart labels and percentages, I applied them to the chart by creating a smaller and larger arc around the pie chart with the same specifications for angles as the main chart. 
 
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
