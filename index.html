@@ -3,22 +3,97 @@
 <button type="button" onclick="setMode('Party')">Party</button>
 <button type="button" onclick="setMode('House')">House/Sen.</button>
 <button type="button" onclick="setMode('Detail')">Detail</button>
+<button type="button" onclick="swapView()">Comparison mode</button>
+<select id="demo">
+    <option value="0">Protestants</option>
+    <option value="1">Catholics</option>
+    <option value="2">Mormons</option>
+    <option value="3">Orthodox Christians</option>
+    <option value="4">Muslims</option>
+    <option value="5">Hebrews</option>
+    <option value="6">Hindus</option>
+    <option value="7">Buddhists</option>
+    <option value="8">Other Religions</option>
+    <option value="9">Unknown/Refuse to answer</option>
+    <option value="10">Unaffiliated/Nonreligious</option>
+    <option value="11">White/Caucasians</option>
+    <option value="12">Latino/Hispanics</option>
+    <option value="13">Black/African Americans</option>
+    <option value="14">Asian/Pacific Islanders</option>
+    <option value="15">Native Americans</option>
+    <option value="16">Men</option>
+    <option value="17">Women</option>
+</select>
+<button type="button" onclick="addComp()">Add to comparison</button>
+<button type="button" onclick="remComp()">Remove from comparison</button>
+<button type="button" onclick="reset()">Remove  all from comparison</button>
 <svg id="vis"></svg>
 
 <script>
     console.log(d3);
 
-    if(sessionStorage.getItem("Mode") != "Party" && sessionStorage.getItem("Mode") != "House" && sessionStorage.getItem("Mode") != "Detail") {
+    if (sessionStorage.getItem("Mode") != "Party" && sessionStorage.getItem("Mode") != "House" && sessionStorage.getItem("Mode") != "Detail") {
         sessionStorage.setItem("Mode", "Party");
     }
-    
+
+    if (sessionStorage.getItem("View") != "Over" && sessionStorage.getItem("View") != "Compare") {
+        sessionStorage.setItem("View", "Over");
+    }
+
+    if (!Array.isArray(JSON.parse(sessionStorage.getItem("CompareList")))) {
+        var compare = [18, 18, 18, 18, 18];
+        sessionStorage.setItem("CompareList", JSON.stringify(compare));
+    }
+
+    function reset() {
+        var compare = [18, 18, 18, 18, 18];
+        sessionStorage.setItem("CompareList", JSON.stringify(compare));
+        location.reload();
+    }
+
     function setMode(mode) {
         sessionStorage.setItem("Mode", mode);
         location.reload();
     }
 
+    function swapView() {
+        if (sessionStorage.getItem("View") == "Over") {
+            sessionStorage.setItem("View", "Compare");
+        } else {
+            sessionStorage.setItem("View", "Over");
+        }
+        location.reload();
+    }
+
     var wid = 1400;
-    var hgt = 3600;
+    var hgt;
+
+    if (sessionStorage.getItem("View") == "Over") {
+        hgt = 3600;
+    } else {
+        hgt = 720;
+    }
+
+    function addComp() {
+        var demo = document.getElementById("demo").value;
+        var c = JSON.parse(sessionStorage.getItem("CompareList"));
+        
+        c[c.indexOf(18)] = demo;
+
+        sessionStorage.setItem("CompareList", JSON.stringify(c));
+        location.reload();
+    }
+
+    function remComp() {
+        var demo = document.getElementById("demo").value;
+        var c = JSON.parse(sessionStorage.getItem("CompareList"));
+        
+        c[c.indexOf(demo)] = 18;
+
+        sessionStorage.setItem("CompareList", JSON.stringify(c));
+        location.reload();
+    }
+
     /*
     Arrays store info in the following positions:
     0 - #/% Protestant              11 - #/% White                      16 - #/% Men
@@ -88,7 +163,7 @@
             .text("Population")
             .style("text-anchor", "middle");
         makeCirc(wid / 2, (200 * i) + 100, popltn[i], i);
-        if(sessionStorage.getItem("Mode") == "Party") {
+        if (sessionStorage.getItem("Mode") == "Party") {
             makeCirc(wid / 2 + 120, (200 * i) + 100, (rpbhou[i] + rpbsen[i]) / 2.83, i);
             makeCirc(wid / 2 - 120, (200 * i) + 100, (demhou[i] + demsen[i]) / 2.49, i);
             svg.append("text")
@@ -101,7 +176,7 @@
                 .attr("y", (200 * i) + 160)
                 .text("Democrats")
                 .style("text-anchor", "middle");
-        } else if(sessionStorage.getItem("Mode") == "House") {
+        } else if (sessionStorage.getItem("Mode") == "House") {
             makeCirc(wid / 2 + 120, (200 * i) + 100, (rpbhou[i] + demhou[i]) / 4.34, i);
             makeCirc(wid / 2 - 120, (200 * i) + 100, (rpbsen[i] + demsen[i]) / .98, i);
             svg.append("text")
@@ -114,7 +189,7 @@
                 .attr("y", (200 * i) + 160)
                 .text("Senate")
                 .style("text-anchor", "middle");
-        } else if(sessionStorage.getItem("Mode") == "Detail") {
+        } else if (sessionStorage.getItem("Mode") == "Detail") {
             makeCirc(wid / 2 + 120, (200 * i) + 100, rpbsen[i] / .52, i);
             makeCirc(wid / 2 + 240, (200 * i) + 100, rpbhou[i] / 1.97, i);
             makeCirc(wid / 2 - 120, (200 * i) + 100, demsen[i] / .46, i);
@@ -142,9 +217,25 @@
         }
     }
 
-    for (i = 0; i < popltn.length; i++) {
-        createVisA(i);
+    if (sessionStorage.getItem("View") == "Over") {
+        for (i = 0; i < popltn.length; i++) {
+            createVisA(i);
+        }
+    } else if (sessionStorage.getItem("View") == "Compare") {
+        var c = JSON.parse(sessionStorage.getItem("CompareList"));
+        var newc = [];
+        for (i = 0; i < c.length; i++) {
+            if(c[i] < 18) {
+                newc.push(c[i]);
+            }
+        }
+        for (i = 0; i < newc.length; i++) {
+            svg.append("text")
+                .attr("x", wid / 2)
+                .attr("y", (50 * i) + 50)
+                .text(titles[newc[i]])
+                .style("text-anchor", "middle");
+        }
     }
-
 
 </script>
