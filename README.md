@@ -19,7 +19,7 @@ Remix Viz:
 
 For my visualization I took the CSV file from Wikipedia and used that data to create a bar chart and a scatter plot. I used primarily d3.js for this assignment. When a user puts their mouse over a bar chart, the corresponding circle in the scatter plot will enlarge and change color. Vice versa, when a user hovers thier mouse over a circle in the scatter plot, the corresponding rectangle will highlight and change color. This is how I decided to link the two SVGs.
 
-![ScreenShot] 
+![ScreenShot]() 
 
 
 
