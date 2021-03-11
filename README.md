@@ -11,6 +11,7 @@ https://nshedd.github.io/04-Remix/index.html
 I wanted to remix a UMAP visualization that I created in ggplot.
 
 This data is from Lake et al., 2018 and is single-nucleus RNA-seq data from the frontal cortex of the brain. It is publically available and can be dowloaded in Fasta format from their publication, or pre-processed from Geo.
+I uploaded the code that I used for data analysis. I did not upload the original data file, as it is large and sparse. In the data analysis file, I included code for writing the embedding and expression csvs that I used to generate the plots
 
 ![orig](photos/orig_vis.png)
 
