@@ -34,13 +34,17 @@
         svg.style('width', width + margin.left + margin.right)
         .style('height', height + margin.top + margin.bottom);
 
+        let div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", "0");
+
         let app = new Vue({
             el: '#visContainer',
             data: {
                 totalData: null,
                 maleData: null,
                 femaleData: null,
-                selectedGroup: null
+                selectedGroup: null,
             },
             mounted: async function() {
                 await this.createLineChart();
@@ -54,6 +58,8 @@
 
                     let group = svg.append('g')
                     .attr('transform', `translate(${margin.left},${margin.top})`);
+
+                    //let tooltip = svg.select('#hover');
 
                     //convert strings to ints
                     for(let d of data) {
@@ -126,14 +132,38 @@
                         .attr('d', function(d) {
                             return line(d[1]);
                         })
-                        .on('mouseover', function (event, d) {
+                        .on('mouseover', (event, d) => {
                             d3.select(event.target).attr('stroke-width', 3);
+                            
+                            this.hoverCounty = d[0];
+
+                            div.style("display", "block");
+                            div.transition()
+                            .duration(300)
+                            .style("opacity", "0.8");
+                            
+                            div.html(`<p>${d[0]}</p>`);
+                            
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                        })
+                        .on('mousemove', function(event, d) {
+
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                            
                         })
                         .on('mouseout', function (event, d) {
+
+                            div.transition()
+                            .duration(500)
+                            .style("opacity", "0");
+
                             d3.select(event.target).attr('stroke-width', 1);
                         })
                         .on('mousedown', (event, d) => {
                             this.createBarChart(d);
+                            d3.select(event.target).attr('box-shadow', '0 0 3px red');
                         })
 
                 },
@@ -232,6 +262,45 @@
                     .attr('width', subScale.bandwidth())
                     .attr('height', d => barHeight - yScale(d[1].femaleRate))
 
+                    //add title and legend
+                    let title = svg.append('text')
+                    .attr('x', ((width + margin.left + margin.right) / 2) - 150)
+                    .attr('y', margin.top + 10)
+                    .attr('font', '13px')
+                    .attr('fill', 'black')
+                    .text(`Male and Female Gonorrhea Rates in ${county}`);
+
+                    let legend = svg.append('g')
+                    .attr('transform', `translate(${parseInt(title.attr('x')) + 75}, ${parseInt(title.attr('y')) + 30})`);
+
+                    let maleListing = legend.append('text')
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('fill', 'black')
+                    .attr('font', '13px')
+                    .text('Men:');
+
+                    let blueRect = legend.append('rect')
+                    .attr('y', -10)
+                    .attr('x', parseInt(maleListing.attr('x')) + 40)
+                    .attr('width', 10)
+                    .attr('height', 10)
+                    .attr('fill', 'steelblue');
+
+                    let femaleListing = legend.append('text')
+                    .attr('x', parseInt(maleListing.attr('x')) + 70)
+                    .attr('y', 0)
+                    .attr('fill', 'black')
+                    .attr('font', '13px')
+                    .text('Women:');
+
+                    let redRect = legend.append('rect')
+                    .attr('y', -10)
+                    .attr('x', parseInt(femaleListing.attr('x')) + 65)
+                    .attr('width', 10)
+                    .attr('height', 10)
+                    .attr('fill', 'red');
+
                 }
 
             }
@@ -244,6 +313,19 @@
     <style>
         .lcLine {
             cursor: pointer;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            min-height: 20px;
+            padding: 1px;
+            background: white; 
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        body {
+            font-family: Arial;
         }
     </style>
 
