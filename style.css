@@ -1,14 +1,18 @@
 #coldChart {
-    height: 600px;
     width: 500px;
-
-}
-#warmChart {
     height: 500px;
-    width: 500px;
-
 }
 
-.bar{
-    fill: steelblue;
+#warmChart {
+    width: 500px;
+    height: 500px;
+}
+
+#textBox {
+    width: 500px;
+    height: 500px;
+}
+
+div{
+    white-space: pre;
 }

@@ -7,6 +7,7 @@
 <body>
 <svg id="coldChart"></svg>
 <svg id="warmChart"></svg>
+<div id="textBox"></div>
 <script>
 
     var width = 500,
@@ -23,11 +24,12 @@
         .attr("height", height)
 
 
+
+
     var xScale = d3.scaleBand().range([0, width]).padding(0.4),
         yScale = d3.scaleLinear().range([height, 0]);
 
-    var g = coldSVG.append("g")
-        .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
 
 
     //Code for warmest days
@@ -66,8 +68,12 @@
                     return yScale(d.Warmest);
                 })
                 .attr("width", xScale.bandwidth())
+                .style("fill", "LightCoral")
                 .attr('id', function (d) {
-                    console.log(d.State + "Warm");
+                    if(d.State.includes(" ")){
+                        d.State = d.State.replace(/\s/g, '');;
+                    }
+                    //console.log(d.State + "Warm");
                     return d.State + "Warm";
 
                 })
@@ -75,14 +81,18 @@
                     return height - yScale(d.Warmest);
                 })
                 .on('mouseover', function (d) {
-                    //console.log(this.id)
-                    d3.select(this).style("fill", "blue");
+                    d3.select(this).style("fill", "red");
                     d3.select("#" + d.State + "Cold").style("fill", "blue");
-                    //console.log(d.State + "Cold")
+                    var div = document.getElementById("textBox");
+                    div.innerHTML += d.State + "<br>";
+                    div.innerHTML += "Coldest Temperature Recorded: " + d.Coldest + "\xB0" + "F" + "<br>";
+                    div.innerHTML += "Warmest Temperature Recorded: " + d.Warmest + "\xB0" + "F" + "<br>";
                 })
                 .on('mouseout', function (d) {
-                    d3.select(this).style("fill", "steelblue");
+                    d3.select(this).style("fill", "LightCoral");
                     d3.select("#" + d.State + "Cold").style("fill", "steelblue");
+                    var div = document.getElementById("textBox");
+                    div.innerHTML = "";
                 })
 
         });
@@ -121,24 +131,39 @@
                     return xScale(d.State);
                 })
                 .attr("y", function (d) {
+                    if(d.Coldest < 0){
                     return yScale(d.Coldest);
+                    }else{
+                        return -yScale(d.Coldest);
+                    }
+
                 })
                 .attr("width", xScale.bandwidth())
                 .attr('id', function (d) {
+                    if(d.State.includes(" ")){
+                        d.State = d.State.replace(/\s/g, '');
+                    }
                     return d.State + "Cold";
                 })
                 .attr("height", function (d) {
                     return height - yScale(d.Coldest);
                 })
+                .style("fill", "steelblue")
                 .on('mouseover', function (d) {
-                    console.log(this.id)
+                    //console.log(this.id)
                     d3.select(this).style("fill", "blue");
-                    d3.select("#" + d.State + "Warm").style("fill", "blue");
+                    d3.select("#" + d.State + "Warm").style("fill", "red");
+                    var div = document.getElementById("textBox");
+                    div.innerHTML += d.State + "<br>";
+                    div.innerHTML += "Coldest Temperature Recorded: " + d.Coldest + "\xB0" + "F" + "<br>";
+                    div.innerHTML += "Warmest Temperature Recorded: " + d.Warmest + "\xB0" + "F" + "<br>";
 
                 })
                 .on('mouseout', function (d) {
                     d3.select(this).style("fill", "steelblue");
-                    d3.select("#" + d.State + "Warm").style("fill", "steelblue");
+                    d3.select("#" + d.State + "Warm").style("fill", "LightCoral");
+                    var div = document.getElementById("textBox");
+                    div.innerHTML = "";
                 })
 
         });
