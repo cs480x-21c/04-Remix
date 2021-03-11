@@ -12,7 +12,6 @@ class App extends Component {
     }
 
     setSelectedDate(date) {
-        console.log(date);
         this.setState({date: date});
     }
 
