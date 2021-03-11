@@ -112,24 +112,26 @@ class BarChart extends Component {
         // 7 day rolling average of cases
         graph.append("path")
             .datum(COVID_DATA.slice(6))
-            .attr("fill", "none")
-            .attr("stroke", "red")
-            .attr("stroke-width", 1.5)
             .attr("d", d3.line()
                 .x(d => xScale(d.Date) + (xScale.bandwidth() / 2))
                 .y(d => yScaleLeft(d.Cases7DAvg))
-            );
+            )
+            .style("fill", "none")
+            .style("stroke", "#AC2B37")
+            .style("stroke-width", 3)
+            .style("stroke-dasharray", "3, 3");
 
         // 7 day rolling average of test results
         graph.append("path")
             .datum(COVID_DATA.slice(6))
-            .attr("fill", "none")
-            .attr("stroke", "gray")
-            .attr("stroke-width", 1.5)
             .attr("d", d3.line()
                 .x(d => xScale(d.Date) + (xScale.bandwidth() / 2))
                 .y(d => yScaleRight(d.Results7DAvg))
-            );
+            )
+            .style("fill", "none")
+            .style("stroke", "#A9B0B7")
+            .style("stroke-width", 3)
+            .style("stroke-dasharray", "3, 3");
 
         // Legend
         svg.append("circle")
@@ -147,14 +149,14 @@ class BarChart extends Component {
         svg.append("text")
             .attr("x", MARGIN.LEFT + 20)
             .attr("y", MARGIN.TOP + 1)
-            .text("Cases")
+            .text("Cases (w/ 7-Day Rolling Average)")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle");
 
         svg.append("text")
             .attr("x", MARGIN.LEFT + 20)
             .attr("y", MARGIN.TOP + 21)
-            .text("Test Results")
+            .text("Test Results (w/ 7-Day Rolling Average)")
             .style("font-size", "15px")
             .attr("alignment-baseline","middle");
     }
