@@ -11,10 +11,10 @@ Original Visualization: https://www.reddit.com/r/dataisbeautiful/comments/ls9jlo
 I found this original visualization on r/dataisbeautiful. They took a data set from Wikipedia with all of the US presidents' ages when they started their presidency, and their ages at the end of their presidency. The original visualization was a bar chart comparing these ages of the US Presidents.
 
 Original Viz:
-[!ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/reddit-vis.png)
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/reddit-vis.png)
 
 Remix Viz:
-[!ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/double-svg.png)
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/double-svg.png)
 
 For my visualization I took the CSV file from Wikipedia and used that data to create a bar chart and a scatter plot. I used primarily d3.js for this assignment. Due to time constraints, personal issues, and other classes, I was unable to get my interaction completely working. I was planning on doing a mousehover event so when you hover over a rectangle of the bar chart, the corresponding circle in the scatter plot will also be highlighted.
 
