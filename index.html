@@ -1,0 +1,579 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<title>Super cool title I hope i dont forget to change later</title>
+<body>
+<script>
+    console.log(d3); // Test if d3 is loaded
+
+
+    // Make divs for charts
+    var chartDiv = document.createElement("div");
+    chartDiv.classList.add("chartDiv");
+    chartDiv.id = "chartDiv";
+
+    var lineChartDiv = document.createElement("div");
+    lineChartDiv.classList.add("linechartdiv");
+    lineChartDiv.id = "lineChartDiv";
+
+    var pieChartDiv = document.createElement("div");
+    pieChartDiv.classList.add("piechartdiv");
+    pieChartDiv.id = "pieChartDiv";
+
+    document.body.appendChild(chartDiv);
+    document.getElementById("chartDiv").appendChild(lineChartDiv);
+    document.getElementById("chartDiv").appendChild(pieChartDiv);
+
+    console.log("WIDTH OF LINE DIV: " + lineChartDiv.offsetWidth);
+
+    // SVG dimensions
+    var SVGWidth = 800;
+    var SVGHeight = 600;
+
+    var pieSVGWidth = 500;
+    var pieSVGHeight = 600;
+
+    // Margins
+    var margins = {left: 60, right: 60, top: 50, bottom: 50},
+        width = SVGWidth - margins.left - margins.right,
+        height = SVGHeight - margins.top - margins.bottom;
+
+    // line chart SVG
+    var svg = d3.select("#lineChartDiv")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+
+        .append("g")
+        .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+
+    // Pie chart svg
+    var piesvg = d3.select("#pieChartDiv")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("class", "piesvg")
+        .append("g")
+    //.attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+
+
+
+    // Load CSV
+    d3.csv("earnings.csv", function (error, data) {
+        if (error) throw error;
+
+        // Start by displaying 2010 data in pie chart
+        drawPieChart("2010");
+
+
+        //==================================================================================
+        // Begin line chart
+
+        // Format
+        data.forEach(function (d) {
+            d.Sex = d['sex'];
+            d.Race = d['race'];
+            d.Year = d['year'];
+            d.WeeklyEarnings = d['median_weekly_earn'];
+        });
+
+        // Convert quarters into fractions of year
+        data.forEach(function (d) {
+            // console.log("year before: " + d.year + " adding: " + (d.quarter/4 - 0.25));
+            d.year = parseInt(d.year) + d.quarter / 4 - 0.25;
+            // console.log("year in conversion: " + d.year);
+        });
+
+        // Filter data to show just men and women of all races
+        var allRacesData = data.filter(function (row) {
+            if (row.sex != "Both Sexes"
+                && row.race == "All Races"
+                && row.age == "16 years and over"
+                && row.ethnic_origin == "All Origins") {
+                return true;
+            }
+
+        });
+
+
+        // Group data by sex
+        var groupData = d3.nest()
+            .key(function (d) {
+                return d.Sex;
+            })
+            .entries(allRacesData);
+
+
+        // Add x axis
+        var x = d3.scaleLinear()
+            .domain([2010, 2021])
+            .range([0, width])
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).ticks(11).tickFormat(d3.format("d")))
+            .attr("class", "xaxis");
+
+        // Add x axis label
+        svg.append("text")
+            .attr("transform", "translate(" + (width/2) + ", " + (height + margins.top - 10) + ")")
+            .style("text-anchor", "middle")
+            .text("Year")
+            .style("font", "14px arial")
+
+
+
+        // Add y axis
+        var y = d3.scaleLinear()
+            .domain([600,
+                1200])
+            .range([height, 0]);
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        // Add y axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6 - margins.left)
+            .attr("x", 0 - (height/2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Median Weekly Earnings")
+            .style("font", "14px arial");
+
+
+
+        // Add chart title
+        svg.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margins.top/3))
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("font-weight", "bold")
+            .text("Median Weekly Earnings Per Year");
+
+        // Add tooltip
+        svg.append("text")
+            .attr("x", (width/2))
+            .attr("y", (height + 100))
+            .attr("text-anchor", "middle")
+            .attr("font-size", "14px")
+            .text("Click on the year values on the x axis for more data");
+
+
+
+        // color palette
+        var res = groupData.map(function (d) {
+            return d.key
+        }) // list of group names
+        var color = d3.scaleOrdinal()
+            .domain(res)
+            .range(['#e41a1c', '#377eb8'])
+
+        var yearPositions = [];
+
+        // Draw lines
+        svg.selectAll(".line")
+            .data(groupData)
+            .enter()
+            .append("path")
+            //.filter(function(d) { return d.Race == "All Races"})
+            .attr("fill", "none")
+            .attr("stroke", function (d) {
+                return color(d.key)
+            })
+            .attr("stroke-width", 2)
+            .attr("d", function (d) {
+                return d3.line()
+                    .x(function (d) {
+                        // Log the x values at the start of each year for only men so you don't double count it
+                        if(d.quarter == 1 && d.sex == "Men") {
+                            yearPositions.push(x(d.year));
+                        }
+                        return x(d.year);
+                    })
+                    .y(function (d) {
+                        return y(d.WeeklyEarnings);
+                    })
+                    (d.values)
+            });
+
+
+        /*
+        Legend and Mouse hover capabilities over multi-line chart taken majorly from:
+        https://bl.ocks.org/dianaow/0da76b59a7dffe24abcfa55d5b9e163e
+        I used this page to understand how the hover functionality works and how to create intersections with multi line charts
+         */
+
+        var mouseBuffer = 8;
+
+        // CREATE LEGEND //
+        var R = 6; // legend marker
+        var svgLegend = svg.append('g')
+            .attr('class', 'gLegend')
+            .attr("transform", "translate(" + (width + 20) + "," + 0 + ")")
+
+        var legend = svgLegend.selectAll('.legend')
+            .data(res)
+            .enter().append('g')
+            .attr("class", "legend")
+            .attr("transform", function (d, i) {return "translate(0," + i * 20 + ")"})
+
+        legend.append("circle")
+            .attr("class", "legend-node")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("r", R)
+            .style("fill", d=>color(d))
+
+        legend.append("text")
+            .attr("class", "legend-text")
+            .attr("x", R*2)
+            .attr("y", R/2)
+            .style("fill", "#666666")
+            .style("font-size", 12)
+            .text(d=>d)
+
+        // CREATE HOVER TOOLTIP WITH VERTICAL LINE //
+        tooltip = d3.select("body").append("div")
+            .attr('id', 'tooltip')
+            .style('position', 'absolute')
+            .style("background-color", "#D3D3D3")
+            .style('padding', 6)
+            .style('display', 'none')
+
+        mouseG = svg.append("g")
+            .attr("class", "mouse-over-effects");
+
+        mouseG.append("path") // create vertical line to follow mouse
+            .attr("class", "mouse-line")
+            .style("stroke", "#A9A9A9")
+            .style("stroke-width", "2px")
+            .style("opacity", "0");
+
+        var lines = document.getElementsByClassName('line');
+
+        var res_nested = d3.nest()
+            .key(d=>d.sex)
+            .entries(allRacesData)
+
+        var mousePerLine = mouseG.selectAll('.mouse-per-line')
+            .data(res_nested)
+            .enter()
+            .append("g")
+            .attr("class", "mouse-per-line");
+
+        mousePerLine.append("circle")
+            .attr("r", 4)
+            .style("stroke", function (d) {
+                return color(d.key)
+            })
+            .style("fill", "none")
+            .style("stroke-width", "2px")
+            .style("opacity", "0");
+
+        mouseG.append('svg:rect') // append a rect to catch mouse movements on canvas
+            .attr('width', width)
+            .attr('height', height)
+            .attr('fill', 'none')
+            .attr('pointer-events', 'all')
+            .on('mouseout', function () { // on mouse out hide line, circles and text
+                d3.select(".mouse-line")
+                    .style("opacity", "0");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opacity", "0");
+                d3.selectAll(".mouse-per-line text")
+                    .style("opacity", "0");
+                d3.selectAll("#tooltip")
+                    .style('display', 'none')
+
+            })
+            .on('mouseover', function () { // on mouse in show line, circles and text
+                d3.select(".mouse-line")
+                    .style("opacity", "1");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opacity", "1");
+                d3.selectAll("#tooltip")
+                    .style('display', 'block')
+            })
+            .on('mousemove', function () { // update tooltip content, line, circles and text when mouse moves
+                var mouse = d3.mouse(this)
+
+                d3.selectAll(".mouse-per-line")
+                    .attr("transform", function (d, i) {
+                        var xDate = x.invert(mouse[0] - mouseBuffer) // use 'invert' to get date corresponding to distance from mouse position relative to svg
+                        var bisect = d3.bisector(function (d) { return d.year; }).left // retrieve row index of date on parsed csv
+                        var idx = bisect(d.values, xDate);
+
+                        d3.select(".mouse-line")
+                            .attr("d", function () {
+                                if(d.values[idx]) {
+                                    var data = "M" + x(d.values[idx].year) + "," + (height);
+                                    data += " " + x(d.values[idx].year) + "," + 0;
+                                    return data;
+                                }
+                            });
+                        if(d.values[idx]) return "translate(" + x(d.values[idx].year) + "," + y(d.values[idx].median_weekly_earn) + ")";
+
+                    });
+
+                updateTooltipContent(mouse, res_nested)
+
+            })
+
+        function updateTooltipContent(mouse, res_nested) {
+
+            var tooltipFontSize = 15;
+
+            sortingObj = []
+            res_nested.map(d => {
+                var xDate = x.invert(mouse[0] - mouseBuffer)
+                var bisect = d3.bisector(function (d) { return d.year; }).left
+                var idx = bisect(d.values, xDate)
+                if(d.values[idx]) {
+                    var q = d.values[idx].year - parseInt(d.values[idx].year);
+
+                    var realQ = "";
+                    switch (q) {
+                        case 0:
+                            realQ = "Q1";
+                            break;
+                        case 0.25:
+                            realQ = "Q2";
+                            break;
+                        case 0.5:
+                            realQ = "Q3";
+                            break;
+                        case 0.75:
+                            realQ = "Q4";
+                            break;
+                        default:
+                            realQ = "Q?";
+                            break;
+                    }
+                    sortingObj.push({
+                        key: d.values[idx].sex,
+                        year: parseInt(d.values[idx].year),
+                        quarter: realQ
+                    })
+                }
+            })
+
+            sortingObj.sort(function(x, y){
+                return d3.descending(x.median_weekly_earn, y.median_weekly_earn);
+            })
+
+            var sortingArr = sortingObj.map(d=> d.key)
+
+            var res_nested1 = res_nested.slice().sort(function(a, b){
+                return sortingArr.indexOf(a.key) - sortingArr.indexOf(b.key) // rank vehicle category based on price of premium
+            })
+
+            if(sortingObj[0]) {
+                tooltip.html(sortingObj[0].year + "-" + sortingObj[0].quarter)
+                    .style('display', 'block')
+                    .style('left', d3.event.pageX + 20)
+                    .style('top', d3.event.pageY - 20)
+                    .style('font-size', tooltipFontSize)
+                    .selectAll()
+                    .data(res_nested1).enter() // for each vehicle category, list out name and price of premium
+                    .append('div')
+                    .style('color', d => {
+                        return color(d.key)
+                    })
+                    .style('font-size', tooltipFontSize)
+                    .html(d => {
+                        var xDate = x.invert(mouse[0])
+                        var bisect = d3.bisector(function (d) {
+                            return d.year;
+                        }).left
+                        var idx = bisect(d.values, xDate)
+                        return d.key + ": $" + d.values[idx].median_weekly_earn;
+                    })
+            }
+        }
+
+
+
+
+
+
+        console.log(yearPositions);
+
+        // Add click ability to years
+        var padding = 20;
+
+        d3.select(".xaxis")
+            .selectAll(".tick")
+            .on("click", function(d) {
+                console.log("Worked: " + d);
+                if(d != 2021) drawPieChart(d);
+            });
+
+
+
+        //==========================================================================================
+        // Begin draw pie chart
+
+        function drawPieChart(year) {
+
+            // Remove any elements that were previously displayed
+            d3.selectAll(".piechart").remove();
+
+            var radius = 150;
+            var labelRadius = radius;
+            var percentRadius = radius * 0.6;
+
+            var arc = d3.arc()
+                .outerRadius(radius - 10)
+                .innerRadius(0);
+
+            var labelArc = d3.arc()
+                .outerRadius(labelRadius)
+                .innerRadius(labelRadius);
+
+            var percentArc = d3.arc()
+                .outerRadius(percentRadius)
+                .innerRadius(percentRadius);
+
+            var pie = d3.pie()
+                .sort(null)
+                .value(function(d) { return d.median_weekly_earn; });
+
+            var color = d3.scaleOrdinal()
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+            // Filter data
+            var pieData = data.filter(function (row) {
+                if (row.sex == "Both Sexes"
+                    && row.age == "16 years and over"
+                    //&& row.ethnic_origin == "All Origins"
+                    && !(row.race == "All Races" && row.ethnic_origin == "All Origins")
+                    && row.year == year
+                    && row.quarter == "1") {
+                    return true;
+                }
+            });
+
+            // Add text to top of pie chart
+            piesvg.append("text")
+                .attr("x", pieSVGWidth/2)
+                .attr("y", 100)
+                .attr("class", "piechart")
+                .attr("text-anchor", "middle")
+                .text("Race/Ethnicity Data For " + year);
+
+            piesvg.append("text")
+                .attr("x", pieSVGWidth/2)
+                .attr("y", 130)
+                .attr("class", "piechart")
+                .attr("text-anchor", "middle")
+                .text("(Percentages indicate makeup of total median weekly earnings.)");
+
+
+            // Draw pie chart
+            var g = piesvg.selectAll(".arc")
+                .data(pie(pieData))
+                .enter().append("g")
+                .attr("class", "arc")
+                .attr("class", "piechart");
+
+            g.append("path")
+                .attr("d", arc)
+                .attr("transform", "translate(" + 0 + "," + 0 + ")")
+                .attr("transform", "translate(" + pieSVGWidth / 2 + "," + pieSVGHeight / 2 + ")")
+                .style("fill", function (d) {
+                    return color(d.data.race);
+                });
+
+
+
+            // Append race labels
+            g.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" +
+                        (labelArc.centroid(d)[0] + pieSVGWidth / 2) + "," +
+                        (labelArc.centroid(d)[1] + pieSVGHeight / 2) + ")";
+                })
+                .attr("font-size", "14")
+                .attr("text-anchor", function(d){
+                    // If on the left side of pie chart, anchor right, else anchor left
+                    return (d.endAngle + d.startAngle)/2 > Math.PI ?
+                        "end" : "start";
+                })
+                .attr("class", "piechart")
+                .text(function (d) {
+                    if (d.data.race == "All Races") return d.data.ethnic_origin;
+                    return d.data.race;
+                });
+
+            // Sum up total earnings to perform percentage calculations
+            var totalEarnings = d3.sum(pieData, function (d) {
+                return d.median_weekly_earn;
+            });
+
+
+
+            // Append percentage labels
+            g.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" +
+                        (percentArc.centroid(d)[0] + pieSVGWidth / 2) + "," +
+                        (percentArc.centroid(d)[1] + pieSVGHeight / 2) + ")";
+                })
+                .attr("font-size", "14")
+                .attr("text-anchor", "middle")
+                .attr("class", "piechart")
+                .text(function (d) {
+                    return (
+                        (
+                            (
+                                Math.floor((d.data.median_weekly_earn / totalEarnings)*10000)/100
+                            )
+                        ))
+                        + "%";
+                });
+
+            var _cf = (function() {
+                function _shift(x) {
+                    var parts = x.toString().split('.');
+                    return (parts.length < 2) ? 1 : Math.pow(10, parts[1].length);
+                }
+                return function() {
+                    return Array.prototype.reduce.call(arguments, function (prev, next) { return prev === undefined || next === undefined ? undefined : Math.max(prev, _shift (next)); }, -Infinity);
+                };
+            })();
+
+            Math.d = function (l,r) { var f = _cf(l,r); return (l * f) / (r * f); };
+
+        } // End draw pie chart function
+    });
+
+</script>
+</body>
+
+<style>
+    body{
+        background-color: #DDDDDD;
+    }
+
+    svg {
+    }
+
+    #chartDiv{
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+    }
+
+    #lineChartDiv{
+        width: 60%;
+    }
+
+    #pieChartDiv{
+        width: 40%;
+    }
+
+
+</style>
