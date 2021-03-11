@@ -7,6 +7,7 @@ function main() {
     createLineGraph();
     createScatterPlot();
 
+
     function setOpacity(d, selector) {
         //console.log(selector);
         //console.log(d);
@@ -57,6 +58,7 @@ function main() {
                     "translate(" + margin.left + "," + margin.top + ")");
 
 
+
             // Add X axis
             let x = d3.scaleTime()
                 .domain(d3.extent(data, function (d) {
@@ -88,6 +90,7 @@ function main() {
                 .enter()
                 .append("circle")
                 .attr('id', 'dot')
+                .attr("class", "non_brushed")
                 .attr("cx", function (d) {
                     return x(d.year) - jitterWidth / 2 + Math.random() * jitterWidth;
                 })
@@ -112,6 +115,119 @@ function main() {
                         .duration('50')
                         .attr('r', '2.5');
                 })
+
+            function highlightBrushedCircles() {
+
+                if (d3.brushSelection(this) != null) {
+
+                    // revert circles to initial style
+                    let circles = d3.selectAll('#dot');
+                    circles.attr("class", "non_brushed");
+
+                    let brush_coords = d3.brushSelection(this);
+
+                    // style brushed circles
+                    circles.filter(function (){
+
+                        let cx = d3.select(this).attr("cx"),
+                            cy = d3.select(this).attr("cy");
+
+                        return isBrushed(brush_coords, cx, cy);
+                    })
+                        .attr("class", "brushed");
+                }
+            }
+
+
+            function displayTable() {
+
+                d3.select("table").style("visibility", "visible");
+
+                // disregard brushes w/o selections
+                // ref: http://bl.ocks.org/mbostock/6232537
+                if (!d3.brushSelection(this)) return;
+
+                // programmed clearing of brush after mouse-up
+                // ref: https://github.com/d3/d3-brush/issues/10
+                d3.select(this).call(brush.move, null);
+
+                let d_brushed =  d3.selectAll(".brushed").data();
+                console.log(d_brushed);
+
+                // populate table if one or more elements is brushed
+                if (d_brushed.length > 0) {
+                    clearTableRows();
+                    // clearTableRows();
+                    // for(let i = 0; i < 30; i++){
+                    //     populateTableRow(d_brushed[i])
+                    // }
+                    d_brushed.forEach(d_row => populateTableRow(d_row))
+                } else {
+                    clearTableRows();
+                }
+            }
+
+            function clearTableRows() {
+
+                hideTableColNames();
+                d3.selectAll(".row_data").remove();
+            }
+
+            function hideTableColNames() {
+                d3.select("table").style("visibility", "hidden");
+            }
+
+            function showTableColNames() {
+                d3.select("table").style("visibility", "visible");
+            }
+
+            function populateTableRow(d_row) {
+
+                showTableColNames();
+                let d_row_filter;
+
+                if(selector === "all"){
+                    d_row_filter = [d_row.sex, d_row.median_weekly_earn];
+                }else if(selector === d_row.sex){
+                    d_row_filter = [d_row.sex, d_row.median_weekly_earn];
+                }else if(selector === d_row.sex){
+                    d_row_filter = [d_row.sex, d_row.median_weekly_earn];
+                }
+                else if(selector === d_row.sex){
+                    d_row_filter = [d_row.sex, d_row.median_weekly_earn];
+                }
+                else{
+                    return;
+                }
+
+
+                d3.select("table")
+                    .append("tr")
+                    .attr("class", "row_data")
+                    .selectAll("td")
+                    .data(d_row_filter)
+                    .enter()
+                    .append("td")
+                    .attr("align", (d, i) => i === 0 ? "left" : "right")
+                    .text(d => d);
+            }
+
+            let brush = d3.brush()
+                .on("brush",  highlightBrushedCircles)
+                .on("end", displayTable);
+
+            svg.append("g")
+                .call(brush);
+
+            function isBrushed(brush_coords, cx, cy) {
+
+                let x0 = brush_coords[0][0],
+                    x1 = brush_coords[1][0],
+                    y0 = brush_coords[0][1],
+                    y1 = brush_coords[1][1];
+
+                return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+            }
 
 
             svg.append('text')
@@ -260,6 +376,8 @@ function main() {
                 document.getElementById("reset").addEventListener("click", function () {
                     selector = "all";
                     updatePlot(selector);
+                    d3.selectAll(".row_data").remove();
+                    d3.select("table").style("visibility", "hidden");
                 })
             }
 
@@ -561,5 +679,7 @@ function main() {
 
         })
     }
+
+
 
 }
