@@ -30,9 +30,7 @@ This VIS uses a 3D bargraph with a colormap showing the median weekly earnings. 
 There are a couple issues with this graph:
 - The 3D bar graph makes it hard to distinguish the different median weekly earnings in between races
 - The ColorMap makes it impossible to know values of median weekly income
-- Blurring between different bar-graphs can make it hard to distinguish 
-Shown here:
-  ![image](images/demo4.png)
+- Blurring between different bar-graphs can make it hard to distinguish
 
 Design Achievements
 ---
