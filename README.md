@@ -3,6 +3,14 @@ Assignment 4 - DataVis Remix + Multiple Views
 
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
 
+10 = p90p100 = top 10%
+40 = p50p90 = middle 40%
+50 = p0p50 = bottom 50%
+1= p99p100 = top 1%
+
+https://www.d3-graph-gallery.com/graph/line_several_group.html
+http://bl.ocks.org/mattykuch/40ba19de703632ea2afbbc5156b9471f
+
 ### Your Task
 
 Your task is to choose a visualization, remix it, and add at least two linked-views.
