@@ -1,3 +1,6 @@
+// https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/ <br>
+// https://www.kaggle.com/the-guardian/extinct-languages
+
 Promise.all([
 	d3.json("countries-50m.json"),
 	d3.csv("data.csv")
@@ -23,6 +26,46 @@ var color = d3.scaleOrdinal()
 		'#F50033'
 	])
 	.domain(labels)
+
+
+//TODO: RESET FILTER??
+function highlight(hover) {
+	var map = d3.select('#map')
+	var chart = d3.select('#chart')
+	
+	chart.selectAll("rect")
+		.attr('opacity', 0.3)
+				
+	map.selectAll("circle")
+		.attr('opacity', 0)
+
+	hover.attr('opacity', 0.75);
+				
+	map.selectAll('#c_' + hover.attr('id'))
+		.attr('opacity', 0.5)
+
+	labels.forEach(function(d) {
+		map.selectAll('#legend_'+d.replace(/\s/g,'_'))
+			.attr('opacity', 0.5)	
+	})
+
+	map.selectAll('#legend')
+		.attr('opacity', 0.5)
+}
+
+
+function filter(source, show) {
+	var map = d3.select('#map')
+	var status = source.attr('id').substring('legend_'.length, source.attr('id').length)
+
+	source.attr('fill', show ? color(status.replace(/_/g, ' ')) : 'gray')
+
+	map.selectAll("#c_" + status)
+		.attr('opacity', show ? 0.5 : 0)
+
+	source.attr('show', show)
+}
+
 
 function createMap(world, data) {
 	lockedID = null
@@ -78,9 +121,9 @@ function createMap(world, data) {
 			)
 			.attr('fill', d => color(d['Degree of endangerment']))
 			.attr('opacity', 0.5)
-			.attr('id', d => d['Degree of endangerment'].replace(/\s/g,'_') )
+			.attr('id', d => "c_" + d['Degree of endangerment'].replace(/\s/g,'_') )
 			.on('mouseover', function (d, i) {
-				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+				if (d3.select(this).attr('opacity') > 0) {
 					d3.select(this).attr('opacity', 1);
 
 					let tip = 'Name: ' + i['Name in English'] +
@@ -92,31 +135,16 @@ function createMap(world, data) {
 				}
 			})
 			.on('mousemove', function(d) {
-				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+				if (d3.select(this).attr('opacity') > 0) {
 					tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX - 60) + 'px')
 				}
 			})
 			.on('mouseout', function () {
-				if (lockedID == null || d3.select(this).attr('id') == lockedID) {
+				if (d3.select(this).attr('opacity') > 0) {
 					tooltip.style('visibility', 'hidden');
 					d3.select(this).attr('opacity', 0.5);
 				}
 			})
-
-
-
-
-	function filter(source, show) {
-		var status = source.attr('id').substring('legend_'.length, source.attr('id').length)
-
-		source.attr('fill', show ? color(status.replace(/_/g, ' ')) : 'gray')
-
-		map.selectAll("#" + status)
-			.attr('opacity', show ? 0.5 : 0)
-
-		source.attr('show', show)
-	}
-
 
 	// LEGEND
 	map.selectAll('legend_dots')
@@ -190,29 +218,6 @@ function createChart(data) {
 			.attr("transform", 
 				"translate(" + margin.left + "," + margin.top + ")");
 
-	
-	function highlight(hover) {
-		svg.selectAll("rect")
-			.attr('opacity', 0.3)
-					
-			map.selectAll("circle")
-				.attr('opacity', 0)
-
-			hover.attr('opacity', 0.75);
-					
-			map.selectAll('#' + hover.attr('id'))
-				.attr('opacity', 0.5)
-
-			labels.forEach(function(d) {
-				map.selectAll('#legend_'+d.replace(/\s/g,'_'))
-					.attr('opacity', 0.5)	
-			})
-
-			map.selectAll('#legend')
-				.attr('opacity', 0.5)
-	}
-
-
 	// append the rectangles for the bar chart
 	svg.selectAll("rect")
 		.data(Object.keys(counts))
@@ -252,8 +257,20 @@ function createChart(data) {
 					svg.selectAll("rect")
 						.attr('opacity', 0.5)
 					
-					map.selectAll('circle')
-						.attr('opacity', 0.5)
+					labels.forEach(function(d) {
+						dID = d.replace(/\s/g,'_')
+						if (map.select('#legend_'+dID).attr('show') == 'true') {
+							map.selectAll('#c_' + dID)
+								.attr('opacity', 0.5)
+						} else {
+							map.selectAll('#c_' + dID)
+								.attr('opacity', 0)
+						}
+					})
+
+					//map.selectAll('circle')
+					//	.attr('opacity', 0.5)
+				
 				}
 			})
 
