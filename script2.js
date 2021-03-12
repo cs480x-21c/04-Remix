@@ -3,10 +3,10 @@
 
 Promise.all([
 	d3.json("countries-50m.json"),
-	d3.csv("cleaned_data.csv")
+	d3.csv("Country_data.csv")
 ]).then(([world, data]) => {
-	createMap(world, data)
-	createChart(data)
+	createMap(world)
+	colorMap(data)
 })
 
 var labels = [
@@ -65,7 +65,64 @@ function filter(source, show) {
 	source.attr('show', show)
 }
 
+function clean(text) {
+	return text.normalize("NFD").replace(/[\u0300-\u036f\s.']/g, "")
+}
 
+
+function createMap(world) {
+	var countries = topojson.feature(world, world.objects.countries)
+
+	var proj = d3.geoRobinson()
+		.translate([550, 300])
+		.scale(170)
+
+	var gpath = d3.geoPath()
+		.projection(proj);
+
+	var width = 1200,
+		height = 600
+
+	var map = d3.select("body").append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.attr('id', 'map')
+
+	map.selectAll('path')
+		.data(countries.features)
+		.enter()
+		.append('path')
+			.attr('d', d => gpath(d))
+			.attr('stroke-width', 1)
+			.attr('stroke', '#252525')
+			.attr('fill', 'white')
+			.attr('id', d => clean(d.properties.name) )
+}
+
+function colorMap(data) {
+	var map = d3.select('#map')
+
+	var cColor = d3.scaleSequential(d3.interpolateReds)
+		.domain([0, d3.max(data.map(d => d.Languages))])
+
+	data.forEach(function(d) {
+		if (d.Status == 'TOTAL') {
+			map.select('#'+clean(d.Country))
+				.attr('fill', () => cColor(parseInt(d.Languages)) )
+		}
+	})
+
+
+	map.selectAll('path')
+		.attr('fill', function(d) {
+			var c = map.select('#'+clean(d.properties.name)).attr('fill')
+			return c == 'white' ? 'gray' : c
+		})
+}
+
+
+
+/*
 function createMap(world, data) {
 	lockedID = null
 
@@ -283,4 +340,4 @@ function createChart(data) {
 	  .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
 	  .style("text-anchor", "middle")
 	  .text("Number of Languages");
-}
+} */

@@ -1,4 +1,4 @@
-﻿Country,Degree of endangerment,Languages
+﻿Country,Status,Languages
 Venezuela,Definitely endangered,7
 Guinea-Bissau,Vulnerable,1
 Nicaragua,Critically endangered,2
@@ -180,8 +180,8 @@ Luxembourg,Definitely endangered,2
 Papua New Guinea,Vulnerable,23
 Finland,Extinct,1
 Bolivia,Critically endangered,10
-Papua New Guinea,Definitely endangered,15
 France,Vulnerable,5
+Papua New Guinea,Definitely endangered,15
 Belize,Definitely endangered,1
 Syria,Vulnerable,1
 Iraq,Critically endangered,1
@@ -305,7 +305,6 @@ Bulgaria,Definitely endangered,2
 Belgium,Severely endangered,3
 Ireland,Extinct,1
 Bosnia and Herz.,Severely endangered,1
-,Definitely endangered,29
 Ecuador,Extinct,2
 Botswana,Critically endangered,3
 Chile,Definitely endangered,1
@@ -480,3 +479,162 @@ Turkey,Severely endangered,3
 Kenya,Severely endangered,1
 Iran,Severely endangered,2
 Palau,Critically endangered,1
+San Marino,TOTAL,1
+Sierra Leone,TOTAL,5
+Portugal,TOTAL,1
+Mongolia,TOTAL,7
+Jordan,TOTAL,2
+Monaco,TOTAL,1
+Botswana,TOTAL,11
+Ukraine,TOTAL,17
+Russia,TOTAL,148
+Moldova,TOTAL,2
+Suriname,TOTAL,8
+Austria,TOTAL,5
+Nepal,TOTAL,71
+Thailand,TOTAL,26
+Turkey,TOTAL,18
+Japan,TOTAL,8
+Peru,TOTAL,62
+Morocco,TOTAL,8
+Tanzania,TOTAL,12
+Solomon Is.,TOTAL,18
+Belarus,TOTAL,4
+Bosnia and Herz.,TOTAL,2
+Norway,TOTAL,6
+Israel,TOTAL,13
+Fr. Polynesia,TOTAL,4
+Vietnam,TOTAL,28
+Namibia,TOTAL,1
+Central African Rep.,TOTAL,5
+Lebanon,TOTAL,2
+Indonesia,TOTAL,149
+France,TOTAL,26
+Costa Rica,TOTAL,8
+Sri Lanka,TOTAL,1
+Argentina,TOTAL,18
+W. Sahara,TOTAL,1
+Benin,TOTAL,1
+Albania,TOTAL,4
+Venezuela,TOTAL,34
+Luxembourg,TOTAL,3
+Fiji,TOTAL,1
+Nicaragua,TOTAL,11
+Bhutan,TOTAL,19
+Canada,TOTAL,93
+Cameroon,TOTAL,36
+Micronesia,TOTAL,13
+Finland,TOTAL,8
+Algeria,TOTAL,13
+Uganda,TOTAL,6
+Palau,TOTAL,2
+Timor-Leste,TOTAL,6
+Senegal,TOTAL,15
+Bolivia,TOTAL,39
+Togo,TOTAL,1
+Mauritania,TOTAL,3
+Pakistan,TOTAL,27
+Armenia,TOTAL,2
+Czechia,TOTAL,4
+Germany,TOTAL,14
+India,TOTAL,199
+Greenland,TOTAL,3
+Nauru,TOTAL,2
+Cyprus,TOTAL,1
+Congo,TOTAL,2
+Guinea-Bissau,TOTAL,3
+Afghanistan,TOTAL,23
+Slovakia,TOTAL,5
+United States of America,TOTAL,227
+Angola,TOTAL,4
+Malaysia,TOTAL,25
+Ecuador,TOTAL,20
+Bulgaria,TOTAL,7
+Yemen,TOTAL,4
+Slovenia,TOTAL,3
+Australia,TOTAL,108
+Sudan,TOTAL,65
+Poland,TOTAL,9
+Guinea,TOTAL,12
+Syria,TOTAL,7
+Ireland,TOTAL,2
+Azerbaijan,TOTAL,11
+Estonia,TOTAL,3
+Paraguay,TOTAL,12
+Kenya,TOTAL,13
+Egypt,TOTAL,3
+Guyana,TOTAL,12
+Niger,TOTAL,2
+Guatemala,TOTAL,23
+Liechtenstein,TOTAL,1
+Uzbekistan,TOTAL,3
+Pitcairn Is.,TOTAL,1
+Colombia,TOTAL,69
+Belize,TOTAL,4
+Guam,TOTAL,1
+Myanmar,TOTAL,28
+Greece,TOTAL,10
+Niue,TOTAL,1
+Montenegro,TOTAL,1
+Denmark,TOTAL,4
+Lesotho,TOTAL,1
+Spain,TOTAL,6
+Tunisia,TOTAL,3
+Burkina Faso,TOTAL,1
+China,TOTAL,148
+Palestine,TOTAL,1
+Kazakhstan,TOTAL,1
+Latvia,TOTAL,6
+Uruguay,TOTAL,1
+Libya,TOTAL,6
+Panama,TOTAL,9
+Belgium,TOTAL,8
+Lithuania,TOTAL,4
+South Africa,TOTAL,10
+Oman,TOTAL,8
+Serbia,TOTAL,6
+Gabon,TOTAL,8
+New Caledonia,TOTAL,19
+South Korea,TOTAL,1
+Philippines,TOTAL,15
+Macedonia,TOTAL,7
+Eritrea,TOTAL,1
+El Salvador,TOTAL,2
+Bangladesh,TOTAL,5
+Vanuatu,TOTAL,47
+Sweden,TOTAL,9
+Eq. Guinea,TOTAL,3
+Ethiopia,TOTAL,28
+Italy,TOTAL,32
+Dominica,TOTAL,1
+Norfolk Island,TOTAL,1
+Netherlands,TOTAL,6
+Ghana,TOTAL,5
+Faroe Islands,TOTAL,1
+Cook Is.,TOTAL,4
+Nigeria,TOTAL,29
+Brazil,TOTAL,190
+Tuvalu,TOTAL,1
+Dem. Rep. Congo,TOTAL,6
+Cambodia,TOTAL,19
+Tokelau,TOTAL,1
+Papua New Guinea,TOTAL,98
+Mali,TOTAL,2
+United Kingdom of Great Britain and Northern Ireland,TOTAL,12
+Côte d'Ivoire,TOTAL,4
+Iran,TOTAL,25
+Iraq,TOTAL,8
+Croatia,TOTAL,8
+Romania,TOTAL,11
+Mexico,TOTAL,143
+Kyrgyzstan,TOTAL,2
+Laos,TOTAL,32
+Hungary,TOTAL,6
+Turkmenistan,TOTAL,1
+Chile,TOTAL,7
+Chad,TOTAL,29
+Georgia,TOTAL,11
+New Zealand,TOTAL,1
+Switzerland,TOTAL,8
+Honduras,TOTAL,8
+Tajikistan,TOTAL,11
