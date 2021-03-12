@@ -18,21 +18,35 @@ const keyboardColor = {K: 1}
 
 let svg;
 
-// The keys need access to these variables
+// Major thirds for the bottom vis
+let gMajorThirds;
+
+// Note frequencies
 let gNoteTable;
-let gCurrentScale;
+
+// Data used to decide the color
+let gCurrentKey;
+let gKeyColorT;
+
+// Sound 
+let gKeyPlayer;
+
 
 function makeVis(selectedIndex)
 {      
     // Major thirds are used to create the circle vis
-    let majorThirds = gData[selectedIndex]["Major_Thirds"];
+    gMajorThirds = gData[selectedIndex]["Major_Thirds"];
                     
     // The difference is used to build the note table
     let equalTemperamentDifference = gData[selectedIndex]["Equal_Temperament_Difference"];
-                        
-    // Default scale starts with the first note name of the first system
-    gCurrentScale = Object.keys(majorThirds)[0].split(" ")[0];
     
+    // Creates the key color array, orders the keys from smallest to largest spacing
+    gKeyColorT = makeKeyColors(gMajorThirds);
+
+    // Default key is the smallest spacing
+    // gCurrentKey = Object.keys(gKeyColorT)[0];
+    gCurrentKey = Object.keys(gKeyColorT)[11];
+
     // Makes the note table (the other main form of data)
     // array of objects where each is {key: 'C0', frequency: 131.256}
     gNoteTable = makeNoteTable(equalTemperamentDifference);
@@ -45,14 +59,17 @@ function makeVis(selectedIndex)
     makeKeyboardVis();
     
     // Makes the bottom circle vis
-    makeCircleVis(majorThirds);
+    makeCircleVis();
+}
+
+function resetAndMakeVis()
+{
+
 }
 
 function makeKeyboardVis()
 {
-    // const layout = {topViz:{top: 10, bottom: 10, left: 10, right: 10},
-    // bottomVis:{top: 10, bottom: 10, left: 10, right: 10}, 
-    // division: 500};
+    gKeyPlayer = setupKeyboardAudio();
 
     let whiteKeyWidth = ((width - layout.topViz.left) - layout.topViz.right) / (WHITE_KEYS_PER_OCTAVE * gKeyboardOctaves);
     let whiteKeyHeight = ((layout.division - layout.topViz.top) - layout.topViz.bottom);
@@ -91,25 +108,37 @@ function makeKeyboardVis()
         .domain([WHITE_KEY, BLACK_KEY])
         .range([whiteKeyHeight, whiteKeyHeight / keyboard.blackKeys.heightReduce]);
 
-    let keyColor = d3.scaleOrdinal()
+    let keyColor = (keyType, keyIndex) =>
+    {   
+        if (noteIsInMajorScale(keyType, gCurrentKey))
+        {
+            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
+        }
+        else
+        {  
+            return "#FFFFFF";
+        }
+    }
+    
+    d3.scaleOrdinal()
         .domain([WHITE_KEY, BLACK_KEY])
         .range(["#FFFFFF", "#FFFFFF"]);
 
-    let drawKey = (kt, n) =>
+    let drawKey = (key, keyType, keyIndex) =>
     {
         svg.append("rect")
-        .attr('id', gNoteTable[n].key)
-        .attr('x', keyxArray[n]) 
-        .attr('y', keyy(kt))
-        .attr('width', keyWidth(kt))
-        .attr('height', keyHeight(kt))
-        .style("stroke", "black")
-        .style("stroke-width", 1)
-        .style("fill", keyColor(kt))
-        .on("mousedown", key_mouseDown)
-        .on("mouseup", key_mouseUpOrLeave)
-        .on("mouseleave", key_mouseUpOrLeave)
-        .on("mouseenter", key_mouseOver);
+            .attr('id', "#" + keyIndex)
+            .attr('x', keyxArray[keyIndex]) 
+            .attr('y', keyy(keyType))
+            .attr('width', keyWidth(keyType))
+            .attr('height', keyHeight(keyType))
+            .style("stroke", "black")
+            .style("stroke-width", 1)
+            .style("fill", keyColor(key))
+            .on("mousedown", key_mouseDown)
+            .on("mouseup", key_mouseUp)
+            .on("mouseleave", key_mouseLeave)
+            .on("mouseenter", key_mouseOver);
     }
 
     drawVisKeys(drawKey);
@@ -124,7 +153,7 @@ function drawVisKeys(drawKey)
         let kt = keyType(gNoteTable[n].key);
         if (kt === WHITE_KEY)
         {
-            drawKey(kt, n);
+            drawKey(gNoteTable[n].key, kt, n);
         }
     }
 
@@ -134,7 +163,7 @@ function drawVisKeys(drawKey)
         let kt = keyType(gNoteTable[n].key);
         if (kt === BLACK_KEY)
         {
-            drawKey(kt, n);
+            drawKey(gNoteTable[n].key, kt, n);
         }
     }
 
@@ -153,20 +182,43 @@ function key_mouseDown(e)
     this.style.fill = d3.color(this.style.fill).darker(keyboardColor.K);
 
     // Play sound, use ID to get the frequency froom the note table
+    playPitch(gNoteTable[getNumeric(this.id)].frequency);
 }
 
-function key_mouseUpOrLeave(e)
+function key_mouseLeave(e)
+{
+    // color adjust
+    this.style.fill = d3.color(this.style.fill).brighter(keyboardColor.K * 0.5);
+}
+
+function key_mouseUp(e)
 {
     // color adjust
     this.style.fill = d3.color(this.style.fill).brighter(keyboardColor.K);
 
-    // Stop playing or pause sound
+    // Stop playing
+    // CTRL key is a sustain
+    if (!e.ctrlKey)
+    {
+        gKeyPlayer.stop("p1");
+    }
 }
 
-function drawKey(kt, n, keyxArray)
+window.addEventListener("keyup", function(e)
 {
-    
+    // Stop playing
+    // CTRL key is a sustain, kept while leaving keys
+    if (e.key = "ctrl")
+    {
+        gKeyPlayer.stop("p1");
+    }
+})
+
+function getNumeric(id)
+{
+    return id.split("#")[1];
 }
+
 
 function makeCircleVis(majorThirds)
 {

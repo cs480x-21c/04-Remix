@@ -55,6 +55,13 @@ function compareChroma(element, note)
     return teoria.note(element).chroma() === teoria.note(note).chroma();
 }
 
+function noteIsInMajorScale(note, key)
+{
+    // convert the note to a form teoria uses, "C0" -> "c"
+    note = teoria.note(note).chroma();
+    return teoria.note(key).scale("major").simple().map((e) => teoria.note(e).chroma()).includes(note);
+}
+
 function centsToScale(n)
 {
     return Math.pow(2, n/1200);
@@ -87,3 +94,36 @@ function keyType(kName)
         return k;
 }
 
+function getFirstNote(noteString)
+{
+    return noteString.split(" ")[0];
+}
+
+function makeKeyColors(majorThirds)
+{
+    // Sorts by the spacing in cents
+    // An array of entries is just easier to work with in sorting/mapping
+    let spacingArray = Object.entries(majorThirds)
+        .sort((note0, note1) => 
+            {
+                return note0[1].size_in_cents - note1[1].size_in_cents;
+            })
+
+    // Map the spacing from the current spacing to a vaue between 0 and 1
+    // 0 to 1 is good for spectural color data
+    let spacingScale = d3.scaleLinear()
+        .domain([spacingArray[0][1].size_in_cents, spacingArray[spacingArray.length - 1][1].size_in_cents])
+        .range([0.0, 1.0]);
+
+    // First part is mapped to the key name (removes the third part)
+    // second part is mapped using the linear scale
+    spacingArray = spacingArray.map((entry) =>
+    {
+        let entry0 = getFirstNote(entry[0]);
+        let entry1 = spacingScale(entry[1].size_in_cents);
+        return [entry0, entry1];
+    })
+    
+    // Convert entries back to object form
+    return Object.fromEntries(spacingArray);
+}
