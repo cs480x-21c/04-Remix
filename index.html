@@ -1,0 +1,411 @@
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Aldrich|Arima+Madurai|Arvo|Henny+Penny|Indie+Flower|Libre+Baskerville|Pirata+One|Poiret+One|Sancreek|Satisfy|Share+Tech+Mono|Smokum|Snowburst+One|Special+Elite" rel="stylesheet">
+
+<style>
+    body {
+      margin: 0;
+    }
+
+    div.tooltip-donut {
+       position: absolute;
+       text-align: center;
+       padding: .5rem;
+       background: #FFFFFF;
+       color: #313639;
+       border: 1px solid #313639;
+       border-radius: 8px;
+       pointer-events: none;
+       font-size: 1.3rem;
+    }
+
+    #scatter {
+        float: left;
+        margin-top: 50px;
+    }
+
+    #plot {
+        float: right;
+        margin-top: -45px;
+        margin-right: 50px;
+    }
+
+    #img {
+        display: block;
+        width: 40%;
+    }
+
+    #legend {
+        fill: white;
+        stroke-width: .5;
+        stroke: grey;
+    }
+  </style>
+
+<body>
+    <div id='scatter'></div>
+    <div id='plot'></div>
+    <div id='img'></div>
+    
+</body>
+
+<script>
+    console.log(d3);
+
+var margin = {top: 30, right: 20, bottom: 50, left: 50},
+        width = 900 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+// Ranges for axis (pixels)
+
+
+// SVG graph will be made on
+var svg = d3.select("#scatter")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+                "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("data/first_ascent.csv", function(error, data) {
+    data.forEach(function(d) {
+        d.Year = +d.Year;
+    });
+
+    var x = d3.scaleTime().range([0, width]).domain(d3.extent(data, function(d) { return new Date( getYear(d.Year))}));
+    var y = d3.scaleLinear().range([height, 0]).domain(d3.extent(data, function(d) { return scaledGradeToNum(d.GradeYDS)}));
+
+    // Scale the range of the data
+    //y.domain(d3.extent(data, function(d) { return gradeToNum(d.GradeYDS); }));
+    //Div that appears when mousing over point
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip-donut")
+        .style("opacity", 0);
+
+    // Add the scatterplot
+    svg.selectAll("dot")
+        .data(data)
+        .enter().append("circle")
+        .attr("fill", function(d) { return getColor(d.Sex) })
+        .attr("r", function(d) { return 7 })
+        .attr("cx", function(d) { return x(d.Year); })
+        .attr("cy", function(d) { return y(gradeToNum(d.GradeYDS)); })
+        .attr("opacity", '.5')
+        .on('mouseover', function(d, i) {
+        d3.select(this).transition()
+            .duration('50')
+            .attr("opacity", '1')
+        div.transition()
+            .duration(50)
+            .style("opacity", 1);
+        div.html(d.Ascensionist + "\n" + d.GradeYDS + "/" + d.GradeF + ", " + d.Year)
+            .style("left", (d3.event.pageX + 10) + "px")
+            .style("top", (d3.event.pageY - 15) + "px");
+        })
+        .on('mouseout', function(d,i) {
+        d3.select(this).transition()
+            .duration('50')
+            .attr("opacity", '.5')
+        div.transition()
+            .duration('50')
+            .style("opacity", 0);
+        })
+        .on('click', function(d,i) {
+            d3.select("#spider").remove();
+            generateSpiderChart(d.Route);
+            generateImage(d.Route);
+        });
+
+    // Appends x-axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x)
+            .tickFormat(d3.format("d"))
+            .ticks(30));
+
+    // text label for the x axis
+    svg.append("text")             
+        .attr("transform",
+                "translate(" + (width/2) + " ," + 
+                            (height + margin.top + 10) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+    // Title (with custom font!)
+    svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width/1.6)
+    .attr("y", height -520)
+    .style("font-size", "32px")
+    .text("First Ascents")
+    .attr("font-family", function(d,i) {return i<5 ? "Arvo" : "Sancreek"; })
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(y)
+            .ticks(6, ".2f"));
+
+    // text label for the y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Grade (YDS)");  
+
+    //legend
+    svg.append("rect").attr("x", 10).attr("y", -15).attr("height", 55).attr("width", 150).attr("id", "legend")
+    svg.append("circle").attr("cx",20).attr("cy", 0).attr("r", 6).style("fill", "steelblue").style("opacity", ".5")
+    svg.append("circle").attr("cx",20).attr("cy", 30).attr("r", 6).style("fill", "hotpink").style("opacity", ".5")
+    svg.append("text").attr("x", 40).attr("y", 0).text("Male Climbers").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 40).attr("y", 30).text("Female Climbers").style("font-size", "15px").attr("alignment-baseline","middle")
+
+    function gradeToNum(grade) {
+        ltrGrade = grade.substring(4, 5)
+        switch(ltrGrade) {
+            case 'a':
+                ltrGrade = 0
+                break;
+            case 'b':
+                ltrGrade = .0025
+                break;
+            case 'c':
+                ltrGrade = .005
+                break;
+            case 'd':
+                ltrGrade = .0075
+                break;
+        }
+        return +grade.substring(0, 4) + ltrGrade
+    }
+
+    function getColor(s) {
+        if (s == "male") {
+            return "steelblue"
+        }
+        else return "hotpink";
+    }
+
+    function getYear(y) {
+        if(y == 1961) {
+            return 1960
+        }
+        if(y == 2017) {
+            return 2018
+        }
+        else return y;
+    }
+
+    function scaledGradeToNum(g) {
+        grade = gradeToNum(g)
+        if (grade == 5.12) {
+            return 5.117
+        }
+        if(grade >= 5.155) {
+            return 5.16
+        }
+        return grade
+    }
+
+});
+
+function generateSpiderChart(route) {
+
+    let data = [];
+    let currentClimb = [];
+    let features = ["Stars","Difficulty","Popularity","Length"];
+    
+    d3.csv("data/RouteData.csv", function(error, data) {
+    data.forEach(function(d) {
+        if(d.Name == route) {
+            currentClimb = {'Stars': +d.Stars * 2, 'Difficulty': normalizeData(+d.Difficulty, 5.11, 5.16), 'Popularity': normalizeData(+d.Popularity, 0, 30000), 'Length': normalizeData(+d.Length, 20, 300)};
+        }
+    });
+
+    let avgPop = normalizeData(4051.064516, 0, 30000);
+    let avgStar = 2 * 3.612903226;
+    let avgLen = normalizeData(97.80645161, 20, 300);
+    let avgDiff = normalizeData(5.140241935, 5.11, 5.16);
+    let avgData = {'Stars': avgStar, 'Difficulty': avgDiff, 'Popularity': avgPop, 'Length': avgLen};
+
+    let totalData = [avgData, currentClimb]
+
+	let margin = {top: 25, right: 50, bottom: 25, left: 50};
+	let width = 700 - margin.left - margin.right;
+	let height = 700 - margin.top - margin.bottom;
+
+	// append the svg object to the body of the page
+	let svg = d3.select("#plot")
+		.append("svg")
+            .attr("id", "spider")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	let radialScale = d3.scaleLinear()
+	  .domain([0, 10])
+	  .range([0, 250]);
+
+    let ticks = [2,4,6,8,10]
+
+    ticks.forEach(t =>
+        svg.append("circle")
+            .attr("cx", 300)
+            .attr("cy", 300)
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("r", radialScale(t))
+    );
+
+	for (var i = 0; i < features.length; i++) {
+
+        let ft_name = features[i];
+        let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+        let line_coordinate = angleToCoordinate(angle, 10);
+        let label_coordinate = angleToCoordinate(angle, 10.5);
+
+        //draw axis line
+        svg.append("line")
+            .attr("x1", 300)
+            .attr("y1", 300)
+            .attr("x2", line_coordinate.x)
+            .attr("y2", line_coordinate.y)
+            .attr("stroke","black");
+
+        //draw axis label
+        svg.append("text")
+            .attr("x", label_coordinate.x - 25)
+            .attr("y", label_coordinate.y)
+            .text(ft_name);
+    }
+
+    let line = d3.line()
+        .x(d => d.x)
+        .y(d => d.y);
+    let colors = ["gold", "blue"];
+
+    for (var i = 0; i < totalData.length; i ++){
+        let d = totalData[i];
+        let color = colors[i];
+        let coordinates = getPathCoordinates(d);
+
+        //draw the path element
+        svg.append("path")
+            .datum(coordinates)
+            .attr("d", line)
+            .attr("stroke-width", 3)
+            .attr("stroke", color)
+            .attr("fill", color)
+            .attr("stroke-opacity", 1)
+            .attr("opacity", 0.5);
+    }
+
+    //legend
+    svg.append("rect").attr("x", -40).attr("y", 45).attr("height", 57).attr("width", 150).attr("id", "legend")
+    svg.append("circle").attr("cx",-30).attr("cy",60).attr("r", 6).style("fill", "gold")
+    svg.append("circle").attr("cx",-30).attr("cy",90).attr("r", 6).style("fill", "blue")
+    svg.append("text").attr("x", -10).attr("y", 60).text("Average").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", -10).attr("y", 90).text(route).style("font-size", "15px").attr("alignment-baseline","middle")
+
+    function angleToCoordinate(angle, value) {
+        let x = Math.cos(angle) * radialScale(value);
+        let y = Math.sin(angle) * radialScale(value);
+        return {"x": 300 + x, "y": 300 - y};
+    }
+		
+    function getPathCoordinates(data_point){
+        let coordinates = [];
+        for (var i = 0; i < features.length; i++){
+            let ft_name = features[i];
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
+        }
+        return coordinates;
+    }
+
+    function normalizeData(d, min, max) {
+        return ((d - min) / (max - min)) * 10;
+    }
+  }
+)};
+
+function generateImage(route) {
+    let margin = {top: 25, right: 50, bottom: 25, left: 50};
+	let width = 400 - margin.left - margin.right;
+	let height = 400 - margin.top - margin.bottom;
+
+    d3.select("#curImg").remove();
+
+	const domElement = d3.select("#img")
+        .attr("width", 200)
+        .attr("height", 200);
+    const imagePath = 'img/' + routeToJpg(route) + '.jpg';
+    domElement.append('img')
+        .attr("id", "curImg")
+        .attr('src', imagePath);
+    
+}
+
+//I am so sorry this exists
+function routeToJpg(route) {
+    switch(route) {
+        case("English Hanging Gardens"):
+            return "Hanging";
+        case("Chouca"):
+            return "chouca";
+        case("La Ravage"):
+            return "Ravage"
+        case("Sortileges"):
+            return "sortileges"
+        case("Masse Critique"):
+            return "Masse"
+        case("Psycho Roof"):
+            return "Psycho"
+        case("The Face"):
+            return "Face"
+        case("Kanal im Rücken"):
+            return "Kanal"
+        case("Action Directe"):
+            return "Action"
+        case("Punks in the Gym"):
+            return "Punks"
+        case("Fleur de Rocaille"):
+            return "Fleur"
+        case("Macabre Roof"):
+            return "Macabre"
+        case("Honky Tonky"):
+            return "Honky"
+        case("Honky Tonk Mix"):
+            return "Honky"
+        case("Ophir Broke"):
+            return "Ophir"
+        case("Hubble"):
+            return "Raven"
+        case("Bain de Sang"):
+            return "bain"
+        case("Open Air"):
+            return "OpenAir"
+        case("La Rambla Extension"):
+            return "Rambla"
+        case("Golpe De Estado at Siurana"):
+            return "Golpe"
+        case("Grand Illusion"):
+            return "Illusion"
+        case("La planta de shiva"):
+            return "Planta"
+        case("Chilam Balam"):
+            return "Chilam"
+        case("The Phoenix"):
+            return "Phoenix"
+        default:
+            return route;
+    }
+}
+
+</script>
