@@ -1,202 +1,200 @@
-﻿Number,Country,Value,Continent
-170,Afghanistan,156,AS
-83,Albania,162,EU
-73,Algeria,162,AF
-29,American Samoa,172,OC
-31,Andorra,166,EU
-159,Angola,158,AF
-30,Antigua and Barbuda,166,NA
-85,Argentina,161,SA
-107,Armenia,160,AS
-36,Australia,165,OC
-24,Austria,167,EU
-92,Azerbaijan,161,AS
-71,Bahamas,164,NA
-121,Bahrain,158,AS
-197,Bangladesh,152,AS
-40,Barbados,166,NA
-23,Belarus,167,EU
-44,Belgium,163,EU
-146,Belize,158,NA
-158,Benin,158,AF
-21,Bermuda,166,NA
-179,Bhutan,155,AS
-175,Bolivia,156,SA
-7,Bosnia and Herzegovina,168,EU
-94,Botswana,162,AF
-69,Brazil,162,SA
-186,Brunei,155,AS
-61,Bulgaria,165,EU
-109,Burkina Faso,161,AF
-178,Burundi,155,AF
-189,Cambodia,155,AS
-112,Cameroon,160,AF
-35,Canada,165,NA
-55,Cape Verde,163,AF
-145,Central African Republic,160,AF
-103,Chad,162,AF
-114,Chile,159,SA
-58,China,164,AS
-137,Colombia,158,SA
-171,Comoros,157,AF
-22,Cook Islands,173,OC
-99,Costa Rica,160,NA
-14,Croatia,167,EU
-104,Cuba,160,NA
-108,Cyprus,161,EU
-8,Czech Republic,168,EU
-167,Democratic Republic of the Congo,156,AF
-4,Denmark,170,EU
-124,Djibouti,160,AF
-17,Dominica,167,NA
-88,Dominican Republic,161,NA
-177,Ecuador,155,SA
-90,Egypt,161,AF
-155,El Salvador,156,NA
-162,Equatorial Guinea,158,AF
-151,Eritrea,158,AF
-3,Estonia,169,EU
-148,Eswatini,159,AF
-163,Ethiopia,157,AF
-142,Federated States of Micronesia,160,OC
-65,Fiji,164,OC
-16,Finland,167,EU
-37,France,165,EU
-27,French Polynesia,167,OC
-128,Gabon,160,AF
-132,Gambia,162,AF
-56,Georgia,163,AS
-20,Germany,166,EU
-143,Ghana,159,AF
-26,Greece,166,EU
-93,Greenland,161,NA
-28,Grenada,166,NA
-200,Guatemala,151,NA
-140,Guinea,159,AF
-156,Guinea-Bissau,159,AF
-117,Guyana,160,SA
-110,Haiti,161,NA
-168,Honduras,155,NA
-91,Hong Kong,161,AS
-57,Hungary,163,EU
-5,Iceland,169,EU
-184,India,155,AS
-188,Indonesia,154,AS
-79,Iran,161,AS
-111,Iraq,159,AS
-33,Ireland,165,EU
-67,Israel,162,AS
-84,Italy,162,EU
-157,Ivory Coast,159,AF
-49,Jamaica,164,AF
-125,Japan,159,AS
-100,Jordan,160,AS
-76,Kazakhstan,162,AS
-136,Kenya,159,AF
-119,Kiribati,161,OC
-25,Kosovo,166,EU
-95,Kuwait,160,AF
-116,Kyrgyzstan,160,AS
-199,Laos,153,AS
-6,Latvia,169,EU
-41,Lebanon,164,AS
-169,Lesotho,157,AF
-182,Liberia,157,AF
-59,Libya,163,AF
-10,Lithuania,168,EU
-34,Luxembourg,165,EU
-196,Madagascar,153,AF
-183,Malawi,156,AF
-161,Malaysia,157,AS
-180,Maldives,154,AS
-78,Mali,162,AF
-74,Malta,163,EU
-190,Marshall Islands,155,OC
-164,Mauritania,160,AF
-115,Mauritius,159,AF
-150,Mexico,158,NA
-62,Moldova,163,EU
-126,Mongolia,160,AS
-2,Montenegro,170,EU
-72,Morocco,161,AF
-193,Mozambique,155,AF
-185,Myanmar,155,AS
-135,Namibia,160,AF
-152,Nauru,158,OC
-198,Nepal,152,AS
-1,Netherlands,170,EU
-45,New Zealand,165,OC
-165,Nicaragua,156,NA
-133,Niger,160,AF
-138,Nigeria,158,AF
-32,Niue,167,OC
-86,North Korea,161,AS
-75,North Macedonia,161,EU
-18,Norway,166,EU
-131,Oman,158,AS
-181,Pakistan,155,AS
-130,Palau,160,OC
-82,Palestine,161,AS
-147,Panama,158,NA
-191,Papua New Guinea,157,OC
-106,Paraguay,160,SA
-187,Peru,154,SA
-194,Philippines,154,AS
-19,Poland,166,EU
-89,Portugal,161,EU
-43,Puerto Rico,163,NA
-102,Qatar,161,AS
-134,Republic of the Congo,159,AF
-42,Romania,165,EU
-51,Russia,165,AS
-176,Rwanda,157,AF
-81,Saint Kitts and Nevis,163,NA
-48,Saint Lucia,166,NA
-39,Saint Vincent and the Grenadines,165,NA
-66,Samoa,164,OC
-129,São Tomé and Príncipe,160,AF
-139,Saudi Arabia,159,AS
-53,Senegal,164,AF
-9,Serbia,168,EU
-64,Seychelles,163,AF
-174,Sierra Leone,157,AF
-97,Singapore,161,AS
-12,Slovakia,167,EU
-11,Slovenia,167,EU
-192,Solomon Islands,157,OC
-120,Somalia,160,AF
-149,South Africa,159,AF
-60,South Korea,163,AS
-70,Spain,162,EU
-172,Sri Lanka,156,AS
-113,Sudan,160,AF
-80,Suriname,162,SA
-15,Sweden,167,EU
-38,Switzerland,164,EU
-123,Syria,159,AS
-101,Taiwan,161,AS
-160,Tajikistan,158,AS
-173,Tanzania,157,AF
-122,Thailand,159,AS
-201,Timor-Leste,153,AS
-141,Togo,159,AF
-47,Tokelau (NZ),166,OC
-50,Tonga,166,OC
-54,Trinidad and Tobago,163,NA
-63,Tunisia,162,AF
-68,Turkey,162,AS
-77,Turkmenistan,163,AS
-96,Tuvalu,164,OC
-154,Uganda,159,AF
-13,Ukraine,167,EU
-98,United Arab Emirates,161,AS
-46,United Kingdom,164,EU
-52,United States,163,NA
-87,Uruguay,162,SA
-118,Uzbekistan,160,AS
-144,Vanuatu,161,OC
-105,Venezuela,160,SA
-153,Vietnam,158,AS
-195,Yemen,155,AS
-166,Zambia,157,AF
-127,Zimbabwe,160,AF
+﻿Number,Country,Value,Continent,ID
+170,Afghanistan,156,AS,AFG
+83,Albania,162,EU,ALB
+73,Algeria,162,AF,DZA
+29,American Samoa,172,OC,ASM
+31,Andorra,166,EU,AND
+159,Angola,158,AF,AGO
+30,Antigua and Barbuda,166,NA,ATG
+85,Argentina,161,SA,ARG
+107,Armenia,160,AS,ARM
+36,Australia,165,OC,AUS
+24,Austria,167,EU,AUT
+92,Azerbaijan,161,AS,AZE
+71,Bahamas,164,NA,BHS
+121,Bahrain,158,AS,BHR
+197,Bangladesh,152,AS,BGD
+40,Barbados,166,NA,BRB
+23,Belarus,167,EU,BLR
+44,Belgium,163,EU,BEL
+146,Belize,158,NA,BLZ
+158,Benin,158,AF,BEN
+21,Bermuda,166,NA,BMU
+179,Bhutan,155,AS,BTN
+175,Bolivia,156,SA,BOL
+7,Bosnia and Herzegovina,168,EU,BIH
+94,Botswana,162,AF,BWA
+69,Brazil,162,SA,BRA
+186,Brunei,155,AS,BRN
+61,Bulgaria,165,EU,BGR
+109,Burkina Faso,161,AF,BFA
+178,Burundi,155,AF,BDI
+189,Cambodia,155,AS,KHM
+112,Cameroon,160,AF,CMR
+35,Canada,165,NA,CAN
+145,Central African Republic,160,AF,CAF
+103,Chad,162,AF,TCD
+114,Chile,159,SA,CHL
+58,China,164,AS,CHN
+137,Colombia,158,SA,COL
+171,Comoros,157,AF,COM
+22,Cook Islands,173,OC,COK
+99,Costa Rica,160,NA,CRI
+14,Croatia,167,EU,HRV
+104,Cuba,160,NA,CUB
+108,Cyprus,161,EU,CYP
+8,Czechia,168,EU,CZE
+167,Democratic Republic of the Congo,156,AF,COD
+4,Denmark,170,EU,DNK
+124,Djibouti,160,AF,DJI
+17,Dominica,167,NA,DMA
+88,Dominican Republic,161,NA,DOM
+177,Ecuador,155,SA,ECU
+90,Egypt,161,AF,EGY
+155,El Salvador,156,NA,SLV
+162,Equatorial Guinea,158,AF,GNQ
+151,Eritrea,158,AF,ERI
+3,Estonia,169,EU,EST
+148,Eswatini,159,AF,SWZ
+163,Ethiopia,157,AF,ETH
+142,Federated States of Micronesia,160,OC,FSM
+65,Fiji,164,OC,FJI
+16,Finland,167,EU,FIN
+37,France,165,EU,FRA
+27,French Polynesia,167,OC,PYF
+128,Gabon,160,AF,GAB
+132,Gambia,162,AF,GMB
+56,Georgia,163,AS,GEO
+20,Germany,166,EU,DEU
+143,Ghana,159,AF,GHA
+26,Greece,166,EU,GRC
+93,Greenland,161,NA,GRL
+28,Grenada,166,NA,GRD
+200,Guatemala,151,NA,GTM
+140,Guinea,159,AF,GIN
+156,Guinea-Bissau,159,AF,GNB
+117,Guyana,160,SA,GUY
+110,Haiti,161,NA,HTI
+168,Honduras,155,NA,HND
+91,Hong Kong,161,AS,HKG
+57,Hungary,163,EU,HUN
+5,Iceland,169,EU,ISL
+184,India,155,AS,IND
+188,Indonesia,154,AS,IDN
+79,Iran,161,AS,IRN
+111,Iraq,159,AS,IRQ
+33,Ireland,165,EU,IRL
+67,Israel,162,AS,ISR
+84,Italy,162,EU,ITA
+157,Ivory Coast,159,AF,CIV
+49,Jamaica,164,AF,JAM
+125,Japan,159,AS,JPN
+100,Jordan,160,AS,JOR
+76,Kazakhstan,162,AS,KAZ
+136,Kenya,159,AF,KEN
+119,Kiribati,161,OC,KIR
+95,Kuwait,160,AF,KWT
+116,Kyrgyzstan,160,AS,KGZ
+199,Laos,153,AS,LAO
+6,Latvia,169,EU,LVA
+41,Lebanon,164,AS,LBN
+169,Lesotho,157,AF,LSO
+182,Liberia,157,AF,LBR
+59,Libya,163,AF,LBY
+10,Lithuania,168,EU,LTU
+34,Luxembourg,165,EU,LUX
+196,Madagascar,153,AF,MDG
+183,Malawi,156,AF,MWI
+161,Malaysia,157,AS,MYS
+180,Maldives,154,AS,MDV
+78,Mali,162,AF,MLI
+74,Malta,163,EU,MLT
+190,Marshall Islands,155,OC,MHL
+164,Mauritania,160,AF,MRT
+115,Mauritius,159,AF,MUS
+150,Mexico,158,NA,MEX
+62,Moldova,163,EU,MDA
+126,Mongolia,160,AS,MNG
+2,Montenegro,170,EU,MNE
+72,Morocco,161,AF,MAR
+193,Mozambique,155,AF,MOZ
+185,Myanmar,155,AS,MMR
+135,Namibia,160,AF,NAM
+152,Nauru,158,OC,NRU
+198,Nepal,152,AS,NPL
+1,Netherlands,170,EU,NLD
+45,New Zealand,165,OC,NZL
+165,Nicaragua,156,NA,NIC
+133,Niger,160,AF,NER
+138,Nigeria,158,AF,NGA
+32,Niue,167,OC,NIU
+86,North Korea,161,AS,PRK
+75,North Macedonia,161,EU,MKD
+18,Norway,166,EU,NOR
+131,Oman,158,AS,OMN
+181,Pakistan,155,AS,PAK
+130,Palau,160,OC,PLW
+82,Palestine,161,AS,PSE
+147,Panama,158,NA,PAN
+191,Papua New Guinea,157,OC,PNG
+106,Paraguay,160,SA,PRY
+187,Peru,154,SA,PER
+194,Philippines,154,AS,PHL
+19,Poland,166,EU,POL
+89,Portugal,161,EU,PRT
+43,Puerto Rico,163,NA,PRI
+102,Qatar,161,AS,QAT
+134,Republic of the Congo,159,AF,COG
+42,Romania,165,EU,ROU
+51,Russia,165,AS,RUS
+176,Rwanda,157,AF,RWA
+81,Saint Kitts and Nevis,163,NA,KNA
+48,Saint Lucia,166,NA,LCA
+39,Saint Vincent and the Grenadines,165,NA,VCT
+66,Samoa,164,OC,WSM
+129,São Tomé and Príncipe,160,AF,STP
+139,Saudi Arabia,159,AS,SAU
+53,Senegal,164,AF,SEN
+9,Serbia,168,EU,SRB
+64,Seychelles,163,AF,SYC
+174,Sierra Leone,157,AF,SLE
+97,Singapore,161,AS,SGP
+12,Slovakia,167,EU,SVK
+11,Slovenia,167,EU,SVN
+192,Solomon Islands,157,OC,SLB
+120,Somalia,160,AF,SOM
+149,South Africa,159,AF,ZAF
+60,South Korea,163,AS,KOR
+70,Spain,162,EU,ESP
+172,Sri Lanka,156,AS,LKA
+113,Sudan,160,AF,SDN
+80,Suriname,162,SA,SUR
+15,Sweden,167,EU,SWE
+38,Switzerland,164,EU,CHE
+123,Syria,159,AS,SYR
+101,Taiwan,161,AS,TWN
+160,Tajikistan,158,AS,TJK
+173,Tanzania,157,AF,TZA
+122,Thailand,159,AS,THA
+201,Timor-Leste,153,AS,TLS
+141,Togo,159,AF,TGO
+47,Tokelau,166,OC,TKL
+50,Tonga,166,OC,TON
+54,Trinidad and Tobago,163,NA,TTO
+63,Tunisia,162,AF,TUN
+68,Turkey,162,AS,TUR
+77,Turkmenistan,163,AS,TKM
+96,Tuvalu,164,OC,TUV
+154,Uganda,159,AF,UGA
+13,Ukraine,167,EU,UKR
+98,United Arab Emirates,161,AS,ARE
+46,United Kingdom,164,EU,GBR
+52,United States,163,NA,USA
+87,Uruguay,162,SA,URY
+118,Uzbekistan,160,AS,UZB
+144,Vanuatu,161,OC,VUT
+105,Venezuela,160,SA,VEN
+153,Vietnam,158,AS,VNM
+195,Yemen,155,AS,YEM
+166,Zambia,157,AF,ZMB
+127,Zimbabwe,160,AF,ZWE
