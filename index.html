@@ -40,52 +40,72 @@
     const NUMMIXES = 14
     var spices_list = []
     var mixes_list = []
+    var region_list = []
+    var region_v_avgSpices = [ {region: "East Africa", count:1, total:8, avg:8} ]
     //svg globals
     var margin = {top: 20, right: 35, bottom: 30, left: 35}
     const WIDTH = 800 - margin.left - margin.right;
     const HEIGHT = 900 - margin.top - margin.bottom;
-    // x and y scaling functions
-    var xScale = d3.scaleLinear()
-        .domain([0, 5])//this should chunk the x axis into fifths, left at 1 and right at 3?
-        .range([margin.left, (WIDTH-margin.right)]);
     const left_bump = 0; //left and right axis, data locations to pass to xScale
     const right_bump = 5;
     const point_bump = 50;//offsets from the linear scaling to avoid padding
     const axis_bump = 40;
 
-    //linear scaling
-    // var yLeftScale = d3.scaleLinear()
-    //     .domain([0, NUMMIXES])//14 spice mixes
-    //     .range([margin.top, HEIGHT]);
-    // var yRightScale = d3.scaleLinear()
-    //     .domain([0, NUMSPICES])//50 spices
-    //     .range([margin.top, HEIGHT]);
-
+    //DUAL AXIS SPICE/MIX Chart
+    // x and y scaling functions
+    var xScale = d3.scaleLinear()
+        .domain([0, 5])//this should chunk the x axis into fifths, left at 1 and right at 3?
+        .range([margin.left, (WIDTH-margin.right)]);
     //ordinal/categorical scaling
-    //no domain/range arguments bc the lists haven't been populated yet
-    var yLeftScale = d3.scaleBand()
+    var yLeftScale = d3.scaleBand()//no domain bc the lists haven't been populated yet
+        .range([margin.top, HEIGHT]);
     var yRightScale = d3.scaleBand()
-    
-
+        .range([margin.top, HEIGHT]);
     //axes
     yLeftAxis = d3.axisLeft(yLeftScale);
     yRightAxis = d3.axisRight(yRightScale);
+
+    //COLUMN CHART
+    const support_scaler = 0.75;
+    // x and y scaling functions
+    var col_xScale = d3.scaleBand()
+        // .range([margin.length, WIDTH-margin.right])
+        .padding(0.1);
+    var col_yScale = d3.scaleLinear()
+        .domain([0,10])
+        // .range([(HEIGHT*support_scaler), margin.top]);
+        .range([(HEIGHT*support_scaler), 0]);
+    //axes
+    col_xAxis = d3.axisBottom(col_xScale);
+    col_yAxis = d3.axisLeft(col_yScale);
 
     //start asynch
     Promise.all([
         d3.json("res/mixes.json"),
         d3.csv("res/spices.csv")
     ]).then( ([mixes, spices])=>{
-        for(i=0;i<mixes.length;i++){ mixes_list.push(mixes[i].mix_name) }
-        for(i=0;i<spices.length;i++){ spices_list.push(spices[i].Spice)}
+        //populate global lists
+        for(i=0;i<mixes.length;i++){ mixes_list.push( singleStringify(mixes[i].mix_name) ) }
+        for(i=0;i<spices.length;i++){ spices_list.push( singleStringify(spices[i].Spice) )}
+        for(i=0;i<mixes.length;i++){
+            if(region_list.includes( singleStringify(mixes[i].region) ) == false){
+                region_list.push( singleStringify(mixes[i].region) )
+            }
+        }
+        console.log("region list:",region_list)
         //populate domain, range of scales now that lists are populated
-        yLeftScale.domain(mixes_list).range([margin.top, HEIGHT]);
-        yRightScale.domain(spices_list).range([margin.top, HEIGHT]);
+        yLeftScale.domain(mixes_list);
+        yRightScale.domain(spices_list);
+        console.log(region_list)
+        col_xScale.domain(region_list).range([margin.left, WIDTH-margin.right]);
 
         load_components(mixes, spices)
+        // load_graph(mixes, spices);
     });
   
     function load_components(mixes, spices){
+
+        map_regions_spices(mixes,spices)
         // create the visualizations
         load_graph(mixes, spices)
         // option to call other functions from outside of load_graph
@@ -99,24 +119,31 @@
             .attr("height",HEIGHT)
             // .append("g")
 
-        svg1.selectAll('dots')
-            .data(mixes)
-            .enter()
-            .append("circle")
-            .attr("r",function (d){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
-            .attr("cx", function(d){return (xScale(left_bump)+point_bump);})
-            // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
-            .attr("cy", function(d){return yLeftScale(d.mix_name) + 30;})//this is for bandscale
-            .attr("fill", "green");
-        svg1.selectAll('dots')
-            .data(spices)
-            .enter()
-            .append("circle")
-            .attr("r", 5)
-            .attr("cx", function(d){return (xScale(right_bump)-point_bump);})
-            // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
-            .attr("cy", function(d){return yRightScale(d.Spice) + 9;})//this is for bandscale
-            .attr("fill", "purple");
+        // svg1.selectAll('dots')
+        //     .data(mixes)
+        //     .enter()
+        //     .append("circle")
+        //     .attr("r",function (d){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
+        //     .attr("cx", function(d){return (xScale(left_bump)+point_bump);})
+        //     // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
+        //     .attr("cy", function(d){return yLeftScale(d.mix_name) + 30;})//this is for bandscale
+        //     .attr("fill", "green")
+        //     .attr("class",function(d){
+        //         return singleStringify(d.mix_name) +" "+ singleStringify(d.region);
+        //     });
+
+        // svg1.selectAll('dots')
+        //     .data(spices)
+        //     .enter()
+        //     .append("circle")
+        //     .attr("r", 5)
+        //     .attr("cx", function(d){return (xScale(right_bump)-point_bump);})
+        //     // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
+        //     .attr("cy", function(d){return yRightScale(d.Spice) + 9;})//this is for bandscale
+        //     .attr("fill", "purple")
+        //     .attr("class",function(d){
+        //         return d.Spice;
+        //     });
 
         // left-axis
         svg1.append("g")
@@ -141,24 +168,158 @@
         const p = d3.path();
         for(m in mixes){
             // console.log("mixes[m] is",mixes[m])
-            for(i=0; i<mixes[m].ingredients.length; i++){
-                // console.log("in mixes,",mixes[m],"["+m+"] is "+mixes[m].ingredients[i]+" at y="+yRightScale(mixes[m].ingredients[i]));
-                // console.log("\t"+yRightScale(mixes[m].ingredients[i]));
-                svg1.append('line')
-                    .attr("x1", (xScale(left_bump)+point_bump) )
-                    .attr("y1",function(d){
-                        return (yLeftScale(mixes[m].mix_name)+30);
-                    })
-                    .attr("x2", (xScale(right_bump)-point_bump) )
-                    .attr("y2",function(d){ 
-                        ing = mixes[m].ingredients[i];
-                        // console.log( ing+" is at "+yRightScale(ing) );
-                        return yRightScale(ing)+9;
-                    })
-                    .attr("stroke", "blue")
-                    .attr("stroke-width",1);
+            svg1.selectAll("lines")
+                .data(mixes[m].ingredients)
+                .enter()
+                .append('line')
+                .attr("x1", (xScale(left_bump)+point_bump) )
+                .attr("y1",function(d){
+                    console.log(d)
+                    // return (yLeftScale(d.mix_name)+30);
+                    return (yLeftScale( singleStringify(mixes[m].mix_name) )+30);
+                })
+                .attr("x2", (xScale(right_bump)-point_bump) )
+                .attr("y2",function(d){ 
+                    ing = singleStringify(d);
+                    // console.log( ing+" is at "+yRightScale(ing) );
+                    return yRightScale(ing)+9;
+                })
+                .attr("class",function(d){
+                    // cla = mixes[m].mix_name + mixes[m].ingredients[i];
+                    return singleStringify(mixes[m].mix_name) +" "+ singleStringify(d) +" "+ singleStringify(mixes[m].region);
+                })
+                .attr("stroke", "blue")
+                .attr("stroke-width",1.5)
+                .on("mouseover", function(e,d){
+                    d3.selectAll("line").style("opacity", .3);
+                    highlights( singleStringify(d) )
+                    // d3.selectAll("line").style("opacity", .3);
+                    // // d3.selectAll(".bar").style("opacity", .3);
+                    // ing = "."+singleStringify(d)
+                    // console.log(ing)
+                    // d3.selectAll(ing).style("opacity",1);
+                })
+                .on("mouseout",function(e,d){
+                    cleanup_highlights()
+                    // d3.selectAll("line").style("opacity", 1);
+                    // d3.selectAll(".bar").style("opacity", 1);
+                });
+            
+        }//end connecting-lines loop
+
+        var svg2 = d3.select("#supporting_plot")
+            .append('svg')
+            // .attr("width",(WIDTH*support_scaler) + margin.left + margin.right)
+            // .attr("height",(HEIGHT*support_scaler)+ margin.top + margin.bottom)
+            .attr("width",(WIDTH) + margin.left + margin.right)
+            .attr("height",(HEIGHT*support_scaler)+ margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            // .attr("transform", "rotate(180)");
+        
+        // left-axis
+        svg2.append("g")
+            .attr("class", "left axis")
+            // .attr("transform", "translate("+ margin.left +","+ 0 +")")
+            .call(col_yAxis)
+            .append("text")
+            .attr("class", "label")
+            .style("text-anchor", "end")
+            .text("Avg # of Spices");
+
+        // bottom-axis
+        svg2.append("g")
+            .attr("class", "bottom axis")
+            .attr("transform", "translate("+ -margin.left +","+ HEIGHT*support_scaler +")")
+            .call(col_xAxis)
+            .append("text")
+            .attr("class", "label")
+            .style("text-anchor", "end")
+            .text("Regions");
+        // svg2.append("g")
+        //     .attr("transform", "translate(0," + HEIGHT + ")")
+        //     .call(d3.axisBottom(col_xScale));
+        // svg2.append("g")
+        //     .call(d3.axisLeft(col_yScale));
+
+        svg2.selectAll(".bar")
+            .data(region_v_avgSpices)
+            .enter()
+            .append("rect")
+            .attr("class",function(d){
+                return "bar " + singleStringify(d.region);
+            })
+            .attr("x", function(d) { return col_xScale( singleStringify(d.region) )-25; })
+            .attr("width", col_xScale.bandwidth())
+            // .attr("y", function(d) { return y(d.sales); })
+            .attr("y", function(d) { return col_yScale(d.avg) + 0 ; })
+            .attr("height", function(d) { return HEIGHT - 212 - col_yScale(d.avg); })
+            .on("mouseover", function(e,d){
+                d3.selectAll("line").style("opacity", .3);
+                d3.selectAll(".bar").style("opacity", .3);
+                highlights( singleStringify(d.region) )
+            })
+            .on("mouseout",function(e,d){
+                cleanup_highlights()
+            });
+
+
+
+        //add 2nd plot type in supporting_plots div
+            //column chart Y[avg # spices] -vs- X[region] ?
+        //add interactivity to lines, mix names & spice names
+            //add classes to the lines & spices (multiple classes)
+                //like, maybe each spice as a class for mixes
+                //each mix as a class for spices? maybe these are too much
+            //!!!!!!!!spice & mix as classes for each line though!!!!!!!!!!
+
+
+    }//end load_graph()
+
+    function highlights(id){
+        ing = "."+id
+        console.log(ing)
+        d3.selectAll(ing).style("opacity",1);
+        d3.selectAll(ing).style("fill","pink");
+    }
+
+    function cleanup_highlights(){
+        d3.selectAll("line").style("opacity", 1);
+        d3.selectAll(".bar").style("opacity", 1);
+        d3.selectAll("circle").style("opacity", 1);
+        d3.selectAll("line").style("fill", "blue");
+        d3.selectAll(".bar").style("fill", "black");
+        d3.selectAll("circle").style("fill", "pink");
+    }
+
+
+    function singleStringify(string){
+        new_name = string.replace(/,/g,"");
+        new_name = new_name.replace(/'/g,"");
+        new_name = new_name.split(" ").join("_");
+        console.log(new_name)
+        return new_name;
+    }
+
+    function map_regions_spices(mixes,spices){
+        for(m in mixes){
+            foundRegion = 0
+            for(s in region_v_avgSpices){
+                if(region_v_avgSpices[s].region == mixes[m].region){
+                    foundRegion = 1
+                    region_v_avgSpices[s].count += 1;
+                    region_v_avgSpices[s].total += mixes[m].num_spices;
+                }
+            }
+            if(foundRegion==0){
+                newRegion = {region: mixes[m].region, count:1, total:mixes[m].num_spices, avg:0}
+                region_v_avgSpices.push(newRegion)
             }
         }
+        for(s in region_v_avgSpices){
+            region_v_avgSpices[s].avg = region_v_avgSpices[s].total / region_v_avgSpices[s].count;
+        }
+    console.log(region_v_avgSpices)
     }
 
 </script>
@@ -166,6 +327,6 @@
 <body>
     <div id="box">
         <div id="main_plot"></div>
-        <div id="supporting_plots"></div>
+        <div id="supporting_plot"></div>
     </div>
 </body>
