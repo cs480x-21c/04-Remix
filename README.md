@@ -25,6 +25,10 @@ For my visualization I took the CSV file from Wikipedia and used that data to cr
 ![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/circle-interact.png)
 
 
+## Technical Achieve,emts
+Sort and order the data of the bar chart and scatter plot by initial value
+
+
 
 Extra Links
 ---
