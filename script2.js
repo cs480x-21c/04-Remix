@@ -114,12 +114,15 @@ function createMap(world, data, totals) {
 				cdata = data.filter(d => d.Country == i.properties.name)
 				
 				if (cdata.length != 0) { 
+					map.selectAll('path')
+						.attr('opacity', 0.5)
 					d3.select(this).attr('opacity', 1)
 					createChart(data, data.filter(d => d.Country == i.properties.name))
 				}
 			})
 			.on('mouseout', function() {
-				d3.select(this).attr('opacity', 0.75)
+				map.selectAll('path')
+					.attr('opacity', 0.75)
 				createChart(data, totals)
 			})
 }
@@ -185,18 +188,20 @@ function createChart(data, totals) {
 			.attr("width", d => x(parseInt(d.Languages)) )
 			.attr('x', 1)
 			.attr('fill', d => color(d.Status))
-			.attr('opacity', 0.5)
+			.attr('opacity', 0.75)
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
-			.attr('stroke-opacity', 0.5)
+			.attr('stroke-opacity', 0.75)
 			.attr('id', d => clean(d.Status) +"_bar")
 			.on('mouseover', function(d, i) {
 				colorMap(data, i.Status)
+				chart.selectAll('rect')
+					.attr('opacity', 0.5)
 				d3.select(this).attr('opacity', 1)
 			})
 			.on('mouseout', function() {
 				colorMap(data)
-				d3.select(this).attr('opacity', 0.5)
+				chart.selectAll('rect').attr('opacity', 0.75)
 			})
 			/*.attr('id', d => d.replace(/\s/g,'_') )
 			.on('mouseover', function () {
