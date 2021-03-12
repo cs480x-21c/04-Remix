@@ -55,3 +55,17 @@ This also works when a section is brushed. In the picture below, the left chart 
 - For the newly added bar chart, the grid pattern dynamically updates to match the number of ticks on the Y axis legend.
 - Besides the default palette, the user has the choice of viewing the charts with three additional palettes. These palettes are taken from the article [Inclusive Color Palettes for the Web](https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e), these palettes are designed to accommodate those with color blindness.  
 - When using the right bar chart to highlight segments of the left stacked bar chart, the corresponding bar on the right chart will also be highlighted to give the user feedback that the bar is being selected.  
+
+# References
+
+The code from the following articles were referenced while creating the project
+
+- http://bl.ocks.org/mstanaland/6100713
+- http://bl.ocks.org/emeeks/8899a3e8c31d4c5e7cfd
+- https://observablehq.com/@d3/brush-snapping
+
+The following code libraries were used to create the remix
+
+- [D3](https://d3js.org/)
+- [d3-interpolate](https://github.com/d3/d3-interpolate) 
+
