@@ -26,13 +26,19 @@
 
     #plot {
         float: right;
-        margin-top: -40px;
+        margin-top: -45px;
         margin-right: 50px;
     }
 
     #img {
         display: block;
         width: 40%;
+    }
+
+    #legend {
+        fill: white;
+        stroke-width: .5;
+        stroke: grey;
     }
   </style>
 
@@ -62,7 +68,7 @@ var svg = d3.select("#scatter")
         .attr("transform", 
                 "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("first_ascent.csv", function(error, data) {
+d3.csv("data/first_ascent.csv", function(error, data) {
     data.forEach(function(d) {
         d.Year = +d.Year;
     });
@@ -152,6 +158,13 @@ d3.csv("first_ascent.csv", function(error, data) {
         .style("text-anchor", "middle")
         .text("Grade (YDS)");  
 
+    //legend
+    svg.append("rect").attr("x", 10).attr("y", -15).attr("height", 55).attr("width", 150).attr("id", "legend")
+    svg.append("circle").attr("cx",20).attr("cy", 0).attr("r", 6).style("fill", "steelblue").style("opacity", ".5")
+    svg.append("circle").attr("cx",20).attr("cy", 30).attr("r", 6).style("fill", "hotpink").style("opacity", ".5")
+    svg.append("text").attr("x", 40).attr("y", 0).text("Male Climbers").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 40).attr("y", 30).text("Female Climbers").style("font-size", "15px").attr("alignment-baseline","middle")
+
     function gradeToNum(grade) {
         ltrGrade = grade.substring(4, 5)
         switch(ltrGrade) {
@@ -207,7 +220,7 @@ function generateSpiderChart(route) {
     let currentClimb = [];
     let features = ["Stars","Difficulty","Popularity","Length"];
     
-    d3.csv("RouteData.csv", function(error, data) {
+    d3.csv("data/RouteData.csv", function(error, data) {
     data.forEach(function(d) {
         if(d.Name == route) {
             currentClimb = {'Stars': +d.Stars * 2, 'Difficulty': normalizeData(+d.Difficulty, 5.11, 5.16), 'Popularity': normalizeData(+d.Popularity, 0, 30000), 'Length': normalizeData(+d.Length, 20, 300)};
@@ -292,6 +305,13 @@ function generateSpiderChart(route) {
             .attr("stroke-opacity", 1)
             .attr("opacity", 0.5);
     }
+
+    //legend
+    svg.append("rect").attr("x", -40).attr("y", 45).attr("height", 57).attr("width", 150).attr("id", "legend")
+    svg.append("circle").attr("cx",-30).attr("cy",60).attr("r", 6).style("fill", "gold")
+    svg.append("circle").attr("cx",-30).attr("cy",90).attr("r", 6).style("fill", "blue")
+    svg.append("text").attr("x", -10).attr("y", 60).text("Average").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", -10).attr("y", 90).text(route).style("font-size", "15px").attr("alignment-baseline","middle")
 
     function angleToCoordinate(angle, value) {
         let x = Math.cos(angle) * radialScale(value);
