@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+svg {
+  font: 10px sans-serif;
+}
+
+.deathIncreaseArea {
+  stroke: rgb(230, 179, 71);
+  stroke-width: 2px;
+  fill: rgb(230, 179, 71);
+  fill-opacity: 0;
+  clip-path: url(#clip);
+}
+
+.hospitalizedIncreaseArea {
+  stroke: steelblue;
+  stroke-width: 2px;
+  fill: steelblue;
+  fill-opacity: 0;
+  clip-path: url(#clip);
+}
+
+.positiveIncreaseArea {
+  stroke: rgb(194, 66, 66);
+  stroke-width: 2px;
+  fill: rgb(194, 66, 66);
+  fill-opacity: 0;
+  clip-path: url(#clip);
+}
+
+.testIncreaseArea {
+  stroke: rgb(155, 55, 168);
+  stroke-width: 2px;
+  fill: rgb(155, 55, 168);
+  fill-opacity: 0;
+  clip-path: url(#clip);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+</style>
+
+<head>
+    <title>A4: Remix</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>Covid-19 U.S. Nationwide Metrics</h1>
+        <button class="button" type="button" id="default" onclick="setYRange()">Reset View</button>
+        <button class="button" type="button" id="deathincreaseBtn" onclick="setYRange(1)">New Daily Deaths</button>
+        <button class="button" type="button" id="hospitalizedIncreaseBtn" onclick="setYRange(2)">New Daily Hospitalized</button>
+        <button class="button" type="button" id="positiveIncreaseBtn" onclick="setYRange(3)">New Daily Cases</button>
+        <button class="button" type="button" id="testIncreaseBtn" onclick="setYRange(4)">New Daily Tests</button>
+        <div id="vis"></div>
+    </div>
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="Chart.js"></script>
+</body>
