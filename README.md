@@ -13,6 +13,8 @@ The primary aim of this assignment is to showcase your **individual** skills at 
 * https://bl.ocks.org/mbostock/3183403
 * https://www.d3-graph-gallery.com/graph/barplot_basic.html
 * https://bl.ocks.org/mbostock/3183403
+* https://bl.ocks.org/d3noob/23e42c8f67210ac6c678db2cd07a747e
+* http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
 
 ### Your Task
 
