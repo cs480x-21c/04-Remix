@@ -1,6 +1,15 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
+Original Vis: https://www.reddit.com/r/dataisbeautiful/comments/lww5wc/the_environmental_impact_of_lab_grown_meat_and/
+
+
+Resources:
+http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
+https://stackoverflow.com/questions/3674265/is-there-an-easy-way-to-clear-an-svg-elements-contents
+https://www.d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
+
+
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
 
 ### Your Task

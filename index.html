@@ -3,7 +3,6 @@
 <h3>Click a stacked bar to get more information...</h3>
 
 <div id="my_dataviz"></div>
-<div id="dataviz2"></div>
 
 <script>
 
@@ -22,7 +21,7 @@ var svg = d3.select("#my_dataviz")
           "translate(" + margin.left + "," + margin.top + ")");
 
 // append the svg object to the body of the page
-var svg2 = d3.select("#dataviz2")
+var svg2 = d3.select("#my_dataviz")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -148,7 +147,20 @@ svg2.selectAll("mybar")
     .attr("width", 70)
     .attr("height", function(d) { return height - y(d.Value); })
     .attr("fill", "#69b3a2")
-
+  .on("click", function(d) {
+    var theMeat = d.TypeMeat;
+    var theVal = d.Value;
+    svg.selectAll("rect")
+      .attr("fill", function(d) {
+         var f = d3.format(".1f");
+         var s = d3.format(".2f");
+         var t = d3.format(".3f");
+         if(theVal == f(d[1] - d[0]) || theVal == s(d[1] - d[0]) || theVal == t(d[1] - d[0])) {
+            return "#000000";
+         }
+      })
+  })
 })
+
 }
 </script>
