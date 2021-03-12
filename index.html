@@ -14,6 +14,22 @@ svg {
   clip-path: url(#clip);
 }
 
+.deathButton {
+  background-color:rgb(230, 179, 71);
+}
+
+.hospitalizedButton {
+  background-color: steelblue;
+}
+
+.positiveButton {
+  background-color:rgb(194, 66, 66);
+}
+
+.testButton {
+  background-color:rgb(155, 55, 168);
+}
+
 .hospitalizedIncreaseArea {
   stroke: steelblue;
   stroke-width: 2px;
@@ -60,11 +76,10 @@ svg {
 <body>
     <div style="text-align: center;">
         <h1>Covid-19 U.S. Nationwide Metrics</h1>
-        <button class="button" type="button" id="default" onclick="setYRange()">Reset View</button>
-        <button class="button" type="button" id="deathincreaseBtn" onclick="setYRange(1)">New Daily Deaths</button>
-        <button class="button" type="button" id="hospitalizedIncreaseBtn" onclick="setYRange(2)">New Daily Hospitalized</button>
-        <button class="button" type="button" id="positiveIncreaseBtn" onclick="setYRange(3)">New Daily Cases</button>
-        <button class="button" type="button" id="testIncreaseBtn" onclick="setYRange(4)">New Daily Tests</button>
+        <button class="deathButton" type="button" id="deathincreaseBtn" onclick="setYRange(1)">New Daily Deaths</button>
+        <button class="hospitalizedButton" type="button" id="hospitalizedIncreaseBtn" onclick="setYRange(2)">New Daily Hospitalized</button>
+        <button class="positiveButton" type="button" id="positiveIncreaseBtn" onclick="setYRange(3)">New Daily Cases</button>
+        <button class="testButton" type="button" id="testIncreaseBtn" onclick="setYRange(4)">New Daily Tests</button>
         <div id="vis"></div>
     </div>
 

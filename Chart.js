@@ -2,8 +2,8 @@
 
 //focus vis
 //overview vis2
-var margin = { top: 10, right: 10, bottom: 150, left: 60 },
-    margin2 = { top: 375, right: 10, bottom: 20, left: 60 },
+var margin = { top: 10, right: 10, bottom: 200, left: 60 },
+    margin2 = { top: 325, right: 10, bottom: 20, left: 60 },
     
     //both use same width
     width = 1000 - margin.left - margin.right,
@@ -11,21 +11,26 @@ var margin = { top: 10, right: 10, bottom: 150, left: 60 },
     height = 500 - margin.top - margin.bottom,
     height2 = 500 - margin2.top - margin2.bottom;
 
-//vew ranges
-var maxYRange = 0;
-var deathYRange = 0;
-var hospitalizedYRange = 0;
-var positiveYRange = 0;
-var testYRange = 0;
-
 //month-day-year
 var parseDate = d3.time.format("%m-%d-%Y").parse;
 
+//max values
+var maxDeath = 0,
+    maxHospitalized = 0,
+    maxPositive = 0,
+    maxTest = 0
+
+//ranges
 var xRange = d3.time.scale().range([0, width]),
     xRange2 = d3.time.scale().range([0, width]),
 
     yRange = d3.scale.linear().range([height, 0]),
-    yRange2 = d3.scale.linear().range([height2, 0]);
+    yRange2 = d3.scale.linear().range([height2, 0]),
+
+    deathYRange2 = d3.scale.linear().range([height2, 0]),
+    hospitalizedYRange2 = d3.scale.linear().range([height2, 0]),
+    positiveYRange2 = d3.scale.linear().range([height2, 0]),
+    testYRange2 = d3.scale.linear().range([height2, 0]);
 
 var xAxis = d3.svg.axis().scale(xRange).orient("bottom"),
     xAxis2 = d3.svg.axis().scale(xRange2).orient("bottom"),
@@ -46,10 +51,11 @@ var deathIncreaseArea = d3.svg.area()
   .y1(function (d) { return yRange(d.deathIncrease); });
 
 var deathIncreaseArea2 = d3.svg.area()
-  .interpolate("monotone")
+  .interpolate("bundle")
   .x(function (d) { return xRange2(d.date); })
   .y0(height2)
-  .y1(function (d) { return yRange2(d.deathIncrease); });
+  //.y1(function (d) { return yRange2(d.deathIncrease); });
+  .y1(function (d) { return deathYRange2(d.deathIncrease); });
 
 //hospitalized
 var hospitalizedIncreaseArea = d3.svg.area()
@@ -60,10 +66,11 @@ var hospitalizedIncreaseArea = d3.svg.area()
   .y1(function (d) { return yRange(d.hospitalizedIncrease); });
 
 var hospitalizedIncreaseArea2 = d3.svg.area()
-  .interpolate("monotone")
+  .interpolate("bundle")
   .x(function (d) { return xRange2(d.date); })
   .y0(height2)
-  .y1(function (d) { return yRange2(d.hospitalizedIncrease); });
+  //.y1(function (d) { return yRange2(d.hospitalizedIncrease); });
+  .y1(function (d) { return hospitalizedYRange2(d.hospitalizedIncrease); });
 
 //positive cases
 var positiveIncreaseArea = d3.svg.area()
@@ -74,10 +81,12 @@ var positiveIncreaseArea = d3.svg.area()
   .y1(function (d) { return yRange(d.positiveIncrease); });
 
 var positiveIncreaseArea2 = d3.svg.area()
-    .interpolate("monotone")
-    .x(function (d) { return xRange2(d.date); })
-    .y0(height2)
-    .y1(function (d) { return yRange2(d.positiveIncrease); });
+  .interpolate("bundle")
+  .x(function (d) { return xRange2(d.date); })
+  .y0(height2)
+  //.y1(function (d) { return yRange2(d.positiveIncrease); });
+  .y1(function (d) { return positiveYRange2(d.positiveIncrease); });
+
 
 //test increase
 var testIncreaseArea = d3.svg.area()
@@ -88,10 +97,11 @@ var testIncreaseArea = d3.svg.area()
   .y1(function (d) { return yRange(d.totalTestResultsIncrease); });
 
 var testIncreaseArea2 = d3.svg.area()
-  .interpolate("monotone")
+  .interpolate("bundle")
   .x(function (d) { return xRange2(d.date); })
   .y0(height2)
-  .y1(function (d) { return yRange2(d.totalTestResultsIncrease); });
+  //.y1(function (d) { return yRange2(d.totalTestResultsIncrease); });
+  .y1(function (d) { return testYRange2(d.totalTestResultsIncrease); });
 
 //brush
 function drawBrush() {
@@ -127,16 +137,22 @@ d3.csv("https://raw.githubusercontent.com/Fish1naTank/04-Remix/main/data/Covid-1
   xRange.domain(d3.extent(data.map(function (d) { return d.date; })));
 
   //get yRanges
-  deathYRange = d3.max(data.map(function (d) { return d.deathIncrease }));
-  hospitalizedYRange = d3.max(data.map(function (d) { return d.hospitalizedIncrease }));
-  positiveYRange = d3.max(data.map(function (d) { return d.positiveIncrease }));
-  testYRange = d3.max(data.map(function (d) { return d.totalTestResultsIncrease }));
+  maxDeath = d3.max(data.map(function (d) { return d.deathIncrease }));
+  maxHospitalized = d3.max(data.map(function (d) { return d.hospitalizedIncrease }));
+  maxPositive = d3.max(data.map(function (d) { return d.positiveIncrease }));
+  maxTest = d3.max(data.map(function (d) { return d.totalTestResultsIncrease }));
 
-  maxYRange = d3.max([deathYRange, hospitalizedYRange, positiveYRange, testYRange])
+  maxYRange = d3.max([maxDeath, maxHospitalized, maxPositive, maxTest])
   yRange.domain([0, maxYRange]);
 
   xRange2.domain(xRange.domain());
   yRange2.domain(yRange.domain());
+
+  deathYRange2.domain([0, maxDeath]);
+  hospitalizedYRange2.domain([0, maxHospitalized]);
+  positiveYRange2.domain([0, maxPositive]);
+  testYRange2.domain([0, maxTest]);
+
 
   //deathIncreaseArea
   focus.append("path")
@@ -232,19 +248,19 @@ function setYRange(view){
   switch(view) {
     case 1:
       // deathIncrease
-      yRange.domain([0, deathYRange + deathYRange*0.1])
+      yRange.domain([0, maxDeath + maxDeath*0.1])
       break;
     case 2:
       // hospitalIncrease
-      yRange.domain([0, hospitalizedYRange + hospitalizedYRange*0.1])
+      yRange.domain([0, maxHospitalized + maxHospitalized*0.1])
       break;
     case 3:
       // positiveIncrease
-      yRange.domain([0, positiveYRange + positiveYRange*0.1])
+      yRange.domain([0, maxPositive + maxPositive*0.1])
       break;
     case 4:
       // testIncrease
-      yRange.domain([0, testYRange + testYRange*0.1])
+      yRange.domain([0, maxTest + maxTest*0.1])
       break;
     default:
       // reset
