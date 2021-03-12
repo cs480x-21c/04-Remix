@@ -16,9 +16,10 @@
             flex-direction: row;
             align-items: flex-end;
             /* flex-wrap: nowrap; */
+            margin-top: 3%;
         }
         div{
-            border: 2px solid pink;
+            /* border: 2px solid pink; */
             width: fit-content;
             height: fit-content;
             /* min-width: 50;
@@ -29,7 +30,7 @@
             
         }
         svg{
-            border: 2px solid purple;
+            /* border: 2px solid purple; */
             padding-left: 15px;
             padding-right: 15px;
         }
@@ -62,11 +63,11 @@
     var region_v_avgSpices = [ {region: "East Africa", count:1, total:8, avg:8} ]
     //svg globals
     var margin = {top: 20, right: 35, bottom: 30, left: 35}
-    const WIDTH = 900 - margin.left - margin.right;
+    const WIDTH = 1000 - margin.left - margin.right;
     const HEIGHT = 900 - margin.top - margin.bottom;
     const left_bump = 0; //left and right axis, data locations to pass to xScale
     const right_bump = 5;
-    const axis_bump = 80;//offsets from the linear scaling to avoid padding
+    const axis_bump = 100;//offsets from the linear scaling to avoid padding
     const point_bump = axis_bump + 5;
 
     const LINE_COLOR = "black";
@@ -177,20 +178,33 @@
             .attr("class", "left axis")
             .attr("transform", "translate("+(xScale(left_bump)+axis_bump)+",0)")
             .call(yLeftAxis)
-            .append("text")
-            .attr("class", "label")
-            .style("text-anchor", "end")
-            .text("Mixes");
+            .attr("class", "axis");
+
+        //left axis label
+        svg1.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -5)
+            .attr("x",0 - (HEIGHT / 2))
+            .attr("dy", "1em")
+            .attr("font-size","28px")
+            .style("text-anchor", "middle")
+            .text("Mixes");  
 
         // right-axis
         svg1.append("g")
             .attr("class", "right axis")
             .attr("transform", "translate("+(xScale(right_bump)-axis_bump)+",0)")
             .call(yRightAxis)
-            .append("text")
-            .attr("class", "label")
-            .style("text-anchor", "end")
-            .text("Spices");
+            .attr("class", "axis");
+        //right axis label
+        svg1.append("text")
+            .attr("transform", "rotate(90)")
+            .attr("y", -WIDTH+5)
+            .attr("x",(HEIGHT / 2))
+            .attr("dy", "1em")
+            .attr("font-size","28px")
+            .style("text-anchor", "middle")
+            .text("Spices"); 
 
         // mix-spice lines
         const p = d3.path();
@@ -235,7 +249,7 @@
             .append('svg')
             // .attr("width",(WIDTH*support_scaler) + margin.left + margin.right)
             // .attr("height",(HEIGHT*support_scaler)+ margin.top + margin.bottom)
-            .attr("width",(WIDTH) + margin.left + margin.right)
+            .attr("width",(WIDTH*.9) + margin.left + margin.right)
             .attr("height",(HEIGHT*support_scaler)+ margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -244,22 +258,42 @@
         // left-axis
         svg2.append("g")
             .attr("class", "left axis")
-            // .attr("transform", "translate("+ margin.left +","+ 0 +")")
+            .attr("transform", "translate("+ (margin.left-25) +","+ -(20) +")")
             .call(col_yAxis)
-            .append("text")
-            .attr("class", "label")
-            .style("text-anchor", "end")
-            .text("Avg # of Spices");
+            .attr("class", "axis");
+
+
+            // svg1.append("g")
+            // .attr("class", "left axis")
+            // .attr("transform", "translate("+(xScale(left_bump)+axis_bump)+",0)")
+            // .call(yLeftAxis)
+            // .attr("class", "axis");
+
+        //left axis label
+        svg2.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -45)
+            .attr("x",0 - ((HEIGHT*support_scaler) / 2))
+            .attr("dy", "1em")
+            .attr("font-size","28px")
+            .style("text-anchor", "middle")
+            .text("Average Number of Spices in a Mix");  
 
         // bottom-axis
         svg2.append("g")
             .attr("class", "bottom axis")
-            .attr("transform", "translate("+ -margin.left +","+ HEIGHT*support_scaler +")")
+            .attr("transform", "translate("+ -(margin.left-10) +","+ ((HEIGHT*support_scaler)-20) +")")
             .call(col_xAxis)
-            .append("text")
-            .attr("class", "label")
-            .style("text-anchor", "end")
-            .text("Regions");
+            .attr("class", "axis");
+
+        svg2.append("text")
+            // .attr("transform", "rotate(-90)")
+            .attr("y", (HEIGHT*support_scaler) )
+            .attr("x", (WIDTH /2) )
+            .attr("dy", "1em")
+            .attr("font-size","28px")
+            .style("text-anchor", "middle")
+            .text("Regions");  
 
         svg2.selectAll(".bar")
             .data(region_v_avgSpices)
@@ -272,7 +306,7 @@
             .attr("width", col_xScale.bandwidth())
             // .attr("y", function(d) { return y(d.sales); })
             .attr("y", function(d) { return col_yScale(d.avg) + 0 ; })
-            .attr("height", function(d) { return HEIGHT - 212 - col_yScale(d.avg); })
+            .attr("height", function(d) { return HEIGHT - 232 - col_yScale(d.avg); })
             .attr("fill",BAR_COLOR)
             .on("mouseover", function(e,d){
                 d3.selectAll("line").style("opacity", .3);
