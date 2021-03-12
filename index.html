@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>04-Remix</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>
+      <center>
+        Emissions from 1990-2010 | Pooja Patel | 04-Remix
+      </center>
+    </h1>
+    <p style="font-size: 24px;">
+      <center>
+        For this assignment I decided to remix a visualization about CO<sub
+          >2</sub
+        >
+        emissions from The World Bank. The original visualizatons included a bar
+        chart and line chart of global data and then a map. For my remix, the
+        data required some re-formatting and I chose to shorten the dataset to
+        work with a smaller set of data. The values in the dataset include the
+        Country, Country Code, Continent, Region, Year, Emissions Per Capita,
+        and Emissions (thousand metric tons).
+      </center>
+      <br />
+      Below is a remix of the map that utilizes a different color encoding and
+      scale. To use the map visualization, first select the year that you wish
+      to look at using the slider and then hover over the countries to see the
+      emissions data relevant to the country in the selected year. To the right
+      of the map is the linked visualization, a donut chart.
+    </p>
+    <p>
+      <br />
+      The donut chart is linked to the year that was selected using the slider
+      below. To use the donut chart you can select a year and then hover over
+      the different slices to get data on each country. The slices in the pie
+      chart are encoded by color based on the continent the country belonngs to.
+      Note: North America and South America were combined into 'Americas'.
+    </p>
+    <input type="radio" name="data-type" value="emissions" checked hidden />
+    <div
+      class="d1"
+      style="width: 150px; float:left; height:25px; background:#648FFF;color:white;"
+    >
+      <center>&lt;2.5e5</center>
+    </div>
+    <div
+      class="d2"
+      style="width: 150px; float:left; height:25px; background:#DC267F;color:white;"
+    >
+      <center>2.5e5-1e6</center>
+    </div>
+    <div
+      class="d3"
+      style="width: 150px; float:left; height:25px; background:#FE6100;color:white;"
+    >
+      <center>1e6-5e6</center>
+    </div>
+    <div
+      class="d4"
+      style="width: 150px; float:left; height:25px; background:#FFB000;color:white;"
+    >
+      <center>&gt;5e6</center>
+    </div>
+    <div
+      class="d5"
+      style="width: 150px; float:left; height:25px; background:lightgrey;color:white;"
+    >
+      <center>n/a</center>
+    </div>
+
+    <div
+      class="c1"
+      style="width: 100px; float:left; height:25px; background:#F0E442;color:white;"
+    >
+      <center>Africa</center>
+    </div>
+    <div
+      class="c2"
+      style="width: 100px; float:left; height:25px; background:#E69F00;color:white;"
+    >
+      <center>Americas</center>
+    </div>
+    <div
+      class="c3"
+      style="width: 100px; float:left; height:25px; background:#CC79A7;color:white;"
+    >
+      <center>Asia</center>
+    </div>
+    <div
+      class="c4"
+      style="width: 100px; float:left; height:25px; background:#D55E00;color:white;"
+    >
+      <center>Australia</center>
+    </div>
+    <div
+      class="c5"
+      style="width: 100px; float:left; height:25px; background:#009E73;color:white;"
+    >
+      <center>Europe</center>
+    </div>
+
+    <h6>
+      <br />
+    </h6>
+    <p>
+      Year = <span id="year-val"></span>
+      <input id="year" type="range" step="1" />
+    </p>
+    <section class="container">
+      <div class="chart-container">
+        <svg id="map"></svg>
+      </div>
+
+      <div class="chart-container">
+        <svg id="pie"></svg>
+      </div>
+    </section>
+    <div class="tooltip"></div>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <script>
+      function createPie(width, height) {
+        var pie = d3
+          .select("#pie")
+          .attr("width", 400)
+          .attr("height", 400);
+
+        pie
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + width / 2 + ", " + height / 1.5 + ")"
+          )
+          .classed("chart", true);
+
+        pie
+          .append("text")
+          .attr("x", width / 2)
+          .attr("y", "1em")
+          .attr("font-size", "1.5em")
+          .style("text-anchor", "middle")
+          .classed("pie-title", true);
+      }
+
+      function drawPie(data, currentYear) {
+        var pie = d3.select("#pie");
+        var arcs = d3
+          .pie()
+          .sort((a, b) => {
+            if (a.continent < b.continent) return -1;
+            if (a.continent > b.continent) return 1;
+            return a.emissions - b.emissions;
+          })
+          .value(d => d.emissions);
+
+        var path = d3
+          .arc()
+          .outerRadius(+pie.attr("height") / 2 - 50)
+          .innerRadius(70);
+
+        var yearData = data.filter(d => d.year === currentYear);
+        var continents = [];
+        for (var i = 0; i < yearData.length; i++) {
+          var continent = yearData[i].continent;
+          if (!continents.includes(continent)) {
+            continents.push(continent);
+          }
+        }
+
+        var colorScale = d3
+          .scaleOrdinal()
+          .domain(continents)
+          .range(["#CC79A7", "#009E73", "#F0E442", "#E69F00", "#D55E00"]);
+
+        var update = pie
+          .select(".chart")
+          .selectAll(".arc")
+          .data(arcs(yearData));
+
+        update.exit().remove();
+
+        update
+          .enter()
+          .append("path")
+          .classed("arc", true)
+          .attr("stroke", "black")
+          .attr("stroke-width", "0.25px")
+          .merge(update)
+          .attr("fill", d => colorScale(d.data.continent))
+          .attr("d", path);
+
+        pie.select(".pie-title").text("" + currentYear);
+      }
+
+      function createMap(width, height) {
+        d3.select("#map")
+          .attr("width", 800)
+          .attr("height", 500)
+          .append("text")
+          .attr("x", width / 2);
+      }
+
+      function drawMap(geoData, climateData, year, dataType) {
+        var map = d3.select("#map");
+
+        var projection = d3
+          .geoMercator()
+          .scale(100)
+          .translate([+map.attr("width") / 2, +map.attr("height") / 1.4]);
+
+        var path = d3.geoPath().projection(projection);
+
+        d3.select("#year-val").text(year);
+
+        geoData.forEach(d => {
+          var countries = climateData.filter(row => row.countryCode === d.id);
+          var name = "";
+          if (countries.length > 0) name = countries[0].country;
+          d.properties = countries.find(c => c.year === year) || {
+            country: name
+          };
+        });
+
+        var colors = ["#648FFF", "#DC267F", "#FE6100", "#FFB000"];
+
+        var domains = {
+          emissions: [0, 2.5e5, 1e6, 5e6],
+          emissionsPerCapita: [0, 0.5, 2, 10]
+        };
+
+        var mapColorScale = d3
+          .scaleLinear()
+          .domain(domains[dataType])
+          .range(colors);
+
+        var update = map.selectAll(".country").data(geoData);
+
+        update
+          .enter()
+          .append("path")
+          .classed("country", true)
+          .attr("d", path)
+          .on("click", function() {
+            var currentDataType = d3.select("input:checked").property("value");
+            var country = d3.select(this);
+            var isActive = country.classed("active");
+            var countryName = isActive
+              ? ""
+              : country.data()[0].properties.country;
+            d3.selectAll(".country").classed("active", false);
+            country.classed("active", !isActive);
+          })
+          .merge(update)
+          .transition()
+          .attr("fill", d => {
+            var val = d.properties[dataType];
+            return val ? mapColorScale(val) : "#ccc";
+          });
+      }
+
+      function graphTitle(str) {
+        return str.replace(/[A-Z]/g, c => " " + c.toLowerCase());
+      }
+
+      // combine
+      d3.queue()
+        .defer(d3.json, "//unpkg.com/world-atlas@1.1.4/world/50m.json")
+        .defer(d3.csv, "./data.csv", function(row) {
+          return {
+            continent: row.Continent,
+            country: row.Country,
+            countryCode: row["Country Code"],
+            emissions: +row["Emissions"],
+            emissionsPerCapita: +row["Emissions Per Capita"],
+            region: row.Region,
+            year: +row.Year
+          };
+        })
+        .await(function(error, mapData, data) {
+          if (error) throw error;
+
+          var extremeYears = d3.extent(data, d => d.year);
+          var currentYear = extremeYears[0];
+          var currentDataType = d3
+            .select('input[name="data-type"]:checked')
+            .attr("value");
+          var geoData = topojson.feature(mapData, mapData.objects.countries)
+            .features;
+
+          var width = +d3.select(".chart-container").node().offsetWidth;
+          var height = 300;
+
+          createMap(width, width * 0.9);
+          createPie(width, height);
+          drawMap(geoData, data, currentYear, currentDataType);
+          drawPie(data, currentYear);
+
+          d3.select("#year")
+            .property("min", currentYear)
+            .property("max", extremeYears[1])
+            .property("value", currentYear)
+            .on("input", () => {
+              currentYear = +d3.event.target.value;
+              drawMap(geoData, data, currentYear, currentDataType);
+              drawPie(data, currentYear);
+            });
+
+          d3.selectAll('input[name="data-type"]').on("change", () => {
+            var active = d3.select(".active").data()[0];
+            var country = active ? active.properties.country : "";
+            currentDataType = d3.event.target.value;
+            drawMap(geoData, data, currentYear, currentDataType);
+          });
+
+          d3.selectAll("svg").on("mousemove touchmove", updateTooltip);
+
+          function updateTooltip() {
+            var tooltip = d3.select(".tooltip");
+            var tgt = d3.select(d3.event.target);
+            var isCountry = tgt.classed("country");
+            var isBar = tgt.classed("bar");
+            var isArc = tgt.classed("arc");
+            var dataType = d3.select("input:checked").property("value");
+            var units =
+              dataType === "emissions" ? " thousand tons" : "tons per capita";
+            var data;
+            var percentage = "";
+            if (isCountry) data = tgt.data()[0].properties;
+            if (isArc) {
+              data = tgt.data()[0].data;
+              percentage = `<p>${getPercentage(tgt.data()[0])}</p>`;
+            }
+            if (isBar) data = tgt.data()[0];
+            tooltip
+              .style("opacity", +(isCountry || isArc || isBar))
+              .style(
+                "left",
+                d3.event.pageX - tooltip.node().offsetWidth / 2 + "px"
+              )
+              .style(
+                "top",
+                d3.event.pageY - tooltip.node().offsetHeight - 10 + "px"
+              );
+            if (data) {
+              var dataValue = data[dataType]
+                ? data[dataType].toLocaleString() + " " + units
+                : "N/A";
+              tooltip.html(`
+              <p>${data.country}</p>
+              <p>${dataValue}</p>
+              <p>${data.year || d3.select("#year").property("value")}</p>
+              ${percentage}
+            `);
+            }
+          }
+        });
+
+      function formatDataType(key) {
+        return (
+          key[0].toUpperCase() + key.slice(1).replace(/[A-Z]/g, c => " " + c)
+        );
+      }
+
+      function getPercentage(d) {
+        var angle = d.endAngle - d.startAngle;
+        var fraction = (100 * angle) / (Math.PI * 2);
+        return fraction.toFixed(2) + "%";
+      }
+    </script>
+  </body>
+</html>
