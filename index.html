@@ -1,0 +1,220 @@
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous"/>
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="<link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@400;900&display=swap" rel="stylesheet"> 
+  </head>
+
+  <body>
+    <div class="headerDiv">
+      <h1 class="header"> Presidents and their Ages</h1>
+      <!-- <h3 class="subHeader">Data Visualization</h3> -->
+    </div>
+        <!-- <div class="col-xs-12 col-md-4"> -->
+            <div id="barChart"></div>
+            <div id="scatterPlot"></div>
+        <!-- </div> -->
+        <!-- On small screens fills the full grid, on medium+ ones only half -->
+        <!-- <div class="col-xs-12 col-md-8"> -->
+            
+        <!-- </div> -->
+    <style>
+        /* #barChart {
+            height: 900;
+        } */
+        #scatterPlot {
+            width: 50%;
+            height: 100%;
+            border-style: solid;
+            float: left;
+            box-sizing: border-box
+        }
+
+        #barChart {
+            width: 50%;
+            height: 100%;
+            border-style: solid;
+            float: left;
+            box-sizing: border-box; 
+         }
+    </style>
+
+
+    <script>
+     
+        var margin = {top: 50, right: 50, bottom: 50, left: 50}
+        var width = 600
+        var height = 700
+
+        var svg = d3.select("#barChart")
+        .append('svg')
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("id", "barchart")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+        var activeDistrict;
+
+        // bar chart
+        d3.csv("president-data.csv").then(function(data) {
+            console.log(data);
+
+        var x = d3.scaleBand()
+            .domain(data.map(function(d) {return d.president}))
+            .range([0, width])
+            .padding(0.5)
+            svg.append("g")
+            .attr("transform", "translate(0, "+ height + ")")
+            .call(d3.axisBottom(x).tickFormat(
+                function(d) {
+                    return d;
+                }
+            ).tickSize(8))
+            .style("stroke-width", "1.5px")
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", "-.60em")
+            .attr("transform", "rotate(-90)" )
+            // .text("president");
+
+
+        var y = d3.scaleLinear()
+            .domain([0, d3.max(data, function(d) { return d.age; })])
+            .range([height, 0])
+            svg.append("g")
+            .call(d3.axisLeft(y).tickFormat(function(d) {
+                return d;
+                }).tickSize(3))
+            .style("stroke-width", "1.5px")
+
+
+        var barchart = svg.selectAll("bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .style("fill", "blue")
+            .attr("x", function(d) { return x(d.president); })
+            // x.bandwith isn't working for some reason will come back to debug
+            .attr("width", 40)
+            .attr("y", function(d) { return y(d.age); })
+            .attr("height", function(d) { return height - y(d.age); })
+            .attr("class", function(d,i) { return "bar" + d.initial; })
+
+            .on("mouseover", function(evt, d) {
+                    console.log(evt)
+                    console.log(d)
+                    console.log('.circle' + d.initial)
+
+                    d3.select('.circle' + d.initial)
+                    
+                    .attr("fill", "Orchid")
+                    .attr("r", 20)
+
+                })
+                .on("mouseout", function(evt, d) {
+                    d3.select('.circle' + d.initial)
+                    .attr("fill", "blue")
+                    .attr("r", 10)
+                })
+            
+});
+
+        // scatter
+        var scatterWidth = 600
+        var scatterHeight = 700
+      
+
+        var scatterMargin = { top: 50, right: 50, bottom: 50, left: 50 }
+        
+
+        var svg2 = d3.select("#scatterPlot")
+        .append('svg')
+        .attr("width", scatterWidth + margin.left + margin.right)
+        .attr("height", scatterHeight + margin.top + margin.bottom)
+        .append("g")
+        .attr("id", "scatterplot")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+        // scatter plot
+    d3.csv("president-data.csv").then(function(data) {
+
+        var scatterX = d3.scaleBand()
+            .domain(data.map(function(d) {return d.president}))
+            .range([0, scatterWidth])
+            .padding(0.2)
+            svg2.append("g")
+            .attr("id", "scatterplot")
+            .attr("transform", "translate(0, "+ height + ")")
+            .call(d3.axisBottom(scatterX).tickFormat(
+                function(d) {
+                    return d;
+                }
+            ).tickSize(5))
+            .style("stroke-width", "1.5px")
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", "-.60em")
+            .attr("transform", "rotate(-90)" )
+
+            var scatterY = d3.scaleLinear()
+                .domain([0, d3.max(data, function(d) { return d.age; })])
+                .range([scatterHeight, 0])
+                svg2.append("g")
+                .attr("id", "scatterplot")
+                .call(d3.axisLeft(scatterY).tickFormat(function(d) {
+                return d;
+                }).tickSize(3))
+                .style("stroke-width", "1.5px")
+                  
+            var circles = svg2.selectAll('circle')
+                .data(data)
+                .enter()
+                .append('circle')
+                // .padding(1.0)
+                .attr('cx',function (d) { 
+                    return scatterX(d.president)})
+                .attr('cy',function (d) { return scatterY(d.age) })
+                .attr("class", function(d,i) { return "circle" + d.initial; })
+                .attr('r','10')
+                .attr('stroke','blue')
+                .attr('fill', 'blue')
+                .attr('stroke-width',1)
+
+            .on("mouseover", function(evt, d) {
+                console.log(evt)
+                console.log(d)
+
+                console.log('.bar' + d.initial)
+                d3.select('.bar' + d.initial)
+                    .style("fill", "Orchid") 
+             })
+            .on("mouseout", function(evt, d) {
+                d3.select(".bar" + d.initial)
+                .style("fill", "blue")
+            })
+              
+        });
+
+
+    </script>
+    
+  </body>
+  </html>

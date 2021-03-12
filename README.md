@@ -1,62 +1,39 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
-
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+## Assignment 4 - DataVis Remix + Multiple Views
+Danya Baron
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+https://danyabaron.github.io/04-Remix/
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+Original Visualization: https://www.reddit.com/r/dataisbeautiful/comments/ls9jlo/oc_last_10_us_presidents_age_when_they_at_the/
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
+## Description
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
+I found this original visualization on r/dataisbeautiful. They took a data set from Wikipedia with all of the US presidents' ages when they started their presidency, and their ages at the end of their presidency. The original visualization was a bar chart comparing these ages of the US Presidents of when they started their presidency.
 
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
+Original Viz:
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/reddit-vis.png)
 
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
+Remix Viz:
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/double-svg.png)
 
-Requirements
----
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+For my visualization I took the CSV file from Wikipedia and used that data to create a bar chart and a scatter plot. I used primarily d3.js for this assignment. When a user puts their mouse over a bar chart, the corresponding circle in the scatter plot will enlarge and change color. Vice versa, when a user hovers thier mouse over a circle in the scatter plot, the corresponding rectangle will highlight and change color. This is how I decided to link the two SVGs.
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/bar-interact.png) 
+
+
+![ScreenShot](https://github.com/danyabaron/04-Remix/blob/main/circle-interact.png)
+
+
+## Technical Achievements
+Sort and order the data of the bar chart and scatter plot by initial value
+
+
 
 Extra Links
 ---
-
+- http://bl.ocks.org/kbroman/ded6a0784706a109c3a5
+- http://bl.ocks.org/1wheel/c3a4feeb5bf20a76d716
 - https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
 - https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
 - https://github.com/d3/d3-brush
