@@ -7,21 +7,29 @@
 <body>
 <svg id="coldChart"></svg>
 <svg id="warmChart"></svg>
-<div id="textBox"></div>
+<div id="textBox"></div>,
+
 <script>
 
-    var width = 500,
-        height = 500;
+    var margin = { top: 20, right: 20, bottom: 80, left: 40 },
+        width = 500 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
     var coldSVG = d3.select("#coldChart")
         .append("svg")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
 
     var warmSVG = d3.select("#warmChart")
         .append("svg")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 
@@ -41,6 +49,7 @@
             data.forEach(function (d) {
                 d.Warmest = parseInt(d.Warmest);
                 d.State = d.State;
+                d.Abbreviation = d.Abbreviation;
 
             })
 
@@ -68,38 +77,76 @@
                     return yScale(d.Warmest);
                 })
                 .attr("width", xScale.bandwidth())
-                .style("fill", "LightCoral")
+                .style("fill", "#ffb3b3")
                 .attr('id', function (d) {
-                    if(d.State.includes(" ")){
-                        d.State = d.State.replace(/\s/g, '');;
-                    }
                     //console.log(d.State + "Warm");
-                    return d.State + "Warm";
+                    return d.Abbreviation + "Warm";
 
                 })
                 .attr("height", function (d) {
                     return height - yScale(d.Warmest);
                 })
                 .on('mouseover', function (d) {
-                    d3.select(this).style("fill", "red");
-                    d3.select("#" + d.State + "Cold").style("fill", "blue");
+                    d3.select(this).style("fill", "#ff0000");
+                    d3.select("#" + d.Abbreviation + "Cold").style("fill", "#1100ff");
                     var div = document.getElementById("textBox");
                     div.innerHTML += d.State + "<br>";
                     div.innerHTML += "Coldest Temperature Recorded: " + d.Coldest + "\xB0" + "F" + "<br>";
                     div.innerHTML += "Warmest Temperature Recorded: " + d.Warmest + "\xB0" + "F" + "<br>";
                 })
                 .on('mouseout', function (d) {
-                    d3.select(this).style("fill", "LightCoral");
-                    d3.select("#" + d.State + "Cold").style("fill", "steelblue");
+                    d3.select(this).style("fill", "#ffb3b3");
+                    d3.select("#" + d.Abbreviation + "Cold").style("fill", "#b8b3ff");
                     var div = document.getElementById("textBox");
                     div.innerHTML = "";
                 })
 
+            let x = d3.scaleBand()
+                .padding(0.2)
+                .range([0, width]);
+
+            let y = d3.scaleLinear()
+                .range([height, 0]);
+
+            var xAxis = d3.axisBottom()
+                .scale(x);
+
+            var yAxis = d3.axisLeft()
+                .scale(y)
+                .ticks(10);
+
+
+            x.domain(data.map(function(d) { return d.State; }));
+            y.domain([0, d3.max(data, function(d) { return parseInt(d.Warmest); })]);
+
+            warmSVG.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+
+                .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", function(d) {
+                    return "rotate(-65)"
+
+                });
+
+            warmSVG.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Coldest");
         });
 
     //Code for Coldest Days
 
-        coldSVG.selectAll("*").remove()
+
 
         d3.csv("weatherdata.csv", function (error, data) {
             if (error) {
@@ -140,19 +187,16 @@
                 })
                 .attr("width", xScale.bandwidth())
                 .attr('id', function (d) {
-                    if(d.State.includes(" ")){
-                        d.State = d.State.replace(/\s/g, '');
-                    }
-                    return d.State + "Cold";
+                    return d.Abbreviation + "Cold";
                 })
                 .attr("height", function (d) {
                     return height - yScale(d.Coldest);
                 })
-                .style("fill", "steelblue")
+                .style("fill", "#b8b3ff")
                 .on('mouseover', function (d) {
                     //console.log(this.id)
-                    d3.select(this).style("fill", "blue");
-                    d3.select("#" + d.State + "Warm").style("fill", "red");
+                    d3.select(this).style("fill", "#1100ff");
+                    d3.select("#" + d.Abbreviation + "Warm").style("fill", "#ff0000");
                     var div = document.getElementById("textBox");
                     div.innerHTML += d.State + "<br>";
                     div.innerHTML += "Coldest Temperature Recorded: " + d.Coldest + "\xB0" + "F" + "<br>";
@@ -160,11 +204,53 @@
 
                 })
                 .on('mouseout', function (d) {
-                    d3.select(this).style("fill", "steelblue");
-                    d3.select("#" + d.State + "Warm").style("fill", "LightCoral");
+                    d3.select(this).style("fill", "#b8b3ff");
+                    d3.select("#" + d.Abbreviation + "Warm").style("fill", "#ffb3b3");
                     var div = document.getElementById("textBox");
                     div.innerHTML = "";
                 })
+
+            let x = d3.scaleBand()
+                .padding(0.2)
+                .range([0, width]);
+
+            let y = d3.scaleLinear()
+                .range([height, 0]);
+
+            var xAxis = d3.axisBottom()
+                .scale(x);
+
+            var yAxis = d3.axisLeft()
+                .scale(y)
+                .ticks(10);
+
+
+            x.domain(data.map(function(d) { return d.State; }));
+            y.domain([0, d3.min(data, function(d) { return parseInt(d.Coldest); })]);
+
+            coldSVG.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+
+                .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", function(d) {
+                        return "rotate(-65)"
+
+                });
+
+            coldSVG.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Coldest");
 
         });
 

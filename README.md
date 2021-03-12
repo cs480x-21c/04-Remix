@@ -1,64 +1,21 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Colby Frechette
+===
 
-### Your Task
+For this assignment I was tasked with choosing a data visualization and "remixing" it as well as creating two data visualizations that have linked interactivity. 
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+I chose this [graph](https://www.reddit.com/r/dataisbeautiful/comments/lx9pbm/oc_the_coldest_day_in_each_us_state_and_territory/) - Credit to Reddit User [malxredleader](https://www.reddit.com/user/malxredleader/) which was a choropleth map (Figure 1) that depicted the coldest days recorded in each U.S. State. I decided to remake the graph in order to better show the quantitative difference between the values as the spectrum of blue colors can be hard to distinguish when clumped into categories. I arranged the values on a bar chart with axes to show the values in comparison to each other with a hover functionality that displays the state and information below. I also added a linked view of the warmest days recorded in each U.S. state to give more context to the user. When a state is hovered on in one graph, the same state is highlighted in the other graph with the information displayed below both. (Figure 2) My data was taken from the same source as the original Reddit post, the [NOAA](https://www.ncdc.noaa.gov/extremes/scec/records)
 
-By remix, we mean:
+![img_1.png](img_1.png)
+(Figure 1)
+![img.png](img.png)
+(Figure 2)
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+Design and Technical Achievements
+===
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+Design Achievements: I chose to display both values so that they are easier to actually determine what the values are for the user as well as the state name that is hovered over. I also chose an equal ratio for the saturation of a Hue Saturation Value color for each graph (e.g. hovered = 100% saturation, unhovered = 30% saturation, for both the red and blue.) I chose to do this after doing some research as to how people perceive hover  better and what colors to choose. I also would consider this vis as a design achievement over the original vis, as it's metric of comparison was awful (shades of blue) where mine is quantitative. I also rotated the text for both graphs in order to make the text easier to read on the X axis, as horizontal text would not have fit and vertical text is hard to read.
 
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+Technical Achievements: I sorted the data by temperature lowest to highest and highest to lowest, respectively for each graph to better help user compare the data. I also removed some information that was not a U.S. State from my dataset, such as Puerto Rico and the Virgin Islands.
