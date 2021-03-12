@@ -7,6 +7,8 @@
 
     <body>
 
+        <h1>Total Gonorrhea Rates in California Counties</h1>
+        <p>A CS480x Assignment by Jean-Philippe Pierre</p>
         <div id="visContainer">
             <svg id="lineSvg"></svg><br><br>
             <svg id="barSvg"></svg>
@@ -124,6 +126,7 @@
                     group.selectAll('line')
                     .data(totalGroupings)
                     .enter()
+                    .filter(d => d[0] != 'San Francisco')
                     .append('path')
                         .attr('class', 'lcLine')
                         .attr('fill', 'none')
@@ -165,6 +168,68 @@
                             this.createBarChart(d);
                             d3.select(event.target).attr('box-shadow', '0 0 3px red');
                         })
+
+                    let sfLine = group.selectAll('line')
+                    .data(totalGroupings)
+                    .enter()
+                    .filter(d => d[0] == 'San Francisco')
+                    .append('path')
+                        .attr('class', 'lcLine')
+                        .attr('fill', 'none')
+                        .attr('stroke', (d) => { return color(d[0]) })
+                        .attr('stroke-width', 1)
+                        .attr('d', function(d) {
+                            return line(d[1]);
+                        })
+                        .on('mouseover', (event, d) => {
+                            d3.select(event.target).attr('stroke-width', 3);
+                            
+                            this.hoverCounty = d[0];
+
+                            div.style("display", "block");
+                            div.transition()
+                            .duration(300)
+                            .style("opacity", "0.8");
+                            
+                            div.html(`<p>${d[0]}</p>`);
+                            
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                        })
+                        .on('mousemove', function(event, d) {
+
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                            
+                        })
+                        .on('mouseout', function (event, d) {
+
+                            div.transition()
+                            .duration(500)
+                            .style("opacity", "0");
+
+                            d3.select(event.target).attr('stroke-width', 1);
+                        })
+                        .on('mousedown', (event, d) => {
+                            this.createBarChart(d);
+                            d3.select(event.target).attr('box-shadow', '0 0 3px red');
+                        })
+
+                        let pathLength = sfLine.node().getTotalLength();
+                        let transition = d3.transition()
+                        .ease(d3.easeSin)
+                        .duration(3500);
+
+                        sfLine.attr("stroke-dashoffset", pathLength)
+                        .attr("stroke-dasharray", pathLength)
+                        .transition(transition)
+                        .attr("stroke-dashoffset", 0)
+                        .transition()
+                        .duration(100)
+                        .attr('stroke-width', 5)
+                        .transition()
+                        .duration(100)
+                        .attr('stroke-width', 1)
 
                 },
 
@@ -344,6 +409,7 @@
         }
         body {
             font-family: Arial;
+            text-align: center;
         }
     </style>
 
