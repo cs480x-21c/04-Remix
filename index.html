@@ -17,6 +17,13 @@
             shape-rendering: crispEdges;
             visibility: hidden;
         }
+        #chartTitle{
+            text-align: center;
+        }
+        #pageTitle{
+            margin-top: 0;
+            text-align: center;
+        }
         
         .axis line,
         .axis path {
@@ -45,8 +52,12 @@
     </head>
     <body>
         <div id="charts">
-            <div id="teamCompare"></div>
-            <div id="playerCompare"></div>
+            <div id="teamCompare">
+                <h1 id="chartTitle">Team Comparisons</h1>
+            </div>
+            <div id="playerCompare">
+                <h1 id="chartTitle">Player Comparisons</h1>
+            </div>
         </div>
         <div id="teamSelector">
             <div id="teamLogos">
@@ -82,7 +93,9 @@
                 <img class="logo" id="WIN" text= "Winnipeg Jets" src="media/win.png">
                 <img class="logo" id="WSH" text= "Washington Captials " src="media/wsh.png">
             </div>
-            <div id="title"></div>
+            <div id="title">
+                <h2 id="pageTitle">Expected Goals vs Actual Performance of Teams and Players</h2>
+            </div>
         </div>
         <script>
             d3.select("#charts")
@@ -91,11 +104,11 @@
                 .style("height", "70vh");
             var comparisons = d3.select("#teamCompare")
                 .style("width","50vw")
-                .style("height","70vh")
+                .style("height","68vh")
                 .style("background-color","#F8F8F8");
             var inspections = d3.select("#playerCompare")
                 .style("width","50vw")
-                .style("height","70vh")
+                .style("height","68vh")
                 .style("background-color","#F8F8F8");
             var selections = d3.select("#teamSelector")
                 .style("width", "100vw")
@@ -124,6 +137,10 @@
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Build legends for axes below each respective graph
+            var teamlegend = d3.select("#teamCompare").append("h3")
+                .text("EEEK");
 
             // Returns the path for a given data point.
             function path(d) {
