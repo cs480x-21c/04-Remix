@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- Custom CSS styles -->
-    <!--<link href="style.css" rel="stylesheet" type="text/css">-->
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <!-- Load d3.js -->
@@ -18,9 +18,9 @@
 <script>
 
     // set the dimensions and margins of the graph
-    var margin = { top: 40, right: 10, bottom: 20, left: 50 },
-        width = 550 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var margin = { top: 50, right: 0, bottom: 50, left: 100 },
+        width = 950 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg1 = d3.select("#line_chart")
@@ -30,6 +30,8 @@
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
+
+    var activePercentile;
 
     //Read the data
     d3.csv("WID_Data.csv", function (data) {
@@ -61,8 +63,7 @@
         var res = sumstat.map(function (d) { return d.key }) // list of group names
         var color = d3.scaleOrdinal()
             .domain(res)
-            .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33'])
-        //.range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999'])
+            .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3'])
 
         // Draw the line
         svg1.selectAll(".line")
@@ -79,6 +80,32 @@
                     (d.values)
             })
 
+        //add title
+        svg1.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("Income Inequality, USA, 1913-2019");
+
+
+        // text label for the x axis
+        svg1.append("text")
+            .attr("transform",
+                "translate(" + (width / 2) + " ," +
+                (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+
+        //text label for the y axis
+        svg1.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "3em")
+            .style("text-anchor", "middle")
+            .text("Share of Total Income (% where 1.0=100%");
 
 
 
@@ -86,50 +113,48 @@
 
 
 
+        // Make a group for each district
+        var groups = svg1.selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+            .classed("national", function (d) {
+                if (d.percentile == "1") return true;
+                else return false;
+            })
+            .on("mouseover", function (d) {
 
-        /*
-    // Make a group for each district
-    var groups = svg1.selectAll("g")
-        .data(data)
-        .enter()
-        .append("g")
-        .classed("national", function (d) {
-            if (d.percentile == "1") return true;
-            else return false;
-        })
-        .on("mouseover", function (d) {
+                activePercentile = d.percentile;
 
-            activePercentile = d.percentile;
+                // Setting positio for the district label
+                var xPosition = wLine / 2 + 35;
+                var yPosition = marginLine.top - 10;
 
-            // Setting positio for the district label
-            var xPosition = wLine / 2 + 35;
-            var yPosition = marginLine.top - 10;
+                linechart.append("text")
+                    .attr("id", "hoverLabel")
+                    .attr("x", xPosition)
+                    .attr("y", yPosition)
+                    .attr("text-anchor", "start")
+                    .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
+                    .attr("font-size", "20px")
+                    .text(activePercentile);
 
-            linechart.append("text")
-                .attr("id", "hoverLabel")
-                .attr("x", xPosition)
-                .attr("y", yPosition)
-                .attr("text-anchor", "start")
-                .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
-                .attr("font-size", "20px")
-                .text(activePercentile);
+                d3.selectAll("rect")
+                    .classed("barLight", function (d) {
+                        if (d.percentile == activePercentile) return true;
+                        else return false;
+                    });
 
-            d3.selectAll("rect")
-                .classed("barLight", function (d) {
-                    if (d.percentile == activePercentile) return true;
-                    else return false;
-                });
+            }) // end of .on mouseover
 
-        }) // end of .on mouseover
+            .on("mouseout", function () {
+                d3.select("#hoverLabel").remove();
 
-        .on("mouseout", function () {
-            d3.select("#hoverLabel").remove();
+                d3.selectAll("rect")
+                    .attr("class", "barBase");
 
-            d3.selectAll("rect")
-                .attr("class", "barBase");
+            }) // end of .on mouseout
 
-        }) // end of .on mouseout
-        */
 
     })
 
@@ -142,9 +167,9 @@
 
 
     // set the dimensions and margins of the graph
-    var margin = { top: 40, right: 10, bottom: 20, left: 50 },
-        width = 600 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var margin = { top: 50, right: 0, bottom: 50, left: 100 },
+        width = 950 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     var svg2 = d3.select("#bar_chart")
@@ -185,6 +210,8 @@
         svg2.append("g")
             .call(d3.axisLeft(y));
 
+
+
         var res = sumstat.map(function (d) { return d.key }) // list of group names
         var color = d3.scaleOrdinal()
             .domain(res)
@@ -201,55 +228,79 @@
             .attr("height", function (d) { return height - y(d.income); })
             .attr("fill", function (d) { return color(d.key); });
 
+        //add title
+        svg2.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("Income Inequality, USA, 1913-2019");
+
+        // text label for the x axis
+        svg2.append("text")
+            .attr("transform",
+                "translate(" + (width / 2) + " ," +
+                (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+
+        //text label for the y axis
+        svg2.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "3em")
+            .style("text-anchor", "middle")
+            .text("Share of Total Income (% where 1.0=100%");
 
 
 
-        /*
-    //rollover functionality
-    svg2.selectAll("rect")
 
-        .on("mouseover", function (d) {
 
-            activePercentile = d.percentile;
+        //rollover functionality
+        svg2.selectAll("rect")
+            .on("mouseover", function (d) {
 
-            svg1.selectAll("g")
-                .each(function (d) {
-                    if (d) {
-                        if (d.percentile == activePercentile) {
-                            // 									console.log(d3.select(this).select("path"));
-                            d3.select(this).select("path").classed("pathLight", true);
+                activePercentile = d.percentile;
 
-                            var xPosition = 550 / 2 + 35;
-                            var yPosition = margin.top - 10;
+                svg1.selectAll("g")
+                    .each(function (d) {
+                        if (d) {
+                            if (d.percentile == activePercentile) {
+                                d3.select(this).select("path").classed("pathLight", true);
 
-                            svg1.append("text")
-                                .attr("id", "hoverLabel")
-                                .attr("x", xPosition)
-                                .attr("y", yPosition)
-                                .attr("text-anchor", "start")
-                                .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
-                                .attr("font-size", "20px")
-                                .text(activePercentile);
+                                var xPosition = 950 / 2 + 35;
+                                var yPosition = margin.top - 10;
 
-                            return true;
+                                svg1.append("text")
+                                    .attr("id", "hoverLabel")
+                                    .attr("x", xPosition)
+                                    .attr("y", yPosition)
+                                    .attr("text-anchor", "start")
+                                    .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
+                                    .attr("font-size", "20px")
+                                    .text(activePercentile);
 
+                                return true;
+
+                            }
+                            else {
+                                return false;
+                            }
                         }
-                        else {
-                            return false;
-                        }
-                    }
-                })
-        })
+                    })
+            })
 
-        .on("mouseout", function () {
+            .on("mouseout", function () {
 
-            d3.selectAll("path")
-                .attr("class", "pathBase");
+                d3.selectAll("path")
+                    .attr("class", "pathBase");
 
-            d3.select("#hoverLabel").remove();
+                d3.select("#hoverLabel").remove();
 
-        });
-        */
+            });
+
 
     })
 
@@ -268,9 +319,9 @@
 
 <script>
 
-    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
-        width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var margin = { top: 50, right: 0, bottom: 50, left: 100 },
+        width = 950 - margin.left - margin.right,
+        height = 350 - margin.top - margin.bottom;
 
     var x = d3.scaleLinear()
         .range([0, width]);
@@ -279,6 +330,12 @@
         .range([height, 0]);
 
     var z = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
 
     var svg3 = d3.select("#scatter_plot").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -318,11 +375,29 @@
             .call(d3.axisBottom()
                 .scale(xScale));
 
+        // text label for the x axis
+        svg3.append("text")
+            .attr("transform",
+                "translate(" + (width / 2) + " ," +
+                (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+
         // Add the y-axis.
         svg3.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft()
                 .scale(yScale));
+
+        //text label for the y axis
+        svg3.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "3em")
+            .style("text-anchor", "middle")
+            .text("Share of Total Income (% where 1.0=100%");
+
 
         // Add the points!
         svg3.selectAll(".series")
@@ -336,7 +411,32 @@
             .attr("class", "point")
             .attr("r", 4.5)
             .attr("cx", function (d) { return x(d.x); })
-            .attr("cy", function (d) { return y(d.y); });
+            .attr("cy", function (d) { return y(d.y); })
+            .on("mouseover", function (d) {
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                div.html(d.year + "<br/>" + d.income)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                div.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+        //add title
+        svg3.append("text")
+            .attr("x", (width / 2))
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("Income Inequality, USA, 1913-2019");
     });
+
+
+
 
 </script>
