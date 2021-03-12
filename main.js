@@ -1,10 +1,5 @@
 let gData;
 
-let gStartKey = "C";
-let gKeyboardOctaves = 2;
-let gKeysPerOctave = 12;
-let gConcertPitch = 3520.0;
-
 function main()
 {
     // Load all 3 files

@@ -1,5 +1,11 @@
 
-
+/**
+ * Makes the note table (the frequencies to use) for the vis
+ * Depends on the equal temperament difference
+ * @param {*} equalTemperamentDifference object that contains
+ *  notes and the difference in cents between that note and equal temperament
+ * @returns 
+ */
 function makeNoteTable(equalTemperamentDifference)
 { 
     let keyboardLayout = [];
@@ -8,7 +14,7 @@ function makeNoteTable(equalTemperamentDifference)
 
     let noteTable = [];
     let systemFrequencies = [];
-    let octaveLayout = teoria.note(gStartKey).scale("chromatic").simple();
+    let octaveLayout = teoria.note(keyboard.startKey).scale("chromatic").simple();
 
     // Sorts the imput distance by the keys so they are in the same
     //  layout as the keyboard (C for now)
@@ -46,15 +52,21 @@ function makeNoteTable(equalTemperamentDifference)
 }
 
 /**
- * Compares the chroma of an element 
- * @param {*} element 
- * @param {*} note 
+ * Compares the chroma between notes, helper function for sorting 
+ * @param {"*"} element 
+ * @param {"*"} note 
  */
 function compareChroma(element, note)
 {
     return teoria.note(element).chroma() === teoria.note(note).chroma();
 }
 
+/**
+ * Checks if the note is in the musical key
+ * @param {"*"} note 
+ * @param {"*"} key 
+ * @returns 
+ */
 function noteIsInMajorScale(note, key)
 {
     // convert the note to a form teoria uses, "C0" -> "c"
@@ -62,43 +74,69 @@ function noteIsInMajorScale(note, key)
     return teoria.note(key).scale("major").simple().map((e) => teoria.note(e).chroma()).includes(note);
 }
 
+/**
+ * Helper function that converts cents to the scale value
+ * @param {number} n in cents
+ * @returns the value to scale
+ */
 function centsToScale(n)
 {
     return Math.pow(2, n/1200);
 }
 
+/**
+ * Creates the keyboard layout based on the keyboard parameters
+ * Also gets the frequencies for equal temperament
+ * @param {*} keyboardLayout pointer for place the keyboard layout
+ * @param {*} equalTemperament pointer ro
+ */
 function makeKeyboardLayout(keyboardLayout, equalTemperament)
 {
-    for (let octave = 0; octave < gKeyboardOctaves; octave++)
+    for (let octave = 0; octave < keyboard.octaves; octave++)
     {
-        teoria.note(gStartKey + octave.toString(10))
+        teoria.note(keyboard.startKey + octave.toString(10))
             .scale("chromatic")
             .notes()
             .forEach((element, index) =>
-             {
-                let i = index + octave * gKeysPerOctave;
+            {
+                let i = index + octave * keyboard.keysPerOctave;
                 keyboardLayout[i] = element.scientific();
-                equalTemperament[i] = element.fq(gConcertPitch);
+                equalTemperament[i] = element.fq(keyboard.concertPitch);
             });
     }
 }
 
+/**
+ * Checks if the key type is white or black
+ * @param {*} kName key name
+ * @returns WHITE_KEY or BLACK_KEY
+ */
 function keyType(kName)
 {
-    let k = 0;
-        // We assume that black keys include an accidental
-        if (kName.includes("b") || kName.includes("#"))
-        {
-            k = 1;
-        }
-        return k;
+    let k = WHITE_KEY;
+    // We assume that black keys include an accidental
+    if (kName.includes("b") || kName.includes("#"))
+    {
+        k = BLACK_KEY;
+    }
+    return k;
 }
 
+/**
+ * 
+ * @param {*} noteString 
+ * @returns 
+ */
 function getFirstNote(noteString)
 {
     return noteString.split(" ")[0];
 }
 
+/**
+ * Makes the key color values based on 
+ * @param {} majorThirds 
+ * @returns 
+ */
 function makeKeyColors(majorThirds)
 {
     // Sorts by the spacing in cents
