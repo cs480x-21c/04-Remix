@@ -6,6 +6,7 @@
     body {
       margin: 0;
     }
+
     div.tooltip-donut {
        position: absolute;
        text-align: center;
@@ -16,13 +17,30 @@
        border-radius: 8px;
        pointer-events: none;
        font-size: 1.3rem;
-  }
+    }
+
+    #scatter {
+        float: left;
+        margin-top: 50px;
+    }
+
+    #plot {
+        float: right;
+        margin-top: -40px;
+        margin-right: 50px;
+    }
+
+    #img {
+        display: block;
+        width: 40%;
+    }
   </style>
 
 <body>
     <div id='scatter'></div>
     <div id='plot'></div>
     <div id='img'></div>
+    
 </body>
 
 <script>
