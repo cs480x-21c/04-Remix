@@ -24,6 +24,16 @@
             margin-top: 0;
             text-align: center;
         }
+        h3{
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2%;
+        }
+        h5{
+            text-align: center;
+            margin-top: 0; 
+            margin-bottom: 2%;
+        }
         
         .axis line,
         .axis path {
@@ -139,8 +149,33 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             // Build legends for axes below each respective graph
-            var teamlegend = d3.select("#teamCompare").append("h3")
-                .text("EEEK");
+            var teamlegend = d3.select("#teamCompare");
+                teamlegend.append("h3")
+                    .text("Legend");
+                teamlegend.append("div")
+                    .attr("class", "tlegend")
+                    .style("display", "flex")
+                    .style("flex-direction", "row");
+            d3.select('.tlegend')
+                .append("div")
+                    .style("display", "flex")
+                    .style("flex-direction", "column")
+                    .style("width", "50%")
+                    .attr("class", "tgf");
+            d3.select(".tgf").append("h5")
+                        .text("xgf - Expected Goals for team");
+            d3.select(".tgf").append("h5")
+                        .text("gf - Current Goals for team")
+            d3.select(".tlegend").append("div")
+                    .style("display", "flex")
+                    .style("flex-direction", "column")
+                    .style("width", "50%")
+                    .attr("class", "tga");
+            d3.select(".tga").append("h5")
+                        .text("xga - Expected Goals against team")
+            d3.select(".tga").append("h5")
+                        .text("ga - Current Goals against team");
+;
 
             // Returns the path for a given data point.
             function path(d) {
@@ -257,7 +292,6 @@
                         .style("text-anchor", "middle")
                         .attr("y", -9)
                         .text(function(d) {return d; });   
-
             });
         </script>
     </body>
