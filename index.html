@@ -5,11 +5,18 @@
         <title>Piece Travel by GM Magnus Carlsen</title>
         <!-- Load d3.js -->
         <script src="https://d3js.org/d3.v6.min.js"></script>
+        <style>
+            svg {
+                border: 2px solid green;
+            }
+        </style>
     </head>
     <body>
-        <div id="main">
+        <div id="vizs">
+            <div id="main"></div>
+            <div id="pie"></div>
             <script>
-                
+                    
                 d3.csv("distances.csv").then(function(data) {
                     // data.forEach(function(row) {
                     //     addDistances(row)
@@ -18,8 +25,148 @@
                     loadBars(data)
                 });
 
+                d3.csv("chess_distance.csv").then(function(data) {
+                    loadPie(calculateWinPercent(data, getColumn("a ♙"), "0-1"))
+                });
+
+                // given a label, return the name of a column
+                function getColumn(label) {
+                    switch(label) {
+                        case "a ♙" || "a ♟︎": return "a pawn";
+                        case "b ♙" || "b ♟︎": return "b pawn";
+                        case "c ♙" || "c ♟︎": return "c pawn";
+                        case "d ♙" || "d ♟︎": return "d pawn";
+                        case "e ♙" || "e ♟︎": return "e pawn";
+                        case "f ♙" || "f ♟︎": return "f pawn";
+                        case "g ♙" || "g ♟︎": return "g pawn";
+                        case "h ♙" || "h ♟︎": return "h pawn";
+                        case "queenside ♖" || "queenside ♜": return "queen-side rook";
+                        case "queenside ♘" || "queenside ♞": return "queen-side knight";
+                        case "queenside ♗" || "queenside ♝": return "queen-side bishop";
+                        case "♕" || "♛": return "queen";
+                        case "♔" || "♚": return "king";
+                        case "kingside ♗" || "kingside ♝": return "king-side bishop";
+                        case "kingside ♘" || "kingside ♞": return "king-side knight";
+                        case "kingside ♖" || "kingside ♜": return "king-side rook";
+                    }
+                }
+
+                // Given a piece, calculate Magnus' win/loss/draw percentage when moving that piece at least 4 squares
+                function calculateResultPercent(data, piece, result) {
+                    results = 0
+                    total = 0
+                    // console.log("running")
+                    data.forEach(function(row) {
+                        total += 1;
+                        if (row["Result"] == result && row[piece] >= 4) {
+                            results++;
+                        }
+                    })
+
+                    // console.log(wins)
+                    // console.log(total)
+
+                    // var dict = {};
+
+                    // dict["wins"] = wins;
+                    // dict["other"] = total - wins;
+
+                    return results/total;
+                }
+
+                function getStats() {}
+
+                function loadPie(data) {
+                    // console.log(data)
+
+                    // svg = d3.select("#pie")
+                    // width = 450
+                    // height = 450
+                    // radius = Math.min(width, height) / 2,
+                    // g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                    // var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+
+                    // // Generate the pie
+                    // var pie = d3.pie();
+
+                    // // Generate the arcs
+                    // var arc = d3.arc()
+                    //             .innerRadius(0)
+                    //             .outerRadius(radius);
+
+                    // //Generate groups
+                    // var arcs = g.selectAll("arc")
+                    //             .data(pie(data))
+                    //             .enter()
+                    //             .append("g")
+                    //             .attr("class", "arc")
+
+                    // //Draw arc paths
+                    // arcs.append("path")
+                    //     .attr("fill", function(d, i) {
+                    //         return color(i);
+                    //     })
+                    //     .attr("d", arc);
+
+                    // data = {
+                    //     a: 10,
+                    //     b: 24,
+                    //     c: 48
+                    // }
+
+                    // console.log(data)
+                    // var WIDTH = 450
+                    // var HEIGHT = 450
+
+                    // var svg_donut = d3.select("#pie")
+                    //     .append("svg")
+                    //     .attr("width", WIDTH)
+                    //     .attr("height", HEIGHT)
+                    //     .append("g")
+                    //     .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
+
+                    // var radius = HEIGHT / 2 - 10 // add margin to prevent clipping
+
+                    // var donut = d3.pie()
+                    //     .value(function (d) { console.log(d); return d.value; })
+                    // var donutData = donut(Object.entries(data))
+                    // // console.log(Object.entries(data))
+                    // // console.log(donutData[0].data[1])
+                    // // console.log(donutData)
+
+                    // var arcMaker = d3.arc()
+                    //     .innerRadius(50)
+                    //     .outerRadius(radius)
+                    
+                    // // var newData = { "wins" : donutData[0].data[1], "other": donutData[1].data[1] }
+
+                    // // svg_donut
+                    // //     .selectAll('data')
+                    // //     .data(donutData)
+                    // //     .enter()
+                    // //     .append('path')
+                    // //     .attr('d', arcMaker)
+                    // //     .attr("fill", "green")
+                    // //     .attr("stroke", "black")
+                    // //     .style("stroke-width", "2px")
+                    // //Generate groups
+                    // var arcs = svg_donut.selectAll("arc")
+                    //     .data(pie(data))
+                    //     .enter()
+                    //     .append("g")
+                    //     .attr("class", "arc")
+
+    // //Draw arc paths
+    //                 arcs.append("path")
+    //                     .attr("fill", function(d, i) {
+    //                         return color(i);
+    //                     })
+    //                     .attr("d", arc);
+                }
+
                 function loadBars(data) {
-                    console.log(data)
+                    //console.log(data)
 
                     var margin = {top: 40, right: 20, bottom: 120, left: 160}
                     var width = 640 - margin.left - margin.right
@@ -108,5 +255,6 @@
                 
             </script>
         </div>
+        
     </body>
 </html>
