@@ -3,7 +3,7 @@
 
 Promise.all([
 	d3.json("countries-50m.json"),
-	d3.csv("languages.csv")
+	d3.csv("cleaned_data.csv")
 ]).then(([world, data]) => {
 	createMap(world, data)
 	createChart(data)
@@ -71,6 +71,21 @@ function createMap(world, data) {
 
 	//var land = topojson.feature(world, world.objects.land)
 	var countries = topojson.feature(world, world.objects.countries)
+
+	//var foo = []
+	//countries.features.forEach(function(d) {
+	//	foo.push(d.properties.name)
+	//})
+	//let csvContent = "data:text/csv;charset=utf-8," 
+   // + foo.join(", ");
+	//var encodedUri = encodeURI(csvContent);
+	//var link = document.createElement("a");
+	//link.setAttribute("href", encodedUri);
+	//link.setAttribute("download", "my_data.csv");
+	//document.body.appendChild(link); // Required for FF 
+	//link.click();
+
+
 
 	var proj = d3.geoRobinson()
 		.translate([550, 300])
