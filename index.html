@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<div id="stackedBar"</div>
+
+<script>
+
+	var completeData;
+	
+	//everything except data load goes inside this function
+	var generateChart = completeData => {
+		console.log(completeData);
+		
+		var filteredShows = completeData.filter(completeData => completeData.release_year == 2000);
+		console.log(filteredShows);
+	
+	}
+
+
+	//DATA LOAD, MUST REMAIN AT BOTTOM
+	(async () => {
+		completeData = await d3.csv("netflix_titles.csv").then(completeData => completeData);
+		generateChart(completeData);
+	})();
+	
+</script>
