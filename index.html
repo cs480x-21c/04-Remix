@@ -15,9 +15,9 @@
       display: flex;
     }
 
-    .bar {
+    /* .bar {
       fill: #25659e;
-    }
+    } */
 
     .bar:hover {
       fill: #afd3e6;
@@ -49,7 +49,7 @@
   <div class="row">
 
     <div id="mapBlock">
-      <h2>Average Monthly Earnings by Region(GEL)</h2>
+      <h2 id='mapHeader'>Average Monthly Earnings by Region(GEL)</h2>
       <div class="row">
         <svg id="mapLegendSVG">
         </svg>
@@ -59,7 +59,7 @@
 
     </div>
     <div class="block">
-      <h2>Average Monthly Earnings by Year (GEL)</h2>
+      <h2 id='barHeader'>Average Monthly Earnings by Year(GEL)</h2>
       <div class="barChart" id="earningsByYear"></div>
     </div>
   </div>
@@ -88,6 +88,8 @@
       var width = 600;
       var height = 600;
 
+      var clickedMap = false;
+      //var clickedGraph =false;
       //data
       var currentMin = 0;
       var currentMax = 1300;
@@ -95,6 +97,8 @@
       var defaultMax = 1350;
       var currentValue = -1;
 
+      var barColor = '#25659e';
+      var defaultBarColor ='#25659e';
       //Crossfilter values for data
       var data = crossfilter(earnings);
       data.year = data.dimension(function(d) {
@@ -115,19 +119,24 @@
 
       //Hover over bar chart to choose year
       barChartYear.onMouseOver(function(e, d) {
+        if(!clickedMap){
         data.year.filterExact(d.key);
         currentMin = 0; //data.year.top(1)[0].AvgEarning;
         currentMax = data.year.bottom(1)[0].AvgEarning;
         update();
         //change color on the map
-        changeColor();
-
+        changeColorMap();
+        document.getElementById("mapHeader").innerHTML = d.key +" Average Monthly Earnings by Region(GEL)";
+      }
       }).onMouseOut(function() {
+        if(!clickedMap){
         currentMin = defaultMin;
         currentMax = defaultMax;
         data.year.filterAll();
         update();
-        changeColor();
+        changeColorMap();
+        document.getElementById("mapHeader").innerHTML ="Average Monthly Earnings by Region(GEL)";
+      }
       });
 
       update();
@@ -137,6 +146,8 @@
         d3.select("#earningsByYear")
           .datum(data.yearGroup.all())
           .call(barChartYear);
+        d3.select("#earningsByYear").selectAll('.bar')
+            .attr('fill', barColor);
       }
 
       //CREATE MAP
@@ -231,7 +242,7 @@
         .call(yAxis)
 
       //change color of the map
-      function changeColor() {
+      function changeColorMap() {
         svg.attr('fill', function(d) {
           // console.log(d.properties['NAME_1']);
           //No data on Abkhazia due to political reasons
@@ -258,36 +269,42 @@
         .style("opacity", 0);
 
       svg.on("mouseover", function(e, d) {
-          // Filter the data to only include the Region Hovered On
-          console.log("Min " + currentMin);
-          console.log("Max " + currentMax);
-          data.region.filterExact(d.properties['NAME_1']);
-          //Update the current data min and Max
-          var message = d.properties['NAME_1'];
-          if (d.properties['NAME_1'] !== "Abkhazia") {
-            currentMin = data.year.bottom(1)[0].AvgEarning;
-            currentMax = data.year.top(1)[0].AvgEarning;
-            update();
-          } else {
-            message = message + "<br> No Data Available";
-          }
-          d3.select(this).transition()
-            .duration('50')
-            .attr('opacity', '0.5');
+        if(!clickedMap){
+        // Filter the data to only include the Region Hovered On
+        data.region.filterExact(d.properties['NAME_1']);
+        //Update the current data min and Max
+        var message = d.properties['NAME_1'];
+        if (d.properties['NAME_1'] !== "Abkhazia") {
+          currentMin = data.year.bottom(1)[0].AvgEarning;
+          currentMax = data.year.top(1)[0].AvgEarning;
+          document.getElementById("barHeader").innerHTML = d.properties['NAME_1'] + " Average Monthly Earnings by Year(GEL)";
+          mapMouseOn(e,d);
+          update();
+        } else {
+          message = message + "<br> No Data Available";
+        }
+        d3.select(this).transition()
+          .duration('50')
+          .attr('opacity', '0.5');
 
-          tip.transition()
-            .duration(50)
-            .style("opacity", 1);
+        tip.transition()
+          .duration(50)
+          .style("opacity", 1);
 
-          tip.html(message)
-            .style("left", (e.pageX + 10) + "px")
-            .style("top", (e.pageY - 15) + "px");
+        tip.html(message)
+          .style("left", (e.pageX + 10) + "px")
+          .style("top", (e.pageY - 15) + "px");
+        //Change bar header
+
+        }
         })
         .on("mouseout", function(e, d) {
+          if(!clickedMap){
           currentMin = defaultMin;
           currentMax = defaultMax;
           data.region.filterAll();
           data.region.filterExact("Total");
+          barColor = defaultBarColor;
           update();
 
           d3.select(this).transition()
@@ -296,8 +313,36 @@
           tip.transition()
             .duration('50')
             .style("opacity", 0);
+
+          document.getElementById("barHeader").innerHTML = "Average Monthly Earnings by Year(GEL)";
+          }
+        //Change bar header
+          //mapMouseOut(e,d);
         });
 
+
+    svg.on("click", function (e,d){
+      clickedMap = !clickedMap;
+      console.log("Map clicked: "+clickedMap);
+      mapMouseOn(e,d);
+    });
+    function mapMouseOn(e,d){
+      //find color of the currentRegion
+      var gr = data.regionGroup.top(Infinity);
+      var i;
+    //  var c;
+      for (i = 0; i < gr.length; i++) {
+        if (gr[i].key === d.properties['NAME_1']) {
+          //console.log(gr[i].value.avg)
+          barColor = color(gr[i].value.avg);
+        }
+      }
+    //  return c;
+    }
+
+    function mapMouseOut(e,d){
+
+    }
 
       //Zoom on map
       var mapZoom = d3.zoom()

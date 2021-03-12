@@ -31,17 +31,21 @@ Hovering over the bars of different years adjusts the map to the earnings of tha
 - Hovering over different regions shows the name of the region
 - The map included a color scale legend
 
+### Design Achievements
+- The map uses a simple colors
+- Hovering over a region changes the color of the graph to match that region and updates the heading
+- Clicking on a region freezes the bar graph on the data of that region (until un-click)
 
 
 ### Resources used
 
-Data
+#### Data
 
 - Earning Stats: https://www.geostat.ge/en/modules/categories/39/wages
   - Used "Average monthly nominal earnings by regions"
 - Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions - Changed Region Name Ajaria to Adjara
 
-Technical
+#### Technical
 
 - Brushing and Linking example: https://bl.ocks.org/john-guerra/2c00b2d675a6bf1c84a7b140f4536b0d
 - Hover Tool Guide: https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
