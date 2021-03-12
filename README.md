@@ -12,6 +12,9 @@ The remixed version of this visualization is displayed below:
 
 
 # Referenced Code
+[Reference on d3.bisector()](https://github.com/d3/d3-array)
+[Refrence on building a legend in d3](https://www.d3-graph-gallery.com/graph/custom_legend.html)
+[Reference on building a barplot in d3](https://www.d3-graph-gallery.com/graph/barplot_basic.html)
 
 # Achievements
 ## Design Achievements

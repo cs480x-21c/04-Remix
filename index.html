@@ -1,5 +1,4 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
 <section id="page">
   <vis1>
     <svg id="vis1"></svg>
@@ -74,7 +73,7 @@
       .range([ 0, width ]);
     svg1.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xLine).ticks(10));
+      .call(d3.axisBottom(xLine).ticks(10).tickFormat(d3.format("d")));
 
     // Add Y axis
     var yLine = d3.scaleLinear()
@@ -87,7 +86,9 @@
     var res = sumstat.map(function(d){ return d.key }) // list of group names
     var color = d3.scaleOrdinal()
       .domain(res)
-      .range(['#e41a1c','#377eb8','#4daf4a','#984ea3'])
+      // .range(['#e41a1c','#377eb8','#4daf4a','#984ea3'])
+      .range(['#44AA99', '#AA4499', '#332288', '#CC6677',])
+
 
     // Draw the data lines
     var path = svg1.selectAll(".line")
@@ -116,6 +117,7 @@
     // apply legend text
     lineLegend.append("text").text(function (d) {return d;})
       .attr("font-size","12px")
+      .attr("font","sans-serif")
       .attr("transform", "translate(15,8)"); //align texts with boxes
     // apply legend markers
     lineLegend.append("rect")
@@ -153,9 +155,10 @@
     var xAxis = svg2.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(xBar))
-      .selectAll("text")
-        .attr("transform", "translate(10,0)rotate(-5)")
-        .style("text-anchor", "end");
+      // .selectAll("text")
+      //   .attr("font-size","12px")
+      //   .attr("transform", "translate(10,0)rotate(-6)")
+      //   .style("text-anchor", "end");
         
     // Y axis
     var yBar = d3.scaleLinear()
