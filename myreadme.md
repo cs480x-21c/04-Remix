@@ -17,5 +17,6 @@ Another issue I held with the original was the lack of significance in color. It
 Because there wasn't really a csv or json file with all the information I wanted and nothing extraneous, I ended up personally collecting all the information I needed in a spreadsheet that was then converted to json.
 
 Height data: https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31859-6/fulltext
+Chloropleth reference: https://www.d3-graph-gallery.com/graph/choropleth_hover_effect.html
 
 =====
