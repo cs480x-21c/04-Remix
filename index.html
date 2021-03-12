@@ -14,15 +14,18 @@
         #box{
             display: flex;
             flex-direction: row;
+            align-items: flex-end;
             /* flex-wrap: nowrap; */
         }
         div{
             border: 2px solid pink;
             width: fit-content;
             height: fit-content;
-            min-width: 50;
-            min-height: 50;
-            margin: auto;
+            /* min-width: 50;
+            min-height: 50; */
+            /* margin: auto; */
+            margin-left: auto;
+            margin-right: auto;
             
         }
         svg{
@@ -30,6 +33,21 @@
             padding-left: 15px;
             padding-right: 15px;
         }
+        div.tooltip {
+            position: absolute;
+            min-width: 60px;
+            width: fit-content;
+            min-height: 28px;
+            height: fit-content;
+            padding: 2px;
+            font: 12px sans-serif;
+            /* background: lightsteelblue; */
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            background-color: lightsteelblue;
+            text-align: left;
+        }   
     </style>
 
 </head>
@@ -44,12 +62,18 @@
     var region_v_avgSpices = [ {region: "East Africa", count:1, total:8, avg:8} ]
     //svg globals
     var margin = {top: 20, right: 35, bottom: 30, left: 35}
-    const WIDTH = 800 - margin.left - margin.right;
+    const WIDTH = 900 - margin.left - margin.right;
     const HEIGHT = 900 - margin.top - margin.bottom;
     const left_bump = 0; //left and right axis, data locations to pass to xScale
     const right_bump = 5;
-    const point_bump = 50;//offsets from the linear scaling to avoid padding
-    const axis_bump = 40;
+    const axis_bump = 80;//offsets from the linear scaling to avoid padding
+    const point_bump = axis_bump + 5;
+
+    const LINE_COLOR = "black";
+    const BAR_COLOR = "black";
+    const HIGHLIGHT_1 = "red";
+    const HIGHLIGHT_2 = "purple";
+    const LINE_RAD = 2;
 
     //DUAL AXIS SPICE/MIX Chart
     // x and y scaling functions
@@ -92,11 +116,9 @@
                 region_list.push( singleStringify(mixes[i].region) )
             }
         }
-        console.log("region list:",region_list)
         //populate domain, range of scales now that lists are populated
         yLeftScale.domain(mixes_list);
         yRightScale.domain(spices_list);
-        console.log(region_list)
         col_xScale.domain(region_list).range([margin.left, WIDTH-margin.right]);
 
         load_components(mixes, spices)
@@ -113,37 +135,42 @@
     }
 
     function load_graph(mixes, spices){
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
         var svg1 = d3.select("#main_plot")
             .append('svg')
             .attr("width",WIDTH)
             .attr("height",HEIGHT)
-            // .append("g")
 
-        // svg1.selectAll('dots')
-        //     .data(mixes)
-        //     .enter()
-        //     .append("circle")
-        //     .attr("r",function (d){ /*console.log("element ",i," is ",d);*/ return d.num_spices})
-        //     .attr("cx", function(d){return (xScale(left_bump)+point_bump);})
-        //     // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
-        //     .attr("cy", function(d){return yLeftScale(d.mix_name) + 30;})//this is for bandscale
-        //     .attr("fill", "green")
-        //     .attr("class",function(d){
-        //         return singleStringify(d.mix_name) +" "+ singleStringify(d.region);
-        //     });
+        /*
+        svg1.selectAll('dots')
+            .data(mixes)
+            .enter()
+            .append("circle")
+            .attr("r",function (d){ return d.num_spices})
+            .attr("cx", function(d){return (xScale(left_bump)+point_bump);})
+            // .attr("cy", function(d,i){return yLeftScale(i);}) //this is for linearscale
+            .attr("cy", function(d){return yLeftScale(d.mix_name) + 30;})//this is for bandscale
+            .attr("fill", "green")
+            .attr("class",function(d){
+                return singleStringify(d.mix_name) +" "+ singleStringify(d.region);
+            });
 
-        // svg1.selectAll('dots')
-        //     .data(spices)
-        //     .enter()
-        //     .append("circle")
-        //     .attr("r", 5)
-        //     .attr("cx", function(d){return (xScale(right_bump)-point_bump);})
-        //     // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
-        //     .attr("cy", function(d){return yRightScale(d.Spice) + 9;})//this is for bandscale
-        //     .attr("fill", "purple")
-        //     .attr("class",function(d){
-        //         return d.Spice;
-        //     });
+        svg1.selectAll('dots')
+            .data(spices)
+            .enter()
+            .append("circle")
+            .attr("r", 5)
+            .attr("cx", function(d){return (xScale(right_bump)-point_bump);})
+            // .attr("cy", function(d,i){return yRightScale(i);}) //this is for linearscale
+            .attr("cy", function(d){return yRightScale(d.Spice) + 9;})//this is for bandscale
+            .attr("fill", "purple")
+            .attr("class",function(d){
+                return d.Spice;
+            });
+        */
 
         // left-axis
         svg1.append("g")
@@ -165,6 +192,7 @@
             .style("text-anchor", "end")
             .text("Spices");
 
+        // mix-spice lines
         const p = d3.path();
         for(m in mixes){
             // console.log("mixes[m] is",mixes[m])
@@ -173,36 +201,32 @@
                 .enter()
                 .append('line')
                 .attr("x1", (xScale(left_bump)+point_bump) )
-                .attr("y1",function(d){
-                    console.log(d)
-                    // return (yLeftScale(d.mix_name)+30);
-                    return (yLeftScale( singleStringify(mixes[m].mix_name) )+30);
-                })
+                .attr("y1",function(d){ return (yLeftScale( singleStringify(mixes[m].mix_name) )+30); })
                 .attr("x2", (xScale(right_bump)-point_bump) )
-                .attr("y2",function(d){ 
-                    ing = singleStringify(d);
-                    // console.log( ing+" is at "+yRightScale(ing) );
-                    return yRightScale(ing)+9;
-                })
+                .attr("y2",function(d){ return yRightScale(singleStringify(d))+9; })
                 .attr("class",function(d){
-                    // cla = mixes[m].mix_name + mixes[m].ingredients[i];
                     return singleStringify(mixes[m].mix_name) +" "+ singleStringify(d) +" "+ singleStringify(mixes[m].region);
                 })
-                .attr("stroke", "blue")
-                .attr("stroke-width",1.5)
+                .attr("stroke", LINE_COLOR)
+                .attr("stroke-width",LINE_RAD)
                 .on("mouseover", function(e,d){
+                    //line and bar formatting
                     d3.selectAll("line").style("opacity", .3);
-                    highlights( singleStringify(d) )
-                    // d3.selectAll("line").style("opacity", .3);
-                    // // d3.selectAll(".bar").style("opacity", .3);
-                    // ing = "."+singleStringify(d)
-                    // console.log(ing)
-                    // d3.selectAll(ing).style("opacity",1);
+                    // highlights( singleStringify(d), HIGHLIGHT_1 )
+                    highlights( singleStringify( mixes[m].region), HIGHLIGHT_2 )
+                    highlights( singleStringify(d), HIGHLIGHT_1 )
+
+                    //tooltip
+                    format_tooltip(tooltip, d, mixes[m], e)
                 })
                 .on("mouseout",function(e,d){
+                    //line and bar formatting
                     cleanup_highlights()
-                    // d3.selectAll("line").style("opacity", 1);
-                    // d3.selectAll(".bar").style("opacity", 1);
+
+                    //tooltip
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
                 });
             
         }//end connecting-lines loop
@@ -236,11 +260,6 @@
             .attr("class", "label")
             .style("text-anchor", "end")
             .text("Regions");
-        // svg2.append("g")
-        //     .attr("transform", "translate(0," + HEIGHT + ")")
-        //     .call(d3.axisBottom(col_xScale));
-        // svg2.append("g")
-        //     .call(d3.axisLeft(col_yScale));
 
         svg2.selectAll(".bar")
             .data(region_v_avgSpices)
@@ -254,10 +273,11 @@
             // .attr("y", function(d) { return y(d.sales); })
             .attr("y", function(d) { return col_yScale(d.avg) + 0 ; })
             .attr("height", function(d) { return HEIGHT - 212 - col_yScale(d.avg); })
+            .attr("fill",BAR_COLOR)
             .on("mouseover", function(e,d){
                 d3.selectAll("line").style("opacity", .3);
                 d3.selectAll(".bar").style("opacity", .3);
-                highlights( singleStringify(d.region) )
+                highlights( singleStringify(d.region), HIGHLIGHT_2 )
             })
             .on("mouseout",function(e,d){
                 cleanup_highlights()
@@ -276,19 +296,31 @@
 
     }//end load_graph()
 
-    function highlights(id){
+    function format_tooltip(tooltip, d, m, e){
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+        // console.log(d);
+        tooltip.html( "Spice: "+ d + "<br/>Mix: " + m.mix_name + "<br/>Region: " + m.region)
+            .style("left", (e.pageX+15) + "px")
+            .style("top", (e.pageY+5) + "px");
+            // .style("background-color", color(cValue(d)));
+    }
+
+    function highlights(id, color){
         ing = "."+id
-        console.log(ing)
+        console.log(ing)//print hover selection
         d3.selectAll(ing).style("opacity",1);
-        d3.selectAll(ing).style("fill","pink");
+        d3.selectAll(ing).style("fill",color);
+        d3.selectAll(ing).style("stroke",color);
     }
 
     function cleanup_highlights(){
         d3.selectAll("line").style("opacity", 1);
         d3.selectAll(".bar").style("opacity", 1);
         d3.selectAll("circle").style("opacity", 1);
-        d3.selectAll("line").style("fill", "blue");
-        d3.selectAll(".bar").style("fill", "black");
+        d3.selectAll("line").style("stroke", LINE_COLOR);
+        d3.selectAll(".bar").style("fill", BAR_COLOR);
         d3.selectAll("circle").style("fill", "pink");
     }
 
@@ -297,7 +329,7 @@
         new_name = string.replace(/,/g,"");
         new_name = new_name.replace(/'/g,"");
         new_name = new_name.split(" ").join("_");
-        console.log(new_name)
+        // console.log(new_name)
         return new_name;
     }
 
@@ -319,7 +351,7 @@
         for(s in region_v_avgSpices){
             region_v_avgSpices[s].avg = region_v_avgSpices[s].total / region_v_avgSpices[s].count;
         }
-    console.log(region_v_avgSpices)
+    // console.log(region_v_avgSpices)
     }
 
 </script>
