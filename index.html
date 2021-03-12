@@ -90,6 +90,7 @@ d3.csv("first_ascent.csv", function(error, data) {
         .on('click', function(d,i) {
             d3.select("#spider").remove();
             generateSpiderChart(d.Route);
+            generateImage(d.Route);
         });
 
     // Appends x-axis
@@ -248,7 +249,7 @@ function generateSpiderChart(route) {
 
         //draw axis label
         svg.append("text")
-            .attr("x", label_coordinate.x)
+            .attr("x", label_coordinate.x - 25)
             .attr("y", label_coordinate.y)
             .text(ft_name);
     }
@@ -293,8 +294,80 @@ function generateSpiderChart(route) {
     function normalizeData(d, min, max) {
         return ((d - min) / (max - min)) * 10;
     }
-
-    }
+  }
 )};
+
+function generateImage(route) {
+    let margin = {top: 25, right: 50, bottom: 25, left: 50};
+	let width = 400 - margin.left - margin.right;
+	let height = 400 - margin.top - margin.bottom;
+
+    d3.select("#curImg").remove();
+
+	const domElement = d3.select("#img")
+        .attr("width", 200)
+        .attr("height", 200);
+    const imagePath = 'img/' + routeToJpg(route) + '.jpg';
+    domElement.append('img')
+        .attr("id", "curImg")
+        .attr('src', imagePath);
+    
+}
+
+//I am so sorry this exists
+function routeToJpg(route) {
+    switch(route) {
+        case("English Hanging Gardens"):
+            return "Hanging";
+        case("Chouca"):
+            return "chouca";
+        case("La Ravage"):
+            return "Ravage"
+        case("Sortileges"):
+            return "sortileges"
+        case("Masse Critique"):
+            return "Masse"
+        case("Psycho Roof"):
+            return "Psycho"
+        case("The Face"):
+            return "Face"
+        case("Kanal im Rücken"):
+            return "Kanal"
+        case("Action Directe"):
+            return "Action"
+        case("Punks in the Gym"):
+            return "Punks"
+        case("Fleur de Rocaille"):
+            return "Fleur"
+        case("Macabre Roof"):
+            return "Macabre"
+        case("Honky Tonky"):
+            return "Honky"
+        case("Honky Tonk Mix"):
+            return "Honky"
+        case("Ophir Broke"):
+            return "Ophir"
+        case("Hubble"):
+            return "Raven"
+        case("Bain de Sang"):
+            return "bain"
+        case("Open Air"):
+            return "OpenAir"
+        case("La Rambla Extension"):
+            return "Rambla"
+        case("Golpe De Estado at Siurana"):
+            return "Golpe"
+        case("Grand Illusion"):
+            return "Illusion"
+        case("La planta de shiva"):
+            return "Planta"
+        case("Chilam Balam"):
+            return "Chilam"
+        case("The Phoenix"):
+            return "Phoenix"
+        default:
+            return route;
+    }
+}
 
 </script>
