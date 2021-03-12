@@ -7,12 +7,12 @@ body {
 }
 
 h1 {
-    color: #e691be
+    color: #FF99C3
 }
 
 input[type=submit] {
     padding: 10px 20px 10px 20px;
-    background-color: #e691be;
+    background-color: #FF99C3;
     border-radius: 5px;
 }
 
@@ -23,7 +23,7 @@ input[type=text] {
 
 button {
     padding: 10px 20px;
-    background-color: #e691be;
+    background-color: #FF99C3;
     border-radius: 4px;
     border: none;
 }
