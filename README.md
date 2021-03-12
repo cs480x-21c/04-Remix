@@ -1,7 +1,7 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-gitpages: 
+Remix vis: https://fish1natank.github.io/04-Remix/
 
 Vis critique
 ---
