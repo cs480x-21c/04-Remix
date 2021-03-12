@@ -26,7 +26,7 @@
 </select>
 <button type="button" onclick="addComp()">Add to comparison</button>
 <button type="button" onclick="remComp()">Remove from comparison</button>
-<button type="button" onclick="reset()">Remove  all from comparison</button>
+<button type="button" onclick="reset()">Remove all from comparison</button>
 <svg id="vis"></svg>
 
 <script>
@@ -78,11 +78,11 @@
         var demo = document.getElementById("demo").value;
         var c = [];
         c = JSON.parse(sessionStorage.getItem("CompareList"));
-        
-        if (demo != c[c.indexOf(demo)]){
+
+        if (demo != c[c.indexOf(demo)]) {
             c.push(demo);
             sessionStorage.setItem("CompareList", JSON.stringify(c));
-        location.reload();
+            location.reload();
         }
     }
 
@@ -90,14 +90,14 @@
         var demo = document.getElementById("demo").value;
         var c = [];
         var a = JSON.parse(sessionStorage.getItem("CompareList"));
-        
+
         for (i = 0; i < a.length; i++) { c.push(a[i]) }
         var ind = c.indexOf(demo)
 
         if (demo == c[ind]) {
             c.splice(ind, 1);
             sessionStorage.setItem("CompareList", JSON.stringify(c));
-        location.reload();
+            location.reload();
         }
     }
 
@@ -156,6 +156,17 @@
             .attr('fill', colors[c])
             .attr('stroke', 'black')
             .attr('stroke-width', 2);
+    }
+
+    function makeRect(x, y, w, h, c) {
+        svg.append('rect')
+            .attr('x', x)
+            .attr('y', y - h)
+            .attr('width', w)
+            .attr('height', h)
+            .attr('stroke', 'black')
+            .attr('stroke-width', 2)
+            .attr('fill', colors[c]);
     }
 
     function createVisA(i) {
@@ -229,17 +240,155 @@
             createVisA(i);
         }
     } else if (sessionStorage.getItem("View") == "Compare") {
-        
-        
-        
+        var x1 = 150, x2 = 1100, y1 = 20, y2 = 670, barmargin = 5, groupmargin = 50, groupnum = 2;
+        if (sessionStorage.getItem("Mode") == "Detail") { groupnum = 4; }
+
         var c = JSON.parse(sessionStorage.getItem("CompareList"));
-        for (i = 0; i < c.length; i++) {
+
+        var grpwid = ((x2 - x1) - ((groupnum + 1) * groupmargin)) / groupnum;
+        var barwid = (grpwid - ((c.length + 1) * barmargin)) / c.length;
+
+        var curx = x1 + groupmargin;
+
+        if (sessionStorage.getItem("Mode") == "Party") {
             svg.append("text")
-                .attr("x", wid / 2)
-                .attr("y", (50 * i) + 50)
-                .text(titles[c[i]])
+                .attr("x", x1 + groupmargin + (grpwid / 2))
+                .attr("y", y2 + 20)
+                .text("Democrats")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (2 * groupmargin) + (3 * (grpwid / 2)))
+                .attr("y", y2 + 20)
+                .text("Republicans")
+                .style("text-anchor", "middle");
+        } else if (sessionStorage.getItem("Mode") == "House") {
+            svg.append("text")
+                .attr("x", x1 + groupmargin + (grpwid / 2))
+                .attr("y", y2 + 20)
+                .text("Senate")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (2 * groupmargin) + (3 * (grpwid / 2)))
+                .attr("y", y2 + 20)
+                .text("House of Rep.")
+                .style("text-anchor", "middle");
+        } else if (sessionStorage.getItem("Mode") == "Detail") {
+            svg.append("text")
+                .attr("x", x1 + groupmargin + (grpwid / 2))
+                .attr("y", y2 + 20)
+                .text("House")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (2 * groupmargin) + (3 * (grpwid / 2)))
+                .attr("y", y2 + 20)
+                .text("Senate")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (3 * groupmargin) + (5 * (grpwid / 2)))
+                .attr("y", y2 + 20)
+                .text("House")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (4 * groupmargin) + (7 * (grpwid / 2)))
+                .attr("y", y2 + 20)
+                .text("Senate")
+                .style("text-anchor", "middle");
+
+            svg.append("text")
+                .attr("x", x1 + (1.5 * groupmargin) + grpwid)
+                .attr("y", y2 + 40)
+                .text("Democrat")
+                .style("text-anchor", "middle");
+            svg.append("text")
+                .attr("x", x1 + (3.5 * groupmargin) + (grpwid * 3))
+                .attr("y", y2 + 40)
+                .text("Republican")
                 .style("text-anchor", "middle");
         }
-    }
 
+        function scaleR(rep, pop) {
+            var y = rep - pop;
+            y /= pop;
+            y += 1;
+            y /= 2;
+            y *= y2 - y1;
+            return y;
+        }
+
+        for (i = 0; i < c.length; i++) {
+            svg.append("text")
+                .attr("x", 1175)
+                .attr("y", (40 * i) + 50)
+                .text(titles[c[i]]);
+            makeCirc(1145, (40 * i) + 45, 3, c[i]);
+
+
+            if (sessionStorage.getItem("Mode") == "Party") {
+                var dy = scaleR((demhou[c[i]] + demsen[c[i]]) / 2.49, popltn[c[i]]);
+                var ry = scaleR((rpbhou[c[i]] + rpbsen[c[i]]) / 2.83, popltn[c[i]]);
+
+                makeRect(curx, y2, barwid, dy, c[i]);
+                makeRect(curx + grpwid + groupmargin, y2, barwid, ry, c[i]);
+
+                curx += barwid + barmargin;
+            } else if (sessionStorage.getItem("Mode") == "House") {
+                var hy = scaleR((demhou[c[i]] + rpbhou[c[i]]) / 4.34, popltn[c[i]]);
+                var sy = scaleR((demsen[c[i]] + rpbsen[c[i]]) / .98, popltn[c[i]]);
+
+                makeRect(curx, y2, barwid, hy, c[i]);
+                makeRect(curx + grpwid + groupmargin, y2, barwid, sy, c[i]);
+
+                curx += barwid + barmargin;
+            } else if (sessionStorage.getItem("Mode") == "Detail") {
+                var dhy = scaleR(demhou[c[i]] / 2.37, popltn[c[i]]);
+                var dsy = scaleR(demsen[c[i]] / .46, popltn[c[i]]);
+                var rhy = scaleR(rpbhou[c[i]] / 1.97, popltn[c[i]]);
+                var rsy = scaleR(rpbsen[c[i]] / .52, popltn[c[i]]);
+
+                makeRect(curx, y2, barwid, dhy, c[i]);
+                makeRect(curx + grpwid + groupmargin, y2, barwid, dsy, c[i]);
+                makeRect(curx + (2 * (grpwid + groupmargin)), y2, barwid, rhy, c[i]);
+                makeRect(curx + (3 * (grpwid + groupmargin)), y2, barwid, rsy, c[i]);
+
+                curx += barwid + barmargin;
+            }
+        }
+
+        var path = "M" + (x1) + " " + ((y1 + y2) / 2)
+            + " L" + (x2) + " " + ((y1 + y2) / 2);
+        svg.append('path')
+            .attr('d', path)
+            .attr('stroke', 'black')
+            .attr('fill', 'none')
+            .attr('stroke-width', 2);
+        var path = "M" + (x1) + " " + (y1)
+            + " L" + (x1) + " " + (y2)
+            + " L" + (x2) + " " + (y2);
+        svg.append('path')
+            .attr('d', path)
+            .attr('stroke', 'black')
+            .attr('fill', 'none')
+            .attr('stroke-width', 2);
+
+        svg.append("text")
+            .attr("x", x1 - 85)
+            .attr("y", (y1 + y2 + 8) / 2)
+            .text("Population");
+        svg.append("text")
+            .attr("x", x1 - 55)
+            .attr("y", y1 + 4)
+            .text("+100%");
+        svg.append("text")
+            .attr("x", x1 - 55)
+            .attr("y", y2 + 4)
+            .text("-100%");
+
+        svg.append("text")
+            .attr("x", -(y1 + y2) / 2)
+            .attr("y", 25)
+            .attr("transform", "rotate(-90)")
+            .style("text-anchor", "middle")
+            .text("Relative difference to population")
+            .style("font-size", "24px");
+    }
 </script>
