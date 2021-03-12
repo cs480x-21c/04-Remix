@@ -27,7 +27,7 @@ Promise.all([
 	d3.csv("Country_data.csv"),
 	d3.csv("Totals.csv")
 ]).then(([world, data, totals]) => {
-	createMap(world)
+	createMap(world, data)
 	mapSVG = d3.select("body").select('#map')
 	colorMap(data)
 	createChart(totals)
@@ -78,7 +78,7 @@ function clean(text) {
 }
 
 
-function createMap(world) {
+function createMap(world, data) {
 	var countries = topojson.feature(world, world.objects.countries)
 
 	var proj = d3.geoRobinson()
@@ -91,10 +91,14 @@ function createMap(world) {
 	var width = 1200,
 		height = 600
 
-	var map = d3.select('body').append('svg')
-		.attr("width", width)
-		.attr("height", height)
-		.attr('id', 'map')
+	var map = d3.select('body').select('#map')
+
+	if (map.empty()) {
+		map = d3.select('body').append('svg')
+			.attr("width", width)
+			.attr("height", height)
+			.attr('id', 'map')
+	}
 
 	map.selectAll('path')
 		.data(countries.features)
@@ -105,11 +109,18 @@ function createMap(world) {
 			.attr('stroke', '#252525')
 			.attr('fill', 'white')
 			.attr('id', d => clean(d.properties.name) )
+			.on('mouseover', function(d, i) {
+				cdata = data.filter(d => d.Country == i.properties.name)
+				console.log(data.filter(d => d.Country == i.properties.name))
+				if (cdata.length != 0) { 
+					createChart(data.filter(d => d.Country == i.properties.name))
+				}
+			})
 }
 
 function colorMap(data, status='TOTAL') {
 	var cColor = d3.scaleSequential(d3.interpolatePlasma)
-		.domain([0, d3.max(data.filter(d => d.Status == status).map(d => d.Languages))])
+		.domain([0, d3.max(data.filter(d => d.Status == status).map(d => parseInt(d.Languages)))])
 
 	data.forEach(function(d) {
 		if (d.Status == status) {
@@ -140,7 +151,11 @@ function createChart(totals) {
 
 	var x = d3.scaleLinear()
 		.range([0, width])
-		.domain([0, d3.max(totals.filter(d => labels.includes(d.Status)).map(d => d.Languages))])
+		.domain([0, d3.max(totals.filter(d => labels.includes(d.Status)).map(d => parseInt(d.Languages)))])
+
+	if (!d3.select('body').select('#chart').empty()) { //if the chart already exists, delete it
+		d3.select('body').select('#chart').remove()
+	}
 
 	var chart = d3.select('body').append('svg')
 		.attr("width", width + margin.left + margin.right)
@@ -158,13 +173,14 @@ function createChart(totals) {
 		.append("rect")
 			.attr("y", d => y(d.Status) )
 			.attr("height", y.bandwidth())
-			.attr("width", d => x(d.Languages) )
+			.attr("width", d => x(parseInt(d.Languages)) )
 			.attr('x', 1)
 			.attr('fill', d => color(d.Status))
 			.attr('opacity', 0.5)
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
 			.attr('stroke-opacity', 0.5)
+			.attr('id', d => clean(d.Status) +"_bar")
 			/*.attr('id', d => d.replace(/\s/g,'_') )
 			.on('mouseover', function () {
 				if (lockedID == null) {
@@ -205,6 +221,7 @@ function createChart(totals) {
 	// add the x Axis
 	chart.append("g")
 	  .attr("transform", "translate(0," + height + ")")
+	  .attr('id', 'botAxis')
 	  .call(d3.axisBottom(x));
 
 	// add the y Axis
