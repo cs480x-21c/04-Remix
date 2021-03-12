@@ -1,12 +1,17 @@
 // https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/ <br>
 // https://www.kaggle.com/the-guardian/extinct-languages
 
+var map = d3.select("body").append("svg").attr('id', 'map')
+var chart = d3.select("body").append("svg").attr('id', 'chart')
+
 Promise.all([
 	d3.json("countries-50m.json"),
-	d3.csv("Country_data.csv")
-]).then(([world, data]) => {
+	d3.csv("Country_data.csv"),
+	d3.csv("Totals.csv")
+]).then(([world, data, totals]) => {
 	createMap(world)
 	colorMap(data)
+	createChart(totals)
 })
 
 var labels = [
@@ -27,7 +32,7 @@ var color = d3.scaleOrdinal()
 	])
 	.domain(labels)
 
-
+/*
 function highlight(hover) {
 	var map = d3.select('#map')
 	var chart = d3.select('#chart')
@@ -63,7 +68,7 @@ function filter(source, show) {
 		.attr('opacity', show ? 0.5 : 0)
 
 	source.attr('show', show)
-}
+}*/
 
 function clean(text) {
 	return text.normalize("NFD").replace(/[\u0300-\u036f\s.']/g, "")
@@ -83,10 +88,8 @@ function createMap(world) {
 	var width = 1200,
 		height = 600
 
-	var map = d3.select("body").append("svg")
-		.attr("width", width)
+	map.attr("width", width)
 		.attr("height", height)
-		.attr('id', 'map')
 
 	map.selectAll('path')
 		.data(countries.features)
@@ -99,19 +102,18 @@ function createMap(world) {
 			.attr('id', d => clean(d.properties.name) )
 }
 
-function colorMap(data) {
+function colorMap(data, status='TOTAL') {
 	var map = d3.select('#map')
 
-	var cColor = d3.scaleSequential(d3.interpolateReds)
-		.domain([0, d3.max(data.map(d => d.Languages))])
+	var cColor = d3.scaleSequential(d3.interpolatePlasma)
+		.domain([0, d3.max(data.filter(d => d.Status == status).map(d => d.Languages))])
 
 	data.forEach(function(d) {
-		if (d.Status == 'TOTAL') {
+		if (d.Status == status) {
 			map.select('#'+clean(d.Country))
 				.attr('fill', () => cColor(parseInt(d.Languages)) )
 		}
 	})
-
 
 	map.selectAll('path')
 		.attr('fill', function(d) {
@@ -120,6 +122,96 @@ function colorMap(data) {
 		})
 }
 
+
+function createChart(totals) {
+	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
+
+	var margin = {top: 20, right: 20, bottom: 50, left: 110},
+		width = 960 - margin.left - margin.right,
+		height = 520 - margin.top - margin.bottom;
+
+	var y = d3.scaleBand()
+		.range([0, height])
+		.domain(labels)
+		.padding(0.1);
+
+	var x = d3.scaleLinear()
+		.range([0, width])
+		.domain([0, d3.max(totals.filter(d => labels.includes(d.Status)).map(d => d.Languages))])
+
+	
+	chart.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+			.attr("transform", 
+				"translate(" + margin.left + "," + margin.top + ")");
+
+	// append the rectangles for the bar chart
+	chart.selectAll("rect")
+		.data(totals.filter(d => d.Status != 'TOTAL'))
+		.enter()
+		.append("rect")
+			.attr("y", d => y(d.Status) )
+			.attr("height", y.bandwidth())
+			.attr("width", d => x(d.Languages) )
+			.attr('x', 1)
+			.attr('fill', d => color(d.Status))
+			.attr('opacity', 0.5)
+			.attr('stroke-width', 1)
+			.attr('stroke', 'black')
+			.attr('stroke-opacity', 0.5)
+			/*.attr('id', d => d.replace(/\s/g,'_') )
+			.on('mouseover', function () {
+				if (lockedID == null) {
+					highlight(d3.select(this))
+				}
+			})
+			.on('click', function() {
+				tID = d3.select(this).attr('id')
+				if (lockedID != tID) {
+					lockedID = tID
+					highlight(d3.select(this))
+
+					d3.select(this)
+						.attr('opacity', 1)
+				} else {
+					lockedID = null
+					d3.select(this).attr('opacity', 0.75);
+				}
+			})
+			.on('mouseout', function () {
+				if (lockedID == null) {
+					svg.selectAll("rect")
+						.attr('opacity', 0.5)
+					
+					labels.forEach(function(d) {
+						dID = d.replace(/\s/g,'_')
+						if (map.select('#legend_'+dID).attr('show') == 'true') {
+							map.selectAll('#c_' + dID)
+								.attr('opacity', 0.5)
+						} else {
+							map.selectAll('#c_' + dID)
+								.attr('opacity', 0)
+						}
+					})
+				}
+			})*/
+
+	// add the x Axis
+	chart.append("g")
+	  .attr("transform", "translate(0," + height + ")")
+	  .call(d3.axisBottom(x));
+
+	// add the y Axis
+	chart.append("g")
+	  .call(d3.axisLeft(y));
+	  
+	chart.append("text")             
+	  .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
+	  .style("text-anchor", "middle")
+	  .text("Number of Languages");
+	
+}
 
 
 /*
