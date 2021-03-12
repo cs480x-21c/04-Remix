@@ -4,16 +4,20 @@
         <title>Assignment 4 - Remix</title>
         <meta charset="utf-8">
         <style>
-        .background path {
+        .teamPaths path {
             fill: none;
             stroke: #ddd;
             stroke-width: 4px;
             shape-rendering: crispEdges;
         }
-        .foreground path {
-        fill: none;
-        stroke: steelblue;
+        .playerPaths path {
+            fill: none;
+            stroke: #ddd;
+            stroke-width: 4px;
+            shape-rendering: crispEdges;
+            visibility: hidden;
         }
+        
         .axis line,
         .axis path {
         fill: none;
@@ -107,7 +111,7 @@
             var x = d3.scale.ordinal().rangePoints([0, width], 1)
             var y = {};
             var line = d3.svg.line();
-            var axis = d3.svg.axis().orient("left"), background;
+            var axis = d3.svg.axis().orient("left"), teamPaths, playerPaths;
             // Building team and player comparison parallel coordinate graphs
             // Axes: Expected Goals from team, actual goals from team, expected goals against team, actual goals against team    
             var teamsvg = d3.select("#teamCompare").append("svg")
@@ -124,15 +128,6 @@
             // Returns the path for a given data point.
             function path(d) {
                 return line(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
-            }
-
-            function setFocus(teamName){
-                // set every path to grey(the background)
-                d3.selectAll(".background")
-                    .transition().duration(100)
-                    .style("stroke", "#ddd")
-                d3.select("path ."+teamName)
-                    .style("stroke", "#FF0000")
             }
 
             //Dictionairy of team for primary color
@@ -172,10 +167,14 @@
             // Event Listener to the associated team logo button
             d3.selectAll("img").on("click", function(){
                 currentID = this.id;
-                d3.selectAll("path")
+                d3.selectAll(".teamPaths path")
                     .style("stroke", "#ddd");
-                d3.select("path."+currentID)
+                d3.select("path.T"+currentID)
                     .style("stroke", teamColors[currentID]);
+                d3.selectAll(".playerPaths path")
+                    .style("visibility", "hidden");
+                d3.selectAll("path.P"+currentID)
+                    .style("visibility", "visible");
             });
 
 
@@ -186,12 +185,12 @@
                         .range([height, 0]));
                 }));
 
-                background = teamsvg.append("g")
-                        .attr("class", "background path")
+                teamPaths = teamsvg.append("g")
+                        .attr("class", "teamPaths")
                     .selectAll("path")
                         .data(teamData)
                     .enter().append("path")
-                        .attr("class", function(d){ return d.team})
+                        .attr("class", function(d){ return "T"+d.team})
                         .attr("d", path);                    
 
                 // Add group element for each dimension
@@ -217,13 +216,14 @@
                         .range([height, 0]));
                 }));
 
-                background = playersvg.append("g")
-                        .attr("class", "background path")
+                playerPaths = playersvg.append("g")
+                        .attr("class", "playerPaths")
                     .selectAll("path")
                         .data(playerData)
                     .enter().append("path")
-                        .attr("class", function(d){ return d.team})
-                        .attr("d", path);    
+                        .attr("class", function(d){ return "P"+d.team})
+                        .attr("d", path)
+                        .style("stroke", function(d) { return teamColors[d.team]});    
 
 
                 // Add group element for each dimension
