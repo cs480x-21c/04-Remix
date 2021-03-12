@@ -16,11 +16,11 @@
     }
 
     .bar {
-      fill: orange;
+      fill: #25659e;
     }
 
     .bar:hover {
-      fill: orangered;
+      fill: #afd3e6;
     }
 
     .tooltip-map {
@@ -44,12 +44,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reductio/1.0.0/reductio.min.js" integrity="sha512-dpNFXYxfvCC775pj8TELHq4usthTiHrwSx4IcgZBnsHvBTIU1pm8jWXQaNhzY+AxjrlxgLXVtxktAWOo/0oCKA==" crossorigin="anonymous"></script>
   <script src="js/barChart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous"></script>
 
   <div class="row">
-    <div class="block">
+
+    <div id="mapBlock">
       <h2>Average Monthly Earnings by Region(GEL)</h2>
-      <svg id="map" width=750 height=400>
-      </svg>
+      <div class="row">
+        <svg id="mapLegendSVG">
+        </svg>
+        <svg id="map" width=750 height=400>
+        </svg>
+      </div>
+
     </div>
     <div class="block">
       <h2>Average Monthly Earnings by Year (GEL)</h2>
@@ -84,7 +91,7 @@
       var currentMin = 0;
       var currentMax = 1300;
       var defaultMin = 0;
-      var defaultMax = 1300;
+      var defaultMax = 1350;
 
       var currentValue = -1;
 
@@ -148,7 +155,7 @@
         d3.scaleSequential(d3.interpolateRdBu)
         .domain(d3.extent([currentMin, currentMax])) //[currentMin, currentMax]))
 
-      var svg = d3.select('svg')
+      var svg = d3.select('#map')
         .selectAll('path')
         .data(regions.features)
         .enter()
@@ -176,6 +183,55 @@
           data.region.filterExact("Total");
           return "black"; //color(gpath.area(d));
         });
+      // add a legend
+      var w = 150,
+        h = 350;
+
+      var key = d3.select("#mapLegendSVG")
+        .attr("width", w)
+        .attr("height", h)
+        .attr("class", "legend");
+
+      var legend = key.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "100%")
+        .attr("y1", "0%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+      legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "#25659e")
+        .attr("stop-opacity", 1);
+
+      legend.append("stop")
+        .attr("offset", "50%")
+        .attr("stop-color", "#f2efee")
+        .attr("stop-opacity", 1);
+
+
+      legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#c94842")
+        .attr("stop-opacity", 1);
+
+      key.append("rect")
+        .attr("width", w-100)
+        .attr("height", h)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(0,10)");
+      var y = d3.scaleLinear()
+        .range([h, 0])
+        .domain([defaultMin, defaultMax]);
+
+      var yAxis = d3.axisRight(y);
+
+      key.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(50,10)")
+        .call(yAxis)
 
       function changeColor() {
         svg.attr('fill', function(d) {
@@ -245,7 +301,7 @@
         .on('zoom', zoomed);
 
       var zoomSettings = d3.zoomIdentity
-        .translate(-3330, 5475)
+        .translate(-3340, 5460)
         .scale(6450);
 
       d3.select('#map')
@@ -268,4 +324,5 @@
     }
   </script>
 </body>
+
 </html>
