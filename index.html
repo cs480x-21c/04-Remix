@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
+<head>
+    <meta charset="UTF-8">
+    <!-- Custom CSS styles -->
+    <!--<link href="style.css" rel="stylesheet" type="text/css">-->
+</head>
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="line_chart"></div>
 <div id="bar_chart"></div>
+<div id="scatter_plot"></div>
 
 <script>
 
@@ -72,6 +79,58 @@
                     (d.values)
             })
 
+
+
+
+
+
+
+
+
+        /*
+    // Make a group for each district
+    var groups = svg1.selectAll("g")
+        .data(data)
+        .enter()
+        .append("g")
+        .classed("national", function (d) {
+            if (d.percentile == "1") return true;
+            else return false;
+        })
+        .on("mouseover", function (d) {
+
+            activePercentile = d.percentile;
+
+            // Setting positio for the district label
+            var xPosition = wLine / 2 + 35;
+            var yPosition = marginLine.top - 10;
+
+            linechart.append("text")
+                .attr("id", "hoverLabel")
+                .attr("x", xPosition)
+                .attr("y", yPosition)
+                .attr("text-anchor", "start")
+                .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
+                .attr("font-size", "20px")
+                .text(activePercentile);
+
+            d3.selectAll("rect")
+                .classed("barLight", function (d) {
+                    if (d.percentile == activePercentile) return true;
+                    else return false;
+                });
+
+        }) // end of .on mouseover
+
+        .on("mouseout", function () {
+            d3.select("#hoverLabel").remove();
+
+            d3.selectAll("rect")
+                .attr("class", "barBase");
+
+        }) // end of .on mouseout
+        */
+
     })
 
 </script>
@@ -98,8 +157,14 @@
 
     // Parse the Data
     d3.csv("WID_Data.csv", function (data) {
-        data.forEach(function (d) { d['income'] = +d['income']; });
+
+        data.forEach(function (d) { d['percentile'] = +d['percentile']; });
         console.log(data);
+
+        // group the data: I want to draw one line per group
+        var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
+            .key(function (d) { return d.percentile; })
+            .entries(data);
 
         // X axis
         var x = d3.scaleBand()
@@ -115,10 +180,15 @@
 
         // Add Y axis
         var y = d3.scaleLinear()
-            .domain([0, 13000])
+            .domain([0, 0.6])
             .range([height, 0]);
         svg2.append("g")
             .call(d3.axisLeft(y));
+
+        var res = sumstat.map(function (d) { return d.key }) // list of group names
+        var color = d3.scaleOrdinal()
+            .domain(res)
+            .range(['#e41a1c', '#377eb8', '#4daf4a', '#984ea3'])
 
         // Bars
         svg2.selectAll("mybar")
@@ -129,7 +199,57 @@
             .attr("y", function (d) { return y(d.income); })
             .attr("width", x.bandwidth())
             .attr("height", function (d) { return height - y(d.income); })
-            .attr("fill", "#69b3a2")
+            .attr("fill", function (d) { return color(d.key); });
+
+
+
+
+        /*
+    //rollover functionality
+    svg2.selectAll("rect")
+
+        .on("mouseover", function (d) {
+
+            activePercentile = d.percentile;
+
+            svg1.selectAll("g")
+                .each(function (d) {
+                    if (d) {
+                        if (d.percentile == activePercentile) {
+                            // 									console.log(d3.select(this).select("path"));
+                            d3.select(this).select("path").classed("pathLight", true);
+
+                            var xPosition = 550 / 2 + 35;
+                            var yPosition = margin.top - 10;
+
+                            svg1.append("text")
+                                .attr("id", "hoverLabel")
+                                .attr("x", xPosition)
+                                .attr("y", yPosition)
+                                .attr("text-anchor", "start")
+                                .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
+                                .attr("font-size", "20px")
+                                .text(activePercentile);
+
+                            return true;
+
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                })
+        })
+
+        .on("mouseout", function () {
+
+            d3.selectAll("path")
+                .attr("class", "pathBase");
+
+            d3.select("#hoverLabel").remove();
+
+        });
+        */
 
     })
 
@@ -142,156 +262,81 @@
 
 
 
-<!--
+
+
+
+
 <script>
-    //Store width, height and margin in variables
-    var w = 600;
-    var h = 500;
-    var margin = { top: 40, right: 10, bottom: 20, left: 50 };
 
-    // Scale the width and height
-    var xScale = d3.scaleLinear()
-        .range([0, w - margin.right - margin.left]);
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
-    var yScale = d3.scaleOrdinal()
-        .range([margin.top, h - margin.bottom]);
+    var x = d3.scaleLinear()
+        .range([0, width]);
 
+    var y = d3.scaleLinear()
+        .range([height, 0]);
 
-    // Creat Axes i.e. xAxis and yAxis
-    /*
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient("bottom");
+    var z = d3.scaleOrdinal(d3.schemeCategory10);
 
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient("left");*/
-    var xAxis = d3.axisBottom()
-        .scale(xScale);
+    var svg3 = d3.select("#scatter_plot").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var yAxis = d3.axisLeft()
-        .scale(yScale);
+    d3.csv("WID_Data_Scatter.csv", function (error, data) {
+        if (error) throw error;
 
-    // Create SVG 
-    var barchart = d3.select("#bar_chart")
-        .append("svg")
-        .attr("width", w)
-        .attr("height", h);
+        // Compute the series names ("y1", "y2", etc.) from the loaded CSV.
+        var seriesNames = d3.keys(data[0])
+            .filter(function (d) { return d !== "x"; })
+            .sort();
 
-
-
-    // Entering data
-
-    d3.csv("WID_Data.csv", function (data) {
-
-        data.forEach(function (d) { d['percentile'] = +d['percentile']; });
-        console.log(data);
-
-        data.sort(function (a, b) {
-            return d3.descending(+a.year, +b.percentile)
+        // Map the data to an array of arrays of {x, y} tuples.
+        var series = seriesNames.map(function (series) {
+            return data.map(function (d) {
+                return { x: +d.x, y: +d[series] };
+            });
         });
 
+        // Compute the scales’ domains.
+        x.domain(d3.extent(d3.merge(series), function (d) { return d.x; })).nice();
+        y.domain(d3.extent(d3.merge(series), function (d) { return d.y; })).nice();
 
-        //Setting a dynamic domain for the xScale based on Data
-        xScale.domain([5
-/*  	 d3.min(data, function(d) {
-    return +d.avg; })*/,
 
-            d3.max(data, function (d) {
-                return +d.percentile;
-            })]);
+        var xScale = d3.scaleLinear().range([margin.left, width - margin.right]).domain([1913, 2019]);
+        var yScale = d3.scaleLinear().range([height - margin.top, margin.bottom]).domain([0, 0.5]);
 
-        //Setting a dynamic domain for the yScale based on Data
-        yScale.domain(data.map(function (d) { return d.percentile; }));
 
-        //Rendering the xAxis
-        barchart.append("g")
+
+        // Add the x-axis.
+        svg3.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(" + (margin.left + 65) + "," + (h - margin.top + 20) + ")")
-            .call(xAxis);
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom()
+                .scale(xScale));
 
-        //Rendering the yAxis
-        barchart.append("g")
+        // Add the y-axis.
+        svg3.append("g")
             .attr("class", "y axis")
-            .attr("transform", "translate(" + (margin.left + 65) + ",0)") // Moving the axis to fit in district names
-            .call(yAxis)
-            .append("text")
-            .attr("x", margin.left - 65)
-            .attr("y", margin.top - 5)
-            .style("font-size", "14")
-            .style("text-anchor", "start")
-            .text("Average failure rate (in %) over the last 5 years by district");
+            .call(d3.axisLeft()
+                .scale(yScale));
 
-
-        // Rendering the rectangles
-        var rects = barchart.selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect");
-
-        rects.attr("x", margin.left + 70) // Moving the x so district name can fit
-            .attr("y", function (d, i) {
-                return yScale(d.percentile);
-            })
-            .attr("width", function (d) {
-                return xScale(d.income);
-            })
-            .attr("height", yScale.rangeBand)
-            .attr("class", "barBase")
-            .append("title")
-            .text(function (d) {
-                return d.percentile + "'s failure rate over the last 5 years is " + d.percentile + "%";
-
-            });
-        //rollover functionality
-        barchart.selectAll("rect")
-
-            .on("mouseover", function (d) {
-
-                activeDistrict = d.percentile;
-
-                linechart.selectAll("g")
-                    .each(function (d) {
-                        if (d) {
-                            if (d.percentile == activeDistrict) {
-                                // 									console.log(d3.select(this).select("path"));
-                                d3.select(this).select("path").classed("pathLight", true);
-
-                                var xPosition = wLine / 2 + 35;
-                                var yPosition = marginLine.top - 10;
-
-                                linechart.append("text")
-                                    .attr("id", "hoverLabel")
-                                    .attr("x", xPosition)
-                                    .attr("y", yPosition)
-                                    .attr("text-anchor", "start")
-                                    .attr("font-family", "ff-nuvo-sc-web-pro-1,ff-nuvo-sc-web-pro-2, sans-serif")
-                                    .attr("font-size", "20px")
-                                    .text(activeDistrict);
-
-                                return true;
-
-                            }
-                            else {
-                                return false;
-                            }
-                        }
-                    })
-            })
-
-            .on("mouseout", function () {
-
-                d3.selectAll("path")
-                    .attr("class", "pathBase");
-
-                d3.select("#hoverLabel").remove();
-
-            });
-
-
-
-
-    }); // end of d3.csv
+        // Add the points!
+        svg3.selectAll(".series")
+            .data(series)
+            .enter().append("g")
+            .attr("class", "series")
+            .style("fill", function (d, i) { return z(i); })
+            .selectAll(".point")
+            .data(function (d) { return d; })
+            .enter().append("circle")
+            .attr("class", "point")
+            .attr("r", 4.5)
+            .attr("cx", function (d) { return x(d.x); })
+            .attr("cy", function (d) { return y(d.y); });
+    });
 
 </script>
--->
