@@ -56,7 +56,7 @@
                 totalData: null,
                 maleData: null,
                 femaleData: null,
-                selectedGroup: null,
+                selectedCounty: null,
             },
             mounted: async function() {
                 await this.createLineChart();
@@ -176,7 +176,7 @@
                         })
                         .on('mousedown', (event, d) => {
                             this.createBarChart(d);
-                            d3.select(event.target).attr('box-shadow', '0 0 3px red');
+                            this.selectedCounty = d[0];
                         })
 
                     let sfLine = group.selectAll('line')
@@ -222,7 +222,7 @@
                         })
                         .on('mousedown', (event, d) => {
                             this.createBarChart(d);
-                            d3.select(event.target).attr('box-shadow', '0 0 3px red');
+                            this.selectedCounty = d[0];
                         })
 
                         let pathLength = sfLine.node().getTotalLength();
@@ -327,13 +327,23 @@
                     .attr('width', subScale.bandwidth())
                     .attr('height', d => barHeight - yScale(d[1].maleRate))
                     .attr('class', 'maleBar')
-                    .on('mouseover', (event) => {
+                    .on('mouseover', (event, barData) => {
                         d3.selectAll('.femaleBar')
                         .attr('opacity', 0.3);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 0);
+
                     })
                     .on('mouseout', (event) => {
                         d3.selectAll('.femaleBar')
                         .attr('opacity', 1);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 1);
+
                     })
 
                     yearGroup.selectAll('femaleBar')
@@ -349,10 +359,20 @@
                     .on('mouseover', (event) => {
                         d3.selectAll('.maleBar')
                         .attr('opacity', 0.3);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 0);
+
                     })
                     .on('mouseout', (event) => {
                         d3.selectAll('.maleBar')
                         .attr('opacity', 1);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 1);
+
                     })
 
                     //add title and legend
