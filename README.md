@@ -1,64 +1,31 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
+# Assignment 4: Data Remix
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+## Github Pages Link
+https://ashpai24.github.io/04-Remix/
 
-### Your Task
+## Critiqued Data Visualization
+![Critiqued Viz](imgs/img.png)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+### This visualization is a map of the minimum wage across the United States.
+#### Pro: I like the color coordination between wages (color corresponding to a wage)
+#### Pro: I like that each circle, or state, has a wage displayed directly on it making it easy to read. 
+#### Cons: I don't like that the states geospatial location are not in the correct spot, it makes it difficult to compare how the wage changes depending on where you are in the country. 
+#### Cons: It can be hard to compare the wages between states that are far apart. (i.e Cali and Delaware are far apart)
 
-By remix, we mean:
+### My Improvements
+##### 1. Created an interactive map that allows you to see how the location in the country affects the wage
+##### 2. Created a bar chart that allows you to compare the states on a bar graph to see how wages in states compare against each other
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+## My Visualization 
+![Improved Viz](imgs/finalScreenshot.png)
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+## Description: This is a interactive map and bar chart that describes the minimum wage required by each state. Instructions for how to use the map and bar graph can be found on the actual webpage. 
 
-By two linked views, we mean:
+## Technical Achievements
+### 1. Created an interactive map using geojson file - when you select a state it adds it to the bar graph allowing you to compare different states wages.
+#### Maps were covered in class, but interactive maps were not covered which is why I have included it as a TA. 
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+## Design Achievements
+### 1. On click, the state that is clicked will highlight making it easier to see in comparison to the non-selected states. 
+### 2. The red and blue squares on the map will reset and select all the states. This prevents the user from needing to unclick or click all the states when comparing. 
+### 3. A legend helps the user understand the colors on the map, this also corresponds to the bar graph. 
