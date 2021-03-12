@@ -161,6 +161,19 @@ svg2.selectAll("mybar")
          }
       })
   })
+
+svg2.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("text")
+    .attr("x", function(d) { return x(d.TypeMeat); })
+    .attr("y", function(d) { return y(d.Value) - 5; })
+    .attr("text-anchor", "middle")
+    .text(function(d) {
+       console.log("Hello")
+       return d.Value;
+    });
+
 })
 
 }
