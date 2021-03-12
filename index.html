@@ -67,8 +67,8 @@
   <script>
     Promise.all(
       [
-        d3.json('georgia.geojson'),
-        d3.csv("earningsRegions.csv")
+        d3.json('data/georgia.geojson'),
+        d3.csv('data/earningsRegions.csv')
       ]
     ).then(([countries, earnings]) => {
       createMap(countries, earnings)

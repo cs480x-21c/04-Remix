@@ -14,23 +14,36 @@ monthly earnings by year, but there is no breakdown by economic activity. "Avera
 different lines for males and females. The lines for females and males are different colors and have different shaped encodings(diamond for men, circle for women). The However, it has no information about the economic activity. All of the information not included in graphs can be
 found in the attached files.Even the main visualization of average nominal monthly earnings by year is not good. Instead of a proper visualization, the website has a table of the information.
 
-I decided to take one of the included files, "Average monthly nominal earnings by regions" to draw a map of Georgia to show the breakdown of monthly earnings by regions. I linked that visualization with a graph for average monthly earnings by year. I focused on the years 2010-2019.
 
-Hovering over different regions shows the name of the region, and it adjusts the bar graph to show the average monthly earnings of that regions.
+### Process of Requirements
+
+I decided to take one of the included files, "Average monthly nominal earnings by regions" to draw a map of Georgia to show the breakdown of monthly earnings by regions. I linked that visualization with a graph for average monthly earnings by year. I focused on the years 2010-2019. I reworked the original dataset (data\13_Earnings-by-regions_annual.xlsx) to make it easier to fetch with js (data\earningsRegions.csv).
+
+I used a geojson file specific to Georgia to include all the regions and their names. I modified the name of one of the regions from Ajaria to Adjara for correctness.
+
+Hovering over different regions on the map adjusts the bar graph to show the average monthly earnings of that regions.
 
 Hovering over the bars of different years adjusts the map to the earnings of that year.
 
 
+#### Technical Achievements
 
+- Hovering over different regions shows the name of the region
+- The map included a color scale legend
 
 
 
 ### Resources used
 
-- Brushing and Linking example: https://bl.ocks.org/john-guerra/2c00b2d675a6bf1c84a7b140f4536b0d
+Data
+
 - Earning Stats: https://www.geostat.ge/en/modules/categories/39/wages
   - Used "Average monthly nominal earnings by regions"
 - Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions - Changed Region Name Ajaria to Adjara
+
+Technical
+
+- Brushing and Linking example: https://bl.ocks.org/john-guerra/2c00b2d675a6bf1c84a7b140f4536b0d
 - Hover Tool Guide: https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
 - Color schemes: https://github.com/d3/d3-scale-chromatic
 - Legend: https://bl.ocks.org/wboykinm/dbbe50d1023f90d4e241712395c27fb3
