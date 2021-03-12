@@ -1,64 +1,22 @@
-Assignment 4 - DataVis Remix + Multiple Views
+Assignment 4 - DataVis Remix + Multiple Views By Alexander Bell
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Remixed Vis: https://datacrayon.com/posts/statistics/data-is-beautiful/league-of-legends-classes/
 
-### Your Task
+### Brief Intoduction to the data:
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+League of Legends is a video game that categorizes it's characters (known as 'Champions') into 6 classes: Assassin, Fighter, Mage, Marksman, Support, and Tank. Some characters have two classfiications, such as being a Mage & a Tank, however others only have one class. There is a an order to the characters with two classifications, and they tend to have more similarities to their first class than their second class. In the original vis, the same data is displayed twice, but with differently colored connections.
 
-By remix, we mean:
+### Critique:
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+This visualization does quite a few things well. First of all, it's very simple and easy to understand. You can hover over bands that connect the classes to find out which characters have both of those classifications. That being said, this vis doesn't take into account the difference between a Character who might have their first class be Mage and their second be Tank versus a character whose first class is Tank and thier second class is Mage. In addition, due to the light color scheme the natrual curvature of the bands, it might be hard to follow certain connection bands if the collide with other similarly sized bands.
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+![Screeenshot](https://github.com/abell625/04-Remix/blob/main/Screenshot.PNG)
 
-By two linked views, we mean:
+### Redesign:
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+My inital goal was to fix the first problem I brought up but keep a similar design to the original. I decided to use a circular layout with connections between each of the classes, represented by circles. Using circles would allow me to still encode size to be the amount of characters with a certain class. I also spread the circles out, so it'd be easier to see where each connection leads. As for the second view, I decided I wanted a way to more easily compare the sizes of each class and to be able to see how many of those within the class were only that class, since the first vis I made did not have a way of showing that. A stacked bar chart seemed to be the cleanest way to accomplish this goal. Lastly, I added interaction to both my vis's, so that hovering over a circle, connection, or bar segment highlights it and the associated data on the other view. 
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+### Technical & Design Acheivements:
 
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+I did not attempt to complete any technical or design acheivements for this project.
