@@ -3,7 +3,12 @@
         <script src="//d3js.org/d3.v3.min.js"></script>
         <title>Assignment 4 - Remix</title>
         <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
         <style>
+        html{
+            font-family: 'Roboto', sans-serif;
+        }
         .teamPaths path {
             fill: none;
             stroke: #ddd;
@@ -24,12 +29,21 @@
             margin-top: 0;
             text-align: center;
         }
+        h1{
+            font-size: 6vh;
+        }
         h3{
+            font-size: 3vh;
             text-align: center;
             margin-top: 0;
             margin-bottom: 2%;
         }
+        h3.currTeam{
+            margin-top: 4%;
+            font-size: 5.5vh;
+        }
         h5{
+            font-size: 2vh;
             text-align: center;
             margin-top: 0; 
             margin-bottom: 2%;
@@ -71,40 +85,45 @@
         </div>
         <div id="teamSelector">
             <div id="teamLogos">
-                <img class="logo" id="ANA" text= "Anaheim Ducks" src="media/ana.png">
-                <img class="logo" id="ARI" text= "Arizona Coyotes" src="media/ari.png">
-                <img class="logo" id="BOS" text= "Boston Bruins" src="media/bos.png">
-                <img class="logo" id="BUF" text= "Buffalo Sabres" src="media/buf.png">
-                <img class="logo" id="CAR" text= "Carolina Hurricanes"src="media/car.png">
-                <img class="logo" id="CBJ" text= "Columbus Blue Jackets"src="media/cbj.png">
-                <img class="logo" id="CGY" text= "Calgary Flames"src="media/cgy.png">
-                <img class="logo" id="CHI" text= "Chicago Blackhawks" src="media/chi.png">
-                <img class="logo" id="COL" text= "Colorado Avalanche" src="media/col.png">
-                <img class="logo" id="DAL" text= "Dallas Stars" src="media/dal.png">
-                <img class="logo" id="DET" text= "Detroit Red Wings" src="media/det.png">
-                <img class="logo" id="EDM" text= "Edmonton Oilers" src="media/edm.png">
-                <img class="logo" id="FLA" text= "Florida Panthers" src="media/fla.png">
-                <img class="logo" id="LAK" text= "Los Angeles Kings"src="media/lak.png">
-                <img class="logo" id="MIN" text= "Minnesota Wild" src="media/min.png">
-                <img class="logo" id="MTL" text= "Montreal Canadiens" src="media/mtl.png">
-                <img class="logo" id="NJD" text= "New Jersey Devils" src="media/njd.png">
-                <img class="logo" id="NSH" text= "Nashville Panthers" src="media/nsh.png">
-                <img class="logo" id="NYI" text= "New York Islanders" src="media/nyi.png">
-                <img class="logo" id="NYR" text= "New York Rangers" src="media/nyr.png">
-                <img class="logo" id="OTT" text= "Ottawa Senators" src="media/ott.png">
-                <img class="logo" id="PHI" text= "Philadelphia Flyers" src="media/phi.png">
-                <img class="logo" id="PIT" text= "Pittsburgh Penguins" src="media/pit.png">
-                <img class="logo" id="SJS" text= "San Jose Sharks" src="media/sjs.png">
-                <img class="logo" id="STL" text= "St. Louis Blues" src="media/stl.png">
-                <img class="logo" id="TBL" text= "Tampa Bay Lightning" src="media/tbl.png">
-                <img class="logo" id="TOR" text= "Toronto Maple Leafs" src="media/tor.png">
-                <img class="logo" id="VAN" text= "Vancouver Canucks" src="media/van.png">
-                <img class="logo" id="VGK" text= "Vegas Golden Knights" src="media/vgk.png">
-                <img class="logo" id="WIN" text= "Winnipeg Jets" src="media/win.png">
-                <img class="logo" id="WSH" text= "Washington Captials " src="media/wsh.png">
+                <img class="logo" id="ANA" text="Anaheim Ducks" src="media/ana.png">
+                <img class="logo" id="ARI" text="Arizona Coyotes" src="media/ari.png">
+                <img class="logo" id="BOS" text="Boston Bruins" src="media/bos.png">
+                <img class="logo" id="BUF" text="Buffalo Sabres" src="media/buf.png">
+                <img class="logo" id="CAR" text="Carolina Hurricanes"src="media/car.png">
+                <img class="logo" id="CBJ" text="Columbus Blue Jackets"src="media/cbj.png">
+                <img class="logo" id="CGY" text="Calgary Flames"src="media/cgy.png">
+                <img class="logo" id="CHI" text="Chicago Blackhawks" src="media/chi.png">
+                <img class="logo" id="COL" text="Colorado Avalanche" src="media/col.png">
+                <img class="logo" id="DAL" text="Dallas Stars" src="media/dal.png">
+                <img class="logo" id="DET" text="Detroit Red Wings" src="media/det.png">
+                <img class="logo" id="EDM" text="Edmonton Oilers" src="media/edm.png">
+                <img class="logo" id="FLA" text="Florida Panthers" src="media/fla.png">
+                <img class="logo" id="LAK" text="Los Angeles Kings"src="media/lak.png">
+                <img class="logo" id="MIN" text="Minnesota Wild" src="media/min.png">
+                <img class="logo" id="MTL" text="Montreal Canadiens" src="media/mtl.png">
+                <img class="logo" id="NJD" text="New Jersey Devils" src="media/njd.png">
+                <img class="logo" id="NSH" text="Nashville Panthers" src="media/nsh.png">
+                <img class="logo" id="NYI" text="New York Islanders" src="media/nyi.png">
+                <img class="logo" id="NYR" text="New York Rangers" src="media/nyr.png">
+                <img class="logo" id="OTT" text="Ottawa Senators" src="media/ott.png">
+                <img class="logo" id="PHI" text="Philadelphia Flyers" src="media/phi.png">
+                <img class="logo" id="PIT" text="Pittsburgh Penguins" src="media/pit.png">
+                <img class="logo" id="SJS" text="San Jose Sharks" src="media/sjs.png">
+                <img class="logo" id="STL" text="St. Louis Blues" src="media/stl.png">
+                <img class="logo" id="TBL" text="Tampa Bay Lightning" src="media/tbl.png">
+                <img class="logo" id="TOR" text="Toronto Maple Leafs" src="media/tor.png">
+                <img class="logo" id="VAN" text="Vancouver Canucks" src="media/van.png">
+                <img class="logo" id="VGK" text="Vegas Golden Knights" src="media/vgk.png">
+                <img class="logo" id="WIN" text="Winnipeg Jets" src="media/win.png">
+                <img class="logo" id="WSH" text="Washington Captials" src="media/wsh.png">
             </div>
             <div id="title">
-                <h2 id="pageTitle">Expected Goals vs Actual Performance of Teams and Players</h2>
+                <h3 id="pageTitle">Expected Goals vs Actual Performance of Teams and Players</h3>
+                <h5>Tracking the performance of players and teams accross the NHL this season</h5>
+                <h5>Please click on a team's logo on the left to explore their performance!</h5>
+                <h5>All data was gathered from <a href="http://www.naturalstattrick.com/">Natural Stack Track</a></h5>
+                <h5>This is a remix of <a href="https://www.reddit.com/r/dataisbeautiful/comments/ltr34n/oc_visualising_how_nhl_players_have_performed_in/"> u/btfromtwc's post</a> on the r/dataisbeautiful subreddit and remixed using d3.js by Lucas Fernandes!</h5>
+
             </div>
         </div>
         <script>
@@ -114,12 +133,10 @@
                 .style("height", "70vh");
             var comparisons = d3.select("#teamCompare")
                 .style("width","50vw")
-                .style("height","68vh")
-                .style("background-color","#F8F8F8");
+                .style("height","68vh");
             var inspections = d3.select("#playerCompare")
                 .style("width","50vw")
-                .style("height","68vh")
-                .style("background-color","#F8F8F8");
+                .style("height","68vh");
             var selections = d3.select("#teamSelector")
                 .style("width", "100vw")
                 .style("height","30vh")
@@ -151,7 +168,7 @@
             // Build legends for axes below each respective graph
             var teamlegend = d3.select("#teamCompare");
                 teamlegend.append("h3")
-                    .text("Legend");
+                    .text("Legends For Graphs");
                 teamlegend.append("div")
                     .attr("class", "tlegend")
                     .style("display", "flex")
@@ -163,19 +180,23 @@
                     .style("width", "50%")
                     .attr("class", "tgf");
             d3.select(".tgf").append("h5")
-                        .text("xgf - Expected Goals for team");
+                        .text("xgf - Expected Goals for team/player");
             d3.select(".tgf").append("h5")
-                        .text("gf - Current Goals for team")
+                        .text("gf - Current Goals for team/player")
             d3.select(".tlegend").append("div")
                     .style("display", "flex")
                     .style("flex-direction", "column")
                     .style("width", "50%")
                     .attr("class", "tga");
             d3.select(".tga").append("h5")
-                        .text("xga - Expected Goals against team")
+                        .text("xga - Expected Goals against team/player")
             d3.select(".tga").append("h5")
-                        .text("ga - Current Goals against team");
-;
+                        .text("ga - Current Goals against team/player");
+
+            d3.select("#playerCompare")
+                .append("h3")
+                .attr("class", "currTeam")
+                .text("No Team Currently Selected");
 
             // Returns the path for a given data point.
             function path(d) {
@@ -216,6 +237,39 @@
                 "WIN": "#041E42",
                 "WSH": "#AC162C"
             }
+            var teamNames = {
+                "ANA": "Anaheim Ducks",
+                "ARI": "Arizona Coyotes",
+                "BOS": "Boston Bruins",
+                "BUF": "Buffalo Sabres",
+                "CAR": "Carolina Hurricanes",
+                "CBJ": "Columbus Blue Jackets",
+                "CGY": "Calgary Flames",
+                "CHI": "Chicago Blackhawks",
+                "COL": "Colorado Avalanche",
+                "DAL": "Dallas Stars",
+                "DET": "Detroit Red Wings",
+                "EDM": "Edmonton Oilers",
+                "FLA": "Florida Panthers",
+                "LAK": "Los Angeles Kings",
+                "MIN": "Minnesota Wild",
+                "MTL": "Montreal Canadiens",
+                "NJD": "New Jersey Devils",
+                "NSH": "Nashville Panthers",
+                "NYI": "New York Islanders",
+                "NYR": "New York Rangers",
+                "OTT": "Ottawa Senators",
+                "PHI": "Philadelphia Flyers",
+                "PIT": "Pittsburgh Penguins",
+                "SJS": "San Jose Sharks",
+                "STL": "St. Louis Blues",
+                "TBL": "Tampa Bay Lightning",
+                "TOR": "Toronto Maple Leafs",
+                "VAN": "Vancouver Canucks",
+                "VGK": "Vegas Golden Knights",
+                "WIN": "Winnipeg Jets",
+                "WSH": "Washington Captials"
+            }
             // Event Listener to the associated team logo button
             d3.selectAll("img").on("click", function(){
                 currentID = this.id;
@@ -227,6 +281,8 @@
                     .style("visibility", "hidden");
                 d3.selectAll("path.P"+currentID)
                     .style("visibility", "visible");
+                d3.select(".currTeam")
+                    .text("Current Team Selected: " + teamNames[currentID]);
             });
 
 
