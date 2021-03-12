@@ -27,10 +27,10 @@ Promise.all([
 	d3.csv("Country_data.csv"),
 	d3.csv("Totals.csv")
 ]).then(([world, data, totals]) => {
-	createMap(world, data)
+	createMap(world, data, totals)
 	mapSVG = d3.select("body").select('#map')
 	colorMap(data)
-	createChart(totals)
+	createChart(data, totals)
 	chartSVG = d3.select('body').select("#chart")
 })
 
@@ -78,7 +78,7 @@ function clean(text) {
 }
 
 
-function createMap(world, data) {
+function createMap(world, data, totals) {
 	var countries = topojson.feature(world, world.objects.countries)
 
 	var proj = d3.geoRobinson()
@@ -108,13 +108,19 @@ function createMap(world, data) {
 			.attr('stroke-width', 1)
 			.attr('stroke', '#252525')
 			.attr('fill', 'white')
+			.attr('opacity', 0.75)
 			.attr('id', d => clean(d.properties.name) )
 			.on('mouseover', function(d, i) {
 				cdata = data.filter(d => d.Country == i.properties.name)
-				console.log(data.filter(d => d.Country == i.properties.name))
+				
 				if (cdata.length != 0) { 
-					createChart(data.filter(d => d.Country == i.properties.name))
+					d3.select(this).attr('opacity', 1)
+					createChart(data, data.filter(d => d.Country == i.properties.name))
 				}
+			})
+			.on('mouseout', function() {
+				d3.select(this).attr('opacity', 0.75)
+				createChart(data, totals)
 			})
 }
 
@@ -130,14 +136,17 @@ function colorMap(data, status='TOTAL') {
 	})
 
 	mapSVG.selectAll('path')
-		.attr('fill', function(d) {
-			var c = mapSVG.select('#'+clean(d.properties.name)).attr('fill')
-			return c == 'white' ? 'gray' : c
-		})
+		.attr('fill', t => 
+			data.filter(d => d.Status == status)
+				.map(d => d.Country)
+				.filter((value, index, self) => self.indexOf(value) === index)
+				.includes(t.properties.name)
+				? mapSVG.select('#'+clean(t.properties.name)).attr('fill') : 'gray'
+		)
 }
 
 
-function createChart(totals) {
+function createChart(data, totals) {
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
 
 	var margin = {top: 20, right: 20, bottom: 50, left: 110},
@@ -181,6 +190,14 @@ function createChart(totals) {
 			.attr('stroke', 'black')
 			.attr('stroke-opacity', 0.5)
 			.attr('id', d => clean(d.Status) +"_bar")
+			.on('mouseover', function(d, i) {
+				colorMap(data, i.Status)
+				d3.select(this).attr('opacity', 1)
+			})
+			.on('mouseout', function() {
+				colorMap(data)
+				d3.select(this).attr('opacity', 0.5)
+			})
 			/*.attr('id', d => d.replace(/\s/g,'_') )
 			.on('mouseover', function () {
 				if (lockedID == null) {
