@@ -1,4 +1,4 @@
-﻿Number,Country,Height,Continent
+﻿Number,Country,Value,Continent
 170,Afghanistan,156,AS
 83,Albania,162,EU
 73,Algeria,162,AF
@@ -19,7 +19,7 @@
 44,Belgium,163,EU
 146,Belize,158,NA
 158,Benin,158,AF
-21,Bermuda (UK),166,NA
+21,Bermuda,166,NA
 179,Bhutan,155,AS
 175,Bolivia,156,SA
 7,Bosnia and Herzegovina,168,EU
@@ -62,14 +62,14 @@
 65,Fiji,164,OC
 16,Finland,167,EU
 37,France,165,EU
-27,French Polynesia (France),167,OC
+27,French Polynesia,167,OC
 128,Gabon,160,AF
 132,Gambia,162,AF
 56,Georgia,163,AS
 20,Germany,166,EU
 143,Ghana,159,AF
 26,Greece,166,EU
-93,Greenland (Denmark),161,NA
+93,Greenland,161,NA
 28,Grenada,166,NA
 200,Guatemala,151,NA
 140,Guinea,159,AF
@@ -129,7 +129,7 @@
 165,Nicaragua,156,NA
 133,Niger,160,AF
 138,Nigeria,158,AF
-32,Niue (NZ),167,OC
+32,Niue,167,OC
 86,North Korea,161,AS
 75,North Macedonia,161,EU
 18,Norway,166,EU
