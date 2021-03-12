@@ -117,7 +117,7 @@ class BarChart extends Component {
                 .y(d => yScaleLeft(d.Cases7DAvg))
             )
             .style("fill", "none")
-            .style("stroke", "#AC2B37")
+            .style("stroke", this.props.caseAvg ? "#AC2B37" : "none")
             .style("stroke-width", 3)
             .style("stroke-dasharray", "3, 3");
 
@@ -129,7 +129,7 @@ class BarChart extends Component {
                 .y(d => yScaleRight(d.Results7DAvg))
             )
             .style("fill", "none")
-            .style("stroke", "#A9B0B7")
+            .style("stroke", this.props.resultAvg ? "#A9B0B7" : "none")
             .style("stroke-width", 3)
             .style("stroke-dasharray", "3, 3");
 
