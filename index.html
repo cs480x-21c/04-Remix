@@ -15,9 +15,9 @@
 
   <script>
   // The svg
-  var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+  var heightvis = d3.select("svg"),
+    width = +heightvis.attr("width"),
+    height = +heightvis.attr("height");
 
   // Map and projection
   var path = d3.geoPath();
@@ -62,7 +62,7 @@
     }
 
     // Draw the map
-    svg.append("g")
+    heightvis.append("g")
       .selectAll("path")
       .data(topo.features)
       .enter()
@@ -79,9 +79,9 @@
         .style("stroke", "transparent")
         .attr("class", function(d){ return "Country" } )
         .style("opacity", .8)
-        .on("mouseover", mouseOver )
-        .on("mouseleave", mouseLeave )
-      }
+        .on("mouseover", mouseOver)
+        .on("mouseleave", mouseLeave);
+    }
   </script>
   </body>
 </html>
