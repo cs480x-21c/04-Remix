@@ -1,64 +1,40 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+https://mollywirtz.github.io/04-Remix/index.html
 
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Remix
 ---
+For my remixed vis, I chose to use "Brush Handles" from ObservableHQ [1]. Although this tutorial focused on the implementation of the handles, I chose to take the brush functionality and improve it. I noticed immediately that the brush did not do enough to show the highlighted data in such a noisy data set, and that it was a bit unexciting to look at.
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+<img src="./assets/og_vis.png" alt="Screenshot of original vis">
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+To remix the above above visualization, I did several things. First, I added color to better visualize the x-scale. Next, I removed the handles for a cleaner looking vis. Finally, I fixed what I thought was the primary drawback of this visualization: the inability to closly examine the dense data. When you double-click on the brush, the x-axis now expands to width of the entire graph, and with it, the contained data. This allows the user to zoom in on the brushed data.
 
-Extra Links
+<img src="./assets/remixed_vis.png" alt="Screenshot of remixed vis">
+
+
+Multiple View
 ---
+For the linked view I chose to use a bar graph to better visualize the y-values of the brushed data. On the double-click of the brushed data, the second view updates to show that selected data in bar form. The added y-axis in combination with the bars make visualizing the y-values easier, while the color scale continues to indicate the x-value of each data point. 
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+<img src="./assets/linked_vis.png" alt="Screenshot of linked vis">
+
+
+Achievements
+---
+### Design
+- Used d3-scale-chromatic library to implement a  rainbow scale, creating a more interesting data set for the user to interact with
+- Used 'Poppins' and 'Open Sans' fonts from Google fonts
+
+
+### Techinical
+- Created a HTML + CSS page to display README text, along with the original visualization, the remixed visualization, and the linked view visualization
+- Sort and order the data of the bar chart by rgb value
+
+
+Resources
+---
+[1] https://observablehq.com/@d3/brush-handles <br/>
+[2] https://www.d3-graph-gallery.com/graph/interactivity_brush.html
+

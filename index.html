@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <script src="https://d3js.org/d3-color.v2.min.js"></script>
+        <script src="https://d3js.org/d3-interpolate.v2.min.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v2.min.js"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+        <link href="./index.css" rel="stylesheet">   
+    </head>
+    <body>
+        <div>
+            <h1>Assignment 4 - DataVis Remix + Multiple Views</h1>
+            <h2>Molly Wirtz</h2>
+        </div>
+
+        <div>
+            <p>
+                The goal of this assignment was to choose an existing data visualization, 
+                remix it, and then add a linked view.
+            </p>
+            <br/>
+            <p>
+                For my remixed vis, I chose to use "Brush Handles" from ObservableHQ. 
+                Although this tutorial focused on the implementation of the handles, 
+                I chose to take the brush functionality and improve it. I noticed 
+                immediately that the brush did not do enough to show the highlighted 
+                data in such a noisy data set, and that it was a bit unexciting to look at.  
+            </p>
+        </div>
+        <div id="og_vis" class="vis"></div>
+        <div>
+            <p>
+                To remix the above above visualization, I did several things. First, I added 
+                color to better visualize the x-scale. Next, I removed the handles 
+                for a cleaner looking vis. Finally, I fixed what I thought was the primary 
+                drawback of this visualization: the inability to closly examine the dense data. 
+                When you double-click on the brush, the x-axis now expands to width of the entire graph, 
+                and with it, the contained data. This allows the user to zoom in on the brushed data. 
+            </p>
+            <br/>
+            <p>
+                For the linked view I chose to use a bar graph to better visualize the y-values 
+                of the brushed data. On the double-click of the brushed data, the second view 
+                updates to show that selected data in bar form. The added y-axis in combination 
+                with the bars make visualizing the y-values easier, while the color scale continues 
+                to indicate the x-value of each data point. 
+            </p>
+        </div>
+        <div id="remix_vis" class="vis"></div>
+        <div id="bar_vis" class="vis"></div>
+    </body>
+
+    <script>
+        /******* ORIGINAL VIS *******/
+        document.getElementById("og_vis").innerHTML = "<object type='text/html' id='embedded_vis' data ='originalVis.html'></object>";
+        /****************************/
+
+
+
+        /******* REMIXED VIS *******/
+        var remixHeight = 120
+        var remixWidth = 500
+        var remixMargin = ({top: 10, right: 20, bottom: 20, left: 20})
+        var zoomed = false
+        var formerSelect = []
+
+        // Append SVG
+        var remixSvg = d3.select("#remix_vis")
+            .append("svg")
+                .attr("width", remixWidth + remixMargin.left + remixMargin.right)
+                .attr("height", remixHeight + remixMargin.top + remixMargin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + remixMargin.left + "," + remixMargin.top + ")");
+        
+
+        // Create data
+        var remixData = []
+        for (let i = 0 ; i < 100 ; i++){
+            remixData.push({x: Math.random() * (0.98 - 0.02) + 0.02, y: Math.random() * (0.97 - 0.2) + 0.2})
+        }
+        for (let i = 0 ; i < 100 ; i++){
+            remixData.push({x: Math.random() * (0.95 - 0.15) + 0.15, y: Math.random() * (0.92 - 0.25) + 0.25})
+        }
+        for (let i = 0 ; i < 100 ; i++){
+            remixData.push({x: Math.random() * (0.92 - 0.17) + 0.17, y: Math.random() * (0.8 - 0.3) + 0.3})
+        }
+        for (let i = 0 ; i < 400 ; i++){
+            remixData.push({x: Math.random() * (0.9 - 0.1) + 0.1, y: Math.random() * (0.7 - 0.35) + 0.35})
+        }
+
+
+        // Create axes
+        var remixX = d3.scaleLinear()
+            .domain([0, 1])
+            .range([ 0, remixWidth ]);
+
+        var remixXAxis = remixSvg.append("g")
+            .attr("transform", "translate(0," + remixHeight + ")")
+            .call(d3.axisBottom(remixX));
+
+        var remixY = d3.scaleLinear()
+            .domain([0, 1])
+            .range([ remixHeight, 0]);
+
+
+        // Add a clipPath to avoid drawing anything outside that area
+        var remixClip = remixSvg.append("defs").append("svg:clipPath")
+            .attr("id", "clip")
+            .append("svg:rect")
+            .attr("width", remixWidth )
+            .attr("height", remixHeight )
+            .attr("x", 0)
+            .attr("y", 0);
+        
+
+        // Add brush
+        var remixBrush = d3.brushX()                 
+            .extent( [ [0,0], [remixWidth, remixHeight] ] ) ;
+
+
+        // Create the scatter variable: where both the circles and the brush take place
+        var remixScatter = remixSvg.append('g')
+            .attr("clip-path", "url(#clip)")
+            .attr("id", remixScatter);
+        
+
+        // Add circles
+        var remixCircle = remixScatter
+            .selectAll("circle")
+            .data(remixData)
+            .enter()
+            .append("circle")
+                .attr("cx", function (d) { return remixX(d.x); } )
+                .attr("cy", function (d) { return remixY(d.y); } )
+                .attr("r", 3.5)
+                .attr("stroke", d => "black" )
+                .attr("stroke-width", 0.5)
+                .attr("fill", function (d) { return d3.interpolateSpectral(d.x) })
+                .attr("fill-opacity", d => 0.8)
+                .style("opacity", 0.5);
+
+
+        // Add the brushing
+        remixScatter.append("g")
+            .attr("class", "brush")
+            .call(remixBrush)
+            .call(remixBrush.move, [0.3, 0.4].map(remixX));
+        
+
+        // A function that update the chart for given boundaries
+        function remixUpdateChart(remixSelection) {  
+
+            // If no selection, back to initial coordinate. Otherwise, update X axis domain
+            if(!remixSelection){
+                remixX.domain([0,1])
+                remixScatter.select(".brush").call(remixBrush.move, formerSelect)
+            } else {
+                remixX.domain([ remixX.invert(remixSelection[0]), remixX.invert(remixSelection[1]) ])
+                formerSelect = [remixSelection[0], remixSelection[1]]
+                remixScatter.select(".brush").call(remixBrush.move, null) // This remove the grey brush area as soon as the selection has been done
+            }
+            // Update axis and circle position
+            remixXAxis.transition().duration(1000).call(d3.axisBottom(remixX));
+            remixScatter
+                .selectAll("circle")
+                .transition().duration(1000)
+                .attr("cx", function (d) { return remixX(d.x); } )
+                .attr("cy", function (d) { return remixY(d.y); } );
+
+            if (zoomed) zoomed = false;
+            else zoomed = true;  
+            
+            var filteredBarData = []
+            var counter = 0 
+
+            if (zoomed) {
+                d3.selectAll("circle").each( function(d, i){
+                    let cx = d3.select(this).attr("cx");
+                    if (cx >= formerSelect[0] && cx <= formerSelect[1]){
+                        counter += 1;
+                        filteredBarData.push([
+                            counter.toString(), 
+                            remixY.invert(d3.select(this).attr("cy")), 
+                            d3.select(this).attr("fill")
+                        ])
+                    }
+                });
+                updateBarChart(filteredBarData, remixX.domain());
+            }             
+        }
+
+        var select = d3.selectAll(".selection")
+        remixScatter
+        .on("dblclick", function() { 
+            var remixSelection = [select.node().getBBox().x, select.node().getBBox().x + select.node().getBBox().width]
+            // Double click to zoom out
+            if (zoomed) {
+                remixUpdateChart()
+            }
+            //  Double click to zoom
+            else {
+                formerSelect = remixSelection
+                remixUpdateChart(remixSelection)
+            }
+        });
+        /***************************/
+
+
+        /******* SECOND VIEW *******/
+
+        var barMargin = {top: 50, right: 50, bottom: 50, left: 50}
+        var barWidth = 800 
+        var barHeight = 200 
+        var previousData = []
+
+        var barSvg = d3.select("#bar_vis")
+            .append("svg")
+            .attr("width", barWidth + barMargin.right + barMargin.left)
+            .attr("height", barHeight + barMargin.top + barMargin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + barMargin.left + ", " + barMargin.top +")");
+
+        barSvg.append("rect")
+            .attr("width", barWidth)
+            .attr("height", barHeight)
+            .attr("fill", "#fff")
+            .attr("id", "graphSpace");
+
+        var barY = d3.scaleLinear().domain([0, 1]).range([barHeight, 0]);
+        
+        barSvg.append("g")
+            .call(d3.axisLeft(barY).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1]));
+
+        var barX = d3.scaleBand()
+            .domain(d3.range(1))
+            .range([0, barWidth]);
+
+        var barXAxis = barSvg.append("g")
+            .attr("transform", "translate(0, "+ barHeight + ")")
+            .call(d3.axisBottom(barX).tickFormat("").tickSize(0));
+
+        var initTxt = barSvg.append("text")
+            .text("Double click the brush above!")
+            .attr("id", "initTxt")
+            .attr("x", "25%")
+            .attr("y", "30%")
+            .attr("font-family", "'Poppins', sans-serif");
+
+
+        function updateBarChart(filteredBarData, newDomain) {
+
+            d3.selectAll('.barContent').remove();
+            d3.selectAll('#initTxt').remove();
+
+            var barIdCounter = 0
+
+            var sortedData = filteredBarData.slice().sort((a,b) => d3.ascending(a[2], b[2]));
+            
+            barX = d3.scaleBand()
+                .domain(sortedData)
+                .range([0, barWidth]);
+
+            sortedData.forEach(data => {
+                barIdCounter = barIdCounter + 1
+                data.push(barIdCounter.toString())
+            });
+
+            barX.domain(sortedData.map(function(d) {
+                return d[3];
+            }));
+
+            barSvg.selectAll("bar")
+                .data(sortedData)
+                .enter()
+                .append("rect")
+                .attr("class", "barContent")
+                .attr("id", function (d) { return d[3] })
+                .attr("x", function (d) { return barX(d[3]) })
+                .attr("y", function (d) { return barY(d[1]) })
+                .attr("width", barX.bandwidth())
+                .attr("height", function(d) { return barHeight - barY(d[1]) })
+                .attr("rx", 1)
+                .style("fill", function (d) { return d[2] })
+                .style("stroke", "black")
+                .style("stroke-width", 0.5);
+
+            previousData = sortedData;
+
+        }        
+    </script>
+</html>
