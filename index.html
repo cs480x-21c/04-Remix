@@ -9,45 +9,52 @@
             svg {
                 border: 2px solid green;
             }
+            .container {
+                float: left;
+            }
         </style>
     </head>
     <body>
         <div id="vizs">
-            <div id="main"></div>
-            <div id="pie"></div>
+            <h1>Click on a bar to see statistics for that piece!</h1>
+            <div class="container" id="main"></div>
+            <div class="container" id="stats"></div>
             <script>
                     
-                d3.csv("distances.csv").then(function(data) {
-                    // data.forEach(function(row) {
-                    //     addDistances(row)
-                    // })
-                    //console.log(distances)
-                    loadBars(data)
+                Promise.all([
+                    d3.csv("distances.csv"),
+                    d3.csv("chess_distance.csv")
+                ]).then( ([dists, chess_dists])=>{
+                    loadBars(dists, chess_dists)
                 });
-
-                d3.csv("chess_distance.csv").then(function(data) {
-                    loadPie(calculateWinPercent(data, getColumn("a ♙"), "0-1"))
-                });
+                
+                // d3.csv("distances.csv").then(function(data) {
+                //     // data.forEach(function(row) {
+                //     //     addDistances(row)
+                //     // })
+                //     //console.log(distances)
+                //     loadBars(data)
+                // });
 
                 // given a label, return the name of a column
                 function getColumn(label) {
                     switch(label) {
-                        case "a ♙" || "a ♟︎": return "a pawn";
-                        case "b ♙" || "b ♟︎": return "b pawn";
-                        case "c ♙" || "c ♟︎": return "c pawn";
-                        case "d ♙" || "d ♟︎": return "d pawn";
-                        case "e ♙" || "e ♟︎": return "e pawn";
-                        case "f ♙" || "f ♟︎": return "f pawn";
-                        case "g ♙" || "g ♟︎": return "g pawn";
-                        case "h ♙" || "h ♟︎": return "h pawn";
-                        case "queenside ♖" || "queenside ♜": return "queen-side rook";
-                        case "queenside ♘" || "queenside ♞": return "queen-side knight";
-                        case "queenside ♗" || "queenside ♝": return "queen-side bishop";
-                        case "♕" || "♛": return "queen";
-                        case "♔" || "♚": return "king";
-                        case "kingside ♗" || "kingside ♝": return "king-side bishop";
-                        case "kingside ♘" || "kingside ♞": return "king-side knight";
-                        case "kingside ♖" || "kingside ♜": return "king-side rook";
+                        case "a ♙": case "a ♟︎": return "a pawn";
+                        case "b ♙": case "b ♟︎": return "b pawn";
+                        case "c ♙": case "c ♟︎": return "c pawn";
+                        case "d ♙": case "d ♟︎": return "d pawn";
+                        case "e ♙": case "e ♟︎": return "e pawn";
+                        case "f ♙": case "f ♟︎": return "f pawn";
+                        case "g ♙": case "g ♟︎": return "g pawn";
+                        case "h ♙": case "h ♟︎": return "h pawn";
+                        case "queenside ♖": case "queenside ♜": return "queen-side rook";
+                        case "queenside ♘": case "queenside ♞": return "queen-side knight";
+                        case "queenside ♗": case "queenside ♝": return "queen-side bishop";
+                        case "♕": case "♛": return "queen";
+                        case "♔": case "♚": return "king";
+                        case "kingside ♗": case "kingside ♝": return "king-side bishop";
+                        case "kingside ♘": case "kingside ♞": return "king-side knight";
+                        case "kingside ♖": case "kingside ♜": return "king-side rook";
                     }
                 }
 
@@ -63,110 +70,81 @@
                         }
                     })
 
-                    // console.log(wins)
-                    // console.log(total)
+                    console.log(results)
+                    console.log(total)
 
                     // var dict = {};
 
-                    // dict["wins"] = wins;
-                    // dict["other"] = total - wins;
+                    // dict["results"] = results;
+                    // dict["other"] = total - results;
 
                     return results/total;
+                    // return dict;
                 }
 
-                function getStats() {}
+                function drawStats(data, piece, piece_label) {
+                    // console.log(piece)
 
-                function loadPie(data) {
-                    // console.log(data)
+                    d3.select("svg.statistics").remove()
 
-                    // svg = d3.select("#pie")
-                    // width = 450
-                    // height = 450
-                    // radius = Math.min(width, height) / 2,
-                    // g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+                    var margin = {top: 30, right: 10, bottom: 10, left: 10}
+                    var width = 540 - margin.left - margin.right
+                    var height = 150 - margin.top - margin.bottom
 
-                    // var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
-
-                    // // Generate the pie
-                    // var pie = d3.pie();
-
-                    // // Generate the arcs
-                    // var arc = d3.arc()
-                    //             .innerRadius(0)
-                    //             .outerRadius(radius);
-
-                    // //Generate groups
-                    // var arcs = g.selectAll("arc")
-                    //             .data(pie(data))
-                    //             .enter()
-                    //             .append("g")
-                    //             .attr("class", "arc")
-
-                    // //Draw arc paths
-                    // arcs.append("path")
-                    //     .attr("fill", function(d, i) {
-                    //         return color(i);
-                    //     })
-                    //     .attr("d", arc);
-
-                    // data = {
-                    //     a: 10,
-                    //     b: 24,
-                    //     c: 48
-                    // }
-
-                    // console.log(data)
-                    // var WIDTH = 450
-                    // var HEIGHT = 450
-
-                    // var svg_donut = d3.select("#pie")
-                    //     .append("svg")
-                    //     .attr("width", WIDTH)
-                    //     .attr("height", HEIGHT)
-                    //     .append("g")
-                    //     .attr("transform", "translate(" + WIDTH / 2 + "," + HEIGHT / 2 + ")");
-
-                    // var radius = HEIGHT / 2 - 10 // add margin to prevent clipping
-
-                    // var donut = d3.pie()
-                    //     .value(function (d) { console.log(d); return d.value; })
-                    // var donutData = donut(Object.entries(data))
-                    // // console.log(Object.entries(data))
-                    // // console.log(donutData[0].data[1])
-                    // // console.log(donutData)
-
-                    // var arcMaker = d3.arc()
-                    //     .innerRadius(50)
-                    //     .outerRadius(radius)
+                    var svg = d3.select("#stats")
+                    .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .attr("class", "statistics")
+                    .append("g")
+                        .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
                     
-                    // // var newData = { "wins" : donutData[0].data[1], "other": donutData[1].data[1] }
+                    // Title
+                    svg.append("text")             
+                        .attr("transform",
+                        "translate(" + (width/2) + " ," + (-1* margin.top/4) + ")")
+                        .style("font-size", "24px")
+                        .attr("font-weight", "bold")
+                        .attr("font-family", "Arial")
+                        .style("text-anchor", "middle")
+                        .text("Statistics for frequently moving: " + piece_label);
+                    
+                    whitewin = calculateResultPercent(data, piece, "1-0")
+                    blackwin = calculateResultPercent(data, piece, "0-1")
+                    draw = calculateResultPercent(data, piece, "1/2-1/2")
 
-                    // // svg_donut
-                    // //     .selectAll('data')
-                    // //     .data(donutData)
-                    // //     .enter()
-                    // //     .append('path')
-                    // //     .attr('d', arcMaker)
-                    // //     .attr("fill", "green")
-                    // //     .attr("stroke", "black")
-                    // //     .style("stroke-width", "2px")
-                    // //Generate groups
-                    // var arcs = svg_donut.selectAll("arc")
-                    //     .data(pie(data))
-                    //     .enter()
-                    //     .append("g")
-                    //     .attr("class", "arc")
-
-    // //Draw arc paths
-    //                 arcs.append("path")
-    //                     .attr("fill", function(d, i) {
-    //                         return color(i);
-    //                     })
-    //                     .attr("d", arc);
+                    // White win
+                    svg.append("text")             
+                        .attr("transform",
+                        "translate(" + (width/2) + " ," + (margin.top) + ")")
+                        .style("font-size", "18px")
+                        .attr("font-family", "Arial")
+                        .style("text-anchor", "middle")
+                        .text("White win percentage: " + whitewin);
+                    
+                    // Black win
+                    svg.append("text")             
+                        .attr("transform",
+                        "translate(" + (width/2) + " ," + (margin.top*2) + ")")
+                        .style("font-size", "18px")
+                        .attr("font-family", "Arial")
+                        .style("text-anchor", "middle")
+                        .text("Black win percentage: " + blackwin);
+                    
+                    // Draw
+                    svg.append("text")             
+                        .attr("transform",
+                        "translate(" + (width/2) + " ," + (margin.top*3) + ")")
+                        .style("font-size", "18px")
+                        .attr("font-family", "Arial")
+                        .style("text-anchor", "middle")
+                        .text("Draw percentage: " + draw);
                 }
 
-                function loadBars(data) {
-                    //console.log(data)
+                function loadBars(data, chess_dists) {
+                    // console.log(data)
+                    // console.log(chess_dists)
 
                     var margin = {top: 40, right: 20, bottom: 120, left: 160}
                     var width = 640 - margin.left - margin.right
@@ -250,7 +228,11 @@
                                 return "#616161"
                             }
                         })
-                       
+                        .style("cursor","pointer")
+                        .on("click", function(d, i) {
+                            drawStats(chess_dists, getColumn(i.Name), i.Name)
+                        })
+    
                 }
                 
             </script>
