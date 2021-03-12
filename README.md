@@ -1,64 +1,42 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Remix vis: https://fish1natank.github.io/04-Remix/
 
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Vis critique
 ---
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+Original vis - https://www.reddit.com/r/dataisbeautiful/comments/lqhe0h/oc_its_beautiful_to_see_covid19_numbers_heading/
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+One thing I think this vis does well is showing the correlation between these plots. The colors are also well chosen, hospital blue, virus cases red. Since the scale is different on all four of the graphs it is a bit difficult to get a sense of scale when comparing multiple plots at once. Also this overview of four plots could be condensed. I think it would also be interesting to zoom in on the visualization to look at more specific days and encourage the user to explore a bit more.
 
-Extra Links
+Remix
 ---
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+![brushView](img/brushZoom.png)
+
+The four plots from the original vis have been condensed into one overview at the bottom that not only allows for a quick take on correlation between elements but also has a brush zoom element. This allows the user to select an area on the vis below and the timeline will expand for a closer look at a specific month or days. Four buttons under the title rescale the vis, allowing the user to focus on a particular variable.
+
+Having all the elements on the same plot does portray the sense of scale quite well, as it really puts into perspective how large the numbers actually are. Unfortunately, since the scale covers such a large range, it is difficult to frame two variables when one range is less than one percent of the others (Daily Test vs Daily Hospitalized). In this sense I am glad to have the bottom view handle the larger overview.
+
+
+Achievements 
+---
+
+- Design
+
+Since the scale difference between these charts where super large, I wanted to add some zooming element to better sell the sense of scale. This was done by rescaling and animating the yAxis as well as animating the lines.
+
+Since the data is also very “wavy”  (technical term), I looked into some different curves to use for the overview since the exact numbers were less relevant here, and found a smoother shape that really cleared up the view.
+
+Monotone Curve
+
+![monotoneCurve](img/overviewCurveMonotone.png)
+
+Bundle Curve
+
+![bundle Curve](img/overviewCurveBundle.png)
+
+- Tech
+
+none this time around.
