@@ -9,16 +9,6 @@ var labels = [
 	'Extinct'
 ]
 
-var color = d3.scaleOrdinal()
-	.range([
-		'#C8F55F',
-		'#FFD000',
-		'#EB8C00',
-		'#FF4600',
-		'#F50033'
-	])
-	.domain(labels)
-
 var mapSVG = null
 var chartSVG = null
 
@@ -30,6 +20,7 @@ Promise.all([
 	createMap(world, data, totals)
 	mapSVG = d3.select("body").select('#map')
 	colorMap(data)
+	d3.select('body').append('br')
 	createChart(data, totals)
 	chartSVG = d3.select('body').select("#chart")
 })
@@ -135,6 +126,16 @@ function colorMap(data, status='TOTAL') {
 
 
 function createChart(data, totals) {
+	var color = d3.scaleOrdinal()
+	.range([
+		'#C8F55F',
+		'#FFD000',
+		'#EB8C00',
+		'#FF4600',
+		'#F50033'
+	])
+	.domain(labels)
+	
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
 
 	var margin = {top: 20, right: 20, bottom: 50, left: 110},
