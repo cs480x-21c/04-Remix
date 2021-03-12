@@ -20,6 +20,9 @@ To that end, I implemented the following improvements in my version:
 ### Design
 * Colored everything according to WPI's color guidelines to match up with WPI's dashboard
 * Utilized tailwind CSS to style the page nicely
+* Used Chakra UI for form controls (Switch to toggle rolling average lines)
 
 ### Technical
 * Used React (Preact technically, which is a leaner alternative) to modularize code and update state easily
+* Additional interactive features beyond linking:
+    - Switches to toggle rolling average lines on/off
