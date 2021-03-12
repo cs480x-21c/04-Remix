@@ -92,7 +92,7 @@ function createMap(world, data, totals) {
 
 function colorMap(data, status='TOTAL') {
 	var cColor = d3.scaleSequential(d3.interpolatePlasma)
-		.domain([0, d3.max(data.filter(d => d.Status == status).map(d => parseInt(d.Languages)))])
+		.domain([1, d3.max(data.filter(d => d.Status == status).map(d => parseInt(d.Languages)))])
 
 	data.forEach(function(d) {
 		if (d.Status == status) {
@@ -109,6 +109,28 @@ function colorMap(data, status='TOTAL') {
 				.includes(t.properties.name)
 				? mapSVG.select('#'+clean(t.properties.name)).attr('fill') : 'gray'
 		)
+
+	// ref: https://d3-legend.susielu.com/
+	var legend = d3.legendColor()
+		.scale(cColor)
+		.title('Languages')
+	
+	mapSVG.call(legend)
+		
+	mapSVG.select('.legendCells')
+		.attr('transform', "translate(1025, 100)")
+
+	mapSVG.selectAll('.swatch')
+		.attr('stroke-width', 1)
+		.attr('stroke', '#252525')
+	
+	mapSVG.select('.legendTitle')
+		.attr('transform', "translate(1025, 90)")
+		.attr('stroke-width', 1)
+		.attr('stroke', '#252525') //this is a hack to make it bold lol
+
+	mapSVG.selectAll('.swatch')
+		.attr('opacity', 0.75)
 }
 
 
@@ -134,7 +156,6 @@ function createChart(data, totals) {
 
 	var chart = d3.select('body').append('svg')
 		.attr("width", width + margin.left + margin.right)
-		.attr('padding-left', margin.left)
 		.attr("height", height + margin.top + margin.bottom)
 		.attr('id','chart')
 		.append("g")
