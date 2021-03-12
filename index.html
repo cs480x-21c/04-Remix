@@ -5,17 +5,102 @@
 <div id="stackedBar"</div>
 
 <script>
+	dimensions = ({  
+		height:400,
+		width:600,  
+		margin: {
+			top: 10,
+			right: 30,
+			bottom: 20,
+			left: 50,
+		} 
+	})
 
 	var completeData;
 	
 	//everything except data load goes inside this function
 	var generateChart = completeData => {
-		console.log(completeData);
 		
-		var filteredShows = completeData.filter(completeData => completeData.release_year == 2000);
-		console.log(filteredShows);
+		//need to set up data for stacked bar chart
+		
+		var data = [];
+		
+		for (var i = 0; i <= 20; i++){
+		
+			var filteredByYear = completeData.filter(completeData => completeData.release_year == i+2000);
+			
+			var totalShows = filteredByYear.length;
+			
+			var filteredToAdults = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "R" || filteredByYear.rating == "TV-MA" || filteredByYear.rating == "NC-17"));
+			var adultsPercentage = (filteredToAdults.length / totalShows)*100;
+			
+			var filteredToTeenagers = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "PG" || filteredByYear.rating == "PG-13" || filteredByYear.rating == "TV-14" || filteredByYear.rating == "TV-PG"));
+			var teenagersPercentage = (filteredToTeenagers.length / totalShows)*100;
+			
+			var filteredToChildren = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "G" || filteredByYear.rating == "TV-G" || filteredByYear.rating == "TV-Y" || filteredByYear.rating == "TV-Y7" || filteredByYear.rating == "TV-Y7-FV"));
+			var childrenPercentage = (filteredToChildren.length / totalShows)*100;
+			
+			var filteredToUnrated = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "NR" || filteredByYear.rating == "UR"));
+			var unratedPercentage = (filteredToUnrated.length / totalShows)*100;
+			
+			data[i] = {"year": i+2000, "adults": adultsPercentage, "teenagers": teenagersPercentage, "children": childrenPercentage, "unrated": unratedPercentage};
+		
+		}
+		
+		//data now defined
+		
+		var subgroups = ["adults", "teenagers", "children", "unrated"];
+		
+		var groups = d3.map(data, d => d.year).keys();
+		
+		var stackedData = d3.stack()
+			.keys(subgroups)
+			(data);
+			
+		var color = d3.scaleOrdinal()
+			.domain(subgroups)
+			.range(['#d7191c','#fdae61','#abd9e9','#2c7bb6']); //SET COLORS HERE
+			
+		var x = d3.scaleBand()
+			.domain(groups)
+			.range([0, dimensions.width])
+			.padding([0.2]);
+			
+		var y = d3.scaleLinear()
+			.domain([0,100])
+			.range([dimensions.height, 0]);
+		
+		var svg = d3.select('#stackedBar')
+			.append("svg")
+				.attr("width", dimensions.width + dimensions.margin.left + dimensions.margin.right)
+				.attr("height", dimensions.height + dimensions.margin.top + dimensions.margin.bottom)
+			.append("g")
+				.attr("transform",
+					  "translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
+					  
+		svg.append("g")
+			.selectAll("g")
+			.data(stackedData)
+			.enter().append("g")
+				.attr("fill", d => color(d.key))
+				.selectAll("rect")
+				.data(d => d)
+				.enter().append("rect")
+					.attr("x", d => x(d.data.year-2000))
+					.attr("y", d => y(d[1]))
+					.attr("height", d => y(d[0]) - y(d[1]))
+					.attr("width", x.bandwidth())
+					.on('click', (e, d) => console.log("click"));
+					
+		svg.append("g")
+			.attr("transform", "translate(0," + dimensions.height + ")")
+			.call(d3.axisBottom(x).tickSizeOuter(0));
+			
+		svg.append("g")
+			.call(d3.axisLeft(y));
 	
 	}
+
 
 
 	//DATA LOAD, MUST REMAIN AT BOTTOM
