@@ -14,9 +14,16 @@
     <button>test</button>
     <p></p>
     <svg id="heightvis" width="800" height="600"></svg>
+    <svg id="comparevis" width="800" height="600"></svg>
 
   <script>
-  // Chloropleth definition
+  /**********
+  *
+  *  PART I: CHLOROPLETHS ARE THE PHOTOSYNTHESIS ORGANELLES, RIGHT?
+  *
+  **********/
+
+  // Define chloropleth
   var heightvis = d3.select("svg"),
     width = +heightvis.attr("width"),
     height = +heightvis.attr("height");
@@ -37,12 +44,13 @@
   // Load external data and boot - don't mess with this
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-    .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value); })
+    .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value) })
     .await(ready);
 
-  // Tooltip definition
+  // Define tooltip
   var tooltip = d3.select("body")
     .append("div")
+    .attr("class","tooltip")
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
@@ -65,7 +73,11 @@
     }
 
     let mouseMove = function(d) {
-        tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+        tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        .text(function (d) {
+          d.heighttext = data.get(d.Value) || 0;
+          return d.heighttext;
+      });
     }
 
     let mouseLeave = function(d) {
@@ -99,6 +111,12 @@
         .on("mousemove", mouseMove)
         .on("mouseleave", mouseLeave);
     }
+
+    /**********
+    *
+    *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING COMPAREVIS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
+    *
+    **********/
   </script>
   </body>
 </html>
