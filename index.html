@@ -226,12 +226,17 @@
                 .on("mouseover", function(e,d){
                     //line and bar formatting
                     d3.selectAll("line").style("opacity", .3);
-                    // highlights( singleStringify(d), HIGHLIGHT_1 )
-                    highlights( singleStringify( mixes[m].region), HIGHLIGHT_2 )
+                    mix = this.classList[0];
+                    region = this.classList[2];                    
+                    highlights( singleStringify( region), HIGHLIGHT_2 )
                     highlights( singleStringify(d), HIGHLIGHT_1 )
 
+                    
                     //tooltip
-                    format_tooltip(tooltip, d, mixes[m], e)
+                    // console.log(mixes[m].mix_name)
+                    // console.log(this.classList)
+                    // console.log(cla)
+                    format_tooltip(tooltip, d, mix, region, e)
                 })
                 .on("mouseout",function(e,d){
                     //line and bar formatting
@@ -330,12 +335,12 @@
 
     }//end load_graph()
 
-    function format_tooltip(tooltip, d, m, e){
+    function format_tooltip(tooltip, d, mix, region, e){
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
         // console.log(d);
-        tooltip.html( "Spice: "+ d + "<br/>Mix: " + m.mix_name + "<br/>Region: " + m.region)
+        tooltip.html( "Spice: "+ d + "<br/>Mix: " + mix + "<br/>Region: " + region)
             .style("left", (e.pageX+15) + "px")
             .style("top", (e.pageY+5) + "px");
             // .style("background-color", color(cValue(d)));

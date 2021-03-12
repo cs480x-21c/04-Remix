@@ -1,62 +1,28 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
-
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+# [Spice Blends - Remixed](https://hcaouette.github.io/04-Remix/)
 ---
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Spice Blends - Remixed
----
-Viz Source:  
+### Viz Source:  
 [Spice Mixes and Ingredients](https://ragbag.tumblr.com/post/35124794211/raynor-ganan-signature-masala-one-of-my-2012)  
-Original Viz:  
-![spice_mixes_and_ingredients.png](res/spice_mix_map.png)  
+### Original Viz:  
+<!-- ![spice_mixes_and_ingredients.png](res/spice_mix_map.png)   -->
+<a href="url"><img src="res/spice_mix_map.png" height="559" width="421" ></a>
+<br />
+
+My viz is based off of the dual-axis graph that I found on the linked Tumblr post. I liked the author's idea of showing the commmonalities between different spice mixes, and thought that I could improve on the usability of the visualization.  
+Default Viz View:  
+<a href="url"><img src="res/default_view.png" height="433" width="934" ></a>
+<br />
+Obviously, the original version of the visualization is a lot more colorful. This is helpful when you are trying to find out what spices are in each mix, since the original visualization is static. However, since the color palette begins to repeat and some of the colors are rather similar, it can be difficult to follow the lines when they begin to cross over each other. I found this out firsthand, as I copied down all of the data into the mixes.json file that I compiled to index the spices.  
+Since my version of the viz is in black and white it is nearly impossible to follow the threads from mix to spice and vice versa. This was intentional, and is part of my strategy for adding the mouseover animations. Since the lines are all in black, when the opacity of the lines goes down and some lines become colored, the effect of the transformation is much more prominent than had the lines all been colored to begin with.  
+There are 2 color codings that go on in the chart; red lines are connections to all of the mixes that use the selected spice. In the example screenshot you can see that 3 lines have been highlighted in red, pointing to the 3 spice mixes that use Katsuobushi. Purple highlighing pertains to the supporting graph, and highlights lines to all other mixes that share a region with the select line. While this may appear a bit messy, it is not hard to trace highlighted lines back to the originating mix, and it is nice to see what other spices mixes from the same region incorporate. Additionally, the tooltip provides some at-a-glance information about the selected spice-mix connection without having to bounce between the sides of the graph.  
+The supporting graph on the right-hand side is a simple column chart, showing the averge number of spices used in a mix for each of the regions represented in the data. Althought it is relatively simple right now, if the dataset of spice mixes were to be expanded I think that this could provide some really cool insights. Currently, however, its primary function is to serve as another type of slicer for the data. The highlighting works the same way as the purple-line highlighting described for the lines, as the lines and the graph use the same function to apply formatting. Additionally, when highlighting lines in the dual-axis chart, the corresponding region in the column chart is formatted purple to match the lines.  
+Highlighted Viz View:  
+<a href="url"><img src="res/highlighted_view.png" height="446" width="944" ></a>
+<br />
+
+Tech Achievements:
+- Cross-highlighting between two different svgs in two separate divs by applying a generous number of classes to lines and bars.
+- Appearing and disappearing tooltip provides quick information when hovering over different connection lines in the dual-axis chart.
+
+Design Achievements:
+- High Contrast between the default view of the visualization and the highlighted view make it easy to pick out which lines are important and which to ignore.
+- Simple, centered and well spaced design makes it easier to interact with a relatively complicated graphic.
