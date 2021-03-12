@@ -4,7 +4,7 @@ function barChart() {
   var margin = {
     top: 20,
     right: 20,
-    bottom: 130,
+    bottom: 50,
     left: 40
   };
   var width = 500;
@@ -19,8 +19,6 @@ function barChart() {
   };
   var xScale = d3.scaleBand().padding(0.4);
   var yScale = d3.scaleLinear();
-  // xScale = d3.scaleBand().padding(0.1),
-  // yScale = d3.scaleLinear();
   var onMouseOver = function() {};
   var onMouseOut = function() {};
 
@@ -37,8 +35,6 @@ function barChart() {
       gEnter.append("g").attr("class", "x axis");
       gEnter.append("g").attr("class", "y axis");
 
-      innerWidth = width - margin.left - margin.right,
-      innerHeight = height - margin.top - margin.bottom,
 
         // Update the outer dimensions.
         svg.merge(svgEnter).attr("width", width)
@@ -98,12 +94,12 @@ function barChart() {
 
   }
 
-  // The x-accessor for the path generator; xScale ∘ xValue.
+  // The x-accessor for the path generator
   function X(d) {
     return xScale(xValue(d));
   }
 
-  // The y-accessor for the path generator; yScale ∘ yValue.
+  // The y-accessor for the path generator
   function Y(d) {
     return yScale(yValue(d));
   }
