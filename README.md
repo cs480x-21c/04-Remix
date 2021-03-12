@@ -4,7 +4,7 @@
 ## Github pages link:
     https://luke-gebler.github.io/04-Remix/
 
-## Data
+# Data
 My initial source of data can be found under data/first_ascent.csv. This data is what is used in the original visualization as well as my scatter plot. 
 My second source of data can be found under data/RouteData.csv. This data was gathered by me through my own research which I will talk about more in the achievements section. This data was used for the construction of the linked spider chart.
 
