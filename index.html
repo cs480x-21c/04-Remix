@@ -21,7 +21,7 @@
                 function loadBars(data) {
                     console.log(data)
 
-                    var margin = {top: 20, right: 20, bottom: 80, left: 160}
+                    var margin = {top: 40, right: 20, bottom: 120, left: 160}
                     var width = 640 - margin.left - margin.right
                     var height = 780 - margin.top - margin.bottom
 
@@ -32,10 +32,20 @@
                     .append("g")
                         .attr("transform",
                         "translate(" + margin.left + "," + margin.top + ")");
+                    
+                    // Title
+                    svg.append("text")             
+                        .attr("transform",
+                        "translate(" + (width/2) + " ," + (-1* margin.top/3) + ")")
+                        .style("font-size", "24px")
+                        .attr("font-weight", "bold")
+                        .attr("font-family", "Arial")
+                        .style("text-anchor", "middle")
+                        .text("Piece Travel by GM Magnus Carlsen");
 
                     // X axis
                     var x = d3.scaleLinear()
-                        .domain([0, 30000])
+                        .domain([0, 26000])
                         .range([0, width]);
                     svg.append("g")
                         .attr("transform", "translate(0," + height + ")")
@@ -47,7 +57,8 @@
                     // text label for X axis
                     svg.append("text")             
                         .attr("transform",
-                        "translate(" + (width/2) + " ," + (height + margin.top*3) + ")")
+                        "translate(" + (width/2) + " ," + (height + margin.top*1.5) + ")")
+                        .style("font-size", "24px")
                         .attr("font-weight", "bold")
                         .attr("font-family", "Arial")
                         .style("text-anchor", "middle")
@@ -61,7 +72,7 @@
                     svg.append("g")
                         .call(d3.axisLeft(y))
                         .selectAll("text")
-                        .style("font-size", "14px");
+                        .style("font-size", "20px");
                     
                     // text label for Y axis
                     svg.append("text")
@@ -69,6 +80,7 @@
                         .attr("y", 0 - margin.left)
                         .attr("x",0 - (height / 2))
                         .attr("dy", "1em")
+                        .style("font-size", "24px")
                         .attr("font-weight", "bold")
                         .attr("font-family", "Arial")
                         .style("text-anchor", "middle")
