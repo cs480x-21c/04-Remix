@@ -1,30 +1,34 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-Links:
-https://github.com/d3/d3-scale-chromatic
+Author: Elene Kavtaradze
+
+Github Pages: https://ekavtaradze.github.io/04-Remix/
+
+### Original Vis
+
+The original visualization is from GeoStat, National Statistics of Georgia.
+I decided to focus on the Wages Statistics. All of the visualizations provided were simple point and line graphs. All of the visualizations seem to lack
+the dimensions mentioned in the titles. For example, looking at "Average monthly nominal earnings of employees by economic activity" only showed the average
+monthly earnings by year, but there was no breakdown by economic activity. "Average monthly nominal earnings of employees by economic activity and sex" had
+different lines for males and females. However, it had no information about the economic activity. All of the information not included in graphs could be
+found in the attached files.
+Even the main visualization of average nominal monthly earnings by year is not good. Instead of a proper visualization, the website has a table of the information.
+
+I decided to take one of the included files, "Average monthly nominal earnings by regions" to draw a map of Georgia to show the breakdown of monthly earnings by regions. I linked that visualization with a graph for average monthly earnings by year. I focused on the years 2010-2019.
+
+Hovering over different regions shows the name of the region, and it adjusts the bar graph to show the average monthly earnings of that regions 2010-2019.
+
+
 
 
 
 
 Resources used:
+Brushing and Linking example: https://bl.ocks.org/john-guerra/2c00b2d675a6bf1c84a7b140f4536b0d
 Earning Stats: https://www.geostat.ge/en/modules/categories/39/wages
   - Used "Average monthly nominal earnings by regions"
 Geojson for Georgia: https://github.com/bumbeishvili/geojson-georgian-regions - Changed Region Name Ajaria to Adjara
 Hover Tool Guide: https://medium.com/@kj_schmidt/show-data-on-mouse-over-with-d3-js-3bf598ff8fc2
-
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-TODO
-
-Add color scale to MAP
-Write Readme
+Color schemes: https://github.com/d3/d3-scale-chromatic
+Legend: https://bl.ocks.org/wboykinm/dbbe50d1023f90d4e241712395c27fb3

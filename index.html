@@ -84,38 +84,34 @@
 
     function createMap(regions, earnings) {
 
-
+      //map width and height
       var width = 600;
       var height = 600;
 
+      //data
       var currentMin = 0;
       var currentMax = 1300;
       var defaultMin = 0;
       var defaultMax = 1350;
-
       var currentValue = -1;
 
       //Crossfilter values for data
       var data = crossfilter(earnings);
-
       data.year = data.dimension(function(d) {
         return d.Year;
       });
       data.region = data.dimension(function(d) {
         return d.Region;
       });
-
       data.region.filterExact("Total");
-
       data.yearGroup = data.year.group().reduceSum(function(d) {
         return d.AvgEarning;
       });
-
       data.regionGroup = data.region.group().reduceSum(function(d) {
         return d.AvgEarning;
       });
-
       reductio().avg('AvgEarning')(data.regionGroup);
+
 
       //Hover over bar chart to choose year
       barChartYear.onMouseOver(function(e, d) {
@@ -183,7 +179,10 @@
           data.region.filterExact("Total");
           return "black"; //color(gpath.area(d));
         });
+
+
       // add a legend
+      //https://bl.ocks.org/wboykinm/dbbe50d1023f90d4e241712395c27fb3
       var w = 150,
         h = 350;
 
@@ -225,14 +224,13 @@
       var y = d3.scaleLinear()
         .range([h, 0])
         .domain([defaultMin, defaultMax]);
-
       var yAxis = d3.axisRight(y);
-
       key.append("g")
         .attr("class", "y axis")
         .attr("transform", "translate(50,10)")
         .call(yAxis)
 
+      //change color of the map
       function changeColor() {
         svg.attr('fill', function(d) {
           // console.log(d.properties['NAME_1']);
@@ -253,6 +251,8 @@
           return "black"; //color(gpath.area(d));
         });
       }
+
+      //map hover over and show names
       var tip = d3.select("body").append("div")
         .attr("class", "tooltip-map")
         .style("opacity", 0);
@@ -268,6 +268,8 @@
             currentMin = data.year.bottom(1)[0].AvgEarning;
             currentMax = data.year.top(1)[0].AvgEarning;
             update();
+          } else {
+            message = message + "<br> No Data Available";
           }
           d3.select(this).transition()
             .duration('50')
@@ -297,6 +299,7 @@
         });
 
 
+      //Zoom on map
       var mapZoom = d3.zoom()
         .on('zoom', zoomed);
 
@@ -316,6 +319,7 @@
 
       }
 
+      //easy print for crossfilter data
       function logGroup(data) {
         data.forEach(function(x) {
           console.log(JSON.stringify(x));
