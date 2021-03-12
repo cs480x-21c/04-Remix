@@ -5,16 +5,18 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="d3-legend.min.js"></script>
+    <script src="//d3js.org/topojson.v2.min.js"></script>
   </head>
 
   <body>
-    <h1>Remix</h1>
+    <h1>Remix: Average Female Height Per Country</h1>
     <button>test</button>
     <p></p>
     <svg id="heightvis" width="800" height="600"></svg>
 
   <script>
-  // The svg
+  // Chloropleth definition
   var heightvis = d3.select("svg"),
     width = +heightvis.attr("width"),
     height = +heightvis.attr("height");
@@ -32,25 +34,38 @@
     .domain([150, 153, 156, 159, 162, 165, 168, 170])
     .range(["#FFD6E7", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794"]);
 
-  // Load external data and boot
+  // Load external data and boot - don't mess with this
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value); })
     .await(ready);
 
+  // Tooltip definition
+  var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("background", "#FFFFFF")
+    .text("rah");
+
   function ready(error, topo) {
 
     let mouseOver = function(d) {
       d3.selectAll(".Country")
-        .transition()
-        .duration(200)
-        .style("opacity", .5)
-        .style("stroke", "transparent")
+        .transition().duration(200)
+        .style("opacity", .3)
+        .style("stroke", "transparent");
       d3.select(this)
         .transition()
         .duration(200)
         .style("opacity", 1)
-        .style("stroke", "black")
+        .style("stroke", "black");
+      tooltip.style("visibility", "visible");
+    }
+
+    let mouseMove = function(d) {
+        tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
     }
 
     let mouseLeave = function(d) {
@@ -59,6 +74,7 @@
         .duration(200)
         .style("opacity", .8)
         .style("stroke", "transparent")
+      tooltip.style("visibility", "hidden");
     }
 
     // Draw the map
@@ -80,6 +96,7 @@
         .attr("class", function(d){ return "Country" } )
         .style("opacity", .8)
         .on("mouseover", mouseOver)
+        .on("mousemove", mouseMove)
         .on("mouseleave", mouseLeave);
     }
   </script>

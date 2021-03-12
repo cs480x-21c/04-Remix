@@ -26,6 +26,7 @@ button {
     background-color: #FF99C3;
     border-radius: 4px;
     border: none;
+    size: 14px;
 }
 
 button:hover {
