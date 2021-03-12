@@ -1,0 +1,51 @@
+State,Abbreviation,Coldest,Warmest,Value,Units,BegDate,EndDate,Location,Station ID,Status
+Alabama,AL,-27,112,degrees F,19660130,19660130,NEW MARKET 2,15867,E,
+Alaska,AK,-80,100,degrees F,19710123,19710123,PROSPECT CREEK,507778,E,
+Arizona,AZ,-40,128,degrees F,19710107,19710107,HAWLEY LAKE,23926,E,
+Arkansas,AR,-29,120,degrees F,19050213,19050213,GRAVETTE,32930,E,
+California,CA,-45,134,degrees F,19370120,19370120,BOCA,40931,E,
+Colorado,CO,-61,115,degrees F,19850201,19850201,MAYBELL,55446,E,
+Connecticut,CT,-32,106,degrees F,19430216,19430216,FALLS VILLAGE,62658,E1,
+Delaware,DE,-17,110,degrees F,18930117,18930117,MILLSBORO,76020,E,
+Florida,FL,-2,109,degrees F,18990213,18990213,TALLAHASSEE,88754,E,
+Georgia,GA,-17,112,degrees F,19400127,19400127,CCC Fire Camp F-16 (nr. Beatum),,EA,"Record of -17 degrees F at Civilian Conservation Corps Logging Camp F-16 is congruent with similar low temperatures observed in the area on January 27, 1940. This observation is archived as part of the National Archives CCC collection."
+Hawaii,HI,12,100,degrees F,19790517,19790517,MAUNA KEA OBSERVATORY 111.,516183,E,
+Idaho,ID,-60,118,degrees F,19430118,19430118,ISLAND PARK,104598,E,
+Illinois,IL,-38,117,degrees F,20190131,20190131,MOUNT CARROLL,115901,NS,"This value exceeded the previous record of -36 degrees F, observed at Congerville on 5 January 1999. View report"
+Indiana,IN,-36,116,degrees F,19940119,19940119,NEW WHITELAND,126304,E,
+Iowa,IA,-47,118,degrees F,19960203,19960203,ELKADER 6 SSW,132603,E1,
+Kansas,KS,-40,121,degrees F,19050213,19050213,LEBANON,144598,E,
+Kentucky,KY,-37,114,degrees F,19940119,19940119,SHELBYVILLE 1 E,157324,E,
+Louisiana,LA,-16,114,degrees F,18990213,18990213,MINDEN,166244,E,
+Maine,ME,-50,105,degrees F,20090116,20090116,"Big Black River (nr. Saint Pamphile, PQ)",USGS BBRM1,NS,"The record minimum temperature of -50 degrees F was observed by an automated observing station operated by the US Geological Survey (USGS) at a river gage on the Big Black River near the Canadian border. The data are archived by the USGS, and the validity of the observation was confirmed by the State Climate Extremes Committee. The value also ties observations in NH and VT for the coldest temperature recorded for the Northeast region of the United States."
+Maryland,MD,-40,109,degrees F,19120113,19120113,OAKLAND 1 SE,186620,E,
+Massachusetts,MA,-35,107,degrees F,19430215,19430215,COLDBROOK,191589,E1,
+Michigan,MI,-51,112,degrees F,19340209,19340209,VANDERBILT 11ENE,208417,E,
+Minnesota,MN,-60,115,degrees F,19960202,19960202,TOWER 2S,218311,E,
+Mississippi,MS,-19,115,degrees F,19660130,19660130,CORINTH 7 SW,221962,E,
+Missouri,MO,-40,118,degrees F,19050213,19050213,WARSAW 1,238733,E,
+Montana,MT,-70,117,degrees F,19540120,19540120,ROGERS PASS,247156,E,
+Nebraska,NE,-47,118,degrees F,19891222,19891222,OSHKOSH,256385,E1,
+Nevada,NV,-50,125,degrees F,19370108,19370108,SAN JACINTO,267284,E,
+New Hampshire,NH,-50,106,degrees F,18850122,18850122,MOUNT WASHINGTON,14755,NA,Value of -50 degrees F exceeds the previously reported all-time minimum temperature extreme of -46 on 1/8/1968. The -50 degrees F is not yet present in NCDC's digital data files but exists on observation forms and publications in NCDC archives. The value ties with Vermont and Maine for coldest temperature recorded in the Northeast region of the United States.
+New Jersey,NJ,-34,110,degrees F,19040105,19040105,RIVER VALE,287620,E,
+New Mexico,NM,-50,122,degrees F,19510201,19510201,GAVILAN,293505,E,
+New York,NY,-52,108,degrees F,19790218,19790218,OLD FORGE,306184,E1,
+North Carolina,NC,-34,110,degrees F,19850121,19850121,MT. MITCHELL,315923,E,
+North Dakota,ND,-60,121,degrees F,19360215,19360215,PARSHALL,326867,E,
+Ohio,OH,-39,113,degrees F,18990210,18990210,MILLIGAN,335310,E,
+Oklahoma,OK,-31,120,degrees F,20110210,20110210,Nowata,NOWA (OK Mesonet),NSA,
+Oregon,OR,-54,119,degrees F,19330210,19330210,SENECA,357675,E1,
+Pennsylvania,PA,-42,111,degrees F,19040105,19040105,SMETHPORT,368190,E,
+Rhode Island,RI,-28,104,degrees F,19420111,19420111,WOOD RIVER JUNCTION,379327,NA,"Previously reported record of -25 degrees F at Greene on February 5, 1996 could not be verified. Source is unknown and no documentation could be found. Value is exceeded by the currently reported record at Wood River Junction."
+South Carolina,SC,-19,113,degrees F,19850121,19850121,CAESARS HEAD,381256,E,
+South Dakota,SD,-58,120,degrees F,19360217,19360217,MC INTOSH 6 SE,395381,E,
+Tennessee,TN,-32,113,degrees F,19171230,19171230,MOUNTAIN CITY,406287,E,
+Texas,TX,-23,120,degrees F,18990212,18990212,TULIA NEAR,419176,SA1,"Historical value at Tulia 6NE became available upon digitization and update of previously paper-bound data. It was examined retroactively, found, to be valid and tied the prior stated record."
+Utah,UT,-50,117,degrees F,19130105,19130105,EAST PORTAL,422319,NA,"The previously reported record of -69 degrees F set at Peter's Sink on Feb 1, 1985 is widely considered an accurate observation, but no information concerning the observation or the station could be identified, and the value is heavily affected by the local terrain. The -50 degrees F at Strawberry Tunnel is the coldest temperature observation that can be verified from publicly available observations at established observation stations in Utah."
+Vermont,VT,-50,107,degrees F,19331230,19331230,BLOOMFIELD,430690,E,The -50 degrees F minimum temperature ties with values from NH and ME as the all-time coldest temperature for the Northeast region of the United States.
+Virginia,VA,-30,110,degrees F,19850121,19850121,MOUNT LAKE BIOL STN,445828,E,The date for the existing record of -30 degrees F at Mountain Lake Biological Station was incorrect by one day. Date listed is the correct observation date.
+Washington,WA,-48,118,degrees F,19681230,19681230,WINTHROP 1 WSW,459376,E2,
+West Virginia,WV,-37,112,degrees F,19171230,19171230,LEWISBURG 3 N,465224,E,
+Wisconsin,WI,-55,114,degrees F,19960202,19960202,COUDERAY 7 W,471847,E1,
+Wyoming,WY,-66,115,degrees F,19330209,19330209,Riverside Ranger Stn. (Yellowstone NP),,EA,"Original observation of -66 degrees F at Riverside Ranger Station on February 9, 1933 is maintained in Department of Interior archives."
