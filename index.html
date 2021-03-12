@@ -1,0 +1,368 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<svg id="vis"> </svg>
+<svg id="secondVis"> </svg>
+<br />
+
+<script>
+    console.log(d3); // test if d3 is loaded
+
+    const classes = {"ClassDetail":[
+            {"Assassin": [{"Champions":[]}]},
+            {"Fighter": [{"Champions":[]}]},
+            {"Mage": [{"Champions":[]}]},
+            {"Marksman": [{"Champions":[]}]},
+            {"Support": [{"Champions":[]}]},
+            {"Tank": [{"Champions":[]}]}
+    ]};
+    const secondaryClasses = {"ClassDetail":[
+            {"Assassin": [{"Champions":[]}]},
+            {"Fighter": [{"Champions":[]}]},
+            {"Mage": [{"Champions":[]}]},
+            {"Marksman": [{"Champions":[]}]},
+            {"Support": [{"Champions":[]}]},
+            {"Tank": [{"Champions":[]}]}
+    ]};
+    const colorPerClass= ["Crimson", "Chocolate", "CornflowerBlue", "Gold", "MediumSpringGreen", "BlueViolet"];
+
+    const links = [];
+
+    var text = [[75, 9, '10'], [75, 19, '20'], [75, 29, '30'], [75, 39, '40'], [75, 49, '50'], [75, 59, '60'], [75, 69, '70'],
+        [130, -3, 'Assassin'], [245, -3, 'Fighter'], [360, -3, 'Mage'], [455, -3, 'Marksman'], [575, -3, 'Support'], [690, -3, 'Tank']];
+
+    var data;
+
+    var yScale = d3.scaleLinear()
+        .domain([0, 70])
+        .range([700, 40]);
+
+    var yScale2 = d3.scaleLinear()
+        .domain([0, 70])
+        .range([40, 700]);
+
+    d3.json("/04-Remix/dragontail-11.4.1/11.4.1/data/en_US/champion.json").then(function(d) {
+        data = d.data;
+        console.log(data);
+        for (x in data){
+            var classOne;
+            if(data[x].tags[0] === "Assassin"){
+                classes.ClassDetail[0].Assassin[0].Champions.push(data[x].id);
+                classOne = 0;
+            }
+            else if(data[x].tags[0] === "Fighter"){
+                classes.ClassDetail[1].Fighter[0].Champions.push(data[x].id);
+                classOne = 1;
+            }
+            else if(data[x].tags[0] === "Mage"){
+                classes.ClassDetail[2].Mage[0].Champions.push(data[x].id);
+                classOne = 2;
+            }
+            else if(data[x].tags[0] === "Marksman"){
+                classes.ClassDetail[3].Marksman[0].Champions.push(data[x].id);
+                classOne = 3;
+            }
+            else if(data[x].tags[0] === "Support"){
+                classes.ClassDetail[4].Support[0].Champions.push(data[x].id);
+                classOne = 4;
+            }
+            else if(data[x].tags[0] === "Tank"){
+                classes.ClassDetail[5].Tank[0].Champions.push(data[x].id);
+                classOne = 5;
+            }
+            else {
+                console.log("Broke the thing");
+            }
+
+            if(data[x].tags.length > 1){
+                if(data[x].tags[1] === "Assassin"){
+                    secondaryClasses.ClassDetail[0].Assassin[0].Champions.push(data[x].id);
+                    links.push([classOne, 0]);
+                }
+                else if(data[x].tags[1] === "Fighter"){
+                    secondaryClasses.ClassDetail[1].Fighter[0].Champions.push(data[x].id);
+                    links.push([classOne, 1]);
+                }
+                else if(data[x].tags[1] === "Mage"){
+                    secondaryClasses.ClassDetail[2].Mage[0].Champions.push(data[x].id);
+                    links.push([classOne, 2]);
+                }
+                else if(data[x].tags[1] === "Marksman"){
+                    secondaryClasses.ClassDetail[3].Marksman[0].Champions.push(data[x].id);
+                    links.push([classOne, 3]);
+                }
+                else if(data[x].tags[1] === "Support"){
+                    secondaryClasses.ClassDetail[4].Support[0].Champions.push(data[x].id);
+                    links.push([classOne, 4]);
+                }
+                else if(data[x].tags[1] === "Tank"){
+                    secondaryClasses.ClassDetail[5].Tank[0].Champions.push(data[x].id);
+                    links.push([classOne, 5]);
+                }
+                else {
+                    console.log("Broke the thing");
+                }
+            }
+            else{
+                links.push([classOne, classOne]);
+            }
+        }
+        console.log(classes);
+        console.log(secondaryClasses);
+
+        populateVis(d);
+    });
+
+
+    function populateVis(d){
+        var svg = d3.select('#vis')
+            .attr('width', 800)
+            .attr('height', 800);
+
+        var secondsvg = d3.select('#secondVis')
+            .attr('width', 800)
+            .attr('height', 800);
+
+        for (let i = 0; i < classes.ClassDetail.length; i++) {
+            var t1;
+            var t2;
+            var classOne = i;
+
+            var outerOriginX = 400 + ((300) * Math.sin(Math.PI*i/3+Math.PI/6));
+            var outerOriginY = 400 - ((300) * Math.cos(Math.PI*i/3+Math.PI/6));
+
+            if(i === 0){
+                t1 = classes.ClassDetail[0].Assassin[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[0].Assassin[0].Champions.length;
+            }
+            else if (i === 1){
+                t1 = classes.ClassDetail[1].Fighter[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[1].Fighter[0].Champions.length;
+            }
+            else if (i === 2){
+                t1 = classes.ClassDetail[2].Mage[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[2].Mage[0].Champions.length;
+            }
+            else if (i === 3){
+                t1 = classes.ClassDetail[3].Marksman[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[3].Marksman[0].Champions.length;
+            }
+            else if (i === 4){
+                t1 = classes.ClassDetail[4].Support[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[4].Support[0].Champions.length;
+            }
+            else if (i === 5){
+                t1 = classes.ClassDetail[5].Tank[0].Champions.length;
+                t2 = secondaryClasses.ClassDetail[5].Tank[0].Champions.length;
+            }
+            else{
+                console.log("Broke!");
+            }
+
+            for(let j = 0; j < classes.ClassDetail.length; j++){
+                if(i < j){
+                    var s = 0;
+                    var classTwo = j;
+
+                    var connectedX = 400 + ((300) * Math.sin(Math.PI*j/3+Math.PI/6));
+                    var connectedY = 400 - ((300) * Math.cos(Math.PI*j/3+Math.PI/6));
+
+                    for (let k = 0; k < links.length; k++) {
+                        if((links[k][0] === classOne && links[k][1] === classTwo) || ((links[k][1] === classOne && links[k][0] === classTwo))){
+                            s = s + 1;
+                        }
+                    }
+
+                    var connection = svg.append("line");
+
+                    connection.attr("x1", outerOriginX);
+                    connection.attr("y1", outerOriginY);
+                    connection.attr("x2", connectedX);
+                    connection.attr("y2", connectedY);
+                    connection.attr("stroke", "black");
+                    connection.attr("stroke-width", s);
+                    connection.attr("IDOne", classOne);
+                    connection.attr("IDTwo", classTwo);
+                    connection.on('mouseover', function(e, d){
+                        d3.select(this).attr('opacity', 0.5);
+                        IDOne = d3.select(this).attr("IDOne");
+                        IDTwo = d3.select(this).attr("IDTwo");
+                        d3.selectAll("rect").each(function(d, i) {
+                            if (d3.select(this).attr("IDOne").toString() === IDOne && d3.select(this).attr("IDTwo").toString() === IDTwo) {
+                                d3.select(this).attr('opacity', 0.5);
+                            }
+                        })
+                    });
+                    connection.on('mouseout', function(e, d) {
+                        d3.select(this).attr('opacity', 1);
+                        IDOne = d3.select(this).attr("IDOne");
+                        IDTwo = d3.select(this).attr("IDTwo");
+                        d3.selectAll("rect").each(function(d, i) {
+                            if (d3.select(this).attr("IDOne").toString() === IDOne && d3.select(this).attr("IDTwo").toString() === IDTwo) {
+                                d3.select(this).attr('opacity', 1);
+                            }
+                        })
+                    });
+                }
+            }
+
+            var whiteCircle = svg.append("circle");
+            whiteCircle.attr("cx", outerOriginX);
+            whiteCircle.attr("cy", outerOriginY);
+            whiteCircle.attr("fill", 'white');
+            whiteCircle.attr("r", t1+t2);
+
+
+            var classCircle = svg.append("circle");
+
+            classCircle.attr("cx", outerOriginX);
+            classCircle.attr("cy", outerOriginY);
+            classCircle.attr("fill", colorPerClass[i]);
+            classCircle.attr("r", t1+t2);
+            classCircle.attr("IDOne", classOne);
+            classCircle.on('mouseover', function(e, d){
+                d3.select(this).attr('opacity', 0.5);
+                IDOne = d3.select(this).attr("IDOne");
+                d3.selectAll("rect").each(function(d, i) {
+                    if (d3.select(this).attr("IDOne").toString() === IDOne) {
+                        d3.select(this).attr('opacity', 0.5);
+                    }
+                })
+            });
+            classCircle.on('mouseout', function(e, d){
+                d3.select(this).attr('opacity', 1);
+                IDOne = d3.select(this).attr("IDOne");
+                d3.selectAll("rect").each(function(d, i) {
+                    if (d3.select(this).attr("IDOne").toString() === IDOne) {
+                        d3.select(this).attr('opacity', 1);
+                    }
+                })
+            });
+
+            var classNum = svg.append("text")
+                .attr("x", outerOriginX-17)
+                .attr("y", outerOriginY+5)
+                .text(t1 + "/" + t2);
+        }
+
+        var assassinText = svg.append("text")
+            .attr("x", 525)
+            .attr("y", 80)
+            .text("Assassin");
+
+        var fighterText = svg.append("text")
+            .attr("x", 700)
+            .attr("y", 325)
+            .text("Fighter");
+
+        var mageText = svg.append("text")
+            .attr("x", 530)
+            .attr("y", 740)
+            .text("Mage");
+
+        var marksmanText = svg.append("text")
+            .attr("x", 210)
+            .attr("y", 720)
+            .text("Marksman");
+
+        var supportText = svg.append("text")
+            .attr("x", 5)
+            .attr("y", 400)
+            .text("Support");
+
+        var tankText = svg.append("text")
+            .attr("x", 233)
+            .attr("y", 80)
+            .text("Tank");
+
+        //Second View
+        secondsvg.selectAll('text')
+            .data(text)
+            .enter().append('text')
+            .attr('x', function(d) {return d[0];})
+            .attr('y', function(d) {return yScale(d[1]);})
+            .text(function(d) {return d[2];});
+
+        for (let i = 0; i < classes.ClassDetail.length; i++) {
+            var barX = 110 + 110*i;
+            var classOne = i;
+            var t1;
+            var totalHeight = 0;
+
+            for(let j = 0; j < classes.ClassDetail.length; j++){
+                var height = 0;
+                var classTwo = j;
+
+                for (let k = 0; k < links.length; k++) {
+                    if((links[k][0] === classOne && links[k][1] === classTwo) || ((links[k][1] === classOne && links[k][0] === classTwo))){
+                        height = height + 1;
+                    }
+                }
+                totalHeight = height + totalHeight;
+
+                var barSegment = secondsvg.append("rect")
+                    .attr("x", barX)
+                    .attr("y", function(d) {return yScale(totalHeight)})
+                    .attr("width", 90)
+                    .attr("height", function(d) {return (yScale(1)-yScale(2))*height})
+                    .attr("fill", colorPerClass[classTwo])
+                    .attr("IDOne", classOne)
+                    .attr("IDTwo", classTwo)
+                    .on('mouseover', function(e, d){
+                        d3.select(this).attr('opacity', 0.5);
+                        IDOne = d3.select(this).attr("IDOne");
+                        IDTwo = d3.select(this).attr("IDTwo");
+                        if(IDOne === IDTwo) {
+                            d3.selectAll("circle").each(function (d, i) {
+                                if (d3.select(this).attr("IDOne") === IDOne) {
+                                    d3.select(this).attr('opacity', 0.5);
+                                }
+                            })
+                        }
+                        else {
+                            d3.selectAll("line").each(function (d, i) {
+                                if ((d3.select(this).attr("IDOne") === IDOne && d3.select(this).attr("IDTwo") === IDTwo) ||
+                                    (d3.select(this).attr("IDOne") === IDTwo && d3.select(this).attr("IDTwo") === IDOne)) {
+                                    d3.select(this).attr('opacity', 0.5);
+                                }
+                            })
+                        }
+                    })
+                    .on('mouseout', function(e, d){
+                        d3.select(this).attr('opacity', 1);
+                        IDOne = d3.select(this).attr("IDOne");
+                        IDTwo = d3.select(this).attr("IDTwo");
+                        if(IDOne === IDTwo) {
+                            d3.selectAll("circle").each(function (d, i) {
+                                if (d3.select(this).attr("IDOne") === IDOne) {
+                                    d3.select(this).attr('opacity', 1);
+                                }
+                            })
+                        }
+                        else {
+                            d3.selectAll("line").each(function (d, i) {
+                                if ((d3.select(this).attr("IDOne") === IDOne && d3.select(this).attr("IDTwo") === IDTwo) ||
+                                    (d3.select(this).attr("IDOne") === IDTwo && d3.select(this).attr("IDTwo") === IDOne)) {
+                                    d3.select(this).attr('opacity', 1);
+                                }
+                            })
+                        }
+                    });
+            }
+        }
+
+        var xaxis = secondsvg.append("line")
+            .attr("x1", 100)
+            .attr("x2", 760)
+            .attr("y1", 700)
+            .attr("y2", 700)
+            .attr("stroke", "black");
+
+        var yaxis = secondsvg.append("line")
+            .attr("x1", 100)
+            .attr("x2", 100)
+            .attr("y1", 40)
+            .attr("y2", 700)
+            .attr("stroke", "black");
+    }
+    
+</script>
