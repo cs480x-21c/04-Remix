@@ -14,3 +14,10 @@ Data sources:
 
 # Overview
 I chose this vis because I found it interesting, and because I know that pie charts are generally frowned upon.
+
+# Achievements:
+## Tech
+
+
+## Design
+Made the bubbles for the initial vis scale logarithmically, to better highlight proportional differences over absolute differences.

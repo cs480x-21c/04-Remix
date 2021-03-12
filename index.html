@@ -229,6 +229,9 @@
             createVisA(i);
         }
     } else if (sessionStorage.getItem("View") == "Compare") {
+        
+        
+        
         var c = JSON.parse(sessionStorage.getItem("CompareList"));
         for (i = 0; i < c.length; i++) {
             svg.append("text")
