@@ -27,6 +27,7 @@ var color = d3.scaleOrdinal()
 	])
 	.domain(labels)
 
+var lockedID = null
 
 function highlight(hover) {
 	var map = d3.select('#map')
@@ -65,10 +66,7 @@ function filter(source, show) {
 	source.attr('show', show)
 }
 
-
 function createMap(world, data) {
-	lockedID = null
-
 	//var land = topojson.feature(world, world.objects.land)
 	var countries = topojson.feature(world, world.objects.countries)
 
@@ -161,7 +159,9 @@ function createMap(world, data) {
 			.attr('stroke-opacity', 0.5)
 			.attr('show', true)
 			.on('click', function() {
-				filter(d3.select(this), d3.select(this).attr('show') != 'true')
+				if (lockedID == null) {
+					filter(d3.select(this), d3.select(this).attr('show') != 'true')
+				}
 			})
 			.on('mouseover', function() {
 				d3.select(this).attr('opacity', 1);
