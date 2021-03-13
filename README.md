@@ -49,7 +49,7 @@ The entire vis also fits nicely on my (albeit very high resolution) screen, with
 
 # Working Link
 
-http://pbcoady.github.io/04-Remix/index.html
+http://pbcoady.github.io/04-Remix/
 
 
 # Sources
