@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<html>
+
+    <body>
+
+        <h1>Total Gonorrhea Rates in California Counties</h1>
+        <p>A CS480x Assignment by Jean-Philippe Pierre</p>
+        <p>The original visualization was a line chart displaying the gonorrhea rates by California county over time. The major issues with the original vis was that it 
+            displayed numerous counties. This resulted in an excessive number of lines in the visualization, creating a lot of visual clutter. In addition, some of the colors 
+            of these lines are quite close to each other. Because they aren't very perceptually separable, the line chart is difficult to read. Finally, the line chart does not provide the user 
+            with the ability to check which county a specific line represents, apart from San Francisco.
+        </p>
+        <p>
+            The remix displays less lines and colors them so that they are as perceptually seperable as possible (Colors gained from Colorgorical). The original dataset contained 
+            rates not only total populations but for men and women as well. The remix displays these in a linked bar chart. Users can access each county's visualization of male and
+             female rates by clicking on its corresponding line. The linked chart also displays the county name, letting users know the counties that correspond to each line.
+        </p>
+        <div id="visContainer">
+            <svg id="lineSvg"></svg><br><br>
+            <svg id="barSvg"></svg>
+        </div>
+
+    </body>
+
+    <script>
+        console.log(d3);
+
+        let margin = {
+            left: 60,
+            top: 10,
+            right: 10,
+            bottom: 10
+        };
+
+        let height = 480 - margin.top - margin.bottom;
+        let width = 640 - margin.left - margin.right;
+
+        let minPopulation = 780000
+
+        let svg = d3.select('#lineSvg');
+
+        svg.style('width', width + margin.left + margin.right)
+        .style('height', height + margin.top + margin.bottom);
+
+        let div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", "0");
+
+        let app = new Vue({
+            el: '#visContainer',
+            data: {
+                totalData: null,
+                maleData: null,
+                femaleData: null,
+                selectedCounty: null,
+            },
+            mounted: async function() {
+                await this.createLineChart();
+            },
+            methods: {
+                async createLineChart() {
+
+                    let data = await d3.csv('gonorrhea_data.csv');
+
+                    svg = d3.select('#lineSvg');
+
+                    let group = svg.append('g')
+                    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+                    //let tooltip = svg.select('#hover');
+
+                    //convert strings to ints
+                    for(let d of data) {
+                        d.Rate = parseInt(d.Rate);
+                        d.Population = parseInt(d.Population);
+                    }
+
+                    //remove missing values
+                    data = data.filter(d => !isNaN(d.Rate));
+
+                    //filter based on population
+                    data = data.filter(d => {
+
+                        if(d.Sex == 'Total') {
+                            return d.Population >= minPopulation
+                        } else return true;
+                        
+                    });
+
+                    let totalData = data.filter(d => d.Sex == 'Total');
+                    let maleData = data.filter(d => d.Sex == 'Male');
+                    let femaleData = data.filter(d => d.Sex == 'Female');
+
+                    let xScale = d3.scaleTime()
+                    .domain([d3.timeParse('%Y')(2001), d3.timeParse('%Y')(2018)])
+                    .range([0, width-margin.right]);
+
+                    let yScale = d3.scaleLinear()
+                    .domain([0, d3.max(totalData, (d) => { return d.Rate })])
+                    .range([height, 0]);
+
+                    //create x axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, ${height})`)
+                    .call(d3.axisBottom(xScale));
+
+                    //create y axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, 0)`)
+                    .call(d3.axisLeft(yScale));
+
+                    let totalGroupings = d3.group(totalData, d => d.County);
+                    let maleGroupings = d3.group(maleData, d => d.County);
+                    let femaleGroupings = d3.group(femaleData, d => d.County);
+
+                    this.totalData = totalGroupings;
+                    this.maleData = maleGroupings;
+                    this.femaleData = femaleGroupings;
+
+                    let counties = totalGroupings.keys();
+                    let color = d3.scaleOrdinal()
+                    .domain(counties)
+                    .range(["#58b5e1", "#7a3003", "#59d13e", "#a52e78", "#a9c358", "#a261f6", "#57832e", "#ef3df3", "#fcce6a", "#4f28af", "#fd8f20", "#2a538a", "#4aeeb6"]);
+
+                    let line = d3.line()
+                    .x((d) => { return xScale(d3.timeParse('%Y')(d.Year)); })
+                    .y((d) => { return yScale(d.Rate); })
+
+                    console.log(totalGroupings)
+                    console.log(maleGroupings)
+
+                    group.selectAll('line')
+                    .data(totalGroupings)
+                    .enter()
+                    .filter(d => d[0] != 'San Francisco')
+                    .append('path')
+                        .attr('class', 'lcLine')
+                        .attr('fill', 'none')
+                        .attr('stroke', (d) => { return color(d[0]) })
+                        .attr('stroke-width', 1)
+                        .attr('d', function(d) {
+                            return line(d[1]);
+                        })
+                        .on('mouseover', (event, d) => {
+                            d3.select(event.target).attr('stroke-width', 3);
+                            
+                            this.hoverCounty = d[0];
+
+                            div.style("display", "block");
+                            div.transition()
+                            .duration(300)
+                            .style("opacity", "0.8");
+                            
+                            div.html(`<p>${d[0]}</p>`);
+                            
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                        })
+                        .on('mousemove', function(event, d) {
+
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                            
+                        })
+                        .on('mouseout', function (event, d) {
+
+                            div.transition()
+                            .duration(500)
+                            .style("opacity", "0");
+
+                            d3.select(event.target).attr('stroke-width', 1);
+                        })
+                        .on('mousedown', (event, d) => {
+                            this.createBarChart(d);
+                            this.selectedCounty = d[0];
+                        })
+
+                    let sfLine = group.selectAll('line')
+                    .data(totalGroupings)
+                    .enter()
+                    .filter(d => d[0] == 'San Francisco')
+                    .append('path')
+                        .attr('class', 'lcLine')
+                        .attr('fill', 'none')
+                        .attr('stroke', (d) => { return color(d[0]) })
+                        .attr('stroke-width', 1)
+                        .attr('d', function(d) {
+                            return line(d[1]);
+                        })
+                        .on('mouseover', (event, d) => {
+                            d3.select(event.target).attr('stroke-width', 3);
+                            
+                            this.hoverCounty = d[0];
+
+                            div.style("display", "block");
+                            div.transition()
+                            .duration(300)
+                            .style("opacity", "0.8");
+                            
+                            div.html(`<p>${d[0]}</p>`);
+                            
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                        })
+                        .on('mousemove', function(event, d) {
+
+                            div.style("left", event.pageX + 10 + 'px')
+                            .style("top", event.pageY - 40 + 'px');
+                            
+                        })
+                        .on('mouseout', function (event, d) {
+
+                            div.transition()
+                            .duration(500)
+                            .style("opacity", "0");
+
+                            d3.select(event.target).attr('stroke-width', 1);
+                        })
+                        .on('mousedown', (event, d) => {
+                            this.createBarChart(d);
+                            this.selectedCounty = d[0];
+                        })
+
+                        let pathLength = sfLine.node().getTotalLength();
+                        let transition = d3.transition()
+                        .ease(d3.easeSin)
+                        .duration(3500);
+
+                        sfLine.attr("stroke-dashoffset", pathLength)
+                        .attr("stroke-dasharray", pathLength)
+                        .transition(transition)
+                        .attr("stroke-dashoffset", 0)
+                        .transition()
+                        .duration(100)
+                        .attr('stroke-width', 5)
+                        .transition()
+                        .duration(100)
+                        .attr('stroke-width', 1)
+
+                },
+
+                createBarChart(clickedData) {
+                    let county = clickedData[0];
+                    let maleData = this.maleData.get(county);
+                    let femaleData = this.femaleData.get(county);
+                    let aggregatedData = maleData.concat(femaleData);
+
+                    aggregatedData.sort((a,b) => {
+                        if(a.Year == b.Year) {
+                            return b.Sex - a.Sex;
+                        } else return a.Year - b.Year;
+                    })
+
+                    let transformedData = new Map();
+
+                    for(let i = 0; i<=aggregatedData.length-2; i += 2) {
+                        
+                        let year = aggregatedData[i].Year;
+                        let maleRate = aggregatedData[i].Rate;
+                        let femaleRate = aggregatedData[i+1].Rate;
+
+                        let obj = {
+                            maleRate: maleRate,
+                            femaleRate: femaleRate
+                        };
+
+                        transformedData.set(year, obj);
+                    }
+                    
+                    let barHeight = 480 - margin.top - margin.bottom;
+                    let barWidth = 640 - margin.left - margin.right;
+
+                    svg = d3.select('#barSvg')
+                    .style('height', barHeight + margin.top + margin.bottom)
+                    .style('width', barWidth + margin.left + margin.right)
+
+                    svg.selectAll('*').remove();
+
+                    let group = svg.append('g')
+                    .attr('transform', `translate(${margin.left},${margin.top})`);
+
+                    let subgroups = ['Male', 'Female'];
+
+                    let xScale = d3.scaleBand()
+                    .domain(transformedData.keys())
+                    .range([0, barWidth])
+                    .padding(.1);
+
+                    let yScale = d3.scaleLinear()
+                    .domain([0, d3.max(transformedData, (d) => { return Math.max(d[1].maleRate, d[1].femaleRate) })])
+                    .range([barHeight, 0]);
+
+                    let subScale = d3.scaleBand()
+                    .domain(subgroups)
+                    .range([0, xScale.bandwidth()])
+                    .padding(.1);
+
+                    //create x axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, ${barHeight})`)
+                    .call(d3.axisBottom(xScale));
+
+                    //create y axis
+                    svg.append('g')
+                    .attr('transform', `translate(${margin.left}, 0)`)
+                    .call(d3.axisLeft(yScale));
+
+                    console.log(transformedData);
+                    
+                    let yearGroup = group.selectAll('yearGroup')
+                        .data(transformedData)
+                        .enter()
+                        .append('g')
+                            .attr('transform', d => { return `translate(${xScale(d[0])})` });
+
+                    yearGroup.selectAll('maleBar')
+                    .data(d => [d])
+                    .enter()
+                    .append('rect')
+                    .attr('fill', 'steelblue')
+                    .attr('x', subScale('Male'))
+                    .attr('y', d => yScale(d[1].maleRate) - margin.top)
+                    .attr('width', subScale.bandwidth())
+                    .attr('height', d => barHeight - yScale(d[1].maleRate))
+                    .attr('class', 'maleBar')
+                    .on('mouseover', (event, barData) => {
+                        d3.selectAll('.femaleBar')
+                        .attr('opacity', 0.3);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 0);
+
+                    })
+                    .on('mouseout', (event) => {
+                        d3.selectAll('.femaleBar')
+                        .attr('opacity', 1);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 1);
+
+                    })
+
+                    yearGroup.selectAll('femaleBar')
+                    .data(d => [d])
+                    .enter()
+                    .append('rect')
+                    .attr('fill', 'red')
+                    .attr('x', subScale('Female'))
+                    .attr('y', d => yScale(d[1].femaleRate) - margin.top)
+                    .attr('width', subScale.bandwidth())
+                    .attr('height', d => barHeight - yScale(d[1].femaleRate))
+                    .attr('class', 'femaleBar')
+                    .on('mouseover', (event) => {
+                        d3.selectAll('.maleBar')
+                        .attr('opacity', 0.3);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 0);
+
+                    })
+                    .on('mouseout', (event) => {
+                        d3.selectAll('.maleBar')
+                        .attr('opacity', 1);
+
+                        d3.select('#lineSvg').selectAll('.lcLine')
+                        .filter(d => d[0] != this.selectedCounty)
+                        .attr('opacity', 1);
+
+                    })
+
+                    //add title and legend
+                    let title = svg.append('text')
+                    .attr('x', ((width + margin.left + margin.right) / 2) - 150)
+                    .attr('y', margin.top + 10)
+                    .attr('font', '13px')
+                    .attr('fill', 'black')
+                    .text(`Male and Female Gonorrhea Rates in ${county}`);
+
+                    let legend = svg.append('g')
+                    .attr('transform', `translate(${parseInt(title.attr('x')) + 75}, ${parseInt(title.attr('y')) + 30})`);
+
+                    let maleListing = legend.append('text')
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('fill', 'black')
+                    .attr('font', '13px')
+                    .text('Male:');
+
+                    let blueRect = legend.append('rect')
+                    .attr('y', -10)
+                    .attr('x', parseInt(maleListing.attr('x')) + 45)
+                    .attr('width', 10)
+                    .attr('height', 10)
+                    .attr('fill', 'steelblue');
+
+                    let femaleListing = legend.append('text')
+                    .attr('x', parseInt(maleListing.attr('x')) + 70)
+                    .attr('y', 0)
+                    .attr('fill', 'black')
+                    .attr('font', '13px')
+                    .text('Female:');
+
+                    let redRect = legend.append('rect')
+                    .attr('y', -10)
+                    .attr('x', parseInt(femaleListing.attr('x')) + 65)
+                    .attr('width', 10)
+                    .attr('height', 10)
+                    .attr('fill', 'red');
+
+                }
+
+            }
+
+
+        })
+
+    </script>
+
+    <style>
+        .lcLine {
+            cursor: pointer;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 100px;
+            min-height: 20px;
+            padding: 1px;
+            background: white; 
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        body {
+            font-family: Arial;
+            text-align: center;
+        }
+    </style>
+
+</html>

@@ -1,64 +1,33 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
+# Assignment 4
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+The original visualization:
 
-### Your Task
+https://www.reddit.com/r/dataisbeautiful/comments/lcunfb/gonorrhea_rates_by_county_in_california_oc/
+![original](original.png)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+The remix:
 
-By remix, we mean:
+![remix](remix.png)
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+The dataset for this visualization can be found at https://data.world/chhs/4de76cd0-0ac9-4260-8ac3-0637acb444fb/workspace/file?filename=stds-by-disease-county-year-and-sex.csv. It is also in this repository, filtered to include only gonorrhea rates.
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+The original visualization was a line chart displaying the gonorrhea rates by California county over time. A major issue with the original visualization was that it displayed numerous counties. This resulted in an excessive number of lines in the visualization, creating a lot of visual clutter. In addition, some of the colors of these lines are quite close to each other. Because they aren't very perceptually separable, the line chart is difficult to read. Finally, the line chart does not provide the user with the ability to check which county a specific line represents, apart from San Francisco.
 
-By two linked views, we mean:
+The remix displays less lines and colors them so that they are as perceptually seperable as possible (Colors gained from Colorgorical). The original dataset contained rates of not only total populations but for men and women as well. The remix displays these in a linked bar chart. Users can access each county's visualization of male and female rates by clicking on its corresponding line. The linked chart also displays the county name, letting users know the counties that correspond to each line.
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+Users can also hover over the bars in the linked bar chart to focus male or female rates in the chart.
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+Link to the remix visualization: https://japierreswe.github.io/04-Remix/
 
+## Technical Achievements
+* Animated the San Fransisco line to further convey the original visualization's point.
+* Created a tooltip for the lines on the line chart that displays the corresponding county's name.
+* Added interactivity to the bar chart allowing users to focus the male rates or the female rates.
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+## Design Acheivements
+* The mouse cursor becomes a pointer when hovering over the lines of the line chart to let the user know they can select the county. This was intended to improve the user experience.
+* The stroke width of a line increases when a user hovers over to let the user know they can select the county. This was intended to improve the user experience.
+* The tooltip feature was added to let the user know what county they are currently selecting. The title of the linked bar chart lets the user know what county has been selected. This was a design choice to help them to know what counties the lines in the line chart represent.
+* The focus feature in the bar chart was intended to make it easier for users to view trends in the Male or Female group.
+* Added a legend to linked bar chart.
+* The focus feature of the bar chart focuses the corresponding line chart to make it easier for the user to know which line corresponds to the county.
