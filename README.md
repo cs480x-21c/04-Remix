@@ -91,3 +91,4 @@ Reference
 - https://observablehq.com/@john-clarke/programmatically-control-a-d3-brush
 - https://observablehq.com/@d3/pannable-chart
 - https://www.youtube.com/watch?v=_8V5o2UHG0E&t=45216s
+- https://covidtracking.com/data/download data reference
