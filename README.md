@@ -7,7 +7,7 @@ Project Page: https://alescion.github.io/04-Remix/
 
 
 # Background
----
+
 As a Chess enthusiast myself, I was interested to stumble upon this visualization on Reddit's r/dataisbeautiful:
 
 ![original_viz](viz.png)
@@ -18,12 +18,12 @@ I think the principal issue with this visualization is that it leaves a lot for 
 
 
 # The Remix Plan
----
+
 I decided to remix this visualization. My original plan was to change the units to 'squares' traveled, as opposed to meters (not all chess boards have the same size squares), and to add an interactive component. The interactive component would allow the user to select a bar on the main bar chart and "filter" the data by the selected piece. Part of this meant adding a y-axis label for each piece as opposed to white/black pairs. Selecting a bar would, in theory, update another graphic such as a pie chart or a gauge with the win percentage for the games where Magnus frequently moved that piece (at least 4 squares in the game). This was possible given that the dataset used in the original graphic contained the last ~3000 games of Magnus's chess career, with each game containing the number of squares that each of Magnus's piece moved.
 
 
 # The Results
----
+
 ![remixed_vis](screenshot.png)
 
 So... it didn't turn out the way I originally intended. Attempts to create a pie chart/gauge were futile, even with the assistance of my A3/final project partners. Many hours of my day were spent getting the bar chart to work (the first iteration was a mystery failure - the TA (Noëlle), and I could not figure out what the issue was). What the current visualization does is it allows the user to select a bar and get statistics for the corresponding piece (win, loss, and draw percentage for games where that piece was frequently moved).
@@ -41,7 +41,7 @@ So... it didn't turn out the way I originally intended. Attempts to create a pie
 
 
 # References
----
+
 Original reddit post: https://www.reddit.com/r/dataisbeautiful/comments/lje2s4/total_distance_traveled_by_gm_magnus_carlsens/
 
 Link directly to viz: https://i.redd.it/2mtubvj7hch61.png
