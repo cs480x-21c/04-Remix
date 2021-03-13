@@ -39,8 +39,9 @@ So... it didn't turn out the way I originally intended. Attempts to create a pie
 - included chess unicode characters
 - some CSS styling to make the statistics div appear alongside the bar chart
 
-### References
-  
+
+# References
+---
 Original reddit post: https://www.reddit.com/r/dataisbeautiful/comments/lje2s4/total_distance_traveled_by_gm_magnus_carlsens/
 
 Link directly to viz: https://i.redd.it/2mtubvj7hch61.png
