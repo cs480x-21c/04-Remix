@@ -116,17 +116,17 @@ function createMap(world, data) {
 					d.Latitude
 				]) + ")"
 			)
-			.attr('fill', d => color(d['Degree of endangerment']))
+			.attr('fill', d => color(d.Status))
 			.attr('opacity', 0.5)
-			.attr('id', d => "c_" + d['Degree of endangerment'].replace(/\s/g,'_') )
+			.attr('id', d => "c_" + d.Status.replace(/\s/g,'_') )
 			.on('mouseover', function (d, i) {
 				if (d3.select(this).attr('opacity') > 0) {
 					d3.select(this).attr('opacity', 1);
 
-					let tip = 'Name: ' + i['Name in English'] +
-						"<br>Endangerment Status: " + i['Degree of endangerment'] +
-						"<br>Speakers: " + (i['Number of speakers'] == "" ? "N/A" : i['Number of speakers']) +
-						"<br>Countries Spoken: " + i['Countries']
+					let tip = 'Name: ' + i.Name +
+						"<br>Endangerment Status: " + i.Status +
+						"<br>Speakers: " + (i.Speakers == "" ? "N/A" : i.Speakers) +
+						"<br>Countries Spoken: " + i.Countries
 
 					return tooltip.html(tip).style('visibility', 'visible');
 				}
@@ -196,7 +196,7 @@ function createChart(data) {
 	})
 
 	data.forEach(function (d) {
-		counts[d['Degree of endangerment']] += 1
+		counts[d.Status] += 1
 	});
 
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59

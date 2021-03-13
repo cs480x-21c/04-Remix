@@ -83,11 +83,11 @@ function createMap(world, data, totals, fullData) {
 					createChart(data, data.filter(d => d.Country == i.properties.name))
 				}
 
-				let tip = i.properties.name + "<br>"
+				let tip = "<b>" + i.properties.name + "</b><br>"
 
 				if (showLangs) {
 					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
-						tip += v.Name + ": " + v.Status + "<br>"
+						tip += v.Name + ": <i>" + v.Status + ", " + (v.Speakers == "" ? "N/A" : v.Speakers) + " speakers </i><br>"
 					})
 					
 				}
@@ -106,10 +106,10 @@ function createMap(world, data, totals, fullData) {
 			})
 			.on('click', function(d, i) {
 				showLangs = !showLangs
-				var tip = i.properties.name + "<br>"
+				var tip = "<b>" + i.properties.name + "</b><br>"
 				if (showLangs) {
 					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
-						tip += v.Name + ": " + v.Status + "<br>"
+						tip += v.Name + ": <i>" + v.Status + ", " + (v.Speakers == "" ? "N/A" : v.Speakers) + " speakers </i><br>"
 					})
 				}
 				tooltip.html(tip)
@@ -144,14 +144,14 @@ function colorMap(data, status='TOTAL') {
 	mapSVG.call(legend)
 		
 	mapSVG.select('.legendCells')
-		.attr('transform', "translate(1500, 100)")
+		.attr('transform', "translate(1025, 100)")
 
 	mapSVG.selectAll('.swatch')
 		.attr('stroke-width', 1)
 		.attr('stroke', '#252525')
 	
 	mapSVG.select('.legendTitle')
-		.attr('transform', "translate(1500, 90)")
+		.attr('transform', "translate(1025, 90)")
 		.attr('stroke-width', 1)
 		.attr('stroke', '#252525') //this is a hack to make it bold lol
 

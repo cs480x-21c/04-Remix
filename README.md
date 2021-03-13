@@ -1,64 +1,27 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
+# Assignment 4 - DataVis Remix + Multiple Views
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+## Original Visualization
 
-### Your Task
+The original visualization which mine is based off of is from [this post](https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/) to [r/dataisbeautiful](https://www.reddit.com/r/dataisbeautiful/):
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+![Original Visualization](./img/orig.png)
 
-By remix, we mean:
+When I first saw this visual I was rather confused, not just because it's a little unclear what it is trying to show, but also because there isn't really a lot of meaning behind it. The distribution of critically endangered languages relative to their number of native speakers isn't really a useful statistic (looking at languages within a category isn't as meaningful as comparing to other categories). As such, I made it my goal not just to remix this data to make it more usable, but also to make it more meaningful in general by putting the data in perspective. Rather than just looking at critically endangered languages, I'd look at all degrees of endangerment (including extinction), as well as where geographically endangerment is occuring.
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+## First Attempt
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+My first attempt at remixing this visualization was to build a map with all the languages plotted on it as dots (the dataset came with longitude and latitude values for each entry), colored by their endangerment status. The dots on the map could be highlighted to get information about the language, and the legend on the right could be used to filter the map. The bar graph underneath the map showed overall numbers for how many languages fit into a certain category, and hovering over one of the bars would show only the corresponding dots on the map (clicking on it would lock this selection). 
 
-By two linked views, we mean:
+![First Attempt](./img/try1.png)
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+The problem I had with this visualization is it didn't feel like there was a meaningful connection between the bar graph and the map. The bar graph felt like it was just sort of "there". The map also was kind of clunky to use and less responsive than I'd like, and for the purpose of the assignment it didn't really fill the requirements as while something done to the bar graph affected the map, nothing happened the other way around. While not a bad visualization (and in my opinion much better than the original), I wasn't really happy with it in the end, leading me to rewrite most of the visualization from scratch to try a different route.
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+## Second Attempt
 
+In my second attempt I decided to have less of a focus on the individual languages, and more on the overall trends. Something that was missing from my first attempt was information about where the languages were spoken. Many languages, despite having a single location, were listed as being spoken in multiple countries. As such I did some modification to the data so as to be able to get more meaningful insight out of it (this also means that one language may contribute to the counts of multiple countries, but personally I believe that is okay, if not a better way to handle this). Now, instead of using dots to indicate every single language, I colored each country by how many vulnerable, endangered, and/or extinct languages are/were spoken in them. When not hovering over a country, the bar graph displays the overall values for the world. When hovering over a country the bar graph displays the breakdown for the selected country. When hovering over one of the bars in the bar graph, the map will adjust to exclusively show languages in that category (e.g. if you hover over "Extinct" the map will only show counts for extinct languages). Lastly if you click while hovering over a country, you can toggle the tooltip to show the list of vulnerable, endangered, and extinct languages spoken in that country and the number of speakers. The tooltip isn't perfect and will go off the screen and/or cover content when hovering over countries with lots of languages, such as Brazil, Russia, or the USA, but it is interesting to see nonetheless and if I had more time I very much would have liked to improve the tooltips.
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+![Second Attempt](./img/try2.png)
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+## Final Implementation
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+For my final implementation I decided that rather than completely scrapping my original code, that I could improve the meaningfulness of the visualization by linking both versions. As such, both versions (which are on separate pages) are accessible at [https://nyoma-diamond.github.io/04-Remix](https://nyoma-diamond.github.io/04-Remix). While on its own my second attempt is (in my opinion) a good and meaningful visualization, it is improved when it can be used in conjunction with my first attempt, so both are available.
