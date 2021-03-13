@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- favicon error -->
+  <link rel="shortcut icon" href="#">
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 6px;
+    }
+
+    .row {
+      display: flex;
+    }
+
+
+    .tooltip-map {
+      position: absolute;
+      text-align: left;
+      padding: .5rem;
+      background: #FFFFFF;
+      color: #313639;
+      border: 1px solid #313639;
+      border-radius: 8px;
+      pointer-events: none;
+      font-size: 1em;
+    }
+
+    .mainDiv{
+      display: block;
+   margin-left: auto;
+   margin-right: auto
+    }
+
+    h2 {
+      padding-left: 10px;
+      height: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reductio/1.0.0/reductio.min.js" integrity="sha512-dpNFXYxfvCC775pj8TELHq4usthTiHrwSx4IcgZBnsHvBTIU1pm8jWXQaNhzY+AxjrlxgLXVtxktAWOo/0oCKA==" crossorigin="anonymous"></script>
+  <script src="js/scatterChart.js"></script>
+  <script src="js/legend.js"></script>
+
+<div class='mainDiv'>
+  <div class="row">
+    <div>
+      <h2 id='mapHeader'>Average Monthly Earnings by Region(GEL)</h2>
+      <div>
+        <svg id="map" style="border: 0.1em solid black; margin-top: 20px; margin-left:10px">
+        </svg>
+      </div>
+    </div>
+    <div>
+      <h2 id='barHeader'>Average Monthly Earnings by Year(GEL)</h2>
+      <div class="barChart" id="earningsByYear"></div>
+    </div>
+  </div>
+  <div id="mapLegendDIV" style="align-content: center;">
+    <svg id="mapLegendSVG" style="margin-left:50px">
+    </svg>
+  </div>
+</div>
+
+  <script>
+    Promise.all(
+      [
+        d3.json('data/georgia.geojson'),
+        d3.csv('data/earningsRegions.csv')
+      ]
+    ).then(([countries, earnings]) => {
+      createMap(countries, earnings)
+    });
+
+    var scatterChartYear = scatterChart()
+      .x(function(d) {
+        return d.key;
+      })
+      .y(function(d) {
+        return d.value;
+      });
+
+    function createMap(regions, earnings) {
+      //  console.log(innerWidth);
+      //  console.log(innerHeight);
+      //map width and height
+      var widthMap = 700;
+      var heightMap = 430;
+
+      var clickedMap = false;
+      //var clickedGraph =false;
+      //data
+      var currentMin = 0;
+      var currentMax = 1300;
+      var defaultMin = 0;
+      var defaultMax = 1350;
+      var currentValue = -1;
+
+      var circleColor = '#25659e';
+      var defaultcircleColor = '#25659e';
+      //Crossfilter values for data
+      var data = crossfilter(earnings);
+      data.year = data.dimension(function(d) {
+        return d.Year;
+      });
+      data.region = data.dimension(function(d) {
+        return d.Region;
+      });
+      data.region.filterExact("Total");
+      data.yearGroup = data.year.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+      data.regionGroup = data.region.group().reduceSum(function(d) {
+        return d.AvgEarning;
+      });
+      reductio().avg('AvgEarning')(data.regionGroup);
+
+      //graph hover over and show names
+      var tipGraph = d3.select("body").append("div")
+        .attr("class", "tooltip-map")
+        .style("opacity", 0);
+
+      //Hover over bar chart to choose year
+      scatterChartYear.onMouseOver(function(e, d) {
+        console.log(d);
+        var message ="Year: " +d.key;
+        if (!clickedMap) {
+          data.year.filterExact(d.key);
+          currentMin = 0; //data.year.top(1)[0].AvgEarning;
+          currentMax = data.year.bottom(1)[0].AvgEarning;
+          //change color on the map
+          changeColorMap();
+          document.getElementById("mapHeader").innerHTML = d.key + " Average Monthly Earnings by Region(GEL)";
+        }
+
+
+        tipGraph.transition()
+          .duration(50)
+          .style("opacity", 1);
+
+        tipGraph.html(message)
+          .style("left", (e.pageX + 15) + "px")
+          .style("top", (e.pageY - 10) + "px");
+
+      }).onMouseOut(function() {
+        tipGraph.transition()
+          .duration('50')
+          .style("opacity", 0);
+        if (!clickedMap) {
+          currentMin = defaultMin;
+          currentMax = defaultMax;
+          data.year.filterAll();
+          data.region.filterExact("Total");
+          update();
+          changeColorMap();
+          document.getElementById("mapHeader").innerHTML = "Average Monthly Earnings by Region(GEL)";
+        }
+
+      });
+
+
+      //define color
+      var color =
+        d3.scaleSequential(d3.interpolateRdBu)
+        .domain(d3.extent([currentMin, currentMax])) //[currentMin, currentMax]))
+
+
+      logGroup(data.yearGroup.top(Infinity));
+      update();
+
+      //Update/Create the bar chart
+      function update() {
+        d3.select("#earningsByYear")
+          .datum(data.yearGroup.all())
+          .call(scatterChartYear);
+        d3.select("#earningsByYear").selectAll('.circle')
+          .style('fill', function(d){
+            return color(d.value);
+          });
+      }
+
+      //CREATE MAP
+      var proj = d3.geoEqualEarth();
+      proj.fitSize([heightMap, widthMap], regions);
+
+      var gpath = d3.geoPath()
+        .projection(proj);
+
+
+      //setting size
+      d3.select('#map').attr('width', widthMap)
+        .attr('height', heightMap);
+      var svg = d3.select('#map')
+        .selectAll('path')
+        .data(regions.features)
+        .enter()
+        .append('path')
+        .attr('d', function(d) {
+          return gpath(d);
+        })
+        .attr('stroke-width', 1)
+        .attr('stroke', 'black')
+        .attr('fill', function(d) {
+          //No data on Abkhazia due to political reasons
+          if (d.properties['NAME_1'] === "Abkhazia") {
+            return "white";
+          }
+          data.region.filterExact(d.properties['NAME_1']);
+
+          var gr = data.regionGroup.top(Infinity);
+          var i;
+          for (i = 0; i < gr.length; i++) {
+            if (gr[i].key === d.properties['NAME_1']) {
+              return color(gr[i].value.avg);
+            }
+          }
+          data.region.filterAll();
+          data.region.filterExact("Total");
+          return "black"; //color(gpath.area(d));
+        });
+
+      legend();
+      //change color of the map
+      function changeColorMap() {
+        svg.attr('fill', function(d) {
+          // console.log(d.properties['NAME_1']);
+          //No data on Abkhazia due to political reasons
+          if (d.properties['NAME_1'] === "Abkhazia") {
+            return "white";
+          }
+          data.region.filterExact(d.properties['NAME_1']);
+          var gr = data.regionGroup.top(Infinity);
+          var i;
+          for (i = 0; i < gr.length; i++) {
+            if (gr[i].key === d.properties['NAME_1']) {
+              return color(gr[i].value.avg);
+            }
+          }
+          data.region.filterAll();
+          data.region.filterExact("Total");
+          return "black"; //color(gpath.area(d));
+        });
+      }
+
+      //hover over and show names
+      var tipMap= d3.select("body").append("div")
+        .attr("class", "tooltip-map")
+        .style("opacity", 0);
+
+      svg.on("mouseover", function(e, d) {
+          if (!clickedMap) {
+            // Filter the data to only include the Region Hovered On
+            data.region.filterExact(d.properties['NAME_1']);
+            //Update the current data min and Max
+            var message = d.properties['NAME_1'];
+            if (d.properties['NAME_1'] !== "Abkhazia") {
+              currentMin = data.year.bottom(1)[0].AvgEarning;
+              currentMax = data.year.top(1)[0].AvgEarning;
+              document.getElementById("barHeader").innerHTML = d.properties['NAME_1'] + " Average Monthly Earnings by Year(GEL)";
+              update();
+            } else {
+              message = message + "<br> No Data Available";
+            }
+            d3.select(this).transition()
+              .duration('50')
+              .attr('opacity', '0.5');
+
+            tipMap.transition()
+              .duration(50)
+              .style("opacity", 1);
+
+            tipMap.html(message)
+              .style("left", (e.pageX + 10) + "px")
+              .style("top", (e.pageY - 15) + "px");
+            //Change bar header
+
+          }
+        })
+        .on("mouseout", function(e, d) {
+          if (!clickedMap) {
+            currentMin = defaultMin;
+            currentMax = defaultMax;
+            data.region.filterAll();
+            data.region.filterExact("Total");
+            circleColor = defaultcircleColor;
+            update();
+
+            d3.select(this).transition()
+              .duration('50')
+              .attr('opacity', '1');
+            tipMap.transition()
+              .duration('50')
+              .style("opacity", 0);
+
+            document.getElementById("barHeader").innerHTML = "Average Monthly Earnings by Year(GEL)";
+          }
+        });
+
+
+      svg.on("click", function(e, d) {
+        clickedMap = !clickedMap;
+        console.log("Map clicked: " + clickedMap);
+      });
+
+
+      //Zoom on map
+      var mapZoom = d3.zoom()
+        .on('zoom', zoomed);
+
+      var zoomSettings = d3.zoomIdentity
+        .translate(-3340, 5460)
+        .scale(6450);
+
+      d3.select('#map')
+        .call(mapZoom)
+        .call(mapZoom.transform, zoomSettings);
+
+      function zoomed(e) {
+        proj.translate([e.transform.x, e.transform.y])
+          .scale(e.transform.k);
+        d3.select('#map').selectAll('path')
+          .attr('d', gpath);
+
+      }
+
+      //easy print for crossfilter data
+      function logGroup(data) {
+        data.forEach(function(x) {
+          console.log(JSON.stringify(x));
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>
