@@ -21,53 +21,46 @@ To make this a viable project for myself, I could not do every data dimension on
 When a user is utilizing a two axis scatter that changes over time, they may want to explore a tight geographical region. The vis on this website did have a search feature, but then you have to search one at a time and they are organized by name. I found myself intrigued by the life expectancy dip during WWI in many countries, I would love to zoom in on Europe and see how the life expectancies changes geographically year over year, but this isn't possible in the current vis  
 
 Therefore, I am choosing to add a geographical component to give the data additional context and allow for a new method of exploration. 
+Geographical context was a major drawback to this first vis. 
+
+## Finished Product
+
+(Link [Here]())
+This has been the most interesting project I've worked on, for some insane reason I built the entire scatter plot and scrolling feature myself because I couldn't find anything on the internet I liked.
+
+So the two dimensions from the original vis I chose to take were income (x-axis) and co2 output (y-axis). There is also a time axis, and the way to navigate the data that way is using a slider. For example, going back in time shows...
+
+![BackInTime](./FinishedProductTimeSlider.png)
+
+This picture also shows the highlighting/data linking feature that is required for this assignment. If you mouse over a country on the right, if there is a data point in the datset, it will increaser the stroke width that point to bring focus to it, bring the datapoint to the front, and populate the statistics at the top of the page. If you mouse over a data point, it will highlight the corresponding country and populate the statistics at the top of the page.
+
+The map vis also has pan and zoom, and is code taken/derived from our in class example by prof Harrison
+
+![Map zoomed](./FinishedProductZoomPan.png)
+
+### Detailed Work / Tech and Design Achievements
+
+How I linked the two vis: 
+The data points and countries are both based off of CSV tables. Each CSV table was formatted to use the alpha3 country codes. When making the data points, I gave each circle an id in the format of "scatter{___}" for the scatter point for USA and when drawing the paths I gave a corresponding id of "map{___}" (alpha 3 codes replace {___}). This way each element could select the other in the mouseover functions only needing to know its own alpha3 code and then prepending "map" or "scatter". So that is exactly what I did in the mouseover and mouseout functions of both of them
+
+Credits to sources:
+https://www.d3-graph-gallery.com/graph/scatter_basic.html
+(also prof harrisons lecture notes)
+
+
+**Design achievements**
+ - Simple color scheme and design that is intuitive and not overcomplicated (original vis colored points by continent)
+ - Used log scales to cover large ranges of data in both the income, CO2, and population data
+ - Colorblind friendly (only uses saturation and luminance scales)
+
+
+**Tech Achievements**
+ - Implemented graph by hand (excluding the code for the slider)
+    - Graph components csv's can be swapped out if you want different data comparisons
+ - Selecting a datapoint will bring it to the front of a users vision, making it easier to use
+ - The map is pannable and zoomable
+ - The slider that controls the year for the currently selected year was a technical challenge as well, I enjoyed designing my vis around it
+ - Cleaned co2 and income data CSV's and added alpha3 country ID's to allow selection accross components
 
 
 
-
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
