@@ -14,10 +14,10 @@ var chartSVG = null
 var showLangs = false
 
 Promise.all([
-	d3.json("./data/countries-50m.json"),
-	d3.csv("./data/Country_data.csv"),
-	d3.csv("./data/Totals.csv"),
-	d3.csv("./data/Pivoted_Data.csv")
+	d3.json("data/countries-50m.json"),
+	d3.csv("data/Country_data.csv"),
+	d3.csv("data/Totals.csv"),
+	d3.csv("data/Pivoted_Data.csv")
 ]).then(([world, data, totals, fullData]) => {
 	createMap(world, data, totals, fullData)
 	mapSVG = d3.select("body").select('#map')
