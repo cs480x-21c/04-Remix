@@ -25,6 +25,7 @@ Below are the design and technical achivements I completed during this project
 * Used Flexbox and viewport values to optimize site for responsive design(unfortunately not the graph...)
 ## Technical Achivements
 * Using event listeners on team logos to handling user interactions with the visualizations
+* Did data trimming to group player data by team and have a consistent team attribute for both data sets
 # References
 * [original visualization](https://www.reddit.com/r/dataisbeautiful/comments/ltr34n/oc_visualising_how_nhl_players_have_performed_in/)
 * [Understanding basic implementation of parallel coordinate graphs](https://www.d3-graph-gallery.com/graph/parallel_custom.html)
