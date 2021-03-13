@@ -6,19 +6,23 @@
 
 <!-- Create a div where the graph will take place -->
 <div style="width:1770px">
-  <svg width="450" height="300" id="viz1" ></svg>
   <svg width="700" height="300" id="viz2" ></svg>
+  <svg width="450" height="300" id="viz1" ></svg>
+  <svg width="400" height="300" id="image" ></svg>
 </div>
+<div id="viz3"></div>
 <script>
 
 // set the dimensions and margins of the graphs
-var margin = {top: 10, right: 30, bottom: 80, left: 40},
+var margin = {top: 30, right: 10, bottom: 70, left: 60},
     attrWidth = 450 - margin.left - margin.right,
     attrHeight = 300 - margin.top - margin.bottom,
 	typeWidth = 700 - margin.left - margin.right,
-    typeHeight = 300 - margin.top - margin.bottom;
+    typeHeight = 300 - margin.top - margin.bottom
+	barWidth = 1500 - margin.top - margin.bottom
+	barHeight = 400 - margin.top - margin.bottom;
 	
-// append the svg object to the body of the page
+// append the svg objects
 var attrSvg = d3.select("#viz1")
   .append("svg")
     .attr("width", attrWidth + margin.left + margin.right)
@@ -27,7 +31,6 @@ var attrSvg = d3.select("#viz1")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// append the second svg object to the body of the page
 var typeSvg = d3.select("#viz2")
   .append("svg")
     .attr("width", typeWidth + margin.left + margin.right)
@@ -35,24 +38,30 @@ var typeSvg = d3.select("#viz2")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+		  
+var barSvg = d3.select("#viz3")
+  .append("svg")
+    .attr("width", barWidth + margin.left + margin.right)
+    .attr("height", barHeight + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+var imgSvg = d3.select('#image');
 
 
-
-// Read the data and compute summary statistics for each specie
+// Read the data and compute summary statistics for each card
 d3.csv("YGO_Cards_v2.csv", function(data) {
-
-  function toInt(a){
-    if (isNaN(parseInt(a))) {
-		return 0	
-	} else return parseInt(a)
-   }
    
+   //variables that will hold the type/attribute currently being hovered over
+   //blank strings by default
    var selectedAttr = "";
    var selectedType = "";
   
-  // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
-  var attrStat;
+  
+  var attrStat; 
  
+ //stats for each attribute, quartiles/median/etc
  function getAttrStats() {
   attrStat = d3.nest() // nest function allows to group the calculation per level of a factor
     .key(function(d) { if (d.attribute === "DIVINE") return "invalid"
@@ -72,23 +81,46 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
   
   getAttrStats();
   
-  // Show the X scale
+  // Show the X scale on the attribute graph
   var attrX = d3.scaleBand()
     .range([ 0, attrWidth ])
     .domain(["LIGHT", "DARK", "FIRE", "WATER", "EARTH", "WIND"])
     .paddingInner(1)
     .paddingOuter(.5)
 
-  // Show the Y scale
+  // Show the Y scale on the attribute graph
   var attrY = d3.scaleLinear()
     .domain([-100,5000])
     .range([attrHeight, 0])
   
-  // rectangle for the main box
+  
   var attrBoxWidth = 50
 
  //Build the attribute graph
  function buildAttrGraph() {
+	//axis labels
+	attrSvg.append("text")
+		.attr("transform", "translate(" + (attrWidth / 2) + " ," + (attrHeight + margin.bottom - 30) + ")")
+		.style("text-anchor", "middle")
+		.text("Monster Attribute");
+	
+	attrSvg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 0 - margin.left)
+		.attr("x",0 - (attrHeight / 2))
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text("ATK");
+	
+	//title
+	attrSvg.append("text")
+		.attr("transform", "translate(" + (attrWidth / 2) + " ," + -10 + ")")
+		.style("text-anchor", "middle")
+		.text(function() { 
+		if (selectedType === "") return "Yu-Gi-Oh! Monster ATK by Attribute"
+		else return "Yu-Gi-Oh! " + selectedType + "-Type Monster ATK by Attribute"});
+ 
+	//axes
   attrSvg.append("g")
     .attr("transform", "translate(0," + attrHeight + ")")
     .call(d3.axisBottom(attrX))
@@ -119,15 +151,15 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
         .attr("height", function(d){return(attrY(d.value.q1)-attrY(d.value.q3))})
         .attr("width", attrBoxWidth )
         .attr("stroke", function(d) {if (d.key === "invalid") return "none"; else return "black"})
-        .style("fill", function(d) {if (d.key === "invalid") return "none"; else return "#69b3a2"})
+        .style("fill", function(d) {if (d.key === "invalid") return "none"; else return "steelBlue"})
 		.on('mouseover', function (d, i) {
 			selectedAttr = d.key 
 			updateTypeGraph();
-			console.log("Selected attribute: ", d.key)})
+			d3.select(this).style("fill", "yellow");})
 		.on('mouseout', function (d, i) {
 			selectedAttr = "" 
 			updateTypeGraph();
-			console.log("Selected attribute: none")})
+			d3.select(this).style("fill", "steelBlue");})
 
   // Show the median
   attrSvg
@@ -146,14 +178,17 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
   buildAttrGraph();
 	  
 	  
+	  
+	  
+	  
 //second graph
 	  
-  // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
   var typeStat;
   
+  //stats for each type, quartiles/median/etc
  function getTypeStats() {
   typeStat = d3.nest() // nest function allows to group the calculation per level of a factor
-    .key(function(d) { if (d.Type === "Divine-Beast") return "invalid" 
+    .key(function(d) { if (d.Type === "Divine-Beast" || d.Type === "Creator God") return "invalid" 
 	if (d.attribute !== selectedAttr && selectedAttr !== "") return "invalid";
 	else return d.Type;})
     .rollup(function(d) {
@@ -190,6 +225,29 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
   
   //Build the type graph
  function buildTypeGraph(){
+  //labels
+	typeSvg.append("text")
+		.attr("transform", "translate(" + (typeWidth / 2) + " ," + (typeHeight + margin.bottom - 10) + ")")
+		.style("text-anchor", "middle")
+		.text("Monster Type");
+	
+	typeSvg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 0 - margin.left)
+		.attr("x",0 - (typeHeight / 2))
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text("ATK");
+		
+	//title
+	typeSvg.append("text")
+		.attr("transform", "translate(" + (typeWidth / 2) + " ," + -10 + ")")
+		.style("text-anchor", "middle")
+		.text(function() { 
+		if (selectedAttr === "") return "Yu-Gi-Oh! Monster ATK by Type"
+		else return "Yu-Gi-Oh! " + selectedAttr + " Monster ATK by Type"});
+ 
+  //X axis
   typeSvg.append("g")
     .attr("transform", "translate(0," + typeHeight + ")")
     .call(d3.axisBottom(typeX))
@@ -198,7 +256,7 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
         .attr("transform", "rotate(-65)");
-		
+  //Y axis
   typeSvg.append("g").call(d3.axisLeft(typeY))
 		
   // Show the main vertical lines
@@ -225,15 +283,15 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
         .attr("height", function(d){return(typeY(d.value.q1)-typeY(d.value.q3))})
         .attr("width", typeBoxWidth )
         .attr("stroke", function(d) {if (d.key === "invalid") return "none"; else return "black"})
-        .style("fill", function(d) {if (d.key === "invalid") return "none"; else return "#69b3a2"})
+        .style("fill", function(d) {if (d.key === "invalid") return "none"; else return "steelBlue"})
 		.on('mouseover', function (d, i) {
 			selectedType = d.key 
 			updateAttrGraph();
-			console.log("Selected type: ", d.key)})
+			d3.select(this).style("fill", "yellow");})
 		.on('mouseout', function (d, i) {
 			selectedType = "" 
 			updateAttrGraph();
-			console.log("Selected type: none")})
+			d3.select(this).style("fill", "steelBlue");})
 
   // Show the median
   typeSvg
@@ -251,19 +309,158 @@ d3.csv("YGO_Cards_v2.csv", function(data) {
  
   buildTypeGraph();
   
+  //third bar graph
   
-  //function to recalculate based on interaction
+  var barData = [];
+  var barValues = [];
+  var barFreq = [];
   
+  //fills in data, filters out nonselected types/attributes
+  function getBarData(){
+   barData = [];
+   barValues = [];
+   barFreq = [];
+   
+	var filterData = data.filter((item) => {
+		if (selectedAttr !== "") {
+			return (item.attribute === selectedAttr);
+		} else if (selectedType !== "") {
+			return (item.Type === selectedType);
+		} else return item.attribute !== "DIVINE";
+	});
+  
+	filterData.forEach((item, i) => {
+		if (barValues.indexOf(item.attack) === -1) {
+			barValues.push(item.attack);
+			barFreq.push(1);
+		} else {
+			barFreq[barValues.indexOf(item.attack)] = barFreq[barValues.indexOf(item.attack)] + 1;
+		}
+	});
+  
+	for (i = 0; i < barValues.length; i++){
+		barData.push({"value":barValues[i], "frequency":barFreq[i]});
+	}
+  }
+ 
+  getBarData();
+	
+	//shows the bar graph on the screen
+   function buildBarGraph() {
+   //labels
+   	barSvg.append("text")
+		.attr("transform", "translate(" + (barWidth / 2) + " ," + (barHeight + margin.bottom - 30) + ")")
+		.style("text-anchor", "middle")
+		.text("ATK Value");
+	
+	barSvg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 0 - margin.left)
+		.attr("x",0 - (barHeight / 2))
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text("# Occurrences");
+	
+	//title
+	barSvg.append("text")
+		.attr("transform", "translate(" + (barWidth / 2) + " ," + -10 + ")")
+		.style("text-anchor", "middle")
+		.text(function() { 
+		if (selectedAttr !== "") return "Yu-Gi-Oh! " + selectedAttr + " Monster ATK Value Frequency"
+		if (selectedType !== "") return "Yu-Gi-Oh! " + selectedType + "-Type Monster ATK Value Frequency"
+		else return "Yu-Gi-Oh! Monster ATK Value Frequency"});
+		
+	//X axis
+	var barX = d3.scaleBand()
+		.range([ 0, barWidth ])
+		.domain(barData.map(function(d) { return d.value; }))
+		.padding(0.2);
+	
+	barData.sort(function(a, b) {
+		return d3.descending(a.frequency, b.frequency)
+	})
+	barX.domain(barData.map(function(d) {
+		return d.value;
+	}));
+		
+	barSvg.append("g")
+		.attr("transform", "translate(0," + barHeight + ")")
+		.call(d3.axisBottom(barX))
+		.selectAll("text")
+		.attr("transform", "translate(-10,0)rotate(-45)")
+		.style("text-anchor", "end");
+		
+	//Y axis
+	var barY = d3.scaleLinear()
+		.domain([0, Math.max.apply(Math, barFreq)])
+		.range([ barHeight, 0]);
+	barSvg.append("g")
+		.call(d3.axisLeft(barY));
+	
+   //Bars
+	barSvg.selectAll("mybar")
+		.data(barData)
+		.enter()
+		.append("rect")
+		.attr("x", function(d) { return barX(d.value); })
+		.attr("y", function(d) { return barY(d.frequency); })
+		.attr("width", 10)
+		.attr("height", function(d) { return barHeight - barY(d.frequency); })
+		.attr("fill", "green")
+    }
+  
+  buildBarGraph();
+
+	var myImage;
+	
+	//image refreshing
+	function selectImage(){
+	myimage = imgSvg.append('image')
+		.attr('href', function(){
+			if (selectedAttr !== "") {
+				return "img/" + selectedAttr + ".png"
+			} else if (selectedType !== "") {
+				return "img/" + selectedType + ".jpg"
+			} return "img/default.png"})
+		.attr('width', 200)
+		.attr('height', 450)
+		.attr('y', -75)
+		.attr('x', 50)
+	}
+	
+	selectImage();
+
+  
+  //function to refresh graphs based on interaction
   function updateAttrGraph() {
 	getAttrStats();
 	attrSvg.selectAll('*').remove();
 	buildAttrGraph();
+	getBarData();
+	barSvg.selectAll('*').remove();
+	buildBarGraph();
+	imgSvg.selectAll('*').remove();
+	selectImage();
   }
   
   function updateTypeGraph() {
 	getTypeStats();
 	typeSvg.selectAll('*').remove();
 	buildTypeGraph();
+	getBarData();
+	barSvg.selectAll('*').remove();
+	buildBarGraph();
+	imgSvg.selectAll('*').remove();
+	selectImage();
   }
+  
+  //helper function to filter out invalid ATK values
+  function toInt(a){
+    if (isNaN(parseInt(a))) {
+		return 0	
+	} else return parseInt(a)
+   }
 })
+
+
 </script>
