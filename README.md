@@ -1,46 +1,27 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
+I WILL BE USING THE EXTRA TIME FOR THIS ASSIGMENT 
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Link to project: 
 
-### Your Task
+## Original Design 
+For the first assigment, I used XXX data to visualize the most popular names in Puerto Rico. As you can see below, I used circle area to visualize the number of occurances that the most popular name had each year. 
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+IMAGE
 
-By remix, we mean:
+It is artistically interesting to see. However it does come with many limitations. There is no reference as to what the area of the circle actually means and the colors provide no meaning (even though it might appear that they do mean something). The horizontal bar graph does not have an x or a y axis. In addition, the horizontal bar graph and the circle area visualization don't correlate perfectly, so it is confusing as to what each one represents. 
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+## New Visualization
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+For the new visualization I wanted to re-do many things. First, I wanted to visualize the most popular names in the 50 states to allow for national exploration of the data. To do this, I created a map that was color coded based on the number of occurances the most popular name in the state had. The colors were hand picked and to show color saturation to make it easier for the user to correlate the number of occurances with the color. The legend on the side shows what each color means. 
 
-By two linked views, we mean:
+Then, instead of just showing a horizontal bar graph, I decided to show a vertical bar graph with x and y axis. The axis stay the same to make it easier to see just how different every state is from each other. The y axis would be the number of occurances each name had and the x axis is the year. Therefore, if you wanted to see how the popular name changes throughout time, you could use the bar graph, and if you wanted to see how each name/number of occurances compares accross the country in a given year, you could also do that. The user would just click on each of the graphs to get the information that they want. 
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+I filtered the data (using Python) to make sure that only the most popular names were read. I also had to create a dictionary that would interpret NY as New York (for the GeoJson). 
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+IMAGE
 
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
+Resources used: https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/ and http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
 Requirements
 ---
 

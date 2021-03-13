@@ -161,7 +161,7 @@ function resetGraph(currentState, currentYear){
                     return "rgb(134,223,249)"
                 }
                 else if(value < 501){
-                    return "rgb(106,182,233)"
+                    return "rgb(134,200,243)"
                 }
                 else if(value < 1001){
                     return "rgb(106,182,233)"
@@ -191,38 +191,41 @@ function resetGraph(currentState, currentYear){
             resetGraph(d.properties.name, currentYear)
         })
         ;  
-                
-                
-        /*
-        // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-        var legend = d3.select("body").append("svg")
-                        .attr("class", "legend")
-                        .attr("width", 140)
-                        .attr("height", 200)
-                        .selectAll("g")
-                        .data(color.domain().slice().reverse())
-                        .enter()
-                        .append("g")
-                        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-            legend.append("rect")
-                .attr("width", 18)
-                .attr("height", 18)
-                .style("fill", color);
-
-            legend.append("text")
-                .data(legendText)
-                .attr("x", 24)
-                .attr("y", 9)
-                .attr("dy", ".35em")
-                    .text(function(d) { return d; });
-                    
-                    */
-            
-        })
     })
-    };
+    });
+}
+          
+var color = (["rgb(178,235,249)","rgb(134,223,249)","rgb(134,200,243)","rgb(106,182,233)","rgb(27,138,202)","rgb(6,117,176)","rgb(7,71,151)","rgb(10,47,128)"]);
+
+var legendText = ["0-100", "100-300", "300-500", "500-1000","1000-2000","2000-3000","3000-4000","5000+"];
+
+// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
+var legend = d3.select("body").append("svg")
+            .attr("class", "legend")
+            .attr("width", 140)
+            .attr("height", 200)
+            .selectAll("g")
+            .data(color)
+            .enter()
+            .append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+legend.append("rect")
+    .data(color)
+    .attr("width", 18)
+    .attr("height", 18)
+    .style("fill", function(d){return d});
+
+legend.append("text")
+    .data(legendText)
+    .attr("x", 24)
+    .attr("y", 9)
+    .attr("dy", ".35em")
+    .text(function(d) { return d});
+
+console.log(color)
 
 var currentState = "NY"
-    var currentYear = "1950"
-    resetGraph(currentState, currentYear)
+var currentYear = "1950"
+resetGraph(currentState, currentYear)
+
