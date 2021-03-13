@@ -12,7 +12,11 @@ the dimensions mentioned in the titles.
 For example, looking at "Average monthly nominal earnings of employees by economic activity" only showed the average
 monthly earnings by year, but there is no breakdown by economic activity. "Average monthly nominal earnings of employees by economic activity and sex" has different lines for males and females. The lines for females and males are different colors and have different shaped encodings(diamond for men, circle for women). The However, it has no information about the economic activity. All of the information not included in graphs can be found in the attached files.
 
+![gender](img/geoStatGender.JPG)
+
 Even the main visualization of average nominal monthly earnings by year is not good. Instead of a proper visualization, the website has a table of the information.
+
+![mainViz](img/geoStatMain.JPG)
 
 
 ### Process of Requirements
