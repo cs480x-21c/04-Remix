@@ -1,64 +1,51 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
+# Assignment 4 - Total Piece Travel Over Grandmaster Magnus Carlsen's Chess Career
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+CS480X Assignment 4
+Nicholas Alescio
 
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+Project Page: https://alescion.github.io/04-Remix/
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+# Background
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+As a Chess enthusiast myself, I was interested to stumble upon this visualization on Reddit's r/dataisbeautiful:
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
+![original_viz](viz.png)
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
+The dataset used for this visualization is 'chess_distance.csv'. I downloaded it off a link included in the Reddit post by OP.
 
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
+I think the principal issue with this visualization is that it leaves a lot for the user to extrapolate. Without being knowledgeable of chess theory, it's difficult to understand the significance of any of the data here (for example, why does Magnus move his king more when playing with the white pieces?). But as someone who has some amateur knowledge of chess theory, there are a lot of interesting things that can be extrapolated here. For example, the fact that Grandmaster (GM) Magnus Carlsen moves his f, g, and h pawns the least out of all the other pawns could indicate that he tends to castle kingside in most of his games, and as such does not want to weaken his king position by moving those kingside pawns. Also notable here is the fact that he moves his king more as the white pieces, pointing towards his notable endgame abilities. Magnus is known to consistently convert winning positions with the white pieces into endgames (where many pieces are traded and few are left).
 
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
 
-Requirements
----
+# The Remix Plan
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+I decided to remix this visualization. My original plan was to change the units to 'squares' traveled, as opposed to meters (not all chess boards have the same size squares), and to add an interactive component. The interactive component would allow the user to select a bar on the main bar chart and "filter" the data by the selected piece. Part of this meant adding a y-axis label for each piece as opposed to white/black pairs. Selecting a bar would, in theory, update another graphic such as a pie chart or a gauge with the win percentage for the games where Magnus frequently moved that piece (at least 4 squares in the game). This was possible given that the dataset used in the original graphic contained the last ~3000 games of Magnus's chess career, with each game containing the number of squares that each of Magnus's piece moved.
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
 
-Extra Links
----
+# The Results
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+![remixed_vis](screenshot.png)
+
+So... it didn't turn out the way I originally intended. Attempts to create a pie chart/gauge were futile, even with the assistance of my A3/final project partners. Many hours of my day were spent getting the bar chart to work (the first iteration was a mystery failure - the TA (Noëlle), and I could not figure out what the issue was). What the current visualization does is it allows the user to select a bar and get statistics for the corresponding piece (win, loss, and draw percentage for games where that piece was frequently moved).
+
+### Technical Achievements Attempted
+- wrote a Python script to extrapolate from the original dataset (chess_distance.csv) and get the total travel distance for each piece (see distances.csv).
+- selecting all games in the dataset based on the specified piece and filtering games where that piece moved >= 4 times
+- selecting bars updates pie/donut chart or gauge with win percentage (failed)
+
+### Design Achievements Attempted
+- created bars for each individual piece
+- used a standard unit of measurement for distance traveled
+- included chess unicode characters
+- some CSS styling to make the statistics div appear alongside the bar chart
+
+
+# References
+
+Original reddit post: https://www.reddit.com/r/dataisbeautiful/comments/lje2s4/total_distance_traveled_by_gm_magnus_carlsens/
+
+Link directly to viz: https://i.redd.it/2mtubvj7hch61.png
+
+Source: http://www.pgnmentor.com/files.html
+
+Viz data: https://drive.google.com/file/d/1t7PZEkSu2Tz68LymGptMDIwmMETBy0Lk/view?usp=sharing
