@@ -8,6 +8,7 @@ This project was a remix on a [visualization hosted on the U.S. Energy Informati
 The original visualization displays the net generation, in thousand megawatthours, of coal, natural gas, nuclear, and conventional hydroelectric energy. This is a very well made visualization, including tooltips, customizable range, as well as a linked table of individual values. I created a new version of this vis with the goal to summarize the results by year and clearly show proportional differences between each energy type through a linked barplot. 
 
 The remixed version of this visualization is displayed below:
+#
 ![Energy Generation](screenshot.PNG)
 
 
