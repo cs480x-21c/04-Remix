@@ -1,0 +1,142 @@
+City,State,FiveTen,TenTen,TenTwenty
+New York,NY,202,420,
+Honolulu,HI,177,316,555
+Los Angeles,CA,171,278,473
+San Francisco,CA,167,254,449
+Queens,NY,158,328,691
+Pearl City,HI,152,238,406
+Newark,NJ,139,187,348
+Oxnard,CA,137,155,
+Providence,RI,122,176,261
+Long Beach,CA,120,201,299
+Santa Clarita,CA,116,181,325
+Boston,MA,110,182,331
+Stamford,CT,110,189,351
+New Orleans,LA,109,172,280
+Washington,DC,107,170,290
+Syracuse,NY,106,156,284
+Alexandria,VA,102,168,327
+Portland,ME,102,147,221
+Santa Rosa,CA,99,224,390
+Tacoma,WA,98,154,234
+Buffalo,NY,97,170,249
+Philadelphia,PA,97,149,265
+Chula Vista,CA,94,160,257
+Gulfport,MS,94,120,198
+Santa Ana,CA,93,136,244
+Seattle,WA,93,159,300
+San Jose,CA,91,137,239
+Wilmington,DE,91,152,215
+Jackson,MS,90,124,188
+Miami,FL,89,148,263
+San Diego,CA,89,138,252
+Tallahassee,FL,89,122,219
+Salt Lake City,UT,88,124,264
+Bridgeport,CT,87,157,321
+Worcester,MA,87,139,203
+Corona,CA,86,126,206
+Charleston,SC,85,124,256
+Tucson,AZ,85,150,246
+Columbia,MD,84,161,328
+Columbus,GA,84,129,195
+Fort Lauderdale,FL,84,141,242
+Killeen,TX,84,113,196
+Knoxville,TN,84,125,249
+Rochester,NY,84,121,188
+Baton Rouge,LA,83,132,211
+Savannah,GA,83,125,197
+Yonkers,NY,83,168,329
+Atlanta,GA,80,125,219
+Sacramento,CA,80,124,237
+Springfield,MA,80,132,220
+Rancho Cucamonga,CA,79,119,195
+Kent,WA,77,112,224
+Phoenix,AZ,77,119,206
+Portland,OR,77,121,203
+Saint Paul,MN,74,119,161
+Glendale,AZ,73,113,181
+Nashville,TN,73,117,209
+Warren,MI,73,99,184
+Wichita,KS,72,136,246
+Cleveland,OH,71,106,184
+Kansas City,MO,71,120,186
+Las Vegas,NV,71,108,198
+Norfolk,VA,71,106,170
+Durham,NC,70,111,205
+El Paso,TX,70,107,190
+Jacksonville,FL,70,110,194
+Lancaster,CA,70,121,196
+Richmond,VA,70,111,183
+Saint Petersburg,FL,70,119,195
+Virginia Beach,VA,70,112,200
+Hollywood,FL,69,126,224
+Baltimore,MD,68,106,187
+Chicago,IL,68,118,219
+Hialeah,FL,68,111,210
+Lafayette,LA,68,109,181
+Orlando,FL,68,111,198
+West Valley City,UT,68,86,140
+Manchester,NH,67,132,210
+Memphis,TN,67,117,204
+Tempe,AZ,67,113,199
+Birmingham,AL,66,112,215
+Clarksville,TN,66,99,137
+Omaha,NE,66,96,128
+Augusta,GA,65,87,151
+Corpus Christi,TX,65,119,202
+Henderson,NV,65,116,182
+Tampa,FL,65,117,200
+Albuquerque,NM,64,101,186
+Austin,TX,64,115,192
+Des Moines,IA,64,86,144
+Nashua,NH,64,104,173
+Columbia,SC,63,101,176
+Mobile,AL,63,98,146
+Chesapeake,VA,62,110,207
+Dallas,TX,62,119,213
+Hartford,CT,62,90,214
+Newport News,VA,62,106,172
+Tulsa,OK,62,106,191
+Vancouver,WA,62,116,198
+Fayetteville,NC,61,94,176
+Overland Park,KS,61,121,209
+Fort Wayne,IN,60,95,157
+Mesa,AZ,60,99,186
+Peoria,AZ,60,112,211
+San Antonio,TX,59,101,175
+Charlotte,NC,58,90,170
+Mesquite,TX,58,100,171
+Pittsburgh,PA,58,90,169
+Boise,ID,57,112,
+Louisville,KY,57,99,178
+Minneapolis,MN,57,105,185
+Chandler,AZ,56,106,177
+Greensboro,NC,56,91,186
+Joliet,IL,56,95,141
+Saint Louis,MO,56,89,160
+Denver,CO,55,93,161
+Port Saint Lucie,FL,55,92,165
+Riverside,CA,55,,
+Columbus,OH,54,84,166
+Indianapolis,IN,54,98,156
+Winston-Salem,NC,54,96,222
+Colorado Springs,CO,53,86,186
+Akron,OH,52,114,
+Huntsville,AL,51,91,176
+Shreveport,LA,51,88,
+Arlington,TX,50,105,166
+Cincinnati,OH,49,92,151
+Houston,TX,48,88,167
+Oklahoma City,OK,48,73,125
+Aurora,CO,47,74,128
+Fort Worth,TX,45,83,140
+Garland,TX,44,77,165
+Chattanooga,TN,42,77,139
+Grand Prairie,TX,42,81,140
+Milwaukee,WI,42,75,127
+Montgomery,AL,42,87,166
+Raleigh,NC,41,72,136
+Frisco,TX,40,86,150
+McKinney,TX,40,99,150
+Meridian,ID,38,77,140
+Denton,TX,,124,237

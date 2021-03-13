@@ -1,64 +1,60 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+# Original Vis & Critique
+The original vis for this assignment was a map showing storage unit prices
+at various locations in the U.S. for 2020. It was made by the storage company [LifeStorage](https://www.lifestorage.com/blog/storage/storage-unit-costs/). 
 
-### Your Task
+![original vis](imgs/usMap.JPG)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+The original vis allows the user to lookup prices by city, browse by location,
+and explore by clicking on various cities. It has a nice collapsible description window,
+which explains where the data is from and how to use the map. It
+allows the user to click on one city at a time to view its information. 
+The data is tabular; the geographic states are shown but have no function other than
+to help the user find their city.
 
-By remix, we mean:
+The main problem is that the vis functions almost solely as a lookup tool.
+ The user cannot compare prices between locations unless they remember what the previous
+ popup said when they click on a different state. 
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+# New Vis 
+In my remix, I add color to the map to show price comparisons between states. As one might 
+expect, this allows the viewer to see a pattern of higher prices along the coasts.
+I also add a bar graph on the right comparing prices for all states for the current
+storage unit size (three size selections are allowed; the bar graph and map change
+to show comparisons of the selected prices). A popup at the bottom left shows the data
+for a given state when the user hovers over the state. The two views are linked - 
+both update based on the selection, and when a user hovers over a state on the map, 
+the corresponding bar on the bar graph is highlighted in yellow (if there is data
+for that state). 
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+![remix](webpage.png)
 
-By two linked views, we mean:
+The vis can be run locally: download the files, change line 72 of index.html to correspond
+to the path of the csv file on your computer, run the server.py file (e.g. 'python server.py' in a terminal),
+and go to the index.html file on the local server (e.g. open a web browser to localhost:8000/).
+The vis is also up on github at https://masun77.github.io/04-Remix/ (but doesn't
+seem to load the csv file even with a changed .csv file location). 
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+# Technical Achievements
+- I created a U.S. map in d3 by making an html file that allows me to click
+ around the outline of each shape to create a polygon. 
+I could have used existing shapes, but was curious how long it would take to 
+do it myself. It was a bit of a meditation on state shapes, borders, and U.S. geography. 
+- I did a bit of data adaptation to the original data so that it would upload
+in d3, be parsed as numbers, and be visualizable by state. I chose to use the 
+average price (mean) of the cities in a state for the chloropleth map, 
+and to break the states into 3 color bins (lowest third, middle third, upper third).
+If I were doing this again I would try to find a way to show more detailed data within
+a state rather than only being able to show the mean. 
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+# Design Achievements
+- I used colors from color.brewer for the map shades. 
+- The buttons highlight when selected; the legend changes prices and map and bar
+graph update to reflect the current selection.
+- The user can hover over a state to see its data (rather than having to click on it),
+ and that state will be highlighted in the bar graph. 
+ - If I were doing this again I would make the text larger; the bar graph is a bit hard to read the labels of.
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush

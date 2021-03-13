@@ -1,0 +1,142 @@
+﻿City,State,helper,Text,Staid,tenTen,tenTwenty
+New York,NY,a,aNY,202,420,
+Honolulu,HI,a,aHI,177,316,555
+Los Angeles,CA,a,aCA,171,278,473
+San Francisco,CA,a,aCA,167,254,449
+Queens,NY,a,aNY,158,328,691
+Pearl City,HI,a,aHI,152,238,406
+Newark,NJ,a,aNJ,139,187,348
+Oxnard,CA,a,aCA,137,155,
+Providence,RI,a,aRI,122,176,261
+Long Beach,CA,a,aCA,120,201,299
+Santa Clarita,CA,a,aCA,116,181,325
+Boston,MA,a,aMA,110,182,331
+Stamford,CT,a,aCT,110,189,351
+New Orleans,LA,a,aLA,109,172,280
+Washington,DC,a,aDC,107,170,290
+Syracuse,NY,a,aNY,106,156,284
+Alexandria,VA,a,aVA,102,168,327
+Portland,ME,a,aME,102,147,221
+Santa Rosa,CA,a,aCA,99,224,390
+Tacoma,WA,a,aWA,98,154,234
+Buffalo,NY,a,aNY,97,170,249
+Philadelphia,PA,a,aPA,97,149,265
+Chula Vista,CA,a,aCA,94,160,257
+Gulfport,MS,a,aMS,94,120,198
+Santa Ana,CA,a,aCA,93,136,244
+Seattle,WA,a,aWA,93,159,300
+San Jose,CA,a,aCA,91,137,239
+Wilmington,DE,a,aDE,91,152,215
+Jackson,MS,a,aMS,90,124,188
+Miami,FL,a,aFL,89,148,263
+San Diego,CA,a,aCA,89,138,252
+Tallahassee,FL,a,aFL,89,122,219
+Salt Lake City,UT,a,aUT,88,124,264
+Bridgeport,CT,a,aCT,87,157,321
+Worcester,MA,a,aMA,87,139,203
+Corona,CA,a,aCA,86,126,206
+Charleston,SC,a,aSC,85,124,256
+Tucson,AZ,a,aAZ,85,150,246
+Columbia,MD,a,aMD,84,161,328
+Columbus,GA,a,aGA,84,129,195
+Fort Lauderdale,FL,a,aFL,84,141,242
+Killeen,TX,a,aTX,84,113,196
+Knoxville,TN,a,aTN,84,125,249
+Rochester,NY,a,aNY,84,121,188
+Baton Rouge,LA,a,aLA,83,132,211
+Savannah,GA,a,aGA,83,125,197
+Yonkers,NY,a,aNY,83,168,329
+Atlanta,GA,a,aGA,80,125,219
+Sacramento,CA,a,aCA,80,124,237
+Springfield,MA,a,aMA,80,132,220
+Rancho Cucamonga,CA,a,aCA,79,119,195
+Kent,WA,a,aWA,77,112,224
+Phoenix,AZ,a,aAZ,77,119,206
+Portland,OR,a,aOR,77,121,203
+Saint Paul,MN,a,aMN,74,119,161
+Glendale,AZ,a,aAZ,73,113,181
+Nashville,TN,a,aTN,73,117,209
+Warren,MI,a,aMI,73,99,184
+Wichita,KS,a,aKS,72,136,246
+Cleveland,OH,a,aOH,71,106,184
+Kansas City,MO,a,aMO,71,120,186
+Las Vegas,NV,a,aNV,71,108,198
+Norfolk,VA,a,aVA,71,106,170
+Durham,NC,a,aNC,70,111,205
+El Paso,TX,a,aTX,70,107,190
+Jacksonville,FL,a,aFL,70,110,194
+Lancaster,CA,a,aCA,70,121,196
+Richmond,VA,a,aVA,70,111,183
+Saint Petersburg,FL,a,aFL,70,119,195
+Virginia Beach,VA,a,aVA,70,112,200
+Hollywood,FL,a,aFL,69,126,224
+Baltimore,MD,a,aMD,68,106,187
+Chicago,IL,a,aIL,68,118,219
+Hialeah,FL,a,aFL,68,111,210
+Lafayette,LA,a,aLA,68,109,181
+Orlando,FL,a,aFL,68,111,198
+West Valley City,UT,a,aUT,68,86,140
+Manchester,NH,a,aNH,67,132,210
+Memphis,TN,a,aTN,67,117,204
+Tempe,AZ,a,aAZ,67,113,199
+Birmingham,AL,a,aAL,66,112,215
+Clarksville,TN,a,aTN,66,99,137
+Omaha,NE,a,aNE,66,96,128
+Augusta,GA,a,aGA,65,87,151
+Corpus Christi,TX,a,aTX,65,119,202
+Henderson,NV,a,aNV,65,116,182
+Tampa,FL,a,aFL,65,117,200
+Albuquerque,NM,a,aNM,64,101,186
+Austin,TX,a,aTX,64,115,192
+Des Moines,IA,a,aIA,64,86,144
+Nashua,NH,a,aNH,64,104,173
+Columbia,SC,a,aSC,63,101,176
+Mobile,AL,a,aAL,63,98,146
+Chesapeake,VA,a,aVA,62,110,207
+Dallas,TX,a,aTX,62,119,213
+Hartford,CT,a,aCT,62,90,214
+Newport News,VA,a,aVA,62,106,172
+Tulsa,OK,a,aOK,62,106,191
+Vancouver,WA,a,aWA,62,116,198
+Fayetteville,NC,a,aNC,61,94,176
+Overland Park,KS,a,aKS,61,121,209
+Fort Wayne,IN,a,aIN,60,95,157
+Mesa,AZ,a,aAZ,60,99,186
+Peoria,AZ,a,aAZ,60,112,211
+San Antonio,TX,a,aTX,59,101,175
+Charlotte,NC,a,aNC,58,90,170
+Mesquite,TX,a,aTX,58,100,171
+Pittsburgh,PA,a,aPA,58,90,169
+Boise,ID,a,aID,57,112,
+Louisville,KY,a,aKY,57,99,178
+Minneapolis,MN,a,aMN,57,105,185
+Chandler,AZ,a,aAZ,56,106,177
+Greensboro,NC,a,aNC,56,91,186
+Joliet,IL,a,aIL,56,95,141
+Saint Louis,MO,a,aMO,56,89,160
+Denver,CO,a,aCO,55,93,161
+Port Saint Lucie,FL,a,aFL,55,92,165
+Riverside,CA,a,aCA,55,,
+Columbus,OH,a,aOH,54,84,166
+Indianapolis,IN,a,aIN,54,98,156
+Winston-Salem,NC,a,aNC,54,96,222
+Colorado Springs,CO,a,aCO,53,86,186
+Akron,OH,a,aOH,52,114,
+Huntsville,AL,a,aAL,51,91,176
+Shreveport,LA,a,aLA,51,88,
+Arlington,TX,a,aTX,50,105,166
+Cincinnati,OH,a,aOH,49,92,151
+Houston,TX,a,aTX,48,88,167
+Oklahoma City,OK,a,aOK,48,73,125
+Aurora,CO,a,aCO,47,74,128
+Fort Worth,TX,a,aTX,45,83,140
+Garland,TX,a,aTX,44,77,165
+Chattanooga,TN,a,aTN,42,77,139
+Grand Prairie,TX,a,aTX,42,81,140
+Milwaukee,WI,a,aWI,42,75,127
+Montgomery,AL,a,aAL,42,87,166
+Raleigh,NC,a,aNC,41,72,136
+Frisco,TX,a,aTX,40,86,150
+McKinney,TX,a,aTX,40,99,150
+Meridian,ID,a,aID,38,77,140
+Denton,TX,a,aTX,,124,237

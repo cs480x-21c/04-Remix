@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<!--Maya Sun-->
+<!--CS 480X-->
+<!--3/12/2021-->
+
+<html>
+<body>
+<p id='title' style="font-size:50px">U.S. Storage Unit Average Price by State</p>
+<div id="controls" >
+    <svg id="ctrlsvg" ></svg>
+</div>
+<div id="wrapper">
+    <svg id="workspace" height="0"></svg>
+</div>
+<div id="image">
+    <svg id="imsvg" height="800" width="2000"></svg>
+</div>
+<p id = 'label'>Hello world</p>
+</body>
+</html>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<script>
+    console.log(d3); // test if d3 is loaded
+
+    let startX = 0
+    let startY = 0
+    let rectCt = 1
+    let ctrls = d3.select('#ctrlsvg');
+    let imgSvg = d3.select('#imsvg')
+    let imgSvgDoc = document.getElementById("imsvg")
+    let stateBegun = false
+    let currStatePoly = ""
+
+    let counter = 38
+
+    let states = new Array('Washington', 'Oregon', 'California',
+        'Nevada', 'Idaho', 'Montana', 'Wyoming', 'Uta', 'Arizona',
+        'Colorado', 'New Mexico', 'North Dakota', 'South Dakota',
+        'Nebraska', 'Kansas', 'Oklahoma', 'Texas', 'Minnesota',
+        'Iowa', 'Missouri', 'Arkansas', 'Louisiana', 'Wisconsin',
+        'Michigan', 'Illinois', 'Indiana', 'Kentucky', 'Tennessee',
+        'Mississippi', 'Alabama', 'Ohio', 'Georgia', 'Florida',
+        'Pennsylvania', 'Delaware', 'Maryland', 'West Virginia',
+        'Virginia', 'North Carolina', 'South Carolina', 'New York',
+        'New Jersey', 'Maine', 'New Hampshire', 'Vermont',
+        'Massachusetts', 'Rhode Island', 'Connecticut')
+
+    // First image
+    imgSvg.append('image')
+        .attr('id', 'map')
+        .attr('href', 'imgs/usMap.jpg')
+        .on('click', function (event) {
+            addPt(event)})
+    replaceInTitle(" - " + states[counter])
+
+    ctrls.append('circle')
+        .attr('cx', 50)
+        .attr('cy', 50)
+        .attr('r', 40)
+        .attr('fill', 'red')
+        .on('click', function(){
+            nextState()
+        })
+
+    function addPt(event) {
+        let x = event.offsetX
+        let y = event.offsetY
+
+        if (!stateBegun) {
+            startX = x
+            startY = y
+            stateBegun = true
+            currStatePoly += startX + "," + startY + " "
+        } else {
+            imgSvg.append('line')
+                .attr('x1', startX)
+                .attr('y1', startY)
+                .attr('x2', x)
+                .attr('y2', y)
+                .attr('stroke', 'red')
+                .attr('stroke-width', '1')
+            startX = x
+            startY = y
+
+            currStatePoly += x + "," + y + " "
+        }
+    }
+
+
+    function nextState() {
+        stateBegun = false
+        addToLabel(states[counter] + "," + currStatePoly)
+        currStatePoly = ""
+        counter += 1
+        replaceInTitle(" - " + states[counter])
+    }
+
+    // Set the label at the top of the page to the given text
+    function setLabel(text) {
+        let label = document.getElementById("label")
+        removeChildren(label)
+        label.appendChild(document.createTextNode(text))
+    }
+
+    // Add the text to the label at the top of the page
+    function addToLabel(text) {
+        let label = document.getElementById("label")
+        label.appendChild(document.createTextNode(text))
+        label.appendChild(document.createElement("br"))
+    }
+
+    // Add the text to the label at the top of the page
+    function replaceInTitle(text) {
+        let title = document.getElementById("title")
+        if (title.childNodes.length > 1) {
+            title.removeChild(title.lastChild)
+        }
+        title.appendChild(document.createTextNode(text))
+    }
+
+    // Replace the last child in the label with the given text
+    function replaceInLabel(text) {
+        let label = document.getElementById("label")
+        if (label.childNodes.length > 1) {
+            label.removeChild(label.lastChild)
+        }
+        label.appendChild(document.createTextNode(text))
+    }
+</script>
