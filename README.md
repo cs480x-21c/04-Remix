@@ -47,6 +47,10 @@ I also found visual accompaniments to the changing graphs in the form of the ima
 
 The entire vis also fits nicely on my (albeit very high resolution) screen, without the need to scroll anywhere to see my results change a part of the vis.
 
+# Working Link
+
+http://pbcoady.github.io/04-Remix/index.html
+
 
 # Sources
 
