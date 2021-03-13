@@ -1,0 +1,352 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<svg id="frame"></svg>
+<svg id='frame2'></svg>
+<text>Visualization by R. 'El' Sallie <br></text>
+<text>Info: This visualization is a remix of the following: https://i.redd.it/h6c7ppi38ll61.png <br> 
+    The original viz was meant to communicate the tools used by the data visualization community, but I found parts of it to be misleading, with it counting the percentage of the userbase being professionals. <br>
+    In my remix, I've chosen to instead measure the percentage of the datavis community using each datavis tool. Additionally, I added a new vis to display the crossover of users between different tools. <br>
+    Click a bar to set the center of the network, and hover over nodes to see the percentage of that tool's users that use every other tool. The population of the userbase is additionally highlighted in the bar graph.
+
+</text>
+<script>
+    var margin = 50;
+    var width = 1350 - 2 * margin;
+    var height = 500 - 2 * margin;
+    console.log(d3); // test if d3 is loaded
+    var svg = d3.select('#frame')
+    .attr("width", width + 2*margin)
+    .attr("height", height + 2*margin)
+    
+    var svg2 = d3.select('#frame2')
+    .attr("width", width + 2*margin)
+    .attr("height", height + 2*margin)
+
+    var titles= ["WebGL", "Canvas", "React", "D3.js", "Illustrator", "Web Components", "Mapbox", "Highcharts", "Vega", "Leaflet", "QGIS", "Qlik", "Tableau", "Python", "Power BI", "R", "Excel", "Plotly"]
+
+    var clickColor = d3.scaleOrdinal(['#4a0818', '#16421b', '#544a08', '#162147', '#4f2a10', '#174a55', '#3f0d3d', '#59434c', '#1d3f3b', '#4d435a', '#1f1407', '#494739', '#ff4141', '#2f4736', '#a0a0ff', '#484848', '#6c6c6c', '#8a8a8a'])
+    var altColor = d3.scaleOrdinal(['#90102f', '#2c8537', '#baa412', '#2e4596', '#9c531f', '#2a879b', '#7b1a76', '#a98090', '#2c605a', '#9480ac', '#5a3a15', '#a09e7e', '#be0000', '#5b8969', '#4444cf', '#717171', '#b0b0b0', '#4c4c4c'])
+    var color = d3.scaleOrdinal(['#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#42d4f4', '#f032e6', '#fabed4', '#469990', '#dcbeff', '#9A6324', '#fffac8', '#800000', '#aaffc3', '#000075', '#a9a9a9', '#ffffff', '#000000'])
+    //var myScale = d3.scaleOrdinal()
+    //.range(d3.schemeCategory20)
+
+    var xScale = d3.scaleBand()
+      .range([0, width])
+      .domain(titles)
+      .padding(0.4)
+    
+    const yScale = d3.scaleLinear()
+      .range([height, 0])
+      .domain([0, 50]);
+
+
+      
+    var stackchart = svg.append('g')
+      .attr('transform', `translate(${margin}, ${margin})`);
+
+    var network = svg2.append('g')
+      .attr('transform', `translate(${margin}, ${margin})`)
+
+    d3.select("body")
+    .style("background-color", "lavender")
+    
+
+
+   
+
+    d3.csv("DataVizCensus2020-AnonymizedResponses.csv").then(function(data){
+        console.log('test')
+        console.log(data[0])
+        var webGl = d3.group(data, d => d.technologies_27);
+        var canvas = d3.group(data, d => d.technologies_31);
+
+        var react = d3.group(data, d => d.technologies_21);
+
+        var d3js = d3.group(data, d => d.technologies_2);
+
+        var illustrator = d3.group(data, d => d.technologies_8);
+
+        var webCom = d3.group(data, d => d.technologies_26);
+        var mapBox = d3.group(data, d => d.technologies_11);
+        var highCharts = d3.group(data, d => d.technologies_7);
+        var vega = d3.group(data, d => d.technologies_24);
+        var leaflet = d3.group(data, d => d.technologies_10);
+        var qgis = d3.group(data, d => d.technologies_18);
+        var qlik = d3.group(data, d => d.technologies_19);
+        var tableau = d3.group(data, d => d.technologies_23);
+        var python = d3.group(data, d => d.technologies_17);
+        var powerBi = d3.group(data, d => d.technologies_15);
+        var r = d3.group(data, d => d.technologies_20);
+        var excel = d3.group(data, d => d.technologies_4);
+        var plotly = d3.group(data, d => d.technologies_14);
+
+
+
+        var groups = [[webGl, titles[0], "technologies_27"], [canvas, titles[1], "technologies_31"], [react, titles[2], "technologies_21"], [d3js, titles[3],"technologies_2"],
+                      [illustrator, titles[4], "technologies_8"],[webCom, titles[5], "technologies_26"], [mapBox, titles[6], "technologies_11"], 
+                      [highCharts, titles[7], "technologies_7"], [vega, titles[8],"technologies_24"], [leaflet, titles[9], "technologies_10"], 
+                       [qgis, titles[10], "technologies_18"], [qlik, titles[11], "technologies_19"], [tableau, titles[12], "technologies_23"],
+                       [python, titles[13], "technologies_17"], [powerBi, titles[14], "technologies_15"], [r, titles[15], "technologies_20"], 
+                       [excel, titles[16], "technologies_4"], [plotly, titles[17],"technologies_14"]
+                      ]
+
+
+        //["WebGL", "Canvas", "React", "D3.js", "Illustrator", "Web Components", "Mapbox", "Highcharts", "Vega", "Leaflet", "QGIS", "Qlik", "Tableau", "Python", "Power BI", "R", "Excel", "Plotly"]
+  
+        var barHeight = [];
+        barHeight.push([((webGl.get(titles[0]).length) / 1766)*100, titles[0], 0]);
+        barHeight.push([((canvas.get(titles[1]).length) / 1766)*100, titles[1], 1]);
+        barHeight.push([((react.get(titles[2]).length) / 1766)*100, titles[2], 2]);
+        barHeight.push([((d3js.get("D3.js").length) / 1766) *100, titles[3], 3]);
+        barHeight.push([((illustrator.get("Illustrator").length)/ 1766) *100, titles[4],4]);
+        barHeight.push([((webCom.get("Web Components").length)/ 1766) *100, titles[5], 5]);
+        barHeight.push([((mapBox.get("Mapbox").length)/ 1766) *100, titles[6], 6]);
+        barHeight.push([((highCharts.get("Highcharts").length)/ 1766) *100, titles[7], 7]);
+        barHeight.push([((vega.get("Vega").length)/ 1766) *100, titles[8], 8]);
+        barHeight.push([((leaflet.get("Leaflet").length)/ 1766) *100, titles[9], 9]);
+        barHeight.push([((qgis.get("QGIS").length)/ 1766) *100, titles[10], 10]);
+        barHeight.push([((qlik.get("Qlik").length)/ 1766) *100, titles[11], 11]);
+        barHeight.push([((tableau.get("Tableau").length)/ 1766) *100, titles[12], 12]);
+        barHeight.push([((python.get("Python").length)/ 1766) *100, titles[13], 13]);
+        barHeight.push([((powerBi.get("Power BI").length)/ 1766) *100, titles[14], 14]);
+        barHeight.push([((r.get("R").length)/ 1766) *100, titles[15], 15]);
+        barHeight.push([((excel.get("Excel").length)/ 1766) *100, titles[16], 16]);
+        barHeight.push([((plotly.get("Plotly").length)/ 1766) *100, titles[17], 17]);
+
+        console.log(barHeight)
+
+        stackchart.append('g')
+        .attr('transform', `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale));
+
+      stackchart.append('g')
+       .call(d3.axisLeft(yScale));
+
+       stackchart.selectAll("rect")
+       .data(barHeight)
+       .enter().append('rect')
+       //.transition(t1)
+       .attr('x', function(d){return xScale(d[1])})
+       //.transition(t1)
+       .attr('y', function(d){return yScale(0)})
+       //.transition(t1)
+       .attr('height', function(d){return height - yScale(0)})
+       //.transition(t1)
+       .attr('width', xScale.bandwidth() + 3)
+       //.transition(t1)
+       .attr('fill',function(d){return clickColor(d[1])} )
+       .attr('fill',function(d){return color(d[1])} )
+       .attr('stroke', '#000000')
+       .on('click', function(e, d){
+        var t = d3.transition()
+        .duration(250)
+        var tPre = d3.transition()
+        .duration(250)
+        var tPre2 = d3.transition()
+        .duration(250)
+        var tDelay = d3.transition()
+        .duration(250)
+        .delay(250)
+        var tDelay2 = d3.transition()
+        .duration(250)
+        .delay(250)
+        
+           loadNetData(d[2])
+           d3.select(this)
+           
+           .attr('fill', function(d){return clickColor(d[1])})
+           .transition(t)
+           .attr('fill', function(d){return color(d[1])})
+       })
+       .on('mouseover', function(e, d){
+           d3.select(this).attr('fill', function(d){return altColor(d[1])})
+       })
+       .on('mouseout', function(e, d){
+           d3.select(this).attr('fill', function(d){return color(d[1])})
+       })
+
+       stackchart.selectAll("rect")
+        .transition()
+        .duration(600)
+        .attr("y", function(d) { return yScale(d[0]); })
+        .attr("height", function(d) { return height - yScale(d[0]); })
+        .delay(function(d,i){ return(i*20)})
+
+
+        stackchart.append('text')
+        .attr('x', width/2)
+        .attr('y', 0)
+        .style("font-size", 40)
+        .style("text-anchor", "middle")
+        .text("Tool Usage of the Data Vis Community")
+
+
+       var netData = {nodes: [], links: []
+    
+       }
+
+      
+
+       function loadNetData(groupNum){
+        network.selectAll('*').remove()
+        netData.nodes = [];
+        //for(i=0; i<titles.length; i++){
+            //netData.nodes.push({id: titles[i]})
+       // }
+        netData.links = []
+
+        for(i=0; i<groups.length; i++){
+            if(i!= groupNum){
+                var link = {}
+                link.source = groups[groupNum][1]
+                link.target = groups[i][1]
+                var newGroup = d3.group(data, d=>d[groups[groupNum][2]], d=> d[groups[i][2]])
+                var percentDiff = 0;
+                var basePercent = 0;
+                try{
+                    percentDiff = ((newGroup.get(groups[groupNum][1]).get(groups[i][1]).length) / groups[groupNum][0].get(groups[groupNum][1]).length) *100
+                    basePercent = ((newGroup.get(groups[groupNum][1]).get(groups[i][1]).length) / 1766) * 100
+                }
+                catch(err){
+                    percentDiff = 0;
+                    basePercent = 0;
+
+                }
+                //percentDiff = ((newGroup.get(groups[groupNum][1]).get(groups[i][1]).length) / groups[groupNum][0].get(groups[groupNum][1]).length) *100
+
+                link.values = percentDiff
+                netData.nodes.push({id: titles[i], size: percentDiff, percent: basePercent, barColor: altColor(titles[i]) })
+
+                netData.links.push(link)
+            }
+            else{
+                var originalPercent = (groups[groupNum][0].get(groups[groupNum][1]).length /1766) *100
+                netData.nodes.push({id: titles[i], size:100, percent: originalPercent, barColor: altColor(titles[i])})
+            }
+        }
+
+        network.append('text')
+        .attr('x', width/2)
+        .attr('y', 0)
+        .style("font-size", 40)
+        .style("text-anchor", "middle")
+        .text(titles[groupNum] + " users are also using: ")
+      
+
+       //loadNetData(1);
+      // console.log(netData)
+
+       var datalinks = netData.links.map(d => Object.create(d));
+       var datanodes = netData.nodes.map(d=> Object.create(d));
+
+       var simulate = d3.forceSimulation(datanodes)
+           .force("link", d3.forceLink(datalinks).id(d=> d.id).distance(function(d){return 150 - d.values * 1.25}))
+           .force("charge", d3.forceManyBody().strength(-50))
+           .force("center", d3.forceCenter(width/2, height/2));
+
+        var connection = network.append("g")
+            .attr("stroke", "#000")
+            .selectAll("line")
+            .data(datalinks)
+            .join("line")
+            
+        var node = network.append('g')
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1.5)
+        .selectAll('circle')
+        .data(datanodes)
+        .join("circle")
+        .attr("r", function(d){return Math.sqrt(d.size)*1.75 +3 })
+        .attr("fill", function(d){return color(d.id)})
+        .on('mouseover', function(e,d){
+
+            d3.select(this).attr('fill', function(d){return altColor(d.id)})
+
+            
+            stackchart.append('rect')
+            .attr("id", "tempRect")
+            .attr('y', yScale(0))
+            .attr('width', xScale.bandwidth() + 3)
+            .attr('height',height - yScale(0) )
+            .attr('x', xScale(d.id))
+        
+            .transition()
+            .duration(800)
+            .attr("y",  yScale(d.percent))
+            .attr("height", height - yScale(d.percent))
+            
+            .attr('width', xScale.bandwidth() + 3)
+            .attr('fill', '#000')
+            .attr('fill',d.barColor )
+        })
+        .on('mouseout', function(e,d){
+            d3.select(this).attr('fill', function(d){return color(d.id)})
+            d3.selectAll('#tempRect')
+            .transition()
+            .duration(800)
+            .attr('y', yScale(0))
+            .attr('height', height - yScale(0))
+            d3.select("#tempRect")
+            .transition()
+            .delay(1000).remove()
+        })
+        //.call(drag(simulate))
+
+        node.append("title")
+      .text(d => d.id + ": " +d.size.toFixed(2) + "% of users");
+
+    simulate.on("tick", () => {
+      connection
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+    });
+
+       }
+
+     
+
+       loadNetData(0);
+
+       console.log(netData)
+
+      
+
+        
+    })
+   // .get( function(data) {
+    //console.log(data.role_2);
+   // console.log("help");
+   // console.log(data);
+    //console.log(data.technologies_0);
+
+    //console.log(data.technologies_31)
+    
+//
+  //  if(data.technologies_0 == ("​ArcGIS")){
+     //   counter++;
+     //   console.log(counter);
+    //}
+   
+
+    //var webGl = d3.group(data, d => d.technologies_27);
+
+    //var canvas = d3.group(data, d => d.technologies_31);
+
+    //var react = d3.group(data, d => d.technologies_21);
+
+    //var d3js = d3.group(data, d => d.technologies_2);
+
+    //var illustrator = d3.group(data, d => d.technologies_9);
+
+    //var webCom = d3.group(data, d => d.technologies_26);
+
+    //console.log("WebGL");
+    //console.log(webGl.get("WebGl").length);
+
+   
+</script>
