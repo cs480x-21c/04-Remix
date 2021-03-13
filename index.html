@@ -51,7 +51,10 @@
 		
 		var subgroups = ["adults", "teenagers", "children", "unrated"];
 		
-		var groups = d3.map(data, d => d.year).keys();
+		//var groups = d3.map(data, d => d.year).keys();
+		
+		//defining groups manually, d3.map wasn't giving expected result
+		var groups = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 		
 		var stackedData = d3.stack()
 			.keys(subgroups)
@@ -73,7 +76,7 @@
 		var svg = d3.select('#stackedBar')
 			.append("svg")
 				.attr("width", dimensions.width + dimensions.margin.left + dimensions.margin.right)
-				.attr("height", dimensions.height + dimensions.margin.top + dimensions.margin.bottom)
+				.attr("height", dimensions.height + dimensions.margin.top + dimensions.margin.bottom + 35)
 			.append("g")
 				.attr("transform",
 					  "translate(" + dimensions.margin.left + "," + dimensions.margin.top + ")");
@@ -86,7 +89,7 @@
 				.selectAll("rect")
 				.data(d => d)
 				.enter().append("rect")
-					.attr("x", d => x(d.data.year-2000))
+					.attr("x", d => x(d.data.year))
 					.attr("y", d => y(d[1]))
 					.attr("height", d => y(d[0]) - y(d[1]))
 					.attr("width", x.bandwidth())
@@ -98,6 +101,71 @@
 			
 		svg.append("g")
 			.call(d3.axisLeft(y));
+			
+		svg.append("text")
+			.attr("class", "x label")
+			.attr("text-anchor", "end")
+			.attr("x", (dimensions.width+dimensions.margin.left+dimensions.margin.right)/2)
+			.attr("y", dimensions.height+dimensions.margin.top+dimensions.margin.bottom+2)
+			.text("Year");
+			
+		svg.append("text")
+			.attr("class", "y label")
+			.attr("text-anchor", "end")
+			.attr("y", -30)
+			.attr("x", -(dimensions.height+dimensions.margin.top+dimensions.margin.bottom-80)/2)
+			.attr("transform", "rotate(-90)")
+			.text("Percentage");
+			
+		//adding legend
+		svg.append("text")
+			.attr("x", (0*dimensions.width/3))
+			.attr("y", dimensions.height+dimensions.margin.top+40)
+			.style("text-anchor", "middle")
+			.text("Adults")
+			.style("fill", "#d7191c")
+		svg.append("circle")
+			.attr("cx", (0*dimensions.width/3) + 35)
+			.attr("cy", dimensions.height+dimensions.margin.top+36)
+			.attr("r", 5)
+			.style("fill", "#d7191c")
+			
+		svg.append("text")
+			.attr("x", (1*dimensions.width/3))
+			.attr("y", dimensions.height+dimensions.margin.top+40)
+			.style("text-anchor", "middle")
+			.text("Teenagers")
+			.style("fill", "#fdae61")
+		svg.append("circle")
+			.attr("cx", (1*dimensions.width/3) + 45)
+			.attr("cy", dimensions.height+dimensions.margin.top+36)
+			.attr("r", 5)
+			.style("fill", "#fdae61")
+			
+		svg.append("text")
+			.attr("x", (2*dimensions.width/3))
+			.attr("y", dimensions.height+dimensions.margin.top+40)
+			.style("text-anchor", "middle")
+			.text("Children")
+			.style("fill", "#abd9e9")
+		svg.append("circle")
+			.attr("cx", (2*dimensions.width/3) + 40)
+			.attr("cy", dimensions.height+dimensions.margin.top+36)
+			.attr("r", 5)
+			.style("fill", "#abd9e9")
+			
+		svg.append("text")
+			.attr("x", (3*dimensions.width/3)-45)
+			.attr("y", dimensions.height+dimensions.margin.top+40)
+			.style("text-anchor", "middle")
+			.text("No Rating")
+			.style("fill", "#2c7bb6")
+		svg.append("circle")
+			.attr("cx", (3*dimensions.width/3) + 0)
+			.attr("cy", dimensions.height+dimensions.margin.top+36)
+			.attr("r", 5)
+			.style("fill", "#2c7bb6")
+			
 	
 	}
 
