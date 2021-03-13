@@ -1,64 +1,63 @@
-Assignment 4 - DataVis Remix + Multiple Views
-===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+# Description & Improvements Over Original Visualization
 
-### Your Task
+In Yu-Gi-Oh!, monster cards have several traits to them- for instance, their Attribute and Type, which determine their elemental affinity and species respectively, as well as their ATK stat, which tells how hard they hit.
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+The original vis was a long in-depth review of Yu-Gi-Oh! monster stats, which included several boxplots and bar graphs one needed to scroll to access. Among those graphs were boxplots grouping monster ATK by Type and attribute, as well as a bar graph showing the most common monster ATK values. The data used was a CSV file containing the types, attributes, ATK values, and more of every card in the game.
 
-By remix, we mean:
+The data provided could go into much more depth, however- I speculated that it was possible to determine the most common monster ATK value by type and attribute, as well as making boxplots of ATK given both type and attribute. The original visualization also had no interactive component whatsoever.
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+My visualization uses the same data to provide that information through user interaction. You can hover over the "box" of each item in a box plot to focus the visualization. For instance, hovering over the "Dragon" box will make the attribute boxplot show data for only Dragon-Type monsters, and the bar graph will show the most common ATK values for only Dragon-Type monsters.
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+In addition, the original visualization had no visuals for cards, so I added a picture spot. The card pictured will match the current Type or Attribute selected, and has the ATK value most common to that Type or Attribute, reflected in the bar chart. By default, it shows Relinquished, a monster famous in the anime that just so happens to have the most common monster ATK value.
 
-By two linked views, we mean:
+It's now possible to easily see both the median and mode ATK value per card type and attribute!
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+The effects of hovering over a box are clearly reflected in the changing titles of each graph.
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+# Screenshots
+
+When the user isn't hovering over a box, the visualization looks like this:
+
+![sc1](img/Screenshot.png)
+
+Hovering over a box in the monster type graph (in this example, Fiend) changes the visualization to this:
+
+![sc2](img/Screenshot2.png)
+
+Hovering over a box in the monster attribute graph (in this example, EARTH) changes the visualization to this:
+
+![sc3](img/Screenshot3.png)
+
+# Technical Achievements
+
+This remix uses not only two but FOUR seperate svgs, two of which interact with each other and ALL of which change based on user interaction with a different vis. 
+
+The CSV file used is also utterly massive, to the point where testing using individual values was not possible.
+
+Box and whisker charts cannot be easily built using default d3 plugins- they proved to be much more finnicky than the scatter and bar charts I was used to.
+
+The filtering mechanism to include only the selected type/attribute in each chart was done entirely by me, using a fairly hacky solution to hide invalid results.
+
+# Design Achievements
+
+The axes for each chart are not only clearly labelled, but also change dynamically with the user's interaction so they're never confused.
+
+I also found visual accompaniments to the changing graphs in the form of the image on the side, both to give the user something interesting to look at an a representation of what the results are showing them. The visual shares the selected Type/Attribute as well as the most common ATK value shown in the bottommost graph.
+
+The entire vis also fits nicely on my (albeit very high resolution) screen, without the need to scroll anywhere to see my results change a part of the vis.
+
+# Working Link
+
+http://pbcoady.github.io/04-Remix/
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+# Sources
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+Boxplot code was adapted from https://www.d3-graph-gallery.com/graph/boxplot_several_groups.html.
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
+Bar chart code was adapted from https://www.d3-graph-gallery.com/graph/barplot_basic.html.
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
+Image placement code was adapted from https://www.fabiofranchino.com/blog/how-to-load-image-in-svg-with-d3js/.
 
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+Pictures were taken from https://yugioh.fandom.com/wiki/.
