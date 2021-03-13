@@ -4,13 +4,4 @@ Link directly to viz: https://i.redd.it/2mtubvj7hch61.png
 
 Source: http://www.pgnmentor.com/files.html
 
-Data transformation script (turns pgn into a csv of pieces with distances): https://colab.research.google.com/drive/1yhkhL3fRKdOdbve32RpUi7LjqaonYw5A?usp=sharing
-
 Viz data: https://drive.google.com/file/d/1t7PZEkSu2Tz68LymGptMDIwmMETBy0Lk/view?usp=sharing
-
-REMIX:
-- meters is not a good unit as some chess boards are bigger than others
-- allow user to filter by color and redraw graph w/ bars in ascending order
-- clicking on a bar will modify a gauge
-- gauge will show: of the games where selected piece was moved, what was the win %
-- if no pieces selected, show overall win %
