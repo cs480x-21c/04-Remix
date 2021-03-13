@@ -8,7 +8,30 @@ http://haleyhauptfeld.com/04-Remix/index.html
 
 Original visualization: https://wid.world/country/usa/
 
-The data I chose to remix is the income inequality within the USa from 1913-2019.
+The data I chose to remix is the income inequality within the USA from 1913-2019. The data consists of different percentiles and their shared percentage of the total income in the USA amongst different percentiles. The four percentiles that I focused on were the top 10% share, the middle 40% share, the bottom 50% share, and the top 1% share. The original visualization had an overwhelming amount of data that made it hard to focus on one piece of information, so I decided to simplify by only focusing on the data I just described. I visualize the data in three ways: line chart, bar chart, and scatterplot. The linked view happens from the bar chart to the line chart. When users hover over the bars in the bar chart, it links to the line chart, where the line chart displays a number that represents the percentile that bar being hovered over is associated with. The associations are as follows:
+* 10 = top 10%
+* 40 = middle 40%
+* 50 = bottom 50%
+* 1 = top 1%
+
+There is currently no working link from the line chart to the bar chart. There are also no links to or from the scatterplot. The scatterplot is intended to count as my technical achievement.
+
+If I had more time to work on this project, I would definitely try adding more things to make my visualization more clear, and get rid of some bugs that make the visualization confusing. 
+
+Some bugs that currently occur are:
+* The number that appears on the line chart do not go away after you hover over the bar linked to it. They end up overlapping the other displayed number when multiple bars are hovered over the visualization before refreshing the page.
+* The line chart should have had four separate colors to represent the four different percentiles that I'm trying to display. They are all currently gray due to the implementation of the linked view.
+* The bar chart should have had four separate colors to represent the four different percentiles that I'm trying to display. They are all currently red.
+
+Some things that I would try to add to make my visualization more clear are:
+* A legend for each visualization so that users can tell which color corresponds to each percentile.
+* An explanation of what each percentile represents, perhaps in the form of a tooltip where users can hover over each percentile and it explains what that percentile represents.
+
+I understand my visualization is very buggy, but I was still able to connect two views together using the sources that I've referenced at the bottom of this readme. I was also able to implement a third visualization that clarifies the data a little easier so that the user can understand it a little better.
+
+Screenshot
+---
+![image](https://user-images.githubusercontent.com/34756903/111009927-ee1f6280-8362-11eb-8e12-c3f623ceddb8.png)
 
 
 Technical Achievement
@@ -28,27 +51,3 @@ References
 * https://bl.ocks.org/mbostock/3183403
 * https://bl.ocks.org/d3noob/23e42c8f67210ac6c678db2cd07a747e
 * http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
-
-
-* 10 = p90p100 = top 10%
-* 40 = p50p90 = middle 40%
-* 50 = p0p50 = bottom 50%
-* 1= p99p100 = top 1%
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
