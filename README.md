@@ -10,7 +10,7 @@ When I first saw this visual I was rather confused, not just because it's a litt
 
 ## First Attempt
 
-My first attempt at remixing this visualization was to build a map with all the languages plotted on it as dots (the dataset came with longitude and latitude values for each entry), colored by their endangerment status. The dots on the map could be highlighted to get information about the language, and the legend on the right could be used to filter the map. The bar graph underneath the map showed overall numbers for how many languages fit into a certain category, and hovering over one of the bars would show only the corresponding dots on the map (clicking on it would lock this selection). 
+My first attempt at remixing this visualization was to build a map with all the languages plotted on it as dots (the dataset came with longitude and latitude values for each entry), colored by their endangerment status. The dots on the map could be highlighted to get information about the language, and the legend on the right could be used to filter the map. The bar graph underneath the map showed overall numbers for how many languages fit into a certain category, and hovering over one of the bars would show only the corresponding dots on the map (clicking on it would lock this selection).
 
 ![First Attempt](./img/try1.png)
 
@@ -25,3 +25,13 @@ In my second attempt I decided to have less of a focus on the individual languag
 ## Final Implementation
 
 For my final implementation I decided that rather than completely scrapping my original code, that I could improve the meaningfulness of the visualization by linking both versions. As such, both versions (which are on separate pages) are accessible at [https://nyoma-diamond.github.io/04-Remix](https://nyoma-diamond.github.io/04-Remix). While on its own my second attempt is (in my opinion) a good and meaningful visualization, it is improved when it can be used in conjunction with my first attempt, so both are available.
+
+## Technical Achievements
+
+- By splitting out the code carefully so it could be reused, I made it so the map could be dynamically recolored based on data. This mean that I wouldn't need to regenerate the map whenever I wanted to update it, which would be bad for responsiveness. This means that the map can update instantly when hovering over the bar graph. It also updates the scaling and the legend automatically.
+- Also through careful coding I was able to make the bar graph update very quickly when hovering over a country, including updating the scales
+
+## Design Achievements
+
+- While not very useful, something I'm proud of is the filtering on the first attempt. Working with two filters that operate in inherently different ways (hide the selected vs show only the selected) can be difficult when both can be locked. As such I decided to make it so the legend filter would be persistent, while the bar graph's filter would override anything currently happening. As a result, it's pretty much impossible to do something unintended with the filters, and it allows you to make quick comparisons like "all non-extinct languages vs extinct languages" rather than just looking at single categories at a time.
+- Wherever possible I implemented opacity adjustments to make interactivity obvious. All elements are naturally not fully opaque/saturated, meaning that when hovering over/selecting something it can become opaque while other elements become more transparent, making it extremely apparent what is being/that something can be selected, while not hiding any information. This is particularly important for my first attempt visualization, as the bar graph selection can be locked, so I needed some way to indicate when a lock was placed, and opacity works well for that too. This also allowed me to indicate whether or not changes could be made to the filter: e.g. when no filters are in place, you can hover over the legend to implement filters, and the opacity will change to indicate this, however, when a lock is in place from the bar graph the opacity will not change on the legend, indicating that you cannot change those filters until the lock is lifted.
