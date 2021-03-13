@@ -5,8 +5,6 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <script src="d3-legend.min.js"></script>
-    <script src="//d3js.org/topojson.v2.min.js"></script>
   </head>
 
   <body>
@@ -19,11 +17,11 @@
   <script>
   /**********
   *
-  *  PART I: CHLOROPLETHS ARE THE PHOTOSYNTHESIS ORGANELLES, RIGHT?
+  *  PART I: CHLOROPLETHS ARE ORGANELLES CRITICAL TO PHOTOSYNTHE- WAIT, NO.
   *
   **********/
 
-  // Define chloropleth
+  // Define heightvis (chloropleth)
   var heightvis = d3.select("svg"),
     width = +heightvis.attr("width"),
     height = +heightvis.attr("height");
@@ -33,19 +31,13 @@
   var projection = d3.geoMercator()
     .scale(150)
     .center([0,20])
-    .translate([width / 2, height / 2]);
+    .translate([width / 2, height / 2 ]);
 
   // Data and color scale
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([150, 153, 156, 159, 162, 165, 168, 170])
     .range(["#FFD6E7", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794"]);
-
-  // Load external data and boot - don't mess with this
-  d3.queue()
-    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-    .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value) })
-    .await(ready);
 
   // Define tooltip
   var tooltip = d3.select("body")
@@ -55,7 +47,14 @@
     .style("z-index", "10")
     .style("visibility", "hidden")
     .style("background", "#FFFFFF")
-    .text("rah");
+    .text("No data.");
+
+  // Load external data and boot - don't mess with this
+  d3.queue()
+    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value) })
+    //TODO: add one more line for a function that stores the Country and Value somewhere
+    .await(ready);
 
   function ready(error, topo) {
 
@@ -74,10 +73,7 @@
 
     let mouseMove = function(d) {
         tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-        .text(function (d) {
-          d.heighttext = data.get(d.Value) || 0;
-          return d.heighttext;
-      });
+        .text("man"); //TODO: change this to the function in queue()
     }
 
     let mouseLeave = function(d) {
@@ -87,6 +83,10 @@
         .style("opacity", .8)
         .style("stroke", "transparent")
       tooltip.style("visibility", "hidden");
+    }
+
+    let mouseClick = function(d) {
+      tooltip.text("real shit?"); //TODO: fix this to SetSelectedCountries
     }
 
     // Draw the map
@@ -109,14 +109,82 @@
         .style("opacity", .8)
         .on("mouseover", mouseOver)
         .on("mousemove", mouseMove)
-        .on("mouseleave", mouseLeave);
+        .on("mouseleave", mouseLeave)
+        .on("click", mouseClick);
     }
 
-    /**********
-    *
-    *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING COMPAREVIS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
-    *
-    **********/
+  /**********
+  *
+  *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING COMPAREVIS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
+  *
+  **********/
+
+  function GetSelectedCountries(d) {
+      //TODO: slurp up the selected countries. currently dummy variables
+
+  }
+
+  // Define comparevis (bar graph)
+  var comparevis = d3.select("svg"),
+    width = +comparevis.attr("width"),
+    height = +comparevis.attr("height");
+
+  var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+  var y = d3.scale.linear().range([height, 0]);
+
+  var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+
+  var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+  var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  d3.csv("bar-data.csv", function(error, data) {
+    data.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.value = +d.value;
+        });
+
+        x.domain(data.map(function(d) { return d.date; }));
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+        svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis)
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", "-.55em")
+          .attr("transform", "rotate(-90)" );
+
+        svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Value ($)");
+
+        svg.selectAll("bar")
+          .data(data)
+          .enter().append("rect")
+          .style("fill", "steelblue")
+          .attr("x", function(d) { return x(d.date); })
+          .attr("width", x.rangeBand())
+          .attr("y", function(d) { return y(d.value); })
+          .attr("height", function(d) { return height - y(d.value); });
+
   </script>
   </body>
 </html>

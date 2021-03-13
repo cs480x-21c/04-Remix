@@ -10,17 +10,6 @@ h1 {
     color: #FF99C3
 }
 
-input[type=submit] {
-    padding: 10px 20px 10px 20px;
-    background-color: #FF99C3;
-    border-radius: 5px;
-}
-
-input[type=text] {
-    margin-bottom: 10px;
-    padding: 10px 10px 10px 10px;
-}
-
 button {
     padding: 10px 20px;
     background-color: #FF99C3;
@@ -30,21 +19,9 @@ button {
 }
 
 button:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
-
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path
-
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+    box-shadow: 0 12px 12px 0 rgba(0,0,0,0.2), 0 12px 12px 0 rgba(0,0,0,0.2);
 }
 
 /******
- * please stop looking here I do not have funny things to say
+*  please stop looking here I do not have funny things to say i am grieving
 ******/
