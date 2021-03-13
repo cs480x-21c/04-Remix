@@ -80,7 +80,7 @@
     d3.select("#co2-value").text("0");
     
 
-    var listCsv = ["/co2_emissions_tonnes_per_person.csv", "/income_per_person_gdppercapita_ppp_inflation_adjusted.csv", "/population_total.csv"];
+    var listCsv = ["./co2_emissions_tonnes_per_person.csv", "./income_per_person_gdppercapita_ppp_inflation_adjusted.csv", "./population_total.csv"];
     var listPromises = []
     for (var i = 0; i < listCsv.length; i++) 
     {
@@ -178,7 +178,7 @@
         }
 
         Promise.all([
-d3.json('world.geojson')
+d3.json('./world.geojson')
 ]).then( ([countries]) => {
     createMap(countries, proj, gpath)
 })
