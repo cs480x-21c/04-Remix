@@ -2,63 +2,30 @@ Assignment 4 - DataVis Remix + Multiple Views
 ===
 
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Project Link: ()
 
-### Your Task
+# A critique on the Orginal Visualization
+I originally found this viualization as apart of my week 4 reflection. [Found on the r/dataisbeuatiful subreddit](https://www.reddit.com/r/dataisbeautiful/comments/ltr34n/oc_visualising_how_nhl_players_have_performed_in/), a user posted a vis showcasing the expected goals versus the current made goals of each player in the NHL. 
+![original_vis](media/nhlstats.png)
+I really enjoy the unique usage of parallel coordninate graphs to indiviually inspect each NHL team's players performance to showcase outliers. But where I felt the project was lacking and could be improved was the showcasing the differences in teams based on performance. In the orignal vis teams were organized by their conference(region). I felt that comparing all teams side by side would showcase the performance need by players for a team to succeed in the NHL.
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+# My Remix Vis 
+Focusing on comparing team performance to their players [I created]() a link visualization that allows users to click on the logo of any team in the NHL and have their path on each graph colorized based on the team's primary color as well as greying out the rest of the data. When selecting the team the visualization will responsively notify which team is currently selected by the user. All data included was grabbed from the current season statistics from [Natural Stat Trick](http://www.naturalstattrick.com/) which is the same source as the original vis.
+Below is a screenshot of the visualization on startup. ![onStartup](media/startup.png)
+And below this is a screenshot of the visualization after the user selects the Boston Bruins by clicking on the team's logo. ![bruins](media/boston.png)
+## Reflecting On My Project 
+After completing this project I am proud of what I was able to accomplish and the techincal hurdles I overcame but I alawys think there is room for improvement. The biggest issue I grappled with was the interaction and display of the data. While this was the problem to solve with this assignment I believe further improvement could be done to my visualization to optimize it for more in-depth comparisons between teams. Being able to select and compare teams I feel would be more beneficial given more time to scale the project.
+# Project Achivements
+Below are the design and technical achivements I completed during this project
+## Design Achivements
+* Used contrasting colors to ensure every selected team is discernable
+* Used the hex color coding for each team's primary color in their respecitve logos
+* Used team's logos as buttons to interact and link both views
+* Used Roboto font family from Google Fonts to create consist font design
+* Used Flexbox and viewport values to optimize site for responsive design(unfortunately not the graph...)
+## Technical Achivements
+* Using event listeners on team logos to handling user interactions with the visualizations
+# References
+* [original visualization](https://www.reddit.com/r/dataisbeautiful/comments/ltr34n/oc_visualising_how_nhl_players_have_performed_in/)
+* [Understanding basic implementation of parallel coordinate graphs](https://www.d3-graph-gallery.com/graph/parallel_custom.html)
+* [Similar reference for parallel coordinate graph examples](https://bl.ocks.org/jasondavies/1341281)
