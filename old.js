@@ -164,10 +164,14 @@ function createMap(world, data) {
 				}
 			})
 			.on('mouseover', function() {
-				d3.select(this).attr('opacity', 1);
+				if (lockedID == null) {
+					d3.select(this).attr('opacity', 1);
+				}
 			})
 			.on('mouseout', function() {
-				d3.select(this).attr('opacity', 0.5)
+				if (lockedID == null) {
+					d3.select(this).attr('opacity', 0.5)
+				}
 			})
 
 	map.selectAll('legend_labels')
