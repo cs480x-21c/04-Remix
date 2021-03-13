@@ -25,7 +25,8 @@ Geographical context was a major drawback to this first vis.
 
 ## Finished Product
 
-(Link [Here]())
+(Link [Here](https://pjmara.github.io/04-Remix/index.html))
+NOTE: The loading will take a while, just wait for everything to show up
 This has been the most interesting project I've worked on, for some insane reason I built the entire scatter plot and scrolling feature myself because I couldn't find anything on the internet I liked.
 
 So the two dimensions from the original vis I chose to take were income (x-axis) and co2 output (y-axis). There is also a time axis, and the way to navigate the data that way is using a slider. For example, going back in time shows...
@@ -41,7 +42,7 @@ The map vis also has pan and zoom, and is code taken/derived from our in class e
 ### Detailed Work / Tech and Design Achievements
 
 How I linked the two vis: 
-The data points and countries are both based off of CSV tables. Each CSV table was formatted to use the alpha3 country codes. When making the data points, I gave each circle an id in the format of "scatter{___}" for the scatter point for USA and when drawing the paths I gave a corresponding id of "map{___}" (alpha 3 codes replace {___}). This way each element could select the other in the mouseover functions only needing to know its own alpha3 code and then prepending "map" or "scatter". So that is exactly what I did in the mouseover and mouseout functions of both of them
+The data points and countries are both based off of CSV tables. Each CSV table was formatted to use the alpha3 country codes. When making the data points, I gave each circle an id in the format of "scatter{ABC}" for the scatter point for USA and when drawing the paths I gave a corresponding id of "map{ABC}" (alpha 3 codes replace {ABC}). This way each element could select the other in the mouseover functions only needing to know its own alpha3 code and then prepending "map" or "scatter". So that is exactly what I did in the mouseover and mouseout functions of both of them
 
 Credits to sources:
 https://www.d3-graph-gallery.com/graph/scatter_basic.html
