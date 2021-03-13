@@ -1,14 +1,6 @@
 // https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/ <br>
 // https://www.kaggle.com/the-guardian/extinct-languages
 
-Promise.all([
-	d3.json("countries-50m.json"),
-	d3.csv("cleaned_data.csv")
-]).then(([world, data]) => {
-	createMap(world, data)
-	createChart(data)
-})
-
 var labels = [
 	'Vulnerable',
 	'Definitely endangered',
@@ -17,59 +9,31 @@ var labels = [
 	'Extinct'
 ]
 
-var color = d3.scaleOrdinal()
-	.range([
-		'#C8F55F',
-		'#FFD000',
-		'#EB8C00',
-		'#FF4600',
-		'#F50033'
-	])
-	.domain(labels)
+var mapSVG = null
+var chartSVG = null
+var showLangs = false
+
+Promise.all([
+	d3.json("countries-50m.json"),
+	d3.csv("./data/Country_data.csv"),
+	d3.csv("./data/Totals.csv"),
+	d3.csv("./data/Pivoted_Data.csv")
+]).then(([world, data, totals, fullData]) => {
+	createMap(world, data, totals, fullData)
+	mapSVG = d3.select("body").select('#map')
+	colorMap(data)
+	createChart(data, totals)
+	chartSVG = d3.select('body').select("#chart")
+})
 
 
-function highlight(hover) {
-	var map = d3.select('#map')
-	var chart = d3.select('#chart')
-	
-	chart.selectAll("rect")
-		.attr('opacity', 0.3)
-				
-	map.selectAll("circle")
-		.attr('opacity', 0)
 
-	hover.attr('opacity', 0.75);
-				
-	map.selectAll('#c_' + hover.attr('id'))
-		.attr('opacity', 0.5)
-
-	labels.forEach(function(d) {
-		map.selectAll('#legend_'+d.replace(/\s/g,'_'))
-			.attr('opacity', 0.5)	
-	})
-
-	map.selectAll('#legend')
-		.attr('opacity', 0.5)
+function clean(text) {
+	return text.normalize("NFD").replace(/[\u0300-\u036f\s.']/g, "")
 }
 
 
-function filter(source, show) {
-	var map = d3.select('#map')
-	var status = source.attr('id').substring('legend_'.length, source.attr('id').length)
-
-	source.attr('fill', show ? color(status.replace(/_/g, ' ')) : 'gray')
-
-	map.selectAll("#c_" + status)
-		.attr('opacity', show ? 0.5 : 0)
-
-	source.attr('show', show)
-}
-
-
-function createMap(world, data) {
-	lockedID = null
-
-	//var land = topojson.feature(world, world.objects.land)
+function createMap(world, data, totals, fullData) {
 	var countries = topojson.feature(world, world.objects.countries)
 
 	var proj = d3.geoRobinson()
@@ -78,14 +42,26 @@ function createMap(world, data) {
 
 	var gpath = d3.geoPath()
 		.projection(proj);
-
+		
 	var width = 1200,
 		height = 600
 
-	var map = d3.select("body").append("svg")
-		.attr("width", width)
-		.attr("height", height)
-		.attr('id', 'map')
+	var map = d3.select('body').select('#map')
+
+	if (map.empty()) {
+		map = d3.select('body').append('svg')
+			.attr("width", width)
+			.attr("height", height)
+			.attr('id', 'map')
+	}
+
+	let tooltip = d3.select('body') //ref: http://bl.ocks.org/biovisualize/1016860
+		.append('div')
+			.style('position', 'absolute')
+			.style('visibility', 'hidden')
+			.style('border', '1px solid black')
+			.style('background-color', 'white')
+			.style('padding', '2px')
 
 	map.selectAll('path')
 		.data(countries.features)
@@ -95,106 +71,106 @@ function createMap(world, data) {
 			.attr('stroke-width', 1)
 			.attr('stroke', '#252525')
 			.attr('fill', 'white')
-
-	let tooltip = d3.select('body') //ref: http://bl.ocks.org/biovisualize/1016860
-		.append('div')
-			.style('position', 'absolute')
-			.style('visibility', 'hidden')
-			.style('border', '1px solid black')
-			.style('background-color', 'white');
-
-
-	map.selectAll('circle')
-		.data(data)
-		.enter()
-		.append('circle')
-			.attr('r', 4)
-			.attr('stroke-width', 1)
-			.attr('stroke', 'black')
-			.attr('stroke-opacity', 0.5)
-			.attr('transform', d =>
-				"translate(" + proj([
-					d.Longitude,
-					d.Latitude
-				]) + ")"
-			)
-			.attr('fill', d => color(d['Degree of endangerment']))
-			.attr('opacity', 0.5)
-			.attr('id', d => "c_" + d['Degree of endangerment'].replace(/\s/g,'_') )
-			.on('mouseover', function (d, i) {
-				if (d3.select(this).attr('opacity') > 0) {
-					d3.select(this).attr('opacity', 1);
-
-					let tip = 'Name: ' + i['Name in English'] +
-						"<br>Endangerment Status: " + i['Degree of endangerment'] +
-						"<br>Speakers: " + (i['Number of speakers'] == "" ? "N/A" : i['Number of speakers']) +
-						"<br>Countries Spoken: " + i['Countries']
-
-					return tooltip.html(tip).style('visibility', 'visible');
+			.attr('opacity', 0.75)
+			.attr('id', d => clean(d.properties.name) )
+			.on('mouseover', function(d, i) {
+				cdata = data.filter(d => d.Country == i.properties.name)
+				
+				if (cdata.length != 0) { 
+					map.selectAll('path')
+						.attr('opacity', 0.5)
+					d3.select(this).attr('opacity', 1)
+					createChart(data, data.filter(d => d.Country == i.properties.name))
 				}
+
+				let tip = i.properties.name + "<br>"
+
+				if (showLangs) {
+					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
+						tip += v.Name + ": " + v.Status + "<br>"
+					})
+					
+				}
+				tooltip.html(tip).style('visibility', 'visible');
 			})
 			.on('mousemove', function(d) {
 				if (d3.select(this).attr('opacity') > 0) {
-					tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX - 60) + 'px')
+					tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX) + 'px')
 				}
-			})
-			.on('mouseout', function () {
-				if (d3.select(this).attr('opacity') > 0) {
-					tooltip.style('visibility', 'hidden');
-					d3.select(this).attr('opacity', 0.5);
-				}
-			})
-
-	// LEGEND
-	map.selectAll('legend_dots')
-		.data(labels)
-		.enter()
-		.append('circle')
-			.attr('cx', width - 160)
-			.attr('cy', (d, i) => 75 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
-			.attr('r', 8)
-			.attr('opacity', 0.5)
-			.attr('id', d => 'legend_' + d.replace(/\s/g,'_'))
-			.attr('fill', d => color(d))
-			.attr('stroke-width', 1)
-			.attr('stroke', 'black')
-			.attr('stroke-opacity', 0.5)
-			.attr('show', true)
-			.on('click', function() {
-				filter(d3.select(this), d3.select(this).attr('show') != 'true')
-			})
-			.on('mouseover', function() {
-				d3.select(this).attr('opacity', 1);
 			})
 			.on('mouseout', function() {
-				d3.select(this).attr('opacity', 0.5)
+				tooltip.style('visibility', 'hidden');
+				map.selectAll('path')
+					.attr('opacity', 0.75)
+				createChart(data, totals)
 			})
+			.on('click', function(d, i) {
+				showLangs = !showLangs
+				var tip = i.properties.name + "<br>"
+				if (showLangs) {
+					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
+						tip += v.Name + ": " + v.Status + "<br>"
+					})
+				}
+				tooltip.html(tip)
+			})
+}
 
-	map.selectAll('legend_labels')
-		.data(labels)
-		.enter()
-		.append('text')
-			.attr('x', width - 145)
-			.attr('y', (d, i) => 76.5 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
-			.text(d => d)
-			.attr('text-anchor', 'left')
-			.style('alignment-baseline', 'middle')
-			.attr('id', d => 'legend_text_' + d.replace(/\s/g,'_'))  
+function colorMap(data, status='TOTAL') {
+	var cColor = d3.scaleSequential(d3.interpolatePlasma)
+		.domain([1, d3.max(data.filter(d => d.Status == status).map(d => parseInt(d.Languages)))])
+
+	data.forEach(function(d) {
+		if (d.Status == status) {
+			mapSVG.select('#'+clean(d.Country))
+				.attr('fill', () => cColor(parseInt(d.Languages)) )
+		}
+	})
+
+	mapSVG.selectAll('path')
+		.attr('fill', t => 
+			data.filter(d => d.Status == status)
+				.map(d => d.Country)
+				.filter((value, index, self) => self.indexOf(value) === index)
+				.includes(t.properties.name)
+				? mapSVG.select('#'+clean(t.properties.name)).attr('fill') : 'gray'
+		)
+
+	// ref: https://d3-legend.susielu.com/
+	var legend = d3.legendColor()
+		.scale(cColor)
+		.title('Languages')
+	
+	mapSVG.call(legend)
+		
+	mapSVG.select('.legendCells')
+		.attr('transform', "translate(1500, 100)")
+
+	mapSVG.selectAll('.swatch')
+		.attr('stroke-width', 1)
+		.attr('stroke', '#252525')
+	
+	mapSVG.select('.legendTitle')
+		.attr('transform', "translate(1500, 90)")
+		.attr('stroke-width', 1)
+		.attr('stroke', '#252525') //this is a hack to make it bold lol
+
+	mapSVG.selectAll('.swatch')
+		.attr('opacity', 0.75)
 }
 
 
-function createChart(data) {
-	var map = d3.select('#map')
-
-	var counts = {}
-	labels.forEach(function (d) {
-		counts[d] = 0
-	})
-
-	data.forEach(function (d) {
-		counts[d['Degree of endangerment']] += 1
-	});
-
+function createChart(data, totals) {
+	var color = d3.scaleOrdinal()
+	.range([
+		'#C8F55F',
+		'#FFD000',
+		'#EB8C00',
+		'#FF4600',
+		'#F50033'
+	])
+	.domain(labels)
+	
 	//ref: https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59
 
 	var margin = {top: 20, right: 20, bottom: 50, left: 110},
@@ -208,79 +184,59 @@ function createChart(data) {
 
 	var x = d3.scaleLinear()
 		.range([0, width])
-		.domain([0, d3.max(Object.keys(counts).map(key => counts[key]))])
+		.domain([0, d3.max(totals.filter(d => labels.includes(d.Status)).map(d => parseInt(d.Languages)))])
 
-	var svg = d3.select("body").append("svg")
+	if (!d3.select('body').select('#chart').empty()) { //if the chart already exists, delete it
+		d3.select('body').select('#chart').remove()
+	}
+
+	var chart = d3.select('body').append('svg')
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
-		.attr('id', 'chart')
+		.attr('id','chart')
 		.append("g")
 			.attr("transform", 
 				"translate(" + margin.left + "," + margin.top + ")");
 
 	// append the rectangles for the bar chart
-	svg.selectAll("rect")
-		.data(Object.keys(counts))
+	chart.selectAll("rect")
+		.data(totals.filter(d => d.Status != 'TOTAL'))
 		.enter()
 		.append("rect")
-			.attr("class", "bar")
-			.attr("y", d => y(d) )
+			.attr("y", d => y(d.Status) )
 			.attr("height", y.bandwidth())
-			.attr("width", d => x(counts[d]) )
+			.attr("width", d => x(parseInt(d.Languages)) )
 			.attr('x', 1)
-			.attr('fill', d => color(d))
-			.attr('opacity', 0.5)
+			.attr('fill', d => color(d.Status))
+			.attr('opacity', 0.75)
 			.attr('stroke-width', 1)
 			.attr('stroke', 'black')
-			.attr('stroke-opacity', 0.5)
-			.attr('id', d => d.replace(/\s/g,'_') )
-			.on('mouseover', function () {
-				if (lockedID == null) {
-					highlight(d3.select(this))
-				}
+			.attr('stroke-opacity', 0.75)
+			.attr('id', d => clean(d.Status) +"_bar")
+			.on('mouseover', function(d, i) {
+				colorMap(data, i.Status)
+				chart.selectAll('rect')
+					.attr('opacity', 0.5)
+				d3.select(this).attr('opacity', 1)
 			})
-			.on('click', function() {
-				tID = d3.select(this).attr('id')
-				if (lockedID != tID) {
-					lockedID = tID
-					highlight(d3.select(this))
-
-					d3.select(this)
-						.attr('opacity', 1)
-				} else {
-					lockedID = null
-					d3.select(this).attr('opacity', 0.75);
-				}
-			})
-			.on('mouseout', function () {
-				if (lockedID == null) {
-					svg.selectAll("rect")
-						.attr('opacity', 0.5)
-					
-					labels.forEach(function(d) {
-						dID = d.replace(/\s/g,'_')
-						if (map.select('#legend_'+dID).attr('show') == 'true') {
-							map.selectAll('#c_' + dID)
-								.attr('opacity', 0.5)
-						} else {
-							map.selectAll('#c_' + dID)
-								.attr('opacity', 0)
-						}
-					})
-				}
+			.on('mouseout', function() {
+				colorMap(data)
+				chart.selectAll('rect').attr('opacity', 0.75)
 			})
 
 	// add the x Axis
-	svg.append("g")
+	chart.append("g")
 	  .attr("transform", "translate(0," + height + ")")
+	  .attr('id', 'botAxis')
 	  .call(d3.axisBottom(x));
 
 	// add the y Axis
-	svg.append("g")
+	chart.append("g")
 	  .call(d3.axisLeft(y));
 	  
-	svg.append("text")             
+	chart.append("text")             
 	  .attr("transform", "translate(" + (width/2) + " ," + (height + margin.top + 20) + ")")
 	  .style("text-anchor", "middle")
 	  .text("Number of Languages");
+	
 }
