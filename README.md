@@ -25,7 +25,8 @@ Geographical context was a major drawback to this first vis.
 
 ## Finished Product
 
-(Link [Here]())
+(Link [Here](https://pjmara.github.io/04-Remix/index.html))
+NOTE: The loading will take a while, just wait for everything to show up
 This has been the most interesting project I've worked on, for some insane reason I built the entire scatter plot and scrolling feature myself because I couldn't find anything on the internet I liked.
 
 So the two dimensions from the original vis I chose to take were income (x-axis) and co2 output (y-axis). There is also a time axis, and the way to navigate the data that way is using a slider. For example, going back in time shows...
