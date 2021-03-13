@@ -76,6 +76,7 @@ All the reqirements are done :)
 - Concise description and screenshot of your visualization.
 - Description of the v you attempted with this visualization.
 - Description of the design achievements you attempted with this visualization.
+- https://covidtracking.com/data/download This is the dataset website
 
 Reference
 ---
