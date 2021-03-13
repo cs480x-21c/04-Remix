@@ -149,7 +149,7 @@ function createMap(world, data) {
 		.enter()
 		.append('circle')
 			.attr('cx', width - 160)
-			.attr('cy', (d, i) => 75 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
+			.attr('cy', (d, i) => 75 + i * 25)
 			.attr('r', 8)
 			.attr('opacity', 0.5)
 			.attr('id', d => 'legend_' + d.replace(/\s/g,'_'))
@@ -179,7 +179,7 @@ function createMap(world, data) {
 		.enter()
 		.append('text')
 			.attr('x', width - 145)
-			.attr('y', (d, i) => 76.5 + i * 25) // 100 is where the first dot appears. 25 is the distance between dots
+			.attr('y', (d, i) => 76.5 + i * 25)
 			.text(d => d)
 			.attr('text-anchor', 'left')
 			.style('alignment-baseline', 'middle')

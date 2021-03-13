@@ -35,3 +35,11 @@ For my final implementation I decided that rather than completely scrapping my o
 
 - While not very useful, something I'm proud of is the filtering on the first attempt. Working with two filters that operate in inherently different ways (hide the selected vs show only the selected) can be difficult when both can be locked. As such I decided to make it so the legend filter would be persistent, while the bar graph's filter would override anything currently happening. As a result, it's pretty much impossible to do something unintended with the filters, and it allows you to make quick comparisons like "all non-extinct languages vs extinct languages" rather than just looking at single categories at a time.
 - Wherever possible I implemented opacity adjustments to make interactivity obvious. All elements are naturally not fully opaque/saturated, meaning that when hovering over/selecting something it can become opaque while other elements become more transparent, making it extremely apparent what is being/that something can be selected, while not hiding any information. This is particularly important for my first attempt visualization, as the bar graph selection can be locked, so I needed some way to indicate when a lock was placed, and opacity works well for that too. This also allowed me to indicate whether or not changes could be made to the filter: e.g. when no filters are in place, you can hover over the legend to implement filters, and the opacity will change to indicate this, however, when a lock is in place from the bar graph the opacity will not change on the legend, indicating that you cannot change those filters until the lock is lifted.
+
+## References
+
+- [https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/](https://www.reddit.com/r/dataisbeautiful/comments/m0z52s/oc_today_almost_half_of_the_6900_languages_spoken/)
+- [https://www.kaggle.com/the-guardian/extinct-languages](https://www.kaggle.com/the-guardian/extinct-languages)
+- [https://d3-legend.susielu.com/](https://d3-legend.susielu.com/)
+- [http://bl.ocks.org/biovisualize/1016860](http://bl.ocks.org/biovisualize/1016860)
+- [https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59](https://bl.ocks.org/d3noob/d805555ee892425cc582dcb245d4fc59)
