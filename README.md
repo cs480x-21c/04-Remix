@@ -55,6 +55,9 @@ http://pbcoady.github.io/04-Remix/index.html
 # Sources
 
 Boxplot code was adapted from https://www.d3-graph-gallery.com/graph/boxplot_several_groups.html.
+
 Bar chart code was adapted from https://www.d3-graph-gallery.com/graph/barplot_basic.html.
+
 Image placement code was adapted from https://www.fabiofranchino.com/blog/how-to-load-image-in-svg-with-d3js/.
+
 Pictures were taken from https://yugioh.fandom.com/wiki/.
