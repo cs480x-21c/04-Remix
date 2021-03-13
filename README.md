@@ -4,8 +4,8 @@ Assignment 4 - DataVis Remix + Multiple Views
 Project Description
 ===
 
-[Link to the project on my git-hub pages]()
-Now the actual link:
+[Link to the project on my git-hub pages](https://ao-joker.github.io/04-Remix/)
+Now the actual link: https://ao-joker.github.io/04-Remix/
 
 Within this assignment, the task was to remix an existing visualization in some way. In this case, I remixed a visualization the looked at Annual Police Salary by state (citation 1). Although the visualization itself is nice, its colors appear too similar in many instances to discern the approximate values bewteen annual police salary of states with similar annual salaries or those with coloration slightly different but placed alongside eachother. In addition, the data used to calculate this was misrepresented in the original visualization. While the visualization said it should annual police salary, it only should an average salary of police who had the power to arrest. The original author does not show the complete picture in this case.
 
