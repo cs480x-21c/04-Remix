@@ -62,3 +62,8 @@ Extra Links
 - https://github.com/d3/d3-brush
 - https://observablehq.com/collection/@d3/d3-brush
 - https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+
+Resources Used
+---
+https://stackoverflow.com/questions/11189284/d3-axis-labeling
+https://observablehq.com/@stefanreifenberg/basic-stacked-bar-chart-from-the-d3-js-gallery
