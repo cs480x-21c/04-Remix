@@ -1,21 +1,21 @@
-function barChart() {
+function scatterChart() {
 
 
   var margin = {
     top: 20,
     right: 20,
     bottom: 50,
-    left: 40
+    left: 60
   };
-  var width = 500;
+  var width = 650;
   var height = 500;
   var innerWidth = width - margin.left - margin.right;
   var innerHeight = height - margin.top - margin.bottom;
   var xValue = function(d) {
-    return d[0];
+    return d.key;
   };
   var yValue = function(d) {
-    return d[1];
+    return d.value;
   };
   var xScale = d3.scaleBand().padding(0.4);
   var yScale = d3.scaleLinear();
@@ -48,13 +48,13 @@ function barChart() {
 
       xScale.rangeRound([0, innerWidth]).domain(data.map(xValue));
 
-      yScale.rangeRound([innerHeight, 0]).domain([0, d3.max(data, yValue)]);
+      yScale.rangeRound([innerHeight, 0]).domain([200,1350]);
 
       g.select(".x.axis")
         .attr("transform", "translate(0," + innerHeight + ")")
         .call(d3.axisBottom(xScale))
         .selectAll("text")
-        .attr("y", 0).attr("x", 9).attr("dy", "0.35em").attr("transform", "rotate(65)").style("text-anchor", "start");
+        .attr("y", 0).attr("x", 9).attr("dy", "0.4em").attr("transform", "rotate(65)").style("text-anchor", "start");
 
 
       //ticks
@@ -67,29 +67,22 @@ function barChart() {
         .attr("text-anchor", "end")
         .text("Frequency");
 
-      var tip = g.select("div")
-        .attr("class", "tooltip-map")
-        .style("opacity", 0);
-
-      var bars = g.selectAll(".bar")
+      var dots = g.selectAll(".circle")
         .data(function(d) {
           return d;
         });
 
-      bars.enter().append("rect")
-        .attr("class", "bar")
-        .merge(bars)
-        .attr("x", X)
-        .attr("y", Y)
-        .attr("width", xScale.bandwidth())
-        .attr("height", function(d) {
-          return innerHeight - Y(d);
-        })
-        .on("mouseover", onMouseOver)
+        dots.enter().append("circle")
+                .attr("class", "circle")
+                .merge(dots)
+                .attr("cx", X)
+                .attr("cy", Y )
+                .attr("r", 20)
+                .on("mouseover", onMouseOver)
+                .on("mouseout", onMouseOut);
 
-        .on("mouseout", onMouseOut);
 
-      bars.exit().remove();
+      dots.exit().remove();
     });
 
   }
