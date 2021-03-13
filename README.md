@@ -2,12 +2,13 @@ Assignment 4 - DataVis Remix + Multiple Views
 ===
 I WILL BE USING THE EXTRA TIME FOR THIS ASSIGMENT 
 
-Link to project: 
+Link to project: https://a4-remix.glitch.me/
 
 ## Original Design 
-For the first assigment, I used XXX data to visualize the most popular names in Puerto Rico. As you can see below, I used circle area to visualize the number of occurances that the most popular name had each year. 
+For the first assigment, I used (https://www.ssa.gov/oact/babynames/limits.html) data to visualize the most popular names in Puerto Rico. As you can see below, I used circle area to visualize the number of occurances that the most popular name had each year. 
 
-IMAGE
+![Title-Image](img/circles.png)
+![Title-Image](img/rectangles.png)
 
 It is artistically interesting to see. However it does come with many limitations. There is no reference as to what the area of the circle actually means and the colors provide no meaning (even though it might appear that they do mean something). The horizontal bar graph does not have an x or a y axis. In addition, the horizontal bar graph and the circle area visualization don't correlate perfectly, so it is confusing as to what each one represents. 
 
@@ -19,18 +20,8 @@ Then, instead of just showing a horizontal bar graph, I decided to show a vertic
 
 I filtered the data (using Python) to make sure that only the most popular names were read. I also had to create a dictionary that would interpret NY as New York (for the GeoJson). 
 
-IMAGE
-
 Resources used: https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/ and http://bl.ocks.org/michellechandra/0b2ce4923dc9b5809922
-Requirements
----
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+![Title-Image](img/newviz.gif)
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+
