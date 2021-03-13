@@ -41,7 +41,7 @@ The map vis also has pan and zoom, and is code taken/derived from our in class e
 ### Detailed Work / Tech and Design Achievements
 
 How I linked the two vis: 
-The data points and countries are both based off of CSV tables. Each CSV table was formatted to use the alpha3 country codes. When making the data points, I gave each circle an id in the format of "scatter{___}" for the scatter point for USA and when drawing the paths I gave a corresponding id of "map{___}" (alpha 3 codes replace {___}). This way each element could select the other in the mouseover functions only needing to know its own alpha3 code and then prepending "map" or "scatter". So that is exactly what I did in the mouseover and mouseout functions of both of them
+The data points and countries are both based off of CSV tables. Each CSV table was formatted to use the alpha3 country codes. When making the data points, I gave each circle an id in the format of "scatter{ABC}" for the scatter point for USA and when drawing the paths I gave a corresponding id of "map{ABC}" (alpha 3 codes replace {ABC}). This way each element could select the other in the mouseover functions only needing to know its own alpha3 code and then prepending "map" or "scatter". So that is exactly what I did in the mouseover and mouseout functions of both of them
 
 Credits to sources:
 https://www.d3-graph-gallery.com/graph/scatter_basic.html
