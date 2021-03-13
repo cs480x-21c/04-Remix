@@ -1,64 +1,35 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Link to my visualization: https://vygrasso.github.io/04-Remix/index
 
-### Your Task
+For this assignment, I found a visualization on Reddit (https://www.reddit.com/r/dataisbeautiful/comments/lww5wc/the_environmental_impact_of_lab_grown_meat_and/) which I found interesting and decided to remix it. I thought the separate graphs gave readers lots of information but I thought I could compact it into one stacked bar graph (shown below).
+![firstgraph](img/StartingVersionA4.PNG)
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+Each stacked bar represents one of the original graphs. I trimmed the data so it would all fit and make sense on one stacked bar chart and put it in one CSV. The three environmental impact categories I chose to compare in the stacked bar chart were Greenhouse Gas Emissions, Energy Used, and Land Used because they had values that could be represented on the same axis. Each stack has 3 sections: Beef, Beyond Burger, and Lab Grown Meat.
+![secondgraph](img/ClickStack.PNG)
 
-By remix, we mean:
+In order to complete the multiple views and linking part of the assignment, I created three bar plots that would be shown when the stack was clicked on. The bar plots were created using a second SVG and depending on which stack/impact category was selected, a different bar plot would appear. I organized the visualization this way so the values from the stacked bars could be read easier. 
+![highlightgraph](img/HighlightSection.PNG)
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+I also added linking back from the second SVG to the first by having users click a bar which will turn the respective section black on the first plot.
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Technical Achievements:
 ---
+- Used 4 CSV files to create 4 plots - depending on the data selected, a different plot was generated
+- Used a line of code so generated bar graphs did not plot on top of each other: svg2.selectAll("*").remove();
+- Formatted decimals using d3-format
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
+Design Achievements:
 ---
+- The stacked bars are color coded to make sense: Red signifies Beef, Green signifies Beyond Burger (a plant-based patty), and Blue signifies the Lab Grown Meat
+- Added titles to each graph
+- Added the values above the bars in the second plot to easily read data
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+Resources:
+---
+http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
+https://stackoverflow.com/questions/3674265/is-there-an-easy-way-to-clear-an-svg-elements-contents
+https://www.d3-graph-gallery.com/graph/barplot_stacked_basicWide.html
+https://github.com/d3/d3-format
