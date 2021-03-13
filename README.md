@@ -8,7 +8,7 @@ This project was a remix on a [visualization hosted on the U.S. Energy Informati
 The original visualization displays the net generation, in thousand megawatthours, of coal, natural gas, nuclear, and conventional hydroelectric energy. This is a very well made visualization, including tooltips, customizable range, as well as a linked table of individual values. I created a new version of this vis with the goal to summarize the results by year and clearly show proportional differences between each energy type through a linked barplot. 
 
 The remixed version of this visualization is displayed below:
-![Energy Generation](screenshot.JPG)
+![Energy Generation](screenshot.PNG)
 
 
 # Referenced Code
@@ -18,5 +18,6 @@ The remixed version of this visualization is displayed below:
 
 # Achievements
 ## Design Achievements
+Due to the lack of textual labeling of the line plot, it was important to make the visualization colorblind friendly. I selected the color scheme from [David Nichols' Colorblind Palette](https://davidmathlogic.com/colorblind). Each of the four colors used are distinctive for true vision, and individuals with protanopia, deuteranopia, or tritanopia.
 ## Technical Achievements
-
+In order to make the barplot scaling smooth, with a dataset that only had one value per year, I used an interpolator. The d3.interpolateNumber() function was used to generate an interpolator between the start and end dates nearest to the mouseover. This was used to calculate a value between the two true y-values available for each energy type.
