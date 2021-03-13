@@ -1,64 +1,24 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
+Rachael Sallie
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+https://resallie.github.io/04-Remix/
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+Info: This visualization is a remix of the following: https://i.redd.it/h6c7ppi38ll61.png
+The original viz was meant to communicate the tools used by the data visualization community, but I found parts of it to be misleading, with it counting the percentage of the userbase being professionals.
+In my remix, I've chosen to instead measure the percentage of the datavis community using each datavis tool with a bar chart. Additionally, I added a new network vis to display the crossover of users between different tools.
+Click a bar to set the center of the network, and hover over nodes to see the percentage of that tool's users that use every other tool. The population of the userbase is additionally highlighted in the bar graph. 
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
+Design Achievements:
+- My network graph uses multiple levels of encoding to get across information. Both proximity to the center node, as well as node size, indicate the percentage of the center node's users that also use the tool represented by the external node. Additionally, the viewer can hover over a node to see the name of the tool and the precise percentage.
+-I use a variety of animations and color changes to provide user feedback as a viewer interacts with my viz. Hovering over bars or nodes cause their fill color to change, and clicking a bar has an animation quickly fading through a color with different brightness back to the original. The highlighted percentage of the bars the appears when hovering over a node has animations to draw the user's attention to the updated part of the vis.
+- I researched distinct colors to use for each of my 18 categories, and I ultimately used the set found here: https://sashamaps.net/docs/resources/20-colors/ that has 99% accessibility.
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
+Tech Achievements: 
+-A lot of work went in to manipulating the data into a form I could make these graphs out of. I ended up editing titles in the original dataset to make it easier to use. A lot of grouping had to happen to get all of the data I needed into a useful form (this was a massive help: https://observablehq.com/@d3/d3-group). The original dataset I found very difficult to work with and I spent many hours learning how to wrangle it into the forms needed for the bar chart and the network/force-directed graph. 
 
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
+-I created a force directed graph for my second visualization (I learned a lot from this source: https://observablehq.com/@d3/force-directed-graph).
 
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+-I learned how to use and then made use of a variety of animations (with a lot learned from here: https://www.tutorialsteacher.com/d3js/animation-with-d3js)
