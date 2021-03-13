@@ -6,6 +6,7 @@ link to the page:
 https://haowenweijohn.github.io/04-Remix/index1.html
 
 The second link is a unfinished visualization because it is toooooooo hard
+
 https://haowenweijohn.github.io/04-Remix/index2.html
 
 In this visualization I used http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc as a reference.
