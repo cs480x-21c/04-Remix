@@ -1,4 +1,9 @@
 
+const SYNTONIC_COMMA_CENTS = 21.5069;
+// A Major third becomes a wolf when altered by more than a syntonic comma
+const MAJOR_THIRD_UPPER_WOLF = Math.log2(5/4)*1200 + SYNTONIC_COMMA_CENTS;
+const MAJOR_THIRD_LOWER_WOLF = Math.log2(5/4)*1200 - SYNTONIC_COMMA_CENTS;
+
 /**
  * Makes the note table (the frequencies to use) for the vis
  * Depends on the equal temperament difference
@@ -21,8 +26,8 @@ function makeNoteTable(equalTemperamentDifference)
     let sortedDifference = Object.keys(equalTemperamentDifference)
         .sort((note0, note1) => // Sorts the set of tone keys into the correct layout (may be different than teoria!)
             {
-                note0 = octaveLayout.findIndex((element) => compareChroma(element, note0));
-                note1 = octaveLayout.findIndex((element) => compareChroma(element, note1));
+                note0 = octaveLayout.findIndex((element) => teoria.note(element).chroma() === teoria.note(note0).chroma());
+                note1 = octaveLayout.findIndex((element) => teoria.note(element).chroma() === teoria.note(note1).chroma());
                 return note0 - note1;
             })
         .reduce((obj, key) => // Reduces the array to the difference but centered
@@ -49,16 +54,6 @@ function makeNoteTable(equalTemperamentDifference)
     }
 
     return noteTable;
-}
-
-/**
- * Compares the chroma between notes, helper function for sorting 
- * @param {"*"} element 
- * @param {"*"} note 
- */
-function compareChroma(element, note)
-{
-    return teoria.note(element).chroma() === teoria.note(note).chroma();
 }
 
 /**
@@ -111,7 +106,7 @@ function makeKeyboardLayout(keyboardLayout, equalTemperament)
  * @param {*} kName key name
  * @returns WHITE_KEY or BLACK_KEY
  */
-function keyType(kName)
+function getKeyType(kName)
 {
     let k = WHITE_KEY;
     // We assume that black keys include an accidental
@@ -127,9 +122,9 @@ function keyType(kName)
  * @param {*} noteString 
  * @returns 
  */
-function getFirstNote(noteString)
+function getNoteString(noteString, number)
 {
-    return noteString.split(" ")[0];
+    return noteString.split(" ")[number];
 }
 
 /**
@@ -157,11 +152,64 @@ function makeKeyColors(majorThirds)
     // second part is mapped using the linear scale
     spacingArray = spacingArray.map((entry) =>
     {
-        let entry0 = getFirstNote(entry[0]);
+        let entry0 = getNoteString(entry[0], 0);
         let entry1 = spacingScale(entry[1].size_in_cents);
         return [entry0, entry1];
     })
     
     // Convert entries back to object form
     return Object.fromEntries(spacingArray);
+}
+
+function updateWellTemperament(inputValue, inputId, scale, firstNote, secondNote, previousValue)
+{
+    // Try to Update the next Major 3rd spacing above the current spacing
+    // There's a chance this spacing may break the system (create a wolf interval), if it does, then stop the change from happening
+    // This interval change is the earlist way to judge that
+    let changeIsOkay = true;
+    let labels = Object.keys(gMajorThirds);
+    for (let i = 0; i < labels.length; i++)
+    {
+        // Second note is the first note of the major third
+        if (teoria.note(secondNote).chroma() == teoria.note(getNoteString(labels[i], 0)).chroma())
+        {
+            // check if the new upper third is in bounds
+            let newThirdValue = (previousValue - inputValue) + gMajorThirds[labels[i]].size_in_cents;
+            if ((newThirdValue <= MAJOR_THIRD_UPPER_WOLF) && (newThirdValue >= MAJOR_THIRD_LOWER_WOLF))
+            {
+                // Change that major third to match what its value will be in the system
+                gMajorThirds[labels[i]].size_in_cents = (previousValue - inputValue) + gMajorThirds[labels[i]].size_in_cents;
+            }
+            else
+            {
+                // This change will create a wolf interval, don't do it!
+                changeIsOkay = false;
+            }
+            break;
+        }
+    }
+
+    if (changeIsOkay)
+    {
+        // Update the first major 3rd spacing to the new one
+        gMajorThirds[inputId].size_in_cents = inputValue;
+
+        // Find all the instances of the first note, all of them need to have their major 3rd changed by the scale
+        for (let i = 0; i < gNoteTable.length; i++)
+        {
+            // Note in the table has the same name as the note to change
+            if (teoria.note(gNoteTable[i].key).chroma() === teoria.note(firstNote).chroma())
+            {
+                try
+                {
+                    // try to change the major 3rd above the current one (major 3rd's are +4, so it may not exist)
+                    gNoteTable[i + 4].frequency = gNoteTable[i].frequency * scale;
+                }
+                catch (e)
+                {
+                // Change failed, but that's okay, those notes do not exist
+                }
+            }
+        }
+    }
 }

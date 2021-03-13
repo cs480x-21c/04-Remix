@@ -86,3 +86,10 @@ function window_keyup(e)
         gKeyPlayer.stop("p1");
     }
 }
+
+function circle_mouseClick(e)
+{
+    // Change the current key to the one clicked (encoded in the Circle's ID)
+    gCurrentKey = this.id;
+    softRemakeVis();
+}

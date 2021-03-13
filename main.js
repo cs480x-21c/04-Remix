@@ -8,6 +8,11 @@ function main()
         d3.json("data/Theoretically_Correct_Well_Temperament_Tuned_by_George_Fredrick_Handel's_Rules.json"),
         d3.json("data/Well_Temperament_Tuned_by_William_Tans'ur's_Rules.json")]
 
+    // Make the SVG
+    svg = d3.select("#first_vis")
+        .attr("width", layout.width)
+        .attr("height", layout.height);
+
     // Make drop down, fill it with the current options
     let optionsNames = ["Prinz Well Temperament",
         "Francesco Antonio Vallotti's Well Temperament",

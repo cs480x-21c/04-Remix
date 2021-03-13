@@ -1,16 +1,15 @@
-
-const width = 700;
-const height = 900;
-
 const WHITE_KEY = 0;
 const BLACK_KEY = 1;
 
 const WHITE_KEYS_PER_OCTAVE = 7;
 const BLACK_KEYS_PER_OCTAVE = 5;
 
-const layout = {topViz:{top: 10, bottom: 10, left: 10, right: 10},
-    bottomVis:{top: 10, bottom: 10, left: 10, right: 10}, 
-    division: height - width};
+const layout = {topViz:{top: 50, bottom: 10, left: 10, right: 10},
+    bottomVis:{top: 30, bottom: 120, left: 60, right: 10, leftAxisText: 40, bottomAxisText: 80, bottomTickPadding: 40, 
+        textBox: {yAdjust: 10, width: 80, height: 100}}, 
+    division: 250, width: 1300, height: 900};
+
+const style = {font: "bold 14px Open Sans, Helvetica, Arial, sans"}
 
 const keyboard = {blackKeys: {heightReduce: 2, widthReduce: 2, color: "#FFFFFF"},
      K: 1, whiteKeys: {color: "#FFFFFF"}, 
@@ -40,38 +39,68 @@ function makeVis(selectedIndex)
                     
     // The difference is used to build the note table
     let equalTemperamentDifference = gData[selectedIndex]["Equal_Temperament_Difference"];
-    
-    // Creates the key color array, orders the keys from smallest to largest spacing
-    gKeyColorT = makeKeyColors(gMajorThirds);
 
     // Default key is the smallest spacing
-    gCurrentKey = Object.keys(gKeyColorT)[0];
+    gCurrentKey = getNoteString(Object.keys(gMajorThirds)[0], 0);
 
     // Makes the note table (the other main form of data)
     // array of objects where each is {key: 'C0', frequency: 131.256}
     gNoteTable = makeNoteTable(equalTemperamentDifference);
 
-    svg = d3.select("#first_vis")
-        .attr("width", width)
-        .attr("height", height);
+    // General remake function, if we want to keep the current state
+    // and not revert back to default values
+    softRemakeVis();
+}
+
+function softRemakeVis()
+{
+    // colors need to be updated if thirds are updated
+    // Creates the key color array, orders the keys from smallest to largest spacing
+    gKeyColorT = makeKeyColors(gMajorThirds);
+
+    svg.selectAll("*").remove();
 
     // Makes the top keyboard vis, uses the global note table
     makeKeyboardVis();
     
-    // Makes the bottom circle vis
-    makeCircleVis();
+    // Makes the bottom vis
+    makeHistogram();
 }
 
-function resetAndMakeVis()
-{
+let neutralKeyColor = d3.scaleOrdinal()
+        .domain([WHITE_KEY, BLACK_KEY])
+        .range([keyboard.blackKeys.color, keyboard.whiteKeys.color]);
 
-}
+let keyColor = (key, keyType) =>
+    {   
+        if (noteIsInMajorScale(key, gCurrentKey))
+        {
+            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
+        }
+        else
+        {  
+            return neutralKeyColor(keyType)
+        }
+    }
+
+let circleColor = (key) =>
+    {
+        // If the key matches the current key color
+        if (teoria.note(key).chroma() === teoria.note(gCurrentKey).chroma())
+        {
+            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
+        }
+        else
+        {  
+            return "#FFFFFF";
+        }
+    }
 
 function makeKeyboardVis()
 {
     gKeyPlayer = setupKeyboardAudio();
 
-    let whiteKeyWidth = ((width - layout.topViz.left) - layout.topViz.right) / (WHITE_KEYS_PER_OCTAVE * keyboard.octaves);
+    let whiteKeyWidth = ((layout.width - layout.topViz.left) - layout.topViz.right) / (WHITE_KEYS_PER_OCTAVE * keyboard.octaves);
     let whiteKeyHeight = ((layout.division - layout.topViz.top) - layout.topViz.bottom);
     let blackKeyAdjust = whiteKeyWidth/Math.pow(keyboard.blackKeys.widthReduce, 2);
 
@@ -81,8 +110,8 @@ function makeKeyboardVis()
     let whiteKeyx = layout.topViz.left;
     for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(gNoteTable[n].key);
-        switch (kt)
+        let keyType = getKeyType(gNoteTable[n].key);
+        switch (keyType)
         {
             case WHITE_KEY:
                 keyxArray.push(whiteKeyx)
@@ -96,9 +125,6 @@ function makeKeyboardVis()
         }
     }
 
-    // Key y coordinate, always the same value
-    let keyy = (k) => {return layout.topViz.top};
-
     // key width: 0 is white keys, 1 is black keys
     let keyWidth = d3.scaleLinear()
         .domain([WHITE_KEY, BLACK_KEY])
@@ -109,20 +135,23 @@ function makeKeyboardVis()
         .domain([WHITE_KEY, BLACK_KEY])
         .range([whiteKeyHeight, whiteKeyHeight / keyboard.blackKeys.heightReduce]);
 
-    let neutralKeyColor = d3.scaleOrdinal()
-        .domain([WHITE_KEY, BLACK_KEY])
-        .range([keyboard.blackKeys.color, keyboard.whiteKeys.color]);
+    
 
-    let keyColor = (key, keyType) =>
-    {   
-        if (noteIsInMajorScale(key, gCurrentKey))
+    let keyText = (keyType, keyIndex) =>
+    {
+        let textAdjust;
+        switch (keyType)
         {
-            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
+            case WHITE_KEY:
+                textAdjust = keyxArray[keyIndex] + (1/2 * whiteKeyWidth);
+                break;
+            case BLACK_KEY:
+                textAdjust = keyxArray[keyIndex] + blackKeyAdjust;
+                break;
+            default:
+                break;
         }
-        else
-        {  
-            return neutralKeyColor(keyType)
-        }
+        return textAdjust;
     }
 
     let drawKey = (key, keyType, keyIndex) =>
@@ -130,7 +159,7 @@ function makeKeyboardVis()
         svg.append("rect")
             .attr("id", "#" + keyIndex)
             .attr("x", keyxArray[keyIndex]) 
-            .attr("y", keyy(keyType))
+            .attr("y", layout.topViz.top)
             .attr("width", keyWidth(keyType))
             .attr("height", keyHeight(keyType))
             .style("stroke", "black")
@@ -144,9 +173,10 @@ function makeKeyboardVis()
         // TODO: somehow make the text non-selectable, at least it can be played
         svg.append("text")
             .attr("id", "#" + keyIndex)
-            .attr("x", keyxArray[keyIndex])
+            .attr("x", keyText(keyType, keyIndex))
             .attr("y", keyHeight(keyType))
-            .style("font", "font: italic 13px sans-serif")
+            .attr("text-anchor", "middle")
+            .style("font", style.font)
             .text(key)
             .on("mousedown", key_mouseDown)
             .on("mouseup", key_mouseUp)
@@ -163,7 +193,7 @@ function drawVisKeys(drawKey)
     // Draw white keys
     for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(gNoteTable[n].key);
+        let kt = getKeyType(gNoteTable[n].key);
         if (kt === WHITE_KEY)
         {
             drawKey(gNoteTable[n].key, kt, n);
@@ -173,17 +203,144 @@ function drawVisKeys(drawKey)
     // Draw black keys
     for (let n = 0; n < gNoteTable.length; n++)
     {
-        let kt = keyType(gNoteTable[n].key);
+        let kt = getKeyType(gNoteTable[n].key);
         if (kt === BLACK_KEY)
         {
             drawKey(gNoteTable[n].key, kt, n);
         }
     }
-
-    // Draw names
 }
 
-function makeCircleVis(majorThirds)
+function makeHistogram()
 {
+    //gKeyColorT
+    let sizesInCents = Object.values(gMajorThirds);
+    let labels = Object.keys(gMajorThirds);
 
+    // The data is already in the bins I want, but not the ones d3 needs
+    let bin = d3.bin();
+    sizesInCents = sizesInCents.map(function (e)
+    {
+        return bin([e]);
+    });
+
+    // MMM, why can I not create a scale that does this?!
+    // Make axes
+    // let xScale = d3.scaleLinear()
+    //         .domain(Object.keys(gMajorThirds))
+    //         .range([layout.bottomVis.left, layout.width - layout.bottomVis.right])
+
+    // svg.append("g")
+    //     .attr("transform", "translate(0," + layout.height + ")")
+    //     .call(d3.axisBottom(xScale)
+    //         .tickValues(xScale.domain))
+
+    // Special kind of scale, different kind of ordinal scale
+    let xScale = d3.scaleBand()
+        .domain(labels)
+        .range([layout.bottomVis.left, (layout.width - layout.bottomVis.right) - layout.bottomVis.left])
+
+    // hehe, maybe making it all on one svg was a bad idea, oh well
+    // X axis
+    svg.append("g")
+        .attr("transform", "translate(" + 0 + "," + (layout.height - layout.bottomVis.bottom) + ")")
+        .call(d3.axisBottom(xScale)
+            .tickPadding(layout.bottomVis.bottomTickPadding));
+
+    // X axis label
+    svg.append("text")
+        .attr("x", layout.width * 1/2)
+        .attr("y", (layout.height - layout.bottomVis.bottom) + layout.bottomVis.bottomAxisText)
+        .style("font", style.font)
+        .text("Major Thirds");
+
+    // y axis
+    let yScale = d3.scaleLinear()
+        .domain([Math.ceil(MAJOR_THIRD_LOWER_WOLF), Math.floor(MAJOR_THIRD_UPPER_WOLF)])
+        .range([((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom, layout.bottomVis.top]);
+
+    // Y axis
+    svg.append("g")
+        .attr("transform", "translate(" + layout.bottomVis.left + "," + (layout.division + layout.bottomVis.top) + ")")
+        .call(d3.axisLeft(yScale));
+
+    // Y axis label
+    svg.append("text")
+        .attr("x", layout.bottomVis.left - layout.bottomVis.leftAxisText)
+        .attr("y", ((layout.height - layout.division) - layout.bottomVis.top))
+        .style("font", style.font)
+        .text("Spacing in Cents")
+        .attr("transform", "rotate(270, " + (layout.bottomVis.left - layout.bottomVis.leftAxisText) + ", " + ((layout.height - layout.division) - layout.bottomVis.top) + ")");
+
+    // Draw the text boxes, used for changing the chart
+    // Also draw the (mostly invisible) circles used for selecting the key
+    for (let i = 0; i < labels.length; i++)
+    {
+        let xPosition = xScale(labels[i])
+        svg.append("foreignObject")
+            .attr("x", xPosition)
+            .attr("y", layout.height - layout.bottomVis.bottom + layout.bottomVis.textBox.yAdjust)
+            .attr("width", layout.bottomVis.textBox.width + 10)
+            .attr("height", layout.bottomVis.textBox.height)
+            .append("xhtml:div")
+            .html("<input type='number' id='" + labels[i] + "' min=" + MAJOR_THIRD_LOWER_WOLF + " max=" + MAJOR_THIRD_UPPER_WOLF + 
+            " value='" + sizesInCents[i][0][0].size_in_cents + "' placeholder='cents' style='width: " + layout.bottomVis.textBox.width +"px' onchange='changeCentsValue(this)'></input>");
+        
+        svg.append("circle")
+            .attr("id", getNoteString(labels[i], 0))
+            .attr("cx", xPosition + (1/2 * layout.bottomVis.textBox.width) + 8.87) // axis offset, kinda a hard value to look up
+            .attr("cy", layout.height - layout.bottomVis.bottom + layout.bottomVis.bottomTickPadding + 8.87)
+            .attr("r", 16)
+            .style("fill-opacity", 0)
+            .style("stroke-width", 4)
+            .style("stroke", circleColor(getNoteString(labels[i], 0)))
+            .on("mousedown", circle_mouseClick)
+
+            //
+    
+    }
+
+    // let heightScale = d3.scaleLinear()
+    //     .domain([380, 420])
+    //     .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom]);
+        
+
+
+    // svg.selectAll("rect")
+    //     .data(sizesInCents)
+    //     .enter()
+    //     .append("rect")
+    //         .attr("x", 300)
+    //         .attr("y", 300)
+    //         .attr("height", function(d) 
+    //         { 
+    //             console.log(d);
+    //             return (layout.height - layout.division) - heightScale(d.sizeInCents);
+    //         })
+    //         .attr("width", 10)
+    //         .style("fill", "black")
+
+}
+
+// TODO: move part of this to music theory functions
+function changeCentsValue(input)
+{
+    let inputValue = parseFloat(input.value);
+    let previousValue = parseFloat(gMajorThirds[input.id].size_in_cents);
+
+    // Check if the value is valid (if not, nothing will be changed and the value will change back on its own)
+    if ((inputValue <= MAJOR_THIRD_UPPER_WOLF) && (inputValue >= MAJOR_THIRD_LOWER_WOLF))
+    {
+        // Scales are just direct multiplication, easier to work with
+        let scale = centsToScale(inputValue);
+        let firstNote = getNoteString(input.id, 0);
+        let secondNote = getNoteString(input.id, 1);
+
+        // Tries to update well temperament
+        // It will be unaltered if the user accidently creates a wolf-third
+        updateWellTemperament(inputValue, input.id, scale, firstNote, secondNote, previousValue);
+    }
+
+    // Remake Vis, just easier to do that
+    softRemakeVis();
 }
