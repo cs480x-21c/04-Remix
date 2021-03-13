@@ -1,0 +1,341 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<style>
+    path {
+      stroke: white;
+      stroke-width: 0.25px;
+      fill: grey;
+    }
+    </style>
+
+<div id="multichart">
+    <title>Input test (circle)</title>
+  
+    <p>
+        <label for="year" 
+            style="display: inline-block; width: 100px; text-align: right">
+            Current year: <span id="year-value">…</span>
+        </label>
+        <input type="range" min="1800" max="2018" id="year" style="width: 200px; padding-left: 40px;">
+        <label for="Country"> </label>Selected Country: <span id = "country-value"></span>
+        <label for="Income"> </label>Income: <span id = "income-value">…</span>
+        <label for="CO2"> </label>CO2 output: <span id = "co2-value">…</span>
+        <label for="Population"> </label>Population: <span id = "population-value">…</span>
+    </p>
+  </div>
+
+  
+
+
+<script>
+    
+    d3.selection.prototype.moveToFront = function() {
+        return this.each(function(){
+            this.parentNode.appendChild(this);
+    });
+    };
+
+
+    var width = 540;
+    var height = 300;
+    var minIncome = 1;
+    
+
+    var margin = {top: 10, right: 30, bottom: 30, left: 60};
+    width = width - margin.left - margin.right,
+    height = height - margin.top - margin.bottom;
+
+    
+
+    var scatterSvg = d3.select("#multichart").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+    
+    var xscaleScatter = d3.scaleLog()
+            .domain([minIncome, 185000])
+            .range([0, width]);
+
+    scatterSvg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xscaleScatter));
+    
+    var yscaleScatter = d3.scaleLog()
+        .domain([0.00001,100])
+        .range([height, 0]);
+    scatterSvg.append("g")
+    //.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .call(d3.axisLeft(yscaleScatter));
+    
+    var popScaleScatter = d3.scaleLog()
+        .domain([10000, 2000000000])
+        .range([1, 10])
+
+    d3.select("#country-value").text("Hover over a scatter point or country");
+    d3.select("#income-value").text("0");
+    d3.select("#population-value").text("0");
+    d3.select("#co2-value").text("0");
+    
+
+    var listCsv = ["./co2_emissions_tonnes_per_person.csv", "./income_per_person_gdppercapita_ppp_inflation_adjusted.csv", "./population_total.csv"];
+    var listPromises = []
+    for (var i = 0; i < listCsv.length; i++) 
+    {
+        const promise = new Promise((resolve, reject) => {
+            resolve(d3.csv(listCsv[i]));
+        });
+        listPromises.push(promise);
+    }
+    Promise.all(listPromises).then((values) => {
+        
+        //main code area
+        var co2Data = values[0];
+        var incomeData = values[1];
+        var populationData = values[2];
+
+        var dataholder = processData(co2Data, incomeData, populationData);
+        var data = dataholder[0];
+        var dictCountries = dataholder[1];
+        
+
+
+        //console.log(co2Data);
+        //console.log(incomeData);
+        //console.log(populationData);
+
+        //make slider for time
+        d3.select("#year").on("input", function() {
+            update(+this.value);
+        });
+        update(2018);
+
+        var proj = d3.geoMercator()
+            .translate([250, 250])
+            .scale(120);
+
+
+        var gpath = d3.geoPath()
+            .projection(proj);
+
+        function update(year) {
+
+            // adjust the text on the range slider
+            d3.select("#year-value").text(year);
+            d3.select("#year").property("value", year);
+            
+
+            //update the scatter
+            scatterSvg.selectAll("circle").remove();
+            
+            scatterSvg
+            .selectAll("dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("id", function(d,i) { return "scatter"+ d[4]})
+            .attr('cx', function(d, i){ 
+                var testVal = parseFloat(d[0][year]);
+                if (testVal < minIncome) { return xscaleScatter(minIncome);}
+                else {return xscaleScatter(testVal);}
+            })
+            .attr('cy', function(d){
+                var testVal = d[1][year];
+                if (testVal == "") {
+                    return yscaleScatter(0.00001);
+                }
+                else if (parseFloat(testVal) < 0.00001) {
+                    return yscaleScatter(0.00001);}
+                else { return yscaleScatter(parseFloat(testVal));}
+            })
+            .attr("r", function(d){
+                return popScaleScatter(d[2][year]);
+                }
+            )
+            .style("fill", "#FFFFFF")
+            .style("opacity", function(d){return 1;})
+            .attr("stroke", "black")
+            .attr("stroke-width", function(d){
+                return 1;
+            })
+            .on('mouseover', function(mouseEvent, val) {
+                d3.select("#income-value").text(val[0][year]);
+                d3.select("#co2-value").text(val[1][year]);
+                d3.select("#population-value").text(val[2][year]);
+                d3.select("#country-value").text(val[3]);
+                d3.select(this).attr('stroke-width', 3).attr('stroke', 'black');
+                d3.select("#map" + val[4]).style('fill', "#FF5733")
+                d3.select(this).moveToFront();
+            })
+            .on('mouseout', function(mouseEvent, val) {
+                d3.select(this).attr('stroke-width', 1).attr('stroke', 'black');
+                d3.select("#map" + val[4]).style('fill', "#B99D98")
+            });
+            //update the map (if implemented)
+            
+        }
+
+        Promise.all([
+d3.json('./world.geojson')
+]).then( ([countries]) => {
+    createMap(countries, proj, gpath)
+})
+
+function createMap(countries, proj, gpath) {
+  console.log(countries)
+
+  
+
+  // TODO define color later
+  var ccolor = 
+    d3.scaleSequential( d3.interpolateBlues )
+    .domain( 
+      d3.extent( countries.features, d => gpath.area(d))
+      );
+
+  console.log(gpath.area(countries.features[1]));
+
+  // draw country boundaries
+var offsetHeight = height+margin.top+margin.bottom;
+var mapSvg = d3.select("#multichart")  
+    .append("svg")
+    .attr("id", "map")
+    .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .selectAll('path')
+    .data(countries.features)
+    
+    .attr("transform",
+            "translate(0," + offsetHeight + ")")
+    .enter()
+    .append('path')
+      .attr('d', function(d) { return gpath(d); })
+      .attr('stroke-width', 1)
+      .attr('stroke', '#B99D98')
+      .attr('country', d => d.id)
+      .attr('id', d => "map"+d.id)
+      .style('fill', "#B99D98" )
+      .on('mouseover', function(mouseEvent, d) {
+        d3.select("#scatter"+d.id).attr('stroke-width', 3).attr('stroke', 'black').moveToFront();
+        d3.select("#map"+d.id).style('fill', "#FF5733")
+        var year = d3.select("#year-value").text();
+        console.log(year);
+        if (d.id in dictCountries)
+        {
+            var dictEntry = dictCountries[d.id];
+            d3.select("#income-value").text(dictEntry[0][year]);
+            d3.select("#co2-value").text(dictEntry[1][year]);
+            d3.select("#population-value").text(dictEntry[2][year]);
+            d3.select("#country-value").text(dictEntry[3]);
+        }
+        else
+        {
+            d3.select("#income-value").text("No data");
+            d3.select("#co2-value").text("No data");
+            d3.select("#population-value").text("No data");
+            d3.select("#country-value").text("No data");
+        }
+        
+    })
+    .on('mouseout', function(mouseEvent, d) {
+        d3.select("#scatter"+d.id).attr('stroke-width', 1).attr('stroke', 'black');
+        d3.select("#map"+d.id).style('fill', "#B99D98")
+    });
+
+   var mapZoom = d3.zoom()
+    .on('zoom', zoomed);
+
+  var zoomSettings = d3.zoomIdentity
+    .translate(250, 250)
+    .scale(120);
+
+  mapSvg
+    .call(mapZoom)
+    .call(mapZoom.transform, zoomSettings);
+
+  function zoomed(e) {
+    if (e.sourceEvent != null) {
+        if (e.sourceEvent.type == "mousemove") {
+        proj.translate([e.transform.x, e.transform.y]);}
+        else if (e.sourceEvent.type == "wheel") {
+        proj.scale(e.transform.k);}
+        else{ console.log(e.sourceEvent.type);}
+    }
+    
+        
+
+    console.log(e);
+    if( e.transform.k > 400 ) 
+      console.log('toggle adaptive map feature');
+
+    // redraw map with new projection settings
+    d3.selectAll('path')
+      .attr('d', gpath);
+  }
+    
+}
+
+        //clean/process data into a structure we like
+        //what we like for a single index:
+        
+        //d[0] = income
+        //d[1] = co2
+        //d[3] = pop
+        //d[4] = country name
+        //console.log(data)
+        
+        //make 2 axis scatter
+        
+        
+        //size by pop data
+        //x axis is income
+        //y axis co2 output
+        //zoomable
+        //scrollable by time
+        
+        //.attr("viewBox", '0 0 100 110')
+
+        
+
+        //make a chloropleth map of the world
+        //make it zoomable
+        //hovering over a country highlights it in a table
+        //some visual indication of the data point for this time step
+        //link to other svg
+
+
+    });
+
+
+    function processData(co2, income, population)
+    {
+        //lets find the countries that we need to clean
+        //d[0] = income
+        //d[1] = co2
+        //d[2] = pop
+        //d[3] = country name
+        var data = [];
+        var dictCountries = {};
+        for (var i = 0; i < income.length; i++)
+        {
+            var record = []
+            record.push(income[i]);
+            record.push(co2[i]);
+            record.push(population[i]);
+            record.push(population[i]["country"]);
+            var id = population[i]["id"].substring(1, 4);
+            record.push(id);
+            dictCountries[id] = record;
+            data.push(record)
+        }
+        return [data, dictCountries];
+    }
+
+
+
+
+
+</script>
+
