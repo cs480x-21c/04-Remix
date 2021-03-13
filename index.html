@@ -26,8 +26,7 @@
     var clickColor = d3.scaleOrdinal(['#4a0818', '#16421b', '#544a08', '#162147', '#4f2a10', '#174a55', '#3f0d3d', '#59434c', '#1d3f3b', '#4d435a', '#1f1407', '#494739', '#ff4141', '#2f4736', '#a0a0ff', '#484848', '#6c6c6c', '#8a8a8a'])
     var altColor = d3.scaleOrdinal(['#90102f', '#2c8537', '#baa412', '#2e4596', '#9c531f', '#2a879b', '#7b1a76', '#a98090', '#2c605a', '#9480ac', '#5a3a15', '#a09e7e', '#be0000', '#5b8969', '#4444cf', '#717171', '#b0b0b0', '#4c4c4c'])
     var color = d3.scaleOrdinal(['#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#42d4f4', '#f032e6', '#fabed4', '#469990', '#dcbeff', '#9A6324', '#fffac8', '#800000', '#aaffc3', '#000075', '#a9a9a9', '#ffffff', '#000000'])
-    //var myScale = d3.scaleOrdinal()
-    //.range(d3.schemeCategory20)
+
 
     var xScale = d3.scaleBand()
       .range([0, width])
@@ -54,8 +53,7 @@
    
 
     d3.csv("DataVizCensus2020-AnonymizedResponses.csv").then(function(data){
-        console.log('test')
-        console.log(data[0])
+       
         var webGl = d3.group(data, d => d.technologies_27);
         var canvas = d3.group(data, d => d.technologies_31);
 
@@ -90,7 +88,7 @@
                       ]
 
 
-        //["WebGL", "Canvas", "React", "D3.js", "Illustrator", "Web Components", "Mapbox", "Highcharts", "Vega", "Leaflet", "QGIS", "Qlik", "Tableau", "Python", "Power BI", "R", "Excel", "Plotly"]
+        
   
         var barHeight = [];
         barHeight.push([((webGl.get(titles[0]).length) / 1766)*100, titles[0], 0]);
@@ -112,7 +110,6 @@
         barHeight.push([((excel.get("Excel").length)/ 1766) *100, titles[16], 16]);
         barHeight.push([((plotly.get("Plotly").length)/ 1766) *100, titles[17], 17]);
 
-        console.log(barHeight)
 
         stackchart.append('g')
         .attr('transform', `translate(0, ${height})`)
@@ -124,15 +121,15 @@
        stackchart.selectAll("rect")
        .data(barHeight)
        .enter().append('rect')
-       //.transition(t1)
+   
        .attr('x', function(d){return xScale(d[1])})
-       //.transition(t1)
+    
        .attr('y', function(d){return yScale(0)})
-       //.transition(t1)
+  
        .attr('height', function(d){return height - yScale(0)})
-       //.transition(t1)
+
        .attr('width', xScale.bandwidth() + 3)
-       //.transition(t1)
+
        .attr('fill',function(d){return clickColor(d[1])} )
        .attr('fill',function(d){return color(d[1])} )
        .attr('stroke', '#000000')
@@ -205,9 +202,7 @@
        function loadNetData(groupNum){
         network.selectAll('*').remove()
         netData.nodes = [];
-        //for(i=0; i<titles.length; i++){
-            //netData.nodes.push({id: titles[i]})
-       // }
+
         netData.links = []
 
         for(i=0; i<groups.length; i++){
@@ -227,7 +222,7 @@
                     basePercent = 0;
 
                 }
-                //percentDiff = ((newGroup.get(groups[groupNum][1]).get(groups[i][1]).length) / groups[groupNum][0].get(groups[groupNum][1]).length) *100
+              
 
                 link.values = percentDiff
                 netData.nodes.push({id: titles[i], size: percentDiff, percent: basePercent, barColor: altColor(titles[i]) })
@@ -247,9 +242,6 @@
         .style("text-anchor", "middle")
         .text(titles[groupNum] + " users are also using: ")
       
-
-       //loadNetData(1);
-      // console.log(netData)
 
        var datalinks = netData.links.map(d => Object.create(d));
        var datanodes = netData.nodes.map(d=> Object.create(d));
@@ -305,7 +297,7 @@
             .transition()
             .delay(1000).remove()
         })
-        //.call(drag(simulate))
+      
 
         node.append("title")
       .text(d => d.id + ": " +d.size.toFixed(2) + "% of users");
@@ -328,41 +320,12 @@
 
        loadNetData(0);
 
-       console.log(netData)
 
       
 
         
     })
-   // .get( function(data) {
-    //console.log(data.role_2);
-   // console.log("help");
-   // console.log(data);
-    //console.log(data.technologies_0);
 
-    //console.log(data.technologies_31)
-    
-//
-  //  if(data.technologies_0 == ("​ArcGIS")){
-     //   counter++;
-     //   console.log(counter);
-    //}
-   
-
-    //var webGl = d3.group(data, d => d.technologies_27);
-
-    //var canvas = d3.group(data, d => d.technologies_31);
-
-    //var react = d3.group(data, d => d.technologies_21);
-
-    //var d3js = d3.group(data, d => d.technologies_2);
-
-    //var illustrator = d3.group(data, d => d.technologies_9);
-
-    //var webCom = d3.group(data, d => d.technologies_26);
-
-    //console.log("WebGL");
-    //console.log(webGl.get("WebGl").length);
 
    
 </script>
