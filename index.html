@@ -1,4 +1,41 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+<html>
+  <head>
+    <title>EnergyVis</title>
+        <div class="p-3 bg-light border">
+          <h4>Visualizing Energy Generation</h4>
+          <h6>Net generation, in thousand megawatthours, 
+            of coal, natural gas, nuclear, and conventional hydroelectric energy</h6>
+          <!-- <p class="lead"> 
+            This tool was built using 34,899 healthy cells gathered from 
+            <a href="https://doi.org/10.1038/nbt.4038" target="_blank">this paper.</a> 
+          </p> -->
+        </div>
+
+    <style>
+      #page {
+        display: grid;
+        width: 100%;
+        height: 100px;
+        grid-template-areas: "vis1 vis2";
+        grid-template-rows: 400px 1fr 0px;
+        grid-template-columns: 500px 500px;
+      }
+      #page > vis1 {
+        grid-area: vis1;
+        background-color:white;
+      }
+    
+      #page > vis2 {
+        grid-area: vis2;
+        background-color: white;
+      }
+    </style>
+  </head>
+</html>
+
 <section id="page">
   <vis1>
     <svg id="vis1"></svg>
@@ -7,27 +44,6 @@
     <svg id="vis2"></svg>
   </vis2>
 </section>
-
-<style>
-  #page {
-    display: grid;
-    width: 100%;
-    height: 100px;
-    grid-template-areas: "vis1 vis2";
-    grid-template-rows: 400px 1fr 0px;
-    grid-template-columns: 500px 500px;
-  }
-  #page > vis1 {
-    grid-area: vis1;
-    background-color:white;
-  }
-
-  #page > vis2 {
-    grid-area: vis2;
-    background-color: white;
-  }
-
-</style>
 
 <script>
   // initialize margins and dimensions 
@@ -136,7 +152,7 @@
     // overlay used to call svg1 mouse handlers
     var background = svg1.append('rect')
       .attr("fill", 'red')
-      .attr("x", 0)
+      .attr("x", 1)
       .attr("y", 0)
       .attr("width", 414)
       .attr("height", 360)
@@ -155,10 +171,6 @@
     var xAxis = svg2.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(xBar))
-      // .selectAll("text")
-      //   .attr("font-size","12px")
-      //   .attr("transform", "translate(10,0)rotate(-6)")
-      //   .style("text-anchor", "end");
         
     // Y axis
     var yBar = d3.scaleLinear()
@@ -195,12 +207,29 @@
         var index = bisect(subset, timestamp) // X axis index of timestamp
         var startDatum = subset[index - 1] // left nearest datetime
         var endDatum = subset[index] // datetime to the right of startDatum
-        // interpolator between stard and end date
-        var interpolate = d3.interpolateNumber(startDatum.value, endDatum.value)
-        // range in years (ALWAYS 1)
-        var range = endDatum.year.getFullYear() - startDatum.year.getFullYear()
-        // interpolate value based on distance from nearest axis point
-        var valueY = interpolate((timestamp - startDatum.year.getFullYear()) / range)
+
+        // if closest to leftmost index
+        if (startDatum == undefined) {
+          interpolate = d3.interpolateNumber(endDatum.value, endDatum.value)
+          range = 1
+          valueY = interpolate((timestamp - endDatum.year.getFullYear()) / range)
+        }
+
+        // if closest to rightmost index
+        else if (endDatum == undefined) {
+          interpolate = d3.interpolateNumber(startDatum.value, startDatum.value)
+          range = 1
+          valueY = interpolate((timestamp - startDatum.year.getFullYear()) / range)
+        }
+
+        else {
+          // interpolator between stard and end date
+          var interpolate = d3.interpolateNumber(startDatum.value, endDatum.value)
+          // range in years (ALWAYS 1)
+          var range = endDatum.year.getFullYear() - startDatum.year.getFullYear()
+          // interpolate value based on distance from nearest axis point
+          var valueY = interpolate((timestamp - startDatum.year.getFullYear()) / range)
+        }
         return valueY
       }
 
@@ -223,9 +252,10 @@
       bar.attr("fill-opacity", 1)
       bar.attr("y", function(d) { return yBar(d[1])})
       bar.attr("height", function(d) { return height - yBar(d[1])})
+
       // track line to current mouse location
       line.attr("fill-opacity", 1)
-      line.attr("x", d3.event.pageX-61)
+      line.attr("x", d3.event.pageX-55)
     }
 
     // mousemove handler
@@ -248,7 +278,7 @@
       bar.attr("y", function(d) { return yBar(d[1])})
       bar.attr("height", function(d) { return height - yBar(d[1])})
       // track line to current mouse location
-      line.attr("x", d3.event.pageX-63)
+      line.attr("x", d3.event.pageX-55)
     }
 
     // mouseout handler
