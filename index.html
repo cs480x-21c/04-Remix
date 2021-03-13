@@ -2,7 +2,27 @@
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
 
-<div id="stackedBar"</div>
+<style>
+.row {
+  display: flex;
+}
+.column {
+  flex: 50%;
+  padding: 10px;
+}
+</style>
+
+<div class="row">
+	<div class="column">
+		<div id="stackedBar"></div>
+	</div>
+	<div class="column">
+		<div id="pie1"></div>
+		<div id="pie2"></div>
+	</div>
+</div>
+
+
 
 <script>
 	dimensions = ({  
