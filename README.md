@@ -20,20 +20,21 @@ Even the main visualization of average nominal monthly earnings by year is not g
 I decided to take one of the included files, "Average monthly nominal earnings by regions" to draw a map of Georgia to show the breakdown of monthly earnings by regions. I linked that visualization with a graph for average monthly earnings by year. I focused on the years 2010-2019. I reworked the original dataset (data\13_Earnings-by-regions_annual.xlsx) to make it easier to fetch with js (data\earningsRegions.csv).
 
 Original dataset
-![dataset](img\data.png)
+![dataset](img/data.png)
+
 The modified dataset
-![modifiedDataset](img\dataModifies.png)
+![modifiedDataset](img/dataModifies.png)
 
 
 I used a geojson file specific to Georgia to include all the regions and their names. I modified the name of one of the regions from Ajaria to Adjara for correctness.
 
-![og](img\starter.JPG)
+![og](img/starter.JPG)
 
 Hovering over different regions on the map adjusts the bar graph to show the average monthly earnings of that regions.
-![regionselected](img\mapSelected.JPG)
+![regionselected](img/mapSelected.JPG)
 
 Hovering over the bars of different years adjusts the map to the earnings of that year.
-![yearSelected](img\yearSelected.JPG)
+![yearSelected](img/yearSelected.JPG)
 
 #### Technical Achievements
 
