@@ -36,14 +36,14 @@ function createMap(world, data, totals) {
 	var countries = topojson.feature(world, world.objects.countries)
 
 	var proj = d3.geoRobinson()
-		.translate([550, 300])
-		.scale(170)
+		.translate([800, 400])
+		.scale(250)
 
 	var gpath = d3.geoPath()
 		.projection(proj);
 
-	var width = 1200,
-		height = 600
+	var width = 1600,
+		height = 800
 
 	var map = d3.select('body').select('#map')
 
@@ -109,14 +109,14 @@ function colorMap(data, status='TOTAL') {
 	mapSVG.call(legend)
 		
 	mapSVG.select('.legendCells')
-		.attr('transform', "translate(1025, 100)")
+		.attr('transform', "translate(1500, 100)")
 
 	mapSVG.selectAll('.swatch')
 		.attr('stroke-width', 1)
 		.attr('stroke', '#252525')
 	
 	mapSVG.select('.legendTitle')
-		.attr('transform', "translate(1025, 90)")
+		.attr('transform', "translate(1500, 90)")
 		.attr('stroke-width', 1)
 		.attr('stroke', '#252525') //this is a hack to make it bold lol
 
