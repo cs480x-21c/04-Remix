@@ -29,7 +29,8 @@ For my final implementation I decided that rather than completely scrapping my o
 ## Technical Achievements
 
 - By splitting out the code carefully so it could be reused, I made it so the map could be dynamically recolored based on data. This mean that I wouldn't need to regenerate the map whenever I wanted to update it, which would be bad for responsiveness. This means that the map can update instantly when hovering over the bar graph. It also updates the scaling and the legend automatically.
-- Also through careful coding I was able to make the bar graph update very quickly when hovering over a country, including updating the scales
+- Also through careful coding I was able to make the bar graph update very quickly when hovering over a country, including updating the scales.
+- (Not sure if this really counts, *but*) I used Tableau Prep to clean the dataset and create new views for the data that I could work with. This greatly helped as not only did it mean I didn't need to mess with the data in code (which could slow things down), but because I could have one workflow which would alter all my datasets accordingly should I need it.
 
 ## Design Achievements
 
