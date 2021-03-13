@@ -2,7 +2,7 @@ Assignment 4 - DataVis Remix + Multiple Views
 ===
 
 The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-Project Link: ()
+Project Link: (http://lucasfernandes.dev/04-Remix/)
 
 # A critique on the Orginal Visualization
 I originally found this viualization as apart of my week 4 reflection. [Found on the r/dataisbeuatiful subreddit](https://www.reddit.com/r/dataisbeautiful/comments/ltr34n/oc_visualising_how_nhl_players_have_performed_in/), a user posted a vis showcasing the expected goals versus the current made goals of each player in the NHL. 
@@ -10,7 +10,7 @@ I originally found this viualization as apart of my week 4 reflection. [Found on
 I really enjoy the unique usage of parallel coordninate graphs to indiviually inspect each NHL team's players performance to showcase outliers. But where I felt the project was lacking and could be improved was the showcasing the differences in teams based on performance. In the orignal vis teams were organized by their conference(region). I felt that comparing all teams side by side would showcase the performance need by players for a team to succeed in the NHL.
 
 # My Remix Vis 
-Focusing on comparing team performance to their players [I created]() a link visualization that allows users to click on the logo of any team in the NHL and have their path on each graph colorized based on the team's primary color as well as greying out the rest of the data. When selecting the team the visualization will responsively notify which team is currently selected by the user. All data included was grabbed from the current season statistics from [Natural Stat Trick](http://www.naturalstattrick.com/) which is the same source as the original vis.
+Focusing on comparing team performance to their players [I created](http://lucasfernandes.dev/04-Remix/) a link visualization that allows users to click on the logo of any team in the NHL and have their path on each graph colorized based on the team's primary color as well as greying out the rest of the data. When selecting the team the visualization will responsively notify which team is currently selected by the user. All data included was grabbed from the current season statistics from [Natural Stat Trick](http://www.naturalstattrick.com/) which is the same source as the original vis.
 Below is a screenshot of the visualization on startup. ![onStartup](media/startup.png)
 And below this is a screenshot of the visualization after the user selects the Boston Bruins by clicking on the team's logo. ![bruins](media/boston.png)
 ## Reflecting On My Project 
