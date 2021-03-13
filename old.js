@@ -2,7 +2,7 @@
 // https://www.kaggle.com/the-guardian/extinct-languages
 
 Promise.all([
-	d3.json("countries-50m.json"),
+	d3.json("./data/countries-50m.json"),
 	d3.csv("./data/cleaned_data.csv")
 ]).then(([world, data]) => {
 	createMap(world, data)
