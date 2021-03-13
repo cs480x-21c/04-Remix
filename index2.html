@@ -1,0 +1,125 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+<header>
+    <link rel="stylesheet" href="styles.css">
+    <nav>
+        This is my first D3 homework. I watched a online Youtube tutorial, some methods are from that video
+        Have a nice day. Thank you :)
+        Name: Haowen Wei
+        Student ID: 160407310
+    </nav>
+
+    <iframe
+            width="560" height="315"
+            src="https://www.youtube.com/embed/_8V5o2UHG0E" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+
+    </iframe>
+
+</header>
+<br/>
+<hr>
+
+<body>
+
+<!--import topojson-->
+<script src = 'https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
+
+<svg width="1000" height="1200"></svg>
+
+
+<script>
+
+    const svg = d3.select('svg')
+
+    const width = +svg.attr('width');
+    const height = +svg.attr('height');
+
+    //    we need geopath from d3 :)
+
+    const projection = d3.geoNaturalEarth1();
+    const pathGenerator = d3.geoPath().projection(projection);
+
+    ///////////////////////
+
+    // const g = svg.append('g')
+    // svg.call(d3.zoom().on('zoom', ()=>{
+    //     g.attr('transform', d3.transform)
+    // }))
+    //
+    ///////////////////////
+
+    //combine both data file to the same scope
+
+
+    svg.append('path')
+        .attr('class', 'sphere')
+        .attr('d', pathGenerator({type: 'Sphere'}))
+        .attr('fill', 'blue')
+
+    Promise.all([
+        d3.tsv('https://unpkg.com/world-atlas@1.1.4/world/50m.tsv'),
+        d3.json('https://unpkg.com/world-atlas@1.1.4/world/50m.json')
+    ]).then(([tsvData, topoJSONdata]) =>{
+        const countries = topojson.feature(topoJSONdata, topoJSONdata.objects.countries)
+
+        const rowByID = tsvData.reduce((accumulator, d)=>{
+            accumulator[d.iso_n3] = d
+            return accumulator;
+        }, {});
+
+
+
+        //now we get the information for each country
+        countries.features.forEach(d=>{
+            Object.assign(d.properties, rowByID[d.id])
+        })
+
+        // //relate the country name with the id
+        // const countryName = {}
+        // //d.iso_n3 is the id feild
+        // tsvData.forEach(d=>{
+        //     countryName[d.iso_n3]= d.name
+        // })
+
+
+
+
+
+        //earth and the countries path
+
+        ////
+        const colorScale = d3.scaleOrdinal(d3.schemeCategory10)
+        // colorScale.domain(countries.features.map(d=>d.properties.economy))
+        ////
+
+
+        const paths = svg.selectAll('path')
+            .data(countries.features);
+
+        console.log(countries)
+        paths.enter().append('path')
+            .attr('class', 'country')
+            .attr('d', pathGenerator({type: 'path'}))
+            .attr('d', d=>pathGenerator(d))
+            .attr('fill', d=>colorScale(d.properties.name)) // set the color, later will change to brush
+            .attr('stroke', 'black') // set path to black
+            .attr('stroke-width', 0.5) // set path to black
+            .append('title')
+            .text(d=>d.properties.name) // display name when hover over that path :)
+        // https://www.youtube.com/watch?v=_8V5o2UHG0E&t=25819s here is the example I used
+
+
+    })
+
+
+
+
+
+
+</script>
+
+
+
+</body>

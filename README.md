@@ -1,60 +1,84 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
+Name: Haowen Wei
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+link to the page:
+https://haowenweijohn.github.io/04-Remix/index1.html
 
-### Your Task
+The second link is a unfinished visualization because it is toooooooo hard
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+https://haowenweijohn.github.io/04-Remix/index2.html
 
-By remix, we mean:
+In this visualization I used http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc as a reference.
+COVID-19 is keep impacting our community. In this Homework I used the covid-19 data set in MA "massachusetts-history.csv". 
+This dataset is in the repo.
+Here is a overview of this homework:
+![image](https://user-images.githubusercontent.com/59973823/111015033-d05af900-8374-11eb-9579-d40e0f7d6d57.png)
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+The first graph is "Total Death vs Time", the second graph is "Daily Death vs Time", and the third graph is “Total recover vs Time ”.
+The X axis is the Time and the Y axis is the number of people.
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+The two way linking view is between the first graph and second graph. (Total death in MA and the Daily Death in MA. The third graph is reference)
+The linking view between the "total recover" and "total death" is one way.
 
-By two linked views, we mean:
+Instead of using a smooth region for daily death, the daily death region is encoded to many small bars. 
+Here is the demo:
+Total Death link to Daily Death:
+![image](https://user-images.githubusercontent.com/59973823/111015229-d2718780-8375-11eb-98ef-f11eb9e28f21.png)
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+Daily Death link to Total Death:
+![image](https://user-images.githubusercontent.com/59973823/111015259-eb7a3880-8375-11eb-9065-9a23608e2f23.png)
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+Total Recover link to Total Death:
+![image](https://user-images.githubusercontent.com/59973823/111015305-15cbf600-8376-11eb-9a63-2ee335401d94.png)
 
+After applying the brush to one graph, the linked graph will only display the corresponding time region, and users can view the detail of this dataset.
+Note: before using the brush on another graph, users need clean the brush on previous graph.
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+On the top I have several buttons to change the color of the graph. By clicking those buttons users can change the color of the graph.
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+![image](https://user-images.githubusercontent.com/59973823/111015509-17e28480-8377-11eb-9a4c-834839347d53.png)
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+technical achievements
 ---
+Instead of the two way link, I have a extra one way link view between the total recover and total death.
+I add the button control in this assignment, and users can change the color with their preference.
+I tested this visualization and I do not find any bug.
+The animation is smooth.
+The axis tick will change while using brush.
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
+Design achievement
+---
+All the graphs are aligned in the same region. 
+The brushing is prefect LOL
+Users can change the color of the graph with their preference.
+The axis tick will change while using brush.
+
+Note:
+---
+Before I hand on this visualization, I tried the world map visaulizaton with bar chart linking, but I gave up after I finishing the map :( It is toooooo hard :(
+
+I still pushed this visualization and you can find it in index2.html.
+![image](https://user-images.githubusercontent.com/59973823/111016059-c8ea1e80-8379-11eb-95a6-d1e4b8d002e8.png)
+
+
+
+
+Requirements 
+---
+All the reqirements are done :)
+0. Your code should be forked from the GitHub repo and linked using GitHub pages. 
 1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
 2. Your project should use d3 to build a visualization of the dataset. 
 3. Your writeup (readme.md in the repo) should contain the following:
 
 - Working link to the visualization hosted on gh-pages or other external sources.
 - Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
+- Description of the v you attempted with this visualization.
 - Description of the design achievements you attempted with this visualization.
+- https://covidtracking.com/data/download This is the dataset website
 
-Extra Links
+Reference
 ---
 
 - https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
@@ -62,3 +86,9 @@ Extra Links
 - https://github.com/d3/d3-brush
 - https://observablehq.com/collection/@d3/d3-brush
 - https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+- http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc
+- https://vizhub.com/
+- https://observablehq.com/@john-clarke/programmatically-control-a-d3-brush
+- https://observablehq.com/@d3/pannable-chart
+- https://www.youtube.com/watch?v=_8V5o2UHG0E&t=45216s
+- https://covidtracking.com/data/download data reference
