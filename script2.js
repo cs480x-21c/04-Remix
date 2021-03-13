@@ -11,13 +11,15 @@ var labels = [
 
 var mapSVG = null
 var chartSVG = null
+var showLangs = false
 
 Promise.all([
 	d3.json("countries-50m.json"),
 	d3.csv("Country_data.csv"),
-	d3.csv("Totals.csv")
-]).then(([world, data, totals]) => {
-	createMap(world, data, totals)
+	d3.csv("Totals.csv"),
+	d3.csv("Pivoted_Data.csv")
+]).then(([world, data, totals, fullData]) => {
+	createMap(world, data, totals, fullData)
 	mapSVG = d3.select("body").select('#map')
 	colorMap(data)
 	d3.select('body').append('br')
@@ -32,7 +34,7 @@ function clean(text) {
 }
 
 
-function createMap(world, data, totals) {
+function createMap(world, data, totals, fullData) {
 	var countries = topojson.feature(world, world.objects.countries)
 
 	var proj = d3.geoRobinson()
@@ -54,6 +56,14 @@ function createMap(world, data, totals) {
 			.attr('id', 'map')
 	}
 
+	let tooltip = d3.select('body') //ref: http://bl.ocks.org/biovisualize/1016860
+		.append('div')
+			.style('position', 'absolute')
+			.style('visibility', 'hidden')
+			.style('border', '1px solid black')
+			.style('background-color', 'white')
+			.style('padding', '2px')
+
 	map.selectAll('path')
 		.data(countries.features)
 		.enter()
@@ -73,11 +83,37 @@ function createMap(world, data, totals) {
 					d3.select(this).attr('opacity', 1)
 					createChart(data, data.filter(d => d.Country == i.properties.name))
 				}
+
+				let tip = i.properties.name + "<br>"
+
+				if (showLangs) {
+					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
+						tip += v.Name + ": " + v.Status + "<br>"
+					})
+					
+				}
+				tooltip.html(tip).style('visibility', 'visible');
+			})
+			.on('mousemove', function(d) {
+				if (d3.select(this).attr('opacity') > 0) {
+					tooltip.style('top', (d.pageY + 20) + 'px').style('left', (d.pageX) + 'px')
+				}
 			})
 			.on('mouseout', function() {
+				tooltip.style('visibility', 'hidden');
 				map.selectAll('path')
 					.attr('opacity', 0.75)
 				createChart(data, totals)
+			})
+			.on('click', function(d, i) {
+				showLangs = !showLangs
+				var tip = i.properties.name + "<br>"
+				if (showLangs) {
+					fullData.filter(v => v.Country == i.properties.name).forEach(function(v) {
+						tip += v.Name + ": " + v.Status + "<br>"
+					})
+				}
+				tooltip.html(tip)
 			})
 }
 
