@@ -1,5 +1,4 @@
 # Assignment 4 - Total Piece Travel Over Grandmaster Magnus Carlsen's Chess Career
-===
 
 CS480X Assignment 4
 Nicholas Alescio
