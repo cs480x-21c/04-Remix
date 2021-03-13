@@ -2,6 +2,12 @@ Assignment 4 - DataVis Remix + Multiple Views
 ===
 Name: Haowen Wei
 
+link to the page:
+https://haowenweijohn.github.io/04-Remix/index1.html
+
+The second link is a unfinished visualization because it is toooooooo hard
+https://haowenweijohn.github.io/04-Remix/index2.html
+
 In this visualization I used http://bl.ocks.org/timelyportfolio/5c136de85de1c2abb6fc as a reference.
 COVID-19 is keep impacting our community. In this Homework I used the covid-19 data set in MA "massachusetts-history.csv". 
 This dataset is in the repo.
