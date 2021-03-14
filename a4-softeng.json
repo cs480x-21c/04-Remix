@@ -1,0 +1,562 @@
+[
+ {
+  "Description" : "Git Review",
+  "Start date" : "2020-01-15",
+  "Start time" : "4:11:44 PM",
+  "End date" : "2020-01-15",
+  "End time" : "4:30:15 PM",
+  "Duration" : "0:18:31"
+ },
+ {
+  "Description" : "Git Review",
+  "Start date" : "2020-01-15",
+  "Start time" : "4:46:57 PM",
+  "End date" : "2020-01-15",
+  "End time" : "6:55:34 PM",
+  "Duration" : "2:08:37"
+ },
+ {
+  "Description" : "Scheduling",
+  "Start date" : "2020-01-17",
+  "Start time" : "7:40:06 AM",
+  "End date" : "2020-01-17",
+  "End time" : "11:20:06 AM",
+  "Duration" : "3:40:00"
+ },
+ {
+  "Description" : "Scheduling",
+  "Start date" : "2020-01-17",
+  "Start time" : "1:12:51 PM",
+  "End date" : "2020-01-17",
+  "End time" : "2:39:51 PM",
+  "Duration" : "1:27:00"
+ },
+ {
+  "Description" : "Initial Meeting and Planning",
+  "Start date" : "2020-01-19",
+  "Start time" : "9:34:12 AM",
+  "End date" : "2020-01-19",
+  "End time" : "11:55:47 AM",
+  "Duration" : "2:21:35"
+ },
+ {
+  "Description" : "Logo",
+  "Start date" : "2020-01-19",
+  "Start time" : "1:32:58 PM",
+  "End date" : "2020-01-19",
+  "End time" : "2:41:58 PM",
+  "Duration" : "1:09:00"
+ },
+ {
+  "Description" : "Organization Setups V",
+  "Start date" : "2020-01-20",
+  "Start time" : "9:40:55 AM",
+  "End date" : "2020-01-20",
+  "End time" : "11:13:05 AM",
+  "Duration" : "1:32:10"
+ },
+ {
+  "Description" : "SE Meetings",
+  "Start date" : "2020-01-20",
+  "Start time" : "12:56:53 PM",
+  "End date" : "2020-01-20",
+  "End time" : "2:37:12 PM",
+  "Duration" : "1:40:19"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-21",
+  "Start time" : "3:57:15 PM",
+  "End date" : "2020-01-21",
+  "End time" : "5:00:01 PM",
+  "Duration" : "1:02:46"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-23",
+  "Start time" : "3:59:09 PM",
+  "End date" : "2020-01-23",
+  "End time" : "5:39:44 PM",
+  "Duration" : "1:40:35"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-25",
+  "Start time" : "10:20:22 AM",
+  "End date" : "2020-01-25",
+  "End time" : "11:15:56 AM",
+  "Duration" : "0:55:34"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-25",
+  "Start time" : "3:55:16 PM",
+  "End date" : "2020-01-25",
+  "End time" : "5:48:07 PM",
+  "Duration" : "1:52:51"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-26",
+  "Start time" : "4:03:48 PM",
+  "End date" : "2020-01-26",
+  "End time" : "4:55:56 PM",
+  "Duration" : "0:52:08"
+ },
+ {
+  "Description" : "Dr. Les Call",
+  "Start date" : "2020-01-26",
+  "Start time" : "7:57:14 PM",
+  "End date" : "2020-01-26",
+  "End time" : "8:12:58 PM",
+  "Duration" : "0:15:44"
+ },
+ {
+  "Description" : "SE Assignment 1",
+  "Start date" : "2020-01-27",
+  "Start time" : "8:25:47 AM",
+  "End date" : "2020-01-27",
+  "End time" : "9:37:57 AM",
+  "Duration" : "1:12:10"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-27",
+  "Start time" : "9:38:10 AM",
+  "End date" : "2020-01-27",
+  "End time" : "10:20:06 AM",
+  "Duration" : "0:41:56"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-27",
+  "Start time" : "10:29:53 AM",
+  "End date" : "2020-01-27",
+  "End time" : "10:56:45 AM",
+  "Duration" : "0:26:52"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-27",
+  "Start time" : "1:56:47 PM",
+  "End date" : "2020-01-27",
+  "End time" : "2:09:58 PM",
+  "Duration" : "0:13:11"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-27",
+  "Start time" : "4:09:42 PM",
+  "End date" : "2020-01-27",
+  "End time" : "5:58:13 PM",
+  "Duration" : "1:48:31"
+ },
+ {
+  "Description" : "SE Assignment 1",
+  "Start date" : "2020-01-27",
+  "Start time" : "8:04:18 PM",
+  "End date" : "2020-01-27",
+  "End time" : "8:19:11 PM",
+  "Duration" : "0:14:53"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-28",
+  "Start time" : "3:11:55 PM",
+  "End date" : "2020-01-28",
+  "End time" : "3:40:55 PM",
+  "Duration" : "0:29:00"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-28",
+  "Start time" : "5:14:31 PM",
+  "End date" : "2020-01-28",
+  "End time" : "6:02:26 PM",
+  "Duration" : "0:47:55"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-28",
+  "Start time" : "6:45:16 PM",
+  "End date" : "2020-01-28",
+  "End time" : "9:38:20 PM",
+  "Duration" : "2:53:04"
+ },
+ {
+  "Description" : "Gen SE",
+  "Start date" : "2020-01-29",
+  "Start time" : "4:28:34 PM",
+  "End date" : "2020-01-29",
+  "End time" : "5:18:24 PM",
+  "Duration" : "0:49:50"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-29",
+  "Start time" : "5:18:36 PM",
+  "End date" : "2020-01-29",
+  "End time" : "7:30:44 PM",
+  "Duration" : "2:12:08"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-30",
+  "Start time" : "4:01:44 PM",
+  "End date" : "2020-01-30",
+  "End time" : "5:09:54 PM",
+  "Duration" : "1:08:10"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-01-31",
+  "Start time" : "5:11:43 PM",
+  "End date" : "2020-01-31",
+  "End time" : "5:55:23 PM",
+  "Duration" : "0:43:40"
+ },
+ {
+  "Description" : "SE Assignment 2",
+  "Start date" : "2020-02-02",
+  "Start time" : "1:16:54 PM",
+  "End date" : "2020-02-02",
+  "End time" : "2:43:04 PM",
+  "Duration" : "1:26:10"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-03",
+  "Start time" : "3:59:25 PM",
+  "End date" : "2020-02-03",
+  "End time" : "4:52:36 PM",
+  "Duration" : "0:53:11"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-04",
+  "Start time" : "4:23:44 PM",
+  "End date" : "2020-02-04",
+  "End time" : "8:11:09 PM",
+  "Duration" : "3:47:25"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-05",
+  "Start time" : "4:05:19 PM",
+  "End date" : "2020-02-05",
+  "End time" : "6:32:19 PM",
+  "Duration" : "2:27:00"
+ },
+ {
+  "Description" : "SE Assignment 3",
+  "Start date" : "2020-02-06",
+  "Start time" : "11:05:50 AM",
+  "End date" : "2020-02-06",
+  "End time" : "11:53:25 AM",
+  "Duration" : "0:47:35"
+ },
+ {
+  "Description" : "SE Assignment 3",
+  "Start date" : "2020-02-06",
+  "Start time" : "2:00:38 PM",
+  "End date" : "2020-02-06",
+  "End time" : "3:03:04 PM",
+  "Duration" : "1:02:26"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-06",
+  "Start time" : "4:04:32 PM",
+  "End date" : "2020-02-06",
+  "End time" : "5:11:44 PM",
+  "Duration" : "1:07:12"
+ },
+ {
+  "Description" : "SE Assignment 3",
+  "Start date" : "2020-02-06",
+  "Start time" : "5:13:02 PM",
+  "End date" : "2020-02-06",
+  "End time" : "7:01:45 PM",
+  "Duration" : "1:48:43"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-07",
+  "Start time" : "1:57:52 PM",
+  "End date" : "2020-02-07",
+  "End time" : "6:01:27 PM",
+  "Duration" : "4:03:35"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-08",
+  "Start time" : "11:28:43 AM",
+  "End date" : "2020-02-08",
+  "End time" : "7:21:45 PM",
+  "Duration" : "7:53:02"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-09",
+  "Start time" : "12:45:12 PM",
+  "End date" : "2020-02-09",
+  "End time" : "8:02:06 PM",
+  "Duration" : "7:16:54"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-10",
+  "Start time" : "4:03:21 PM",
+  "End date" : "2020-02-10",
+  "End time" : "9:46:59 PM",
+  "Duration" : "5:43:38"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-11",
+  "Start time" : "10:38:07 AM",
+  "End date" : "2020-02-11",
+  "End time" : "11:12:47 AM",
+  "Duration" : "0:34:40"
+ },
+ {
+  "Description" : "SE Iter 1",
+  "Start date" : "2020-02-11",
+  "Start time" : "2:27:11 PM",
+  "End date" : "2020-02-12",
+  "End time" : "5:22:23 AM",
+  "Duration" : "14:55:12"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-13",
+  "Start time" : "6:16:44 PM",
+  "End date" : "2020-02-13",
+  "End time" : "8:16:51 PM",
+  "Duration" : "2:00:07"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-13",
+  "Start time" : "8:17:09 PM",
+  "End date" : "2020-02-13",
+  "End time" : "8:17:11 PM",
+  "Duration" : "0:00:02"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-14",
+  "Start time" : "12:31:33 PM",
+  "End date" : "2020-02-14",
+  "End time" : "1:44:08 PM",
+  "Duration" : "1:12:35"
+ },
+ {
+  "Description" : "SE Assignment 4",
+  "Start date" : "2020-02-14",
+  "Start time" : "1:46:07 PM",
+  "End date" : "2020-02-14",
+  "End time" : "2:19:10 PM",
+  "Duration" : "0:33:03"
+ },
+ {
+  "Description" : "SE Assignment 4",
+  "Start date" : "2020-02-14",
+  "Start time" : "2:19:15 PM",
+  "End date" : "2020-02-14",
+  "End time" : "3:35:45 PM",
+  "Duration" : "1:16:30"
+ },
+ {
+  "Description" : "SE Assignment 4",
+  "Start date" : "2020-02-14",
+  "Start time" : "4:03:12 PM",
+  "End date" : "2020-02-14",
+  "End time" : "4:35:07 PM",
+  "Duration" : "0:31:55"
+ },
+ {
+  "Description" : "Scrum",
+  "Start date" : "2020-02-14",
+  "Start time" : "5:32:43 PM",
+  "End date" : "2020-02-14",
+  "End time" : "6:17:20 PM",
+  "Duration" : "0:44:37"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-15",
+  "Start time" : "12:19:13 PM",
+  "End date" : "2020-02-15",
+  "End time" : "5:25:19 PM",
+  "Duration" : "5:06:06"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-16",
+  "Start time" : "9:54:02 AM",
+  "End date" : "2020-02-16",
+  "End time" : "11:29:26 PM",
+  "Duration" : "13:35:24"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-17",
+  "Start time" : "5:07:52 PM",
+  "End date" : "2020-02-17",
+  "End time" : "8:37:11 PM",
+  "Duration" : "3:29:19"
+ },
+ {
+  "Description" : "SE Iter 2",
+  "Start date" : "2020-02-18",
+  "Start time" : "2:26:26 PM",
+  "End date" : "2020-02-19",
+  "End time" : "3:37:37 AM",
+  "Duration" : "13:11:11"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-19",
+  "Start time" : "5:54:00 PM",
+  "End date" : "2020-02-19",
+  "End time" : "8:58:30 PM",
+  "Duration" : "3:04:30"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-20",
+  "Start time" : "4:11:30 PM",
+  "End date" : "2020-02-20",
+  "End time" : "5:29:37 PM",
+  "Duration" : "1:18:07"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-21",
+  "Start time" : "5:06:39 PM",
+  "End date" : "2020-02-21",
+  "End time" : "6:59:05 PM",
+  "Duration" : "1:52:26"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-22",
+  "Start time" : "2:21:14 PM",
+  "End date" : "2020-02-22",
+  "End time" : "4:40:08 PM",
+  "Duration" : "2:18:54"
+ },
+ {
+  "Description" : "SE Assignment 5",
+  "Start date" : "2020-02-22",
+  "Start time" : "4:40:22 PM",
+  "End date" : "2020-02-22",
+  "End time" : "7:31:16 PM",
+  "Duration" : "2:50:54"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-22",
+  "Start time" : "7:31:29 PM",
+  "End date" : "2020-02-22",
+  "End time" : "8:01:59 PM",
+  "Duration" : "0:30:30"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-23",
+  "Start time" : "1:48:11 PM",
+  "End date" : "2020-02-23",
+  "End time" : "7:32:22 PM",
+  "Duration" : "5:44:11"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-24",
+  "Start time" : "5:36:16 PM",
+  "End date" : "2020-02-24",
+  "End time" : "6:54:52 PM",
+  "Duration" : "1:18:36"
+ },
+ {
+  "Description" : "SE Iter 3",
+  "Start date" : "2020-02-25",
+  "Start time" : "3:11:00 PM",
+  "End date" : "2020-02-26",
+  "End time" : "5:26:43 AM",
+  "Duration" : "14:15:43"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-02-27",
+  "Start time" : "3:28:35 PM",
+  "End date" : "2020-02-27",
+  "End time" : "5:50:11 PM",
+  "Duration" : "2:21:36"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-02-28",
+  "Start time" : "11:42:05 AM",
+  "End date" : "2020-02-28",
+  "End time" : "6:51:06 PM",
+  "Duration" : "7:09:01"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-01",
+  "Start time" : "11:37:10 AM",
+  "End date" : "2020-03-01",
+  "End time" : "9:11:52 PM",
+  "Duration" : "9:34:42"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-02",
+  "Start time" : "10:35:53 AM",
+  "End date" : "2020-03-02",
+  "End time" : "11:45:59 AM",
+  "Duration" : "1:10:06"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-02",
+  "Start time" : "4:02:48 PM",
+  "End date" : "2020-03-02",
+  "End time" : "4:57:41 PM",
+  "Duration" : "0:54:53"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-02",
+  "Start time" : "6:01:05 PM",
+  "End date" : "2020-03-02",
+  "End time" : "7:49:49 PM",
+  "Duration" : "1:48:44"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-03",
+  "Start time" : "1:10:13 PM",
+  "End date" : "2020-03-03",
+  "End time" : "2:24:08 PM",
+  "Duration" : "1:13:55"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-03",
+  "Start time" : "3:35:09 PM",
+  "End date" : "2020-03-04",
+  "End time" : "5:53:30 AM",
+  "Duration" : "14:18:21"
+ },
+ {
+  "Description" : "SE Iter 4",
+  "Start date" : "2020-03-04",
+  "Start time" : "8:49:09 AM",
+  "End date" : "2020-03-04",
+  "End time" : "12:02:56 PM",
+  "Duration" : "3:13:47"
+ }
+]

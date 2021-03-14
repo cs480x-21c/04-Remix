@@ -1,64 +1,37 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
+Link to viz: https://phonymacoroni.github.io/04-Remix/
 
 
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
+Remixing the time tracking visualization we explored and discussed in class, I decided to use my own time tracking data from CS 3733 Software Engineering to display what the workload was throughout the term.
 
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
+This viz helps explore how much the workload increases as the term progresses. 
 
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
 
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Technical Achievements
 ---
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+There was a great deal of data processing and interpretation that went in to the viz, most notably working with the data exported straight from my time tracking tool of choice, Toggl. 
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+All of the data processing was done such that a raw file from the software can be fed in, and all processing occurs after the fact. 
 
-Extra Links
+A tooltip is shown when you hover over a bar, displaying the start time and duration of the entry.
+
+The timeScale d3 element was very very troublesome and proved difficult to work with. Given more time I think that it would have been conquored, but the I may have been too ambitious with the viz in the type of data I wanted to display.
+
+A brush tool was attempted, using the timeScale d3 element, but this function was not able to be completed and will remain sad in a branch until I am able to return and finish it.
+
+
+Screenshot
+---
+![Screenshot](img/a4-ss.png)
+
+Resources
 ---
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+- http://bl.ocks.org/cdagli/3f6b27139323e59e0b445de1a04615c3
+- https://bl.ocks.org/vikkya/75bda04cd0c00e49cbda6cfee8d97aba
+- https://woodyhayday.com/time-visualised/example-three.html
+- https://www.d3-graph-gallery.com/graph/barplot_basic.html
+- http://bl.ocks.org/anonymous/a05e15339f7792f175d2bcebccf6bbed/7f23db481f1308eb0d5a1834f7cbc0b17d948167
