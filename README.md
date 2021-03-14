@@ -5,11 +5,11 @@ For my assignment I decided to remix the coronavirus visualization from the NBC 
 on, and that there is no relation between it and the world data. So I decided to create a visualization where one could see the comparison between the world covid cases and 
 the us cases. I also wanted to make it so you could look at rate of change, but as you will see, this clearly did not happen.
 
-![nbcImage](img/COVID data.PNG)
+<img src="img/COVID data.PNG" width="500">
 
 ## The Vis
 
-![finalVis](img/theVis.PNG)
+<img src="img/theVis" width="500">
 
 The Vis consists of two linked svg's of data, the data coming from the csv file that NBC used for their original. Hovering over a bar in either data set will highlight the corresponding bars. As you can tell by the side of the vis I planned on having an interactive tool bar, but that did not happen.
 
