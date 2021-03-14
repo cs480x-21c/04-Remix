@@ -22,7 +22,7 @@ I acknowledge that there are no real technical achievments, but seeing as I didn
 - used dispatch and listeners to link events and passed variables through the listeners
 
 ## Link to Vis
-https://scvoltmer.github.io/04-Remix/index.html
+https://scvoltmer.github.io/04-Remix/
 
 ## Acknowledgements
 - Javascript and Jquery by Jon Duckett
