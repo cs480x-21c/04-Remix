@@ -22,12 +22,14 @@ So then I came to the issue of having way too many data points to just put in a 
 
 I scrapped everything I had and came to design number three: the chloropleth. I used a chloropleth reference (linked below) and modified it huge amounts to customize it for my needs. But that wasn't enough - no, we needed a tooltip to display the country name and the actual value of the average height. I struggled a lot with this and had to combine several guides online to get what I actually wanted and to make it work with my already-written code, jank as it is.
 
-In my original reflection, I also noted that the "female"-shaped icons were misleading due to inappropriate scaling, and that bar graphs would be better. However, upon further thought, I realized that the "female"-shaped icons were actually not inherently wrong; rather, the problem was in the axes. The icons actually work quite well to help the viewer properly visualize height differences, so I created my own to use in the comparison on the right half of the screen. //TODO FINISH THIS
+In my original reflection, I also noted that the "female"-shaped icons were misleading due to inappropriate scaling, and that bar graphs would be better. As such, I decided to reuse bits of my old code and make my second SVG a bar graph depicting only a few pieces of data based on user selection from the chloropleth. //TODO FINISH THIS
 
-Technical Achievements
+Tech & Design Achievements
 ---
 
 I haven't previously worked with tooltips or chloropleths. As such, making either of them work was a pretty big achievement for me, not to mention making them work together. I heavily referenced online resources for both (listed below in section Sources), but ultimately ended up writing a ton of my own code to get it all to function exactly how I wanted. As much as d3 commands still sort of feel like a mysterious blob, I definitely have a strong grasp on its overall workings now.
+
+Also, I'd like to think I did pretty well with the CSS, color scheme, and overall layout of the entire project. It's both consistent and readable, and I think it's pretty visually appealing.
 
 Sources
 ---
