@@ -25,6 +25,6 @@ I acknowledge that there are no real technical achievments, but seeing as I didn
 https://scvoltmer.github.io/04-Remix/index.html
 
 ## Acknowledgements
--Javascript and Jquery by Jon Duckett
--HTML and CSS by Jon Duckett
--Learn D3.js by Helder da Rocha
+- Javascript and Jquery by Jon Duckett
+- HTML and CSS by Jon Duckett
+- Learn D3.js by Helder da Rocha
