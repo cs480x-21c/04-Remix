@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        .bar {
+            fill: steelblue;
+        }
+
+        .highlight {
+            fill: orange;
+        }
+        .red {
+  position: absolute;
+  left: 0;
+  width: 50%;
+  top: 0;
+  bottom: 0;
+}
+.green {
+  float: right;
+  width: 50%;
+}
+.wrapper {
+  /* remember this is clearfixed */
+  position: relative;
+}
+</style>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+</head>
+<body>
+<div class="wrapper clearfix">
+  <div class="red"><svg id="test" width="600" height="800"></svg></div>
+  <div class="green">
+<svg id="map" width="800" height="500"></svg>
+<h1 id="name">
+    
+</h1>
+<h1 id="ppp">
+    
+</h1>
+<h1 id="gdpcap">
+    
+</h1>
+<h1 id="growth">
+</h1>
+<h1 id="pop">
+    
+</h1>
+</div>
+</div>
+
+<script>
+
+    var map = d3.select('#map'),
+    width = +map.attr("width"),
+    height = +map.attr("height");
+var path = d3.geoPath();
+var projection = d3.geoMercator()
+  .scale(110)
+  .center([0,20])
+  .translate([width / 2, height / 2]);
+
+// Data and color scale
+var data = d3.map();
+var colorScale = d3.scaleThreshold()
+  .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+  .range(d3.schemeBlues[7]);
+
+// Load external data and boot
+d3.queue()
+  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv", function(d) { data.set(d.code, +d.pop); })
+  .await(ready);
+
+function ready(error, topo) {
+  // Draw the map
+  map.append("g")
+    .selectAll("path")
+    .data(topo.features)
+    .enter()
+    .append("path")
+      // draw each country
+      .attr("d", d3.geoPath()
+        .projection(projection)
+      )
+      // set the color of each country
+      .attr("fill", function (d) {
+        d.total = data.get(d.id) || 0;
+        console.log(d.id);
+        return colorScale(d.total);
+      })
+      .style("stroke", "transparent")
+      .attr("class", function(d){ return "Country" } )
+      .style("opacity", .8)
+    }
+
+//==================
+
+    var svg = d3.select("#test"),
+        margin = 200,
+        width = svg.attr("width") - margin,
+        height = svg.attr("height") - margin;
+
+    svg.append("text")
+       .attr("transform", "translate(100,0)")
+       .attr("x", 50)
+       .attr("y", 50)
+       .attr("font-size", "24px")
+       .text("Largest Economies by nominal GDP in 2020")
+
+    var x = d3.scaleBand().range([0, width]).padding(0.4),
+        y = d3.scaleLinear().range([height, 0]);
+
+    var g = svg.append("g")
+            .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+    d3.csv('https://gist.githubusercontent.com/FelChen/0d7dff02e1069f4216ab8d42e1e4f206/raw/bda0bf761022ac790730e3440ab6481764a8e8be/gdp.csv', function(error, data) {
+        if (error) {
+            throw error;
+        }
+
+        x.domain(data.map(function(d) { return d.year; }));
+        // y.domain([0, d3.max(data, function(d) { return d.value; })]);
+        y.domain([0, 25]);
+
+        
+
+        g.append("g")
+         .call(d3.axisLeft(y).tickFormat(function(d){
+             return "$" + d;
+         }).ticks(10))
+         .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 28)
+         .attr("dy", "-5.1em")
+         .attr("x", -450)
+         .attr("text-anchor", "end")
+         .attr("font-size", "16px")
+         .attr("fill", "black")
+         .attr("font-weight", "600")
+         .text("GDP in trillions");
+
+
+
+
+
+        g.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+         .attr("class", "bar")
+         .on("mouseover", onMouseOver) //Add listener for the mouseover event
+         .on("mouseout", onMouseOut)   //Add listener for the mouseout event
+         .on("click", onClick)
+         .attr("x", function(d) { return x(d.year); })
+         .attr("y", function(d) { return y(d.value); })
+         .attr("width", x.bandwidth())
+         .transition()
+         .ease(d3.easeLinear)
+         .duration(400)
+         .delay(function (d, i) {
+             return i * 50;
+         })
+         .attr("height", function(d) { return height - y(d.value); });
+        
+
+        g.append("g")
+         .attr("transform", "translate(0," + height + ")")
+         .call(d3.axisBottom(x))
+         .append("text")
+         .attr("y", height)
+         .attr("x", width)
+         .attr("text-anchor", "end")
+         .attr("stroke", "black")
+         .text("Country");
+
+    });
+    
+
+
+
+
+    //mouseover event handler function
+    function onMouseOver(d, i) {
+        d3.select(this).attr('class', 'highlight');
+
+
+        g.append("text")
+         .attr('class', 'val') 
+         .attr('x', function() {
+             return x(d.year);
+         })
+         .attr('y', function() {
+             return y(d.value) - 15;
+         })
+         .text(function() {
+             return [ '$' +d.value];  // Value of the text
+         });
+
+
+         // console.log(d.year)
+         var con = d.year
+         document.getElementById("name").innerHTML = con;
+         d3.selectAll(".Country")
+         .attr("fill", function(d){
+          // console.log(d.total)
+          // console.log(d.id)
+
+
+        switch (con) {
+  case "US":
+    if(d.id == "USA"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 20,807,269";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 63,051";
+  document.getElementById("growth").innerHTML = "GDP Growth: 2.27%";
+        document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+  case "China":
+    if(d.id == "CHN"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 24,162,435";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 10,839";
+  document.getElementById("growth").innerHTML = "GDP Growth: 6.9%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "Japan":
+    if(d.id == "JPN"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 5,236,138";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 39,048";
+  document.getElementById("growth").innerHTML = "GDP Growth: 1.71%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "Germany":
+    if(d.id == "DEU"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 4,454,498";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 45,466";
+  document.getElementById("growth").innerHTML = "GDP Growth: 2.22%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "UK":
+    if(d.id == "GBR"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 2,978,564";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 39,229";
+  document.getElementById("growth").innerHTML = "GDP Growth: 1.79%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "India":
+    if(d.id == "IND"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 8,681,303";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 1,877";
+  document.getElementById("growth").innerHTML = "GDP Growth: 6.68%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "France":
+    if(d.id == "FRA"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 2,954,196";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 39,257";
+  document.getElementById("growth").innerHTML = "GDP Growth: 1.82%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "Italy":
+    if(d.id == "ITA"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 2,415,410";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 30,657";
+  document.getElementById("growth").innerHTML = "GDP Growth: 1.50%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/10000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "Canada":
+    if(d.id == "CAN"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 1,808,995";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 42,080";
+  document.getElementById("growth").innerHTML = "GDP Growth: 3.05%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + Math.round(d.total/100000)/10;
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+  case "Korea":
+    if(d.id == "KOR"){
+        document.getElementById("ppp").innerHTML = "Purchasing Power Parity (Millions of Int$): 2,293,475";
+  document.getElementById("gdpcap").innerHTML = "GDP per Capita: 30,644";
+  document.getElementById("growth").innerHTML = "GDP Growth: 1.89%";
+                document.getElementById("pop").innerHTML = "Population (Milions): " + "51.7";
+            return "orange"
+          }
+          else{
+            return colorScale(d.total);
+          }
+
+}
+
+          
+         })
+    }
+
+    function onClick(d, i) {
+
+
+
+
+    
+ 
+
+    }
+
+    //mouseout event handler function
+    function onMouseOut(d, i) {
+        // use the text label class to remove label on mouseout
+        d3.select(this).attr('class', 'bar');
+        d3.select('#test').selectAll('.val')
+          .remove()
+    }
+
+</script>
+</body>
+</html>
