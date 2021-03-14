@@ -91,6 +91,13 @@
       .text(function(d) {return d.data.key})
       .attr('transform', function(d) {return "translate(" + arcs.centroid(d) + ")translate(" + 400 + "," + 500 + ")"})
 
+    svg.append('text')
+      .attr('class', 'title')
+      .attr('x', 200)
+      .attr('y', 50)
+      .text('Hover over a section to see more detail!')
+      .style('text-anchor', 'middle')
+
 
     // Bar Chart
     function renderBarChart(character) {
