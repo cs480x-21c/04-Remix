@@ -1,64 +1,55 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+Original:
+![original chart](img/original.png)
 
-### Your Task
+Source unknown - it was sent to me by a friend, who found it on Twitter, but not from the original source. I tried finding it through reverse image search, but turned up nothing. I used the same image for my Week 3 reflection.
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+Preview:
+![overview of remix](img/overview.png)
 
-By remix, we mean:
+Live Link: https://lockeanddemosthenes.github.io/04-Remix/
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Preamble
 ---
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+There is a lot wrong with the original graph - enough to the point where I honestly have a lot of unpleasant dreams about it. As such, I sought to improve and expand upon many different aspects in hopes of restraining my brain from further tormenting itself.
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+One of the first things I fixed was the data samples. Instead of just a few select countries and data pulled from an unknown source (albeit most of the numbers in the original are more or less the same as mine), I used an article from November 2020 to pull data on every recognized country in the world. I also used measurements in metric rounded to the nearest whole number instead of imperial in order to be more exact.
 
-Extra Links
+Because there wasn't really a premade file with all the information I wanted and nothing extraneous, I ended up personally collecting all the information I needed in a csv. This proved frustrating but ultimately ended up necessary, because I am a stubborn old fool.
+
+So then I came to the issue of having way too many data points to just put in a bar graph. I tried to make it work - I implemented a horizontal scroll, I redid the entire thing so it was vertical, and at the end of the day I realized it was not going to happen in an effective way. I really, really hated the idea of just picking about 5 per continent, but it was looking like it would be the best idea... and then I realized that chloropleth maps exist for a lot of reasons.
+
+I scrapped everything I had and came to design number three: the chloropleth. I used a chloropleth reference (linked below) and modified it huge amounts to customize it for my needs. But that wasn't enough - no, we needed a tooltip to display the country name and the actual value of the average height. I struggled a lot with this and had to combine several guides online to get what I actually wanted and to make it work with my already-written code, jank as it is.
+
+In my original reflection, I also noted that the "female"-shaped icons were misleading due to inappropriate scaling, and that bar graphs would be better. As such, I decided to make my second SVG a bar graph depicting only a few pieces of data based on user selection from the chloropleth. This second SVG fulfills the requirement of having two linked views for the data.
+
+Features
+---
+![tooltip](img/hover.png)
+
+On the chloropleth, hovering over a country displays its name and the exact average height in a tooltip. It also focuses the view on the country by increasing its opacity, decreasing others' opacity, and adding a black border. As soon as the mouse is moved away, the tooltip disappears, and the view returns to normal.
+
+![bars, view 1](img/bars1.png)
+![bars, view 2](img/bars2.png)
+
+When a country is clicked on the chloropleth, its data is sent to pulled-data.csv. Clicking the "Refresh Bars" button redraws the bar graph with new data. (I strongly recommend not selecting more than three at a time...)
+
+Tech & Design Achievements
 ---
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+I haven't previously worked with tooltips or chloropleths. As such, making either of them work was a pretty big achievement for me, not to mention making them work together. I heavily referenced online resources for both (listed below in section Sources), but ultimately ended up writing a ton of my own code to get it all to function exactly how I wanted. As much as d3 commands still sort of feel like a mysterious blob, I definitely have a strong grasp on its overall workings now.
+
+Getting the data-pulling and SVG refresh to work was also kind of a nightmare, and I'm not actually 100% certain my method is actually reliable, but it works.
+
+Also, I'd like to think I did pretty well with the CSS, color scheme, and overall layout of the entire project. It's both consistent and readable, and I think it's pretty visually appealing while also being meaningful.
+
+Sources
+---
+
+Chloropleth reference: https://www.d3-graph-gallery.com/graph/choropleth_hover_effect.html
+Tooltip reference: https://bl.ocks.org/mbostock/1087001
+Height data: https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31859-6/fulltext
+Country codes: https://www.iban.com/country-codes

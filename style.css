@@ -1,0 +1,29 @@
+body {
+    background-color: #EEEEEE;
+    font-size: 14px;
+    font-family: 'verdana';
+    padding: 10px 50px;
+}
+
+h1 {
+    color: #FF99C3;
+    font-size: 32px;
+    -webkit-text-stroke: 0.8px black;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #FF99C3;
+    border-radius: 4px;
+    border: none;
+    size: 14px;
+    font-family: 'verdana';
+}
+
+button:hover {
+    box-shadow: 0 12px 12px 0 rgba(0,0,0,0.2), 0 12px 12px 0 rgba(0,0,0,0.2);
+}
+
+/******
+*  please stop looking here I do not have funny things to say i am grieving
+******/

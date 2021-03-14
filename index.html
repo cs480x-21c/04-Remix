@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  </head>
+
+  <body>
+    <h1>Remix: Average Female Height Per Country</h1>
+    <p>A darker shade on the chloropleth indicates a taller average height.</p>
+    <p></p>
+    <img src="img/key.png">
+    <p></p>
+    <button onclick="refresh()">Refresh Bars</button>
+    <p></p>
+    <svg id="heightvis" width="1000" height="700"></svg>
+    <svg id="comparevis"></svg>
+
+  <script>
+  /**********
+  *
+  *  PART I: CHLOROPLETHS ARE ORGANELLES CRITICAL TO THE PROCESS OF PHOTOSYNTHE- WAIT, NO.
+  *
+  **********/
+
+  // Storing clicked countries aa
+  var clickedCountries = [];
+
+  // Define heightvis (chloropleth)
+  var heightvis = d3.select("svg"),
+    chloroWidth = +heightvis.attr("width"),
+    chloroHeight = +heightvis.attr("height");
+
+  // Map and projection
+  var path = d3.geoPath();
+  var projection = d3.geoMercator()
+    .scale(175)
+    .center([0,20])
+    .translate([chloroWidth / 2, chloroHeight / 2 ]);
+
+  // Data and color scale
+  var data = d3.map();
+  var colorScale = d3.scaleThreshold()
+    .domain([150, 153, 156, 159, 162, 165, 168, 170])
+    .range(["#a690a6", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794", "#F50066"]);
+
+  // Define tooltip
+  var tooltip = d3.select("body")
+    .append("div")
+    .attr("class","tooltip")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("background", "#FFD6E7")
+    .text("No data.")
+    .style("padding", "10px")
+
+  // Load external data and boot - don't mess with this
+  d3.queue()
+    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    .defer(d3.csv, "data.csv", function(d) { data.set(d.bruh, +d.Country) })
+    .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value) })
+    .await(ready);
+
+  // LOADING EVERYTHING...
+  function ready(error, topo) {
+
+    // mouseOver function (highlight + show tooltip)
+    let mouseOver = function(d) {
+      d3.selectAll(".Country")
+        .transition().duration(200)
+        .style("opacity", .3)
+        .style("stroke", "transparent");
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+        .style("stroke", "black");
+      tooltip.style("visibility", "visible");
+    }
+
+    // mouseMove function (change text if needed, tooltip follow)
+    let mouseMove = function(d) {
+        tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        .text(data.get(d.name) + ": " + data.get(d.id) + " cm");
+    }
+
+    // mouseLeave function (return map to normal, hide tooltip)
+    let mouseLeave = function(d) {
+      d3.selectAll(".Country")
+        .transition()
+        .duration(200)
+        .style("opacity", .8)
+        .style("stroke", "transparent")
+      tooltip.style("visibility", "hidden");
+    }
+
+    // mouseClick function (
+    let mouseClick = function(d) {
+      clickedCountry = d.id;
+      clickedCountries.push(clickedCountry);
+      let csvContent = "data:text/csv;charset=utf-8,"
+      + rows.map(e => e.join(",")).join("\n");
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "pulled-data.csv");
+      document.body.appendChild(link);
+      link.click();
+    }
+
+    // Draw the map
+    heightvis.append("g")
+      .selectAll("path")
+      .data(topo.features)
+      .enter()
+      .append("path")
+        // Draw each country
+        .attr("d", d3.geoPath()
+          .projection(projection)
+        )
+        // Set the color of each country
+        .attr("fill", function (d) {
+          d.total = data.get(d.id) || 0;
+          return colorScale(d.total);
+        })
+        //Other customization
+        .style("stroke", "transparent")
+        .attr("class", function(d){ return "Country" } )
+        .style("opacity", .8)
+        .on("mouseover", mouseOver)
+        .on("mousemove", mouseMove)
+        .on("mouseleave", mouseLeave)
+        .on("click", mouseClick);
+    }
+
+  /**********
+  *
+  *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING BAR GRAPHS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
+  *
+  **********/
+
+  function refresh() {
+      comparevis.remove();
+      addComparevis();
+  }
+
+  // set the dimensions and margins of the graph
+  var barMargin = {top: 20, right: 20, bottom: 30, left: 40},
+      barWidth = 300 - barMargin.left - barMargin.right,
+      barHeight = 700 - barMargin.top - barMargin.bottom;
+
+  // set the ranges
+  var x = d3.scaleBand()
+            .range([0, barWidth])
+            .padding(0.1);
+  var y = d3.scaleLinear()
+            .range([barHeight, 0]);
+
+  addComparevis();
+
+  function addComparevis() {
+  // Slap the svg onto the page
+  var comparevis = d3.select("body")
+      .append("svg")
+      .attr("width", barWidth + barMargin.left + barMargin.right)
+      .attr("height", barHeight + barMargin.top + barMargin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + barMargin.left + "," + barMargin.top + ")");
+
+  // Get the data
+  d3.csv("pulled-data.csv", function(error, data) {
+    if (error) throw error;
+
+    // Format data
+    data.forEach(function(d) {
+      d.Value = +d.Value;
+    });
+
+    // Scale the range of the data in the domains
+    x.domain(data.map(function(d) { return d.Country; }));
+    y.domain([0, d3.max(data, function(d) { return d.Value; })]);
+
+    // Draw the rectangles
+    comparevis.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.Country); })
+        .attr("width", 75)
+        .attr("y", function(d) { return y(d.Value); })
+        .attr("height", function(d) { return barHeight - y(d.Value); })
+        .style("fill", "#FF99C3");
+
+    // Draw x axis
+    comparevis.append("g")
+        .attr("transform", "translate(0," + barHeight + ")")
+        .call(d3.axisBottom(x));
+
+    // Draw y axis
+    comparevis.append("g")
+        .call(d3.axisLeft(y))
+        .ticks(20);
+
+  });
+  }
+
+  </script>
+  </body>
+</html>
