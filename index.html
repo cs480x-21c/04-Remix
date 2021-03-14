@@ -24,9 +24,10 @@
 		<div id="pie1"></div>
 		<div class="tooltip">
 			<div>
+				<div id="year"></div>
 				<h3></h3>
 				<div id="list"></div>
-				<span></span>
+				
 			</div>
 		</div>
 	</div>
@@ -67,6 +68,11 @@
 		var data = [];
 		
 		var dataSpecific = [];
+		
+		var dataAdults = [];
+		var dataTeenagers = [];
+		var dataChildren = [];
+		var dataUnrated = [];
 		
 		for (var i = 0; i <= 20; i++){
 		
@@ -132,6 +138,11 @@
 			
 			dataSpecific[i] = {"R": RPercentage, "TV-MA": TVMAPercentage, "NC-17": NC17Percentage, "PG": PGPercentage, "PG-13": PG13Percentage, "TV-14": TV14Percentage, "TV-PG": TVPGPercentage,
 							   "G": GPercentage, "TV-G": TVGPercentage, "TV-Y": TVYPercentage, "TV-Y7": TVY7Percentage, "TV-Y7-FV": TVY7FVPercentage, "NR": NRPercentage, "UR": URPercentage};
+							   
+			dataAdults[i] = {"R": RPercentage, "TV-MA": TVMAPercentage, "NC-17": NC17Percentage}
+			dataTeenagers[i] = {"PG": PGPercentage, "PG-13": PG13Percentage, "TV-14": TV14Percentage, "TV-PG": TVPGPercentage};
+			dataChildren[i] = {"G": GPercentage, "TV-G": TVGPercentage, "TV-Y": TVYPercentage, "TV-Y7": TVY7Percentage, "TV-Y7-FV": TVY7FVPercentage};
+			dataUnrated[i] = {"NR": NRPercentage, "UR": URPercentage};
 							   
 			//console.log(dataSpecific);
 		
@@ -277,18 +288,34 @@
 		
 		function generateSpecific(year, category){
 		
-			var dataThisYear = dataSpecific[year-2000];
 			
+			var htmlElement = "<p>";
 			
-			return "<p>TEST</p>";
+			if(category=="adults"){
+				for(let [key,value] of Object.entries(dataAdults[year-2000])){
+					htmlElement = htmlElement + key + ": " + value.toString().substring(0, 4)+"%" + "<br>";
+				}
+			} else if (category=="teenagers"){
+				for(let [key,value] of Object.entries(dataTeenagers[year-2000])){
+					htmlElement = htmlElement + key + ": " + value.toString().substring(0, 4)+"%" + "<br>";
+				}
+			} else if (category=="children"){
+				for(let [key,value] of Object.entries(dataTeenagers[year-2000])){
+					htmlElement = htmlElement + key + ": " + value.toString().substring(0, 4)+"%" + "<br>";
+				}
+			} else if (category=="unrated"){
+				for(let [key,value] of Object.entries(dataUnrated[year-2000])){
+					htmlElement = htmlElement + key + ": " + value.toString().substring(0, 4)+"%" + "<br>";
+				}
+			}
+			
+			htmlElement = htmlElement + "</p>"
+			return htmlElement;
 		
 		}
 		
 		function generatePie1(year){
 		
-			
-
-					
 			var pieData = data[year-2000];  //SET INCOMING DATA HERE
 			
 			console.log(pieData);
@@ -331,6 +358,7 @@
 				.on('mouseover', function (e, d){
 					//console.log(d.data);
 					//console.log(pieCategories(d.data));
+					tooltip.select('#year').html("<p>" + year + "</p>");
 					tooltip.select('h3').text(pieCategories(d.data) + ": " + d.data.toString().substring(0, 4)+"%");
 					tooltip.select('#list').html(generateSpecific(year, pieCategories(d.data)));
 					//tooltip.select('span').attr('class', d.data.category).text(d.data.category);
