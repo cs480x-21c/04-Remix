@@ -9,7 +9,7 @@ Source unknown - it was sent to me by a friend, who found it on Twitter, but not
 Preview:
 ![overview of remix](img/overview.png)
 
-Live Link: coming soon.
+Live Link: https://lockeanddemosthenes.github.io/04-Remix/
 
 Preamble
 ---
