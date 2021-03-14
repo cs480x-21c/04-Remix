@@ -1,8 +1,11 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-Original: https://cdn.discordapp.com/attachments/811048003477307452/812073686621880331/21824e2ba7d04db462d566d3d246e4786648a80a.png
-Remix: link coming soon
+Original:
+![original chart](img/original.png)
+*Source unknown - it was sent to me by a friend, who found it on Twitter, but not from the original source. I tried finding it through reverse image search, but turned up nothing.
+
+Live Link: coming soon.
 
 Preamble
 ---
