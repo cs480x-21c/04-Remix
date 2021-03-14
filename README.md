@@ -9,7 +9,7 @@ the us cases. I also wanted to make it so you could look at rate of change, but 
 
 ## The Vis
 
-<img src="img/theVis" width="500">
+<img src="img/theVis.PNG" width="500">
 
 The Vis consists of two linked svg's of data, the data coming from the csv file that NBC used for their original. Hovering over a bar in either data set will highlight the corresponding bars. As you can tell by the side of the vis I planned on having an interactive tool bar, but that did not happen.
 
