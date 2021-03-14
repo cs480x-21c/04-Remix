@@ -17,7 +17,8 @@
 <h2>
     Original Viz: 
 </h2>
-![Viz Display from link](week1Viz.PNG)
+
+[Viz Display from link](week1Viz.PNG)
 
 <h3>
     The original viz of the USA, China, and Europes GDP had a lot of issues with scale as the range was from 1 million to a 4 trillion.
