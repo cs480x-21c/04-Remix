@@ -1,64 +1,21 @@
-Assignment 4 - DataVis Remix + Multiple Views
+Assignment 4 - DataVis Remix + Multiple Views - Shannon Truong
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
+<img src="LifeExRemix.png" width="1000">
 
-### Your Task
+Link to hosted gh-pages
+https://truongshan.github.io/04-Remix/
 
-Your task is to choose a visualization, remix it, and add at least two linked-views.
+The link to the dataset downloaded online is https://data.worldbank.org/indicator/SP.DYN.LE00.IN
 
-By remix, we mean:
+Original inspiration of visualization can be found from: https://www.reddit.com/r/dataisbeautiful/comments/m0i3gy/oc_asian_countries_are_chasing_up_to_european/
 
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
+In this visualization I decided to remix one of my reflection visualizations. The original visualization that I chose to remix displayed the top 10 countries with the highest life expectancies every year from 1960-2020. The visualization ranked the 10 countries every year in a bar chart style visuaization along with the country name and life expectancydisplayed in the bar chart. For my visualization for the remix, I decided to narrow my data into only focusing on the top 10 countries with the highest life expectancies recorded in 2020. The first visualization is the bar chart which displays the average life expectancy of these 10 countries from the year 1960-2020. The user is able to click on the bar chart to get more detail on the life expectancy of the countries in that specific year which is displayed in the scatter plot in the second view. 
 
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
+# Technical/Design Achievements
 
-By two linked views, we mean:
+I really enjoyed completing this project because I was able to use what I learned in the previous assignments to culminate into these two different views. Specifically, I was able to use what I learned in assignment 2 and 3 to complete this assignment. 
 
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
+For technical and design achievements, I was able to include mouse events with the hovering to display more specific data in both visualizations. The details of the points were put in a text container below the visualization. Additionally, one of the more difficult tasks for me to accomplish was passing in selected onclick mouse event data based on the csv into a function. This was accomplished in this project as I was able to produce another more specific visualization and view of the first visualization based on the user selected bar when they clicked on it. In short, when the user selects a bar, the year that corrisponds with the bar is passed into another view to create a visualization to present specific life expectancies for the top 10 countries in that year. I think that my technical and design achievements in this project was pretty effective in allowing for more user interaction and allowing the user to obtain more specific data to undersatnd and process. 
 
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
----
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
-
-Extra Links
----
-
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+Overall, I thought this remix was really good in showing and understanding the history of life expectancies in the world's current countries with the highest reported life expectancies. I thought it was really interesting, for example, to see that in 1960, the Republic of Korea had a life expectancy of 55 which is pretty low compared to the other countries. Since then, they are now in the top 7 countries with the highest life expectancies which I found to be an interesting fact on their history. This was also seen in some other countries data as well. 
