@@ -20,3 +20,11 @@ I acknowledge that there are no real technical achievments, but seeing as I didn
 - making the axes and scaling them, specifically, translating them into position was hard
 - extensive use of jquery
 - used dispatch and listeners to link events and passed variables through the listeners
+
+## Link to Vis
+https://scvoltmer.github.io/04-Remix/index.html
+
+## Acknowledgements
+-Javascript and Jquery by Jon Duckett
+-HTML and CSS by Jon Duckett
+-Learn D3.js by Helder da Rocha
