@@ -12,13 +12,23 @@
 }
 </style>
 
+<head>
+		<link rel="stylesheet" href="styles.css" />
+</head>
+
 <div class="row">
 	<div class="column">
 		<div id="stackedBar"></div>
 	</div>
 	<div class="column">
 		<div id="pie1"></div>
-		<div id="pie2"></div>
+		<div class="tooltip">
+			<div>
+				<h3></h3>
+				<div id="list"></div>
+				<span></span>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -56,6 +66,8 @@
 		
 		var data = [];
 		
+		var dataSpecific = [];
+		
 		for (var i = 0; i <= 20; i++){
 		
 			var filteredByYear = completeData.filter(completeData => completeData.release_year == i+2000);
@@ -65,16 +77,63 @@
 			var filteredToAdults = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "R" || filteredByYear.rating == "TV-MA" || filteredByYear.rating == "NC-17"));
 			var adultsPercentage = (filteredToAdults.length / totalShows)*100;
 			
+			var filterR = filteredByYear.filter(filteredByYear => filteredByYear.rating == "R");
+			var RPercentage = (filterR.length / totalShows)*100;
+			
+			var filterTVMA = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-MA");
+			var TVMAPercentage = (filterTVMA.length / totalShows)*100;
+			
+			var filterNC17 = filteredByYear.filter(filteredByYear => filteredByYear.rating == "NC-17");
+			var NC17Percentage = (filterNC17.length / totalShows)*100;
+			
 			var filteredToTeenagers = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "PG" || filteredByYear.rating == "PG-13" || filteredByYear.rating == "TV-14" || filteredByYear.rating == "TV-PG"));
 			var teenagersPercentage = (filteredToTeenagers.length / totalShows)*100;
+			
+			var filterPG = filteredByYear.filter(filteredByYear => filteredByYear.rating == "PG");
+			var PGPercentage = (filterPG.length / totalShows)*100;
+			
+			var filterPG13 = filteredByYear.filter(filteredByYear => filteredByYear.rating == "PG-13");
+			var PG13Percentage = (filterPG13.length / totalShows)*100;
+			
+			var filterTV14 = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-14");
+			var TV14Percentage = (filterTV14.length / totalShows)*100;
+			
+			var filterTVPG = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-PG");
+			var TVPGPercentage = (filterTVPG.length / totalShows)*100;
 			
 			var filteredToChildren = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "G" || filteredByYear.rating == "TV-G" || filteredByYear.rating == "TV-Y" || filteredByYear.rating == "TV-Y7" || filteredByYear.rating == "TV-Y7-FV"));
 			var childrenPercentage = (filteredToChildren.length / totalShows)*100;
 			
+			var filterG = filteredByYear.filter(filteredByYear => filteredByYear.rating == "G");
+			var GPercentage = (filterG.length / totalShows)*100;
+			
+			var filterTVG = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-G");
+			var TVGPercentage = (filterTVG.length / totalShows)*100;
+			
+			var filterTVY = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-Y");
+			var TVYPercentage = (filterTVY.length / totalShows)*100;
+			
+			var filterTVY7 = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-Y7");
+			var TVY7Percentage = (filterTVY7.length / totalShows)*100;
+			
+			var filterTVY7FV = filteredByYear.filter(filteredByYear => filteredByYear.rating == "TV-Y7-FV");
+			var TVY7FVPercentage = (filterTVY7FV.length / totalShows)*100;
+			
 			var filteredToUnrated = filteredByYear.filter(filteredByYear => (filteredByYear.rating == "NR" || filteredByYear.rating == "UR"));
 			var unratedPercentage = (filteredToUnrated.length / totalShows)*100;
 			
+			var filterNR = filteredByYear.filter(filteredByYear => filteredByYear.rating == "NR");
+			var NRPercentage = (filterNR.length / totalShows)*100;
+			
+			var filterUR = filteredByYear.filter(filteredByYear => filteredByYear.rating == "UR");
+			var URPercentage = (filterUR.length / totalShows)*100;
+			
 			data[i] = {"year": i+2000, "adults": adultsPercentage, "teenagers": teenagersPercentage, "children": childrenPercentage, "unrated": unratedPercentage};
+			
+			dataSpecific[i] = {"R": RPercentage, "TV-MA": TVMAPercentage, "NC-17": NC17Percentage, "PG": PGPercentage, "PG-13": PG13Percentage, "TV-14": TV14Percentage, "TV-PG": TVPGPercentage,
+							   "G": GPercentage, "TV-G": TVGPercentage, "TV-Y": TVYPercentage, "TV-Y7": TVY7Percentage, "TV-Y7-FV": TVY7FVPercentage, "NR": NRPercentage, "UR": URPercentage};
+							   
+			//console.log(dataSpecific);
 		
 		}
 		
@@ -216,6 +275,15 @@
 				
 		var local = d3.local();
 		
+		function generateSpecific(year, category){
+		
+			var dataThisYear = dataSpecific[year-2000];
+			
+			
+			return "<p>TEST</p>";
+		
+		}
+		
 		function generatePie1(year){
 		
 			
@@ -236,6 +304,10 @@
 			var pieColor = d3.scaleOrdinal()
 				.domain(pieDataArray)
 				.range(['#d7191c','#fdae61','#abd9e9','#2c7bb6']); //SET COLORS HERE
+				
+			var pieCategories = d3.scaleOrdinal()
+				.domain(pieDataArray)
+				.range(['adults', 'teenagers', 'children', 'unrated']);
 			
 			var pie1 = d3.pie().sort(null);
 			var pieSlices = pie1(pieDataArray);
@@ -244,6 +316,8 @@
 			
 			var pieSvgU = pieSvg.selectAll("path")
 				.data(pieSlices);
+				
+			var tooltip = d3.select('.tooltip');
 			
 			pieSvgU
 				//.selectAll('abcd')
@@ -254,6 +328,21 @@
 					local.set(this,d)
 				})
 				.merge(pieSvgU)
+				.on('mouseover', function (e, d){
+					//console.log(d.data);
+					//console.log(pieCategories(d.data));
+					tooltip.select('h3').text(pieCategories(d.data) + ": " + d.data.toString().substring(0, 4)+"%");
+					tooltip.select('#list').html(generateSpecific(year, pieCategories(d.data)));
+					//tooltip.select('span').attr('class', d.data.category).text(d.data.category);
+					tooltip.style('visibility', 'visible');
+				
+					d3.select(this).style('stroke', '#222');
+				})
+				.on('mousemove', e => tooltip.style('top', `${e.pageY}px`)
+									         .style('left', `${e.pageX + 10}px`))
+				.on('mouseout', function (e, d){
+					tooltip.style('visibility', 'hidden');
+				})
 				.transition()
 				.duration(1000)
 				.attrTween('d', function(d) {
@@ -268,6 +357,7 @@
 				.attr("stroke", "black")
 				.style("stroke-width", "2px")
 				.style("opacity", 0.7)
+				
 				
 //			pieSvgU
 //				.selectAll('abcd')
