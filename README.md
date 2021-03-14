@@ -29,10 +29,12 @@ In my original reflection, I also noted that the "female"-shaped icons were misl
 Features
 ---
 ![tooltip](img/hover.png)
+
 On the chloropleth, hovering over a country displays its name and the exact average height in a tooltip. It also focuses the view on the country by increasing its opacity, decreasing others' opacity, and adding a black border. As soon as the mouse is moved away, the tooltip disappears, and the view returns to normal.
 
 ![bars, view 1](img/bars1.png)
 ![bars, view 2](img/bars2.png)
+
 When a country is clicked on the chloropleth, its data is sent to pulled-data.csv. Clicking the "Refresh Bars" button redraws the bar graph with new data. (I strongly recommend not selecting more than three at a time...)
 
 Tech & Design Achievements
