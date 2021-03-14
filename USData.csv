@@ -1,0 +1,57 @@
+﻿Rank,State,GDP,PercentNational,gdpPerCapita,Region
+1, California,3120386,15,79261,West
+2, Texas,1772132,8,60357,South
+3, New York,1705127,8,88180,Northeast
+4, Florida,1111614,5,51147,South
+5, Illinois,875671,4,69566,Midwest
+6, Pennsylvania,788500,4,61682,Northeast
+7, Ohio,683460,3,58449,Midwest
+8, Washington,632013,3,82147,West
+9, Georgia,627667,3,58605,South
+10, New Jersey,625659,3,70438,Northeast
+11, North Carolina,594126,3,56045,South
+12, Massachusetts,590307,3,85631,Northeast
+13, Virginia,557986,3,64953,South
+14, Michigan,524828,3,52658,Midwest
+15, Maryland,427616,2,70612,Northeast
+16, Colorado,394271,2,67887,West
+17, Minnesota,379388,2,67071,Midwest
+18, Indiana,379293,2,56149,Midwest
+19, Arizona,378297,2,50973,West
+20, Tennessee,369063,2,53589,South
+21, Wisconsin,344500,2,59064,Midwest
+22, Missouri,325841,2,52968,Midwest
+23, Connecticut,283601,1,79730,Northeast
+24, Oregon,253849,1,59848,West
+25, South Carolina,245473,1,47043,South
+26, Louisiana,244577,1,52649,South
+27, Alabama,228062,1,46339,South
+28, Kentucky,213169,1,47611,South
+29, Utah,198630,1,61119,West
+30, Iowa,195353,1,61560,Midwest
+31, Oklahoma,186883,1,46886,South
+32, Nevada,175509,1,55925,West
+33, Kansas,175465,1,60218,Midwest
+34, District of Columbia,144653,1,191445,South
+35, Arkansas,130709,1,43130,South
+36, Nebraska,129761,1,66971,Midwest
+37, Mississippi,115900,1,39065,South
+38, New Mexico,100777,1,47845,West
+39, Puerto Rico,104989,0,31651,South
+40, Hawaii,89866,1,63870,West
+41, New Hampshire,86319,0,63178,Northeast
+42, Idaho,85552,0,46828,West
+43, West Virginia,74511,0,41747,Northeast
+44, Delaware,76468,0,77490,Northeast
+45, Maine,67129,0,49719,Northeast
+46, Rhode Island,61081,0,57780,Northeast
+47, South Dakota,55243,0,61881,Midwest
+48, North Dakota,54044,0,70613,Midwest
+49, Montana,51934,0,48061,West
+50, Alaska,50413,0,68949,West
+51, Wyoming,36000,0,61814,West
+52, Vermont,33278,0,53382,Northeast
+53, Guam,5920,0,35600,West
+54, U.S. Virgin Islands,3855,0,37000,South
+55, Northern Mariana Islands,1323,0,24500,West
+56, American Samoa,636,0,11200,West

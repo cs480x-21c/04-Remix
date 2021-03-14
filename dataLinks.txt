@@ -1,0 +1,14 @@
+Countries GDP:
+https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)
+
+US States GDP:
+Note - US State Data: GDP in the 3rd quarter of 2020 per capita (millions of current dollars)
+https://en.wikipedia.org/wiki/List_of_states_and_territories_of_the_United_States_by_GDP
+
+EU States GDP:
+Note - PRC Data: List of Chinese provinces by 2019 GDP per capita (millions of current dollars)
+https://en.wikipedia.org/wiki/Member_state_of_the_European_Union
+
+Chinese Admin Districts GDP:
+Note - EU GDP per capita December 2020 (millions of current dollars)
+https://en.wikipedia.org/wiki/List_of_Chinese_administrative_divisions_by_GDP_per_capita
