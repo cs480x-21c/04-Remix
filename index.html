@@ -1,5 +1,6 @@
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <div id="vis"></div>
+
 <script>
   
     var svg = d3.select("#vis")
@@ -117,6 +118,13 @@
           .style('fill', 'blue')
           .attr("stroke", "black")
           .attr("stroke-width", "2");
+
+      rightSVG.append('text')
+        .attr('class', 'title')
+        .attr('x', 200)
+        .attr('y', 50)
+        .text('Distribution of the character ' + String(character)+ ' across the english language')
+        .style('text-anchor', 'middle')
 
       rightSVG.append('text')
         .attr('class', 'title')
