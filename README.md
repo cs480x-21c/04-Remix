@@ -1,64 +1,38 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
-The primary aim of this assignment is to showcase your **individual** skills at critiquing, redesigning, and extending visualizations on the web.
-
-### Your Task
-
-Your task is to choose a visualization, remix it, and add at least two linked-views.
-
-By remix, we mean:
-
-- Critique the original vis
-- Redesign some aspect of it, using better task abstractions, encodings, etc.
-- Implement your redesign
-
-Examples of remixes include:
-- taking a static choropleth map with a bad color scale, implementing a new version in d3, adding interactivity, and improving the color scale to show the original data in a more effective way
-- finding a poorly designed or hard-to-use interactive visualization, and making a new version with better interaction design, such as features that enable the user to explore the data in new ways, by adding new views
-
-By two linked views, we mean:
-
-- Have two separate visualizations (likely separate SVGs), that visualize data using different idioms
-- Linked views means that interacting in one updates the other, and vice versa. Think about the interaction flow that leads to good user experience and aligns with tasks you've identified.
-
-Examples of linked views include:
-- A large central map or scatterplot, with ancillary histograms that can be used to filter-- perhaps time or other dimensions
-
-
-**Remember: the intent of this assignment is for you to demonstrate your understanding of the theory (e.g. concepts from Munzner's book) and practice (d3, and any tools you use for exploring the data) of visualization.**
-
-Incorporating a brief writeup with your remix is a good idea.
-Communicate what the original vis was, what the major issues were, and what new things can be seen with your redesign.
-You could have text directly on the page, an "info" button, an about page, etc.
-
-### More on Two Linked Views 
-One of the most powerful techniques for mitigating the shortcomings of a given visualization is to link it with other views.
-
-Linking a map to a bar or scatterplot, for instance, may allow you to overcome the shortcomings of a map.
-
-In general, linking visualizations allows you to explore different parts of the data between views, and mitigates the shortcomings of a given view by pairing it with other views.
-
-For this assignment, we want to see at least two linked views, in that interactions in one view updates the other, and vice versa. Many multiple views visualizations use more than two views, so consider such directions as possibilities for tech/design achievements. Be sure to think about what views work best for given tasks, and try to iterate/prototype if possible.
-
-Requirements
+Netflix Show Ratings History Visualization
 ---
 
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-1. Your project should load a dataset you found on the web from the vis you're remixing. You may extract the data by sight if necessary. Put this file in your repo.
-2. Your project should use d3 to build a visualization of the dataset. 
-3. Your writeup (readme.md in the repo) should contain the following:
+Screenshot: 
+<img src="screenshot.png">
 
-- Working link to the visualization hosted on gh-pages or other external sources.
-- Concise description and screenshot of your visualization.
-- Description of the technical achievements you attempted with this visualization.
-- Description of the design achievements you attempted with this visualization.
+Interactive online version of this visualization located at: https://jmckeen8.github.io/04-Remix/
 
-Extra Links
+This is an interactive visualization showing Netflix show content rating data between 2000 and 2020. It is based on this visualization: https://www.reddit.com/r/dataisbeautiful/comments/m2qmio/oc_netflix_has_become_increasingly_adultfocused/ and the data is source from https://www.kaggle.com/shivamb/netflix-shows.
+
+In this visualization, you can click on one of the bars for a year, and a pie chart will show up depicting the same rating percentage breakdown as the stacked bar chart, but more clearly. Then, you can roll your mouse over a particular pie slice to get a more detailed percentage breakdown of the rating sub-categories (R, PG, G, etc.). 
+
+I saw the original version this chart posted to the r/dataisbeautiful subreddit, and quite frankly I wasn't particularly impressed, which is why I wanted to remix it. The OP states that the orginal version was generated simply with Microsoft Excel, which isn't particularly surprising. I was not a fan of the original color scheme (which entirely consisted of shades of blue), nor was I a fan of the fact that there was no way to get a more detaied breakdown of the specific ratings within each category. That being said, I did like the use of the stacked bar chart for the type of data that was being displayed. 
+
+I decided to redo the stacked bar chart with a better color scheme and more clear legend as the remix, then added the secondary visualization (the pie chart with tooltips) for the interactive piece. This allows users to get a better idea of the breakdown within each year which, while pretty easy to see in the stacked bar chart, is even more clear using the secondary visualization. In addition, the secondary visualization interactive tooltips allow the user to explore further detail within the data for each year. The pie chart is also animated, showing smooth animations as the user moves from one year to the next, facilitating even easier comparisons between years as the user can see the pie slices changing size. 
+
+Design Achievements
 ---
+ - Utilizied more varied color scheme more appropriate for cateogorical data. In addition this color scheme was checked specifically to be easily viewable by those with colorblindness
+ - Incorporated animations for transitions between different pie charts while selecting different years. This allows users to easily track the changes of size in pie slices as they move between years
 
-- https://observablehq.com/@philippkoytek/d3-part-3-brushing-and-linking
-- https://bl.ocks.org/john-guerra/raw/2c00b2d675a6bf1c84a7b140f4536b0d/
-- https://github.com/d3/d3-brush
-- https://observablehq.com/collection/@d3/d3-brush
-- https://observablehq.com/@d3/focus-context?collection=@d3/d3-brush
+
+Tech Achievements
+---
+ - Incorporated tooltips that show up when the mouse cursor is hovered over a particular pie slice, showing a more detailed breakdown of the rating information for each category of rating. This was information that was not present in the original visualization and had to be obtained by manipulating the original dataset.
+
+
+Resources/Tutorials Consulted
+---
+ - https://stackoverflow.com/questions/11189284/d3-axis-labeling
+ - https://observablehq.com/@stefanreifenberg/basic-stacked-bar-chart-from-the-d3-js-gallery
+ - https://www.d3-graph-gallery.com/pie
+ - https://bl.ocks.org/mbostock/1346410
+ - https://stackoverflow.com/questions/59356095/error-when-transitioning-an-arc-path-attribute-d-expected-arc-flag-0-or = 
+ - https://www.webtips.dev/how-to-make-interactive-bubble-charts-in-d3-js (tooltips)
