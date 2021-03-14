@@ -20,11 +20,12 @@ I decided to redo the stacked bar chart with a better color scheme and more clea
 Design Achievements
 ---
  - Utilizied more varied color scheme more appropriate for cateogorical data. In addition this color scheme was checked specifically to be easily viewable by those with colorblindness
+ - Incorporated animations for transitions between different pie charts while selecting different years. This allows users to easily track the changes of size in pie slices as they move between years
 
 
 Tech Achievements
 ---
-
+ - Incorporated tooltips that show up when the mouse cursor is hovered over a particular pie slice, showing a more detailed breakdown of the rating information for each category of rating. This was information that was not present in the original visualization and had to be obtained by manipulating the original dataset.
 
 
 Resources/Tutorials Consulted
