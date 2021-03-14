@@ -1,0 +1,68 @@
+{
+  "Equal_Temperament_Difference":
+  {
+    "A": 0,
+    "G#": 1.955,
+    "G": 3.910,
+    "F#": -1.955,
+    "F": 7.820,
+    "E": -1.955,
+    "Eb": 3.910,
+    "D": 1.955,
+    "C#": 0,
+    "C": 5.865,
+    "B": -3.910,
+    "Bb": 5.865
+  },
+  "Major_Thirds":
+  {
+    "C E":
+    {
+      "size_in_cents": 392.18000
+    },
+    "G B":
+    {
+      "size_in_cents": 392.18000
+    },
+    "D F#":
+    {
+      "size_in_cents": 396.09000
+    },
+    "A C#":
+    {
+      "size_in_cents": 400.00000
+    },
+    "E G#":
+    {
+      "size_in_cents": 403.91000
+    },
+    "B D#":
+    {
+      "size_in_cents": 407.82000
+    },
+    "F# A#":
+    {
+      "size_in_cents": 407.82000
+    },
+    "Db F":
+    {
+      "size_in_cents": 407.82000
+    },
+    "Ab C":
+    {
+      "size_in_cents": 403.91000
+    },
+    "Eb G":
+    {
+      "size_in_cents": 400.00000
+    },
+    "Bb D":
+    {
+      "size_in_cents": 396.09000
+    },
+    "F A":
+    {
+      "size_in_cents": 392.18000
+    }
+  }
+}
