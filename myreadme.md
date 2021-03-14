@@ -24,9 +24,15 @@ I scrapped everything I had and came to design number three: the chloropleth. I 
 
 In my original reflection, I also noted that the "female"-shaped icons were misleading due to inappropriate scaling, and that bar graphs would be better. However, upon further thought, I realized that the "female"-shaped icons were actually not inherently wrong; rather, the problem was in the axes. The icons actually work quite well to help the viewer properly visualize height differences, so I created my own to use in the comparison on the right half of the screen. //TODO FINISH THIS
 
+Technical Achievements
+---
+
+I haven't previously worked with tooltips or chloropleths. As such, making either of them work was a pretty big achievement for me, not to mention making them work together. I heavily referenced online resources for both (listed below in section Sources), but ultimately ended up writing a ton of my own code to get it all to function exactly how I wanted. As much as d3 commands still sort of feel like a mysterious blob, I definitely have a strong grasp on its overall workings now.
+
 Sources
 ---
 
 Chloropleth reference: https://www.d3-graph-gallery.com/graph/choropleth_hover_effect.html
+Tooltip reference: https://bl.ocks.org/mbostock/1087001
 Height data: https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)31859-6/fulltext
 Country codes: https://www.iban.com/country-codes

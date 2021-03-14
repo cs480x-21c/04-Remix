@@ -57,8 +57,10 @@
     .defer(d3.csv, "data.csv", function(d) { data.set(d.ID, +d.Value) })
     .await(ready);
 
+  // LOADING EVERYTHING...
   function ready(error, topo) {
 
+    // mouseover function (highlight + show tooltip)
     let mouseOver = function(d) {
       d3.selectAll(".Country")
         .transition().duration(200)
@@ -72,11 +74,13 @@
       tooltip.style("visibility", "visible");
     }
 
+    // mousemove function (change text if needed, tooltip follow)
     let mouseMove = function(d) {
         tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
         .text(data.get(d.name) + ": " + data.get(d.id) + "cm");
     }
 
+    // mouseleave function (return map to normal, hide tooltip)
     let mouseLeave = function(d) {
       d3.selectAll(".Country")
         .transition()
@@ -96,15 +100,16 @@
       .data(topo.features)
       .enter()
       .append("path")
-        // draw each country
+        // Draw each country
         .attr("d", d3.geoPath()
           .projection(projection)
         )
-        // set the color of each country
+        // Set the color of each country
         .attr("fill", function (d) {
           d.total = data.get(d.id) || 0;
           return colorScale(d.total);
         })
+        //Other customization
         .style("stroke", "transparent")
         .attr("class", function(d){ return "Country" } )
         .style("opacity", .8)
