@@ -1,21 +1,36 @@
+/**
+ * VisMaker.js
+ * date created: 3/9/2021
+ * Author: Benjamin M'Sadoques
+ *
+ * An absolute mess of a class, it's really bad, ran out of time to refactor it. May do later
+ * Provides the drawing for both the top and bottom vis
+ */
+
 const WHITE_KEY = 0;
 const BLACK_KEY = 1;
 
 const WHITE_KEYS_PER_OCTAVE = 7;
 const BLACK_KEYS_PER_OCTAVE = 5;
 
-const layout = {topViz:{top: 50, bottom: 10, left: 10, right: 10},
-    bottomVis:{top: 30, bottom: 120, left: 60, right: 10, leftAxisText: 40, bottomAxisText: 80, bottomTickPadding: 40, 
-        textBox: {yAdjust: 8, width: 80, height: 100}}, 
+const layout = 
+{
+    topViz: {top: 50, bottom: 10, left: 10, right: 10},
+    bottomVis: {top: 30, bottom: 120, left: 60, right: 10, leftAxisText: 40, bottomAxisText: 80, bottomTickPadding: 40, 
+    textBox:  {yAdjust: 8, width: 80, height: 100}}, 
     division: 250, width: 1300, height: 900, 
-    text: 20};
+    text: 20
+};
 
 const style = {font: "bold 14px Open Sans, Helvetica, Arial, sans"}
 
-const keyboard = {blackKeys: {heightReduce: 2, widthReduce: 2, color: "#FFFFFF"},
-     K: 1, whiteKeys: {color: "#FFFFFF"}, 
-     startKey: "C", octaves: 2, keysPerOctave: 12, concertPitch: 3520.0,
-     text: {}};
+const keyboard = 
+{
+    blackKeys: {heightReduce: 2, widthReduce: 2, color: "#FFFFFF"},
+    K: 1, whiteKeys: {color: "#FFFFFF"}, 
+    startKey: "C", octaves: 2, keysPerOctave: 12, concertPitch: 3520.0,
+    text: {}
+};
 
 let svg;
 
@@ -32,7 +47,10 @@ let gKeyColorT;
 // Sound 
 let gKeyPlayer;
 
-
+/**
+ * Makes the whole vis, extracting all the data from gData
+ * @param {number} selectedIndex data index to make
+ */
 function makeVis(selectedIndex)
 {      
     // Major thirds are used to create the circle vis
@@ -53,6 +71,10 @@ function makeVis(selectedIndex)
     softRemakeVis();
 }
 
+/**
+ * Smaller remake function, used for when something changes
+ * that does not require extracing data from gData
+ */
 function softRemakeVis()
 {
     // colors need to be updated if thirds are updated
@@ -72,6 +94,12 @@ let neutralKeyColor = d3.scaleOrdinal()
         .domain([WHITE_KEY, BLACK_KEY])
         .range([keyboard.blackKeys.color, keyboard.whiteKeys.color]);
 
+/**
+ * Determins the key color
+ * @param {*} key 
+ * @param {*} keyType 
+ * @returns the color in hex or rgb() form
+ */
 function keyColor(key, keyType)
 {   
     if (noteIsInMajorScale(key, gCurrentKey))
@@ -84,6 +112,11 @@ function keyColor(key, keyType)
     }
 }
 
+/**
+ * Determins the circle color
+ * @param {*} key 
+ * @returns the color in hex or rgb() form
+ */
 function circleColor(key)
 {
     // If the key matches the current key color
@@ -97,11 +130,20 @@ function circleColor(key)
     }
 }
 
+/**
+ * Determines the rectangle color
+ * @param {*} key 
+ * @returns the color in hex or rgb() form 
+ */
 function rectangleColor(key)
 {
     return d3.interpolateSpectral(gKeyColorT[key]);
 }
 
+/**
+ * Makes the first keyboard vis
+ * This one's quite long
+ */
 function makeKeyboardVis()
 {
     svg.append("text")
@@ -198,6 +240,10 @@ function makeKeyboardVis()
     drawVisKeys(drawKey);
 }
 
+/**
+ * Draws all the keys, white then black keys
+ * @param {*} drawKey function used to draw keys
+ */
 function drawVisKeys(drawKey)
 {
     // Key drawing must be done white then black, becaus SVGs follow painter's algorithm
@@ -223,7 +269,8 @@ function drawVisKeys(drawKey)
 }
 
 /**
- * 
+ * Makes the bottom vis histogram
+ * This one's also quite long
  */
 function makeHistogram()
 {
@@ -315,7 +362,10 @@ function makeHistogram()
     }
 }
 
-
+/**
+ * Changes the cents values for when someone tries to update them
+ * @param {*} input input html element
+ */
 function changeCentsValue(input)
 {
     let inputValue = parseFloat(input.value);

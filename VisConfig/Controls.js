@@ -1,4 +1,12 @@
 /**
+ * Controls.js
+ * date created: 3/10/2021
+ * Author: Benjamin M'Sadoques
+ *
+ * Provies all the control functions for the vis
+ */
+
+/**
  * Keyboard mouse over control
  * Makes the color darker by 1/2 k
  * @param {event} e mouse event
@@ -39,12 +47,20 @@ function key_mouseDown(e)
     playPitch(gNoteTable[this.id.split("#")[1]].frequency);
 }
 
+/**
+ * Makes the text playable
+ * @param {event} e mouse event
+ */
 function text_MouseDown(e)
 {
    // Play sound, use ID to get the frequency froom the note table
    playPitch(gNoteTable[this.id.split("#")[1]].frequency);
 }
 
+/**
+ * Makes the text playable
+ * @param {event} e mouse event
+ */
 function text_mouseUp(e)
 {
     if (!e.ctrlKey)
@@ -115,6 +131,10 @@ function window_keyup(e)
     }
 }
 
+/**
+ * Controls switching the keys when one of the circles is clicked
+ * @param {event} e mouse event
+ */
 function circle_mouseClick(e)
 {
     // Change the current key to the one clicked (encoded in the Circle's ID)

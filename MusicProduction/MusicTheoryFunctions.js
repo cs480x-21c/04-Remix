@@ -1,5 +1,13 @@
+/**
+ * MusicTheoryFunctions.js
+ * date created: 3/10/2021
+ * Author: Benjamin M'Sadoques
+ *
+ * Provies all the music theory functionality needed for the project
+ */
 
 const SYNTONIC_COMMA_CENTS = 21.5069;
+
 // A Major third becomes a wolf when altered by more than a syntonic comma
 const MAJOR_THIRD_UPPER_WOLF = Math.log2(5/4)*1200 + SYNTONIC_COMMA_CENTS;
 const MAJOR_THIRD_LOWER_WOLF = Math.log2(5/4)*1200 - SYNTONIC_COMMA_CENTS;
@@ -9,7 +17,7 @@ const MAJOR_THIRD_LOWER_WOLF = Math.log2(5/4)*1200 - SYNTONIC_COMMA_CENTS;
  * Depends on the equal temperament difference
  * @param {*} equalTemperamentDifference object that contains
  *  notes and the difference in cents between that note and equal temperament
- * @returns 
+ * @returns the now global note table
  */
 function makeNoteTable(equalTemperamentDifference)
 { 
@@ -58,9 +66,9 @@ function makeNoteTable(equalTemperamentDifference)
 
 /**
  * Checks if the note is in the musical key
- * @param {"*"} note 
- * @param {"*"} key 
- * @returns 
+ * @param {"*"} note to check
+ * @param {"*"} key to check against
+ * @returns true if the note is in the major scale of the key
  */
 function noteIsInMajorScale(note, key)
 {
@@ -82,8 +90,8 @@ function centsToScale(n)
 /**
  * Creates the keyboard layout based on the keyboard parameters
  * Also gets the frequencies for equal temperament
- * @param {*} keyboardLayout pointer for place the keyboard layout
- * @param {*} equalTemperament pointer ro
+ * @param {*} keyboardLayout pointer for the keyboard layout
+ * @param {*} equalTemperament pointer for equal temperament 
  */
 function makeKeyboardLayout(keyboardLayout, equalTemperament)
 {
@@ -118,9 +126,9 @@ function getKeyType(kName)
 }
 
 /**
- * 
- * @param {*} noteString 
- * @returns 
+ * Gets the note from string
+ * @param {*} noteString note string such as 'C E'
+ * @returns the note string for the index number
  */
 function getNoteString(noteString, number)
 {
@@ -128,9 +136,9 @@ function getNoteString(noteString, number)
 }
 
 /**
- * Makes the key color values based on 
- * @param {} majorThirds 
- * @returns 
+ * Makes the key color values based on the major third spacing
+ * @param {} majorThirds global major thirds to use to make the colors
+ * @returns the global color array used for coloring everything
  */
 function makeKeyColors(majorThirds)
 {
@@ -161,6 +169,16 @@ function makeKeyColors(majorThirds)
     return Object.fromEntries(spacingArray);
 }
 
+/**
+ * Updates the current well temperament
+ * Maintains that the major thirds do not become wolf tones
+ * @param {*} inputValue 
+ * @param {*} inputId 
+ * @param {*} scale 
+ * @param {*} firstNote 
+ * @param {*} secondNote 
+ * @param {*} previousValue 
+ */
 function updateWellTemperament(inputValue, inputId, scale, firstNote, secondNote, previousValue)
 {
     // Try to Update the next Major 3rd spacing above the current spacing
@@ -189,6 +207,7 @@ function updateWellTemperament(inputValue, inputId, scale, firstNote, secondNote
         }
     }
 
+    // We know for sure the user entered value will not create a wolf third
     if (changeIsOkay)
     {
         // Update the first major 3rd spacing to the new one
@@ -207,7 +226,7 @@ function updateWellTemperament(inputValue, inputId, scale, firstNote, secondNote
                 }
                 catch (e)
                 {
-                // Change failed, but that's okay, those notes do not exist
+                    // Change failed, but that's okay, those notes do not exist
                 }
             }
         }

@@ -1,5 +1,15 @@
+/**
+ * AudioFactory.js
+ * date created: 3/10/2021
+ * Author: Benjamin M'Sadoques
+ *
+ * Provies all the audio settings for the keyboard
+ */
 
-
+/**
+ * Sets up the keyboard audio
+ * @returns the global key player to play/stop
+ */
 function setupKeyboardAudio()
 {
     let env = {attack: 0.01, decay: 0.005, sustain: 0.2, hold: -1, release: 0.3};
@@ -9,6 +19,7 @@ function setupKeyboardAudio()
     var sawtooth = new Wad({source : 'sawtooth' , env});
     var triangle = new Wad({source : 'triangle', env});
 
+    // Make all three combination wave forms
     let waveform = new Wad.Poly({
         filter  : [{
             type      : 'bandpass',
@@ -36,7 +47,6 @@ function setupKeyboardAudio()
     });
     waveform3.add(triangle);
     
-    // TODO: adjust filtering to get rid of audio conflicting
     keyPlayer = new Wad.Poly({
         filter  : [{
             type      : 'bandpass',
@@ -45,6 +55,7 @@ function setupKeyboardAudio()
         }]
     });
 
+    // Compression
     let compressor = new Wad.Poly({
         compressor : {
             attack    : .003, // The amount of time, in seconds, to reduce the gain by 10dB. This parameter ranges from 0 to 1.
@@ -58,10 +69,14 @@ function setupKeyboardAudio()
     return keyPlayer;
 }
 
+/**
+ * Plays the frequency and a few overtones
+ * @param {number} frequency to play
+ */
 function playPitch(frequency)
 {
     gKeyPlayer.wads[1].play({ pitch : frequency, label : "p1"});
     gKeyPlayer.wads[2].play({ pitch : frequency * 2, label : "p1"});
-    gKeyPlayer.wads[3].play({ pitch : frequency * 8, label : "p1"});
+    gKeyPlayer.wads[3].play({ pitch : frequency * 4, label : "p1"});
     gKeyPlayer.setVolume(1, "p1");
 }
