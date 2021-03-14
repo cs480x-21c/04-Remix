@@ -244,7 +244,7 @@ function makeHistogram()
     // y axis
     let yScale = d3.scaleLinear()
         .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
-        .range([((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom, layout.bottomVis.top]);
+        .range([((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom, 0]);
 
     // Y axis
     svg.append("g")
@@ -260,14 +260,34 @@ function makeHistogram()
         .attr("transform", "rotate(270, " + (layout.bottomVis.left - layout.bottomVis.leftAxisText) + ", "
          + ((layout.height - layout.division) - layout.bottomVis.top) + ")");
 
+    var histogram = d3.histogram()
+         .value(function(d) { return d.size_in_cents; })   // I need to give the vector of value
+         .domain([386.31371, 407.82])  // then the domain of the graphic
+         .thresholds(13); // then the numbers of bins
+   
+     // And apply this function to data to get the bins
+    var bins = histogram(sizesInCents);
+
+    // Already have the bins I want, but could not get 
+    // histogram to make correct bins
+    // svg.selectAll("rect")
+    // .data(bins)
+    // .enter()
+    // .append("rect")
+    //   .attr("x", 1)
+    //   .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+    //   .attr("width", function(d) { return xScale(d.x1) - xScale(d.x0) -1 ; })
+    //   .attr("height", function(d) { return layout.height - y(d.length); })
+    //   .style("fill", "#69b3a2")
+
 
     let heightScale = d3.scaleLinear()
         .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
         .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom])
 
     let yDataScale = d3.scaleLinear()
-        .domain([407.82, 386.31371]) // , 
-        .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom - yScale(386.31371)])
+        .domain([MAJOR_THIRD_UPPER_WOLF, MAJOR_THIRD_LOWER_WOLF]) 
+        .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom])
 
     // Draw the text boxes, used for changing the chart
     // Also draw the (mostly invisible) circles used for selecting the key
