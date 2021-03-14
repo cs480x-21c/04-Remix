@@ -9,7 +9,9 @@
 
   <body>
     <h1>Remix: Average Female Height Per Country</h1>
-    <button>test</button>
+    <p>A darker shade on the chloropleth indicates a taller average height.</p>
+    <p>[add a key here.]</p>
+    <button>Refresh</button>
     <p></p>
     <svg id="heightvis" width="1000" height="700"></svg>
     <svg id="comparevis" width="300" height="700"></svg>
@@ -37,7 +39,7 @@
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([150, 153, 156, 159, 162, 165, 168, 170])
-    .range(["#FFD6E7", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794"]);
+    .range(["#000000", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794"]);
 
   // Define tooltip
   var tooltip = d3.select("body")
@@ -46,7 +48,7 @@
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
-    .style("background", "#FFFFFF")
+    .style("background", "#FFD6E7")
     .text("No data.")
     .style("padding", "10px")
 
