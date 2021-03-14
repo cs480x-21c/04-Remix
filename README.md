@@ -3,7 +3,7 @@ Assignment 4 - DataVis Remix + Multiple Views
 
 Project by Benjamin M'Sadoques
 
-Link To Working Vis:
+Link To Working Vis: https://bgmsadoques-wpi.github.io/04-Remix/
 
 (No link to the origional vis can be provided since it is in a book)
 
@@ -49,6 +49,8 @@ where users can select which key to view in the top vis by clicking on the major
 <p>To help the user compare different well temperaments, I added a simple drop down menu to select different well temperaments from the book. I did not include all the well temperaments from the book due to time constraints.</p>
 
 ![dropDown](img/wellTemperamentDropDown.png)
+
+<p>I do not think anything I did qualifies as a technical achievement, and I have no time to write about it</p>
 
 
 Sources:
