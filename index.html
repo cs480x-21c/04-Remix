@@ -10,11 +10,13 @@
   <body>
     <h1>Remix: Average Female Height Per Country</h1>
     <p>A darker shade on the chloropleth indicates a taller average height.</p>
-    <p>[add a key here.]</p>
-    <button>Refresh</button>
+    <p></p>
+    <img src="img/key.png">
+    <p></p>
+    <button onclick="refresh()">Refresh Bars</button>
     <p></p>
     <svg id="heightvis" width="1000" height="700"></svg>
-    <svg id="comparevis" width="300" height="700"></svg>
+    <svg id="comparevis"></svg>
 
   <script>
   /**********
@@ -39,7 +41,7 @@
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([150, 153, 156, 159, 162, 165, 168, 170])
-    .range(["#000000", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794"]);
+    .range(["#a690a6", "#FFC2DB", "#FFADCF", "#FF99C3", "#FF85B8", "#FF70AC", "#FF4794", "#F50066"]);
 
   // Define tooltip
   var tooltip = d3.select("body")
@@ -127,9 +129,9 @@
   *
   **********/
 
-  function GetSelectedCountries(d) {
-      //TODO: slurp up the selected countries. currently dummy variables
-
+  function refresh() {
+      comparevis.remove();
+      addComparevis();
   }
 
   // set the dimensions and margins of the graph
@@ -144,19 +146,23 @@
   var y = d3.scaleLinear()
             .range([barHeight, 0]);
 
+  addComparevis();
+
+  function addComparevis() {
   // Slap the svg onto the page
-  var comparevis = d3.select("body").append("svg")
+  var comparevis = d3.select("body")
+      .append("svg")
       .attr("width", barWidth + barMargin.left + barMargin.right)
       .attr("height", barHeight + barMargin.top + barMargin.bottom)
     .append("g")
       .attr("transform",
             "translate(" + barMargin.left + "," + barMargin.top + ")");
 
-  // get the data
+  // Get the data
   d3.csv("pulled-data.csv", function(error, data) {
     if (error) throw error;
 
-    // format the data
+    // Format data
     data.forEach(function(d) {
       d.Value = +d.Value;
     });
@@ -187,6 +193,7 @@
         .ticks(20);
 
   });
+  }
 
   </script>
   </body>
