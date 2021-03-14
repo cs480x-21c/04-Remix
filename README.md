@@ -67,3 +67,6 @@ Resources Used
 ---
 https://stackoverflow.com/questions/11189284/d3-axis-labeling
 https://observablehq.com/@stefanreifenberg/basic-stacked-bar-chart-from-the-d3-js-gallery
+https://www.d3-graph-gallery.com/pie
+https://bl.ocks.org/mbostock/1346410
+https://stackoverflow.com/questions/59356095/error-when-transitioning-an-arc-path-attribute-d-expected-arc-flag-0-or
