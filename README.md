@@ -3,7 +3,8 @@ Assignment 4 - DataVis Remix + Multiple Views
 
 Original:
 ![original chart](img/original.png)
-*Source unknown - it was sent to me by a friend, who found it on Twitter, but not from the original source. I tried finding it through reverse image search, but turned up nothing. I used the same image for my Week 3 reflection.
+
+Source unknown - it was sent to me by a friend, who found it on Twitter, but not from the original source. I tried finding it through reverse image search, but turned up nothing. I used the same image for my Week 3 reflection.
 
 Preview:
 ![overview of remix](img/overview.png)
