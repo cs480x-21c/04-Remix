@@ -1,0 +1,146 @@
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<div id="vis"></div>
+
+
+<h3> About the VIS </h3>
+<p>
+  The vis shown above is the remix of letter frequency in the english language. The original vis was non-interactive and did not have any diversee colors within it. Issues stemed from hard
+  to read data as well as just raw numbers being presented rather than the numbers being visual represented. The biggest changed I wanted to make was to use a pie chart rather than using just
+  the raw numbers like in the original visualization. On the right side, it is displayed when you hover over a certain portion of the pie chart is a Distribution bar chart of where the letters
+  fall within words of the english language.
+</p>
+
+<script>
+  
+    var svg = d3.select("#vis")
+    .append('svg')
+    .attr('height', 800)
+    .attr('width', 800)
+    .attr('id', 'newSVG')
+
+    var rightSVG = d3.select('#vis')
+      .append('svg')
+      .attr('height', 800)
+      .attr('width', 800)
+      //.attr('transform', 'translate(' + 400 + ")" )
+    
+    // Array stores the letter % in the english language from A - Z 
+    const letterData = [8.05,1.83,4.09,3.44,10.98,1.17,2.8,2.47,9.08,0.18,0.82,5.28,2.92,6.94,6.44,2.98,0.18,7.07,8.89,6,6.9,3.53,0.72,0.28,1.68,0.51]
+
+    const frequencyJSON = {
+      a: [10,15,10,10,10,15,10,10,5],
+      b: [5,.1,1,1,1,1,.1,.1],
+      c: [5,2.5,5,2.5,2.5,2.5,2.5,1,1],
+      d: [5,1,2.5,2.5,2.5,1,1,1,5],
+      e: [5,10,5,5,5,5,15,40,10],
+      f: [10,1,5,5,5,5,2.5,1,1],
+      g: [5,1,1,5,5,5,2.5,2.5,2.5],
+      h: [10,10,5,10,10,10,5,5,5],
+      i: [2.5,5,5,5,15,15,40,5,1],
+      j: [5,1,2.5,2.5,1,1,1,2.5,1],
+      k: [2.5,2.5,2.5,2.5,1,1,1,1,1],
+      l: [5,5,10,10,10,10,10,10,5],
+      m: [10,2.5,5,5,5,5,2.5,2.5,2.5],
+      n: [2.5,10,10,10,10,10,10,30,5],
+      o: [5,20,10,10,10,10,10,10,1],
+      p: [10,5,5,5,5,2.5,2.5,1,1],
+      q: [2.5,1,1,1,1,1,1,1,1],
+      r: [10,10,10,10,10,10,5,10,10],
+      s: [10,2.5,5,5,5,2.5,5,5,50],
+      t: [5,2.5,5,5,5,5,5,5,5],
+      u: [2.5,5,2.5,2.5,2.5,2.5,5,2.5,1],
+      v: [2.5,2.5,2.5,2.5,1,1,1,1,1],
+      w: [5,1,2.5,2.5,2.5,2.5,1,1,1],
+      x: [1,2.5,1,1,1,1,1,1,1,1],
+      y: [1,5,2.5,2.5,2.5,2.5,2.5,1,10],
+      z: [1,1,1,1,5,5,10,2.5,1],
+    }
+
+    var pieData = d3.pie()
+    .sort(null).value(function(d) {return d.value})
+
+    var data = {
+      children: letterData.map(function (element, index) {
+        return {key: String.fromCharCode(index + 65), value: element};
+      })
+    }
+
+    console.log(data)
+    console.log(svg)
+
+    var myColor = d3.scaleOrdinal().domain(letterData).range(d3.schemeSet3)
+
+    var rawData = data.children
+    var readyData = pieData(rawData)
+    var chartRadius = 300
+
+    var arcs = d3.arc()
+      .innerRadius(0)
+      .outerRadius(chartRadius)
+    
+    // Build Pi Chart
+    svg.selectAll('path')
+      .data(readyData)
+      .enter()
+      .append('path')
+      .attr('d', arcs)
+      .attr("fill",function(d,i){return myColor(i);})
+      .attr('stroke', 'black')
+      .attr('id', function(d) {return d.data.key})
+      .attr("transform", "translate(" + 400 + "," + 500 + ")")
+      .on('mouseover', function(d) { 
+        //console.log(d3.select(this).datum().data.key)
+        renderBarChart(d3.select(this).datum().data.key)
+       })
+  
+
+    svg.selectAll('text')
+      .data(readyData)
+      .enter()
+      .append('text')
+      .text(function(d) {return d.data.key})
+      .attr('transform', function(d) {return "translate(" + arcs.centroid(d) + ")translate(" + 400 + "," + 500 + ")"})
+
+    svg.append('text')
+      .attr('class', 'title')
+      .attr('x', 400)
+      .attr('y', 50)
+      .text('Hover over a section to see more details!')
+      .style('text-anchor', 'middle')
+
+
+    // Bar Chart
+    function renderBarChart(character) {
+
+      // Clear Graph
+      rightSVG.selectAll("*").remove();
+
+      // Replace the testJSON selector with the input of character
+      rightSVG.selectAll('bar')
+        .data(frequencyJSON[String(character).toLowerCase()])
+        .enter()
+        .append('rect')
+          .attr('x', function(d,i) {return (i * 40)})
+          .attr('y', function(d) {return 600 - (d * 10)})
+          .attr('width', 25)
+          .attr('height',  function(d) {return d *100})
+          .style('fill', 'blue')
+          .attr("stroke", "black")
+          .attr("stroke-width", "2");
+
+      rightSVG.append('text')
+        .attr('class', 'title')
+        .attr('x', 200)
+        .attr('y', 50)
+        .text('Distribution of the character ' + String(character)+ ' across the english language')
+        .style('text-anchor', 'middle')
+
+      rightSVG.append('text')
+        .attr('class', 'title')
+        .attr('x', 200)
+        .attr('y', 50)
+        .text('Distribution of the character ' + String(character)+ ' across the english language')
+        .style('text-anchor', 'middle')
+    }
+
+</script>
