@@ -7,7 +7,11 @@ function key_mouseOver(e)
 {
     try
     {
-        // color adjust
+        // Color Reset
+        let key = gNoteTable[this.id.split("#")[1]].key;
+        this.style.fill = keyColor(key, getKeyType(key));
+
+        // Color adjust
         this.style.fill = d3.color(this.style.fill).darker(keyboard.K * 0.5);
     }
     catch (e) {} // doesn't apply to keys
@@ -22,6 +26,10 @@ function key_mouseDown(e)
 {
     try
     {
+        let key = gNoteTable[this.id.split("#")[1]].key;
+        this.style.fill = keyColor(key, getKeyType(key));
+
+
         // color adjust
         this.style.fill = d3.color(this.style.fill).darker(keyboard.K);
     }
@@ -29,6 +37,20 @@ function key_mouseDown(e)
 
     // Play sound, use ID to get the frequency froom the note table
     playPitch(gNoteTable[this.id.split("#")[1]].frequency);
+}
+
+function text_MouseDown(e)
+{
+   // Play sound, use ID to get the frequency froom the note table
+   playPitch(gNoteTable[this.id.split("#")[1]].frequency);
+}
+
+function text_mouseUp(e)
+{
+    if (!e.ctrlKey)
+    {
+        gKeyPlayer.stop("p1");
+    }
 }
 
 /**
@@ -40,10 +62,16 @@ function key_mouseLeave(e)
 {
     try
     {
-        // color adjust
-        this.style.fill = d3.color(this.style.fill).brighter(keyboard.K * 0.5);
+        // Color Reset
+        let key = gNoteTable[this.id.split("#")[1]].key;
+        this.style.fill = keyColor(key, getKeyType(key));
     }
     catch (e) {} // doesn't apply to keys
+
+    if (!e.ctrlKey)
+    {
+        gKeyPlayer.stop("p1");
+    }
 }
 
 /**

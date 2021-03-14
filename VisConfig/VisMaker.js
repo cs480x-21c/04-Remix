@@ -168,6 +168,7 @@ function makeKeyboardVis()
 
     let drawKey = (key, keyType, keyIndex) =>
     {
+        // Key itself
         svg.append("rect")
             .attr("id", "#" + keyIndex)
             .attr("x", keyxArray[keyIndex]) 
@@ -182,7 +183,7 @@ function makeKeyboardVis()
             .on("mouseleave", key_mouseLeave)
             .on("mouseenter", key_mouseOver);
 
-        // TODO: somehow make the text non-selectable, at least it can be played
+        // Key labels
         svg.append("text")
             .attr("id", "#" + keyIndex)
             .attr("x", keyText(keyType, keyIndex))
@@ -190,10 +191,8 @@ function makeKeyboardVis()
             .attr("text-anchor", "middle")
             .style("font", style.font)
             .text(key)
-            .on("mousedown", key_mouseDown)
-            .on("mouseup", key_mouseUp)
-            .on("mouseleave", key_mouseLeave)
-            .on("mouseenter", key_mouseOver);
+            .on("mousedown", text_MouseDown)
+            .on("mouseup", text_mouseUp);
     }
 
     drawVisKeys(drawKey);
