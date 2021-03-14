@@ -7,7 +7,8 @@ const BLACK_KEYS_PER_OCTAVE = 5;
 const layout = {topViz:{top: 50, bottom: 10, left: 10, right: 10},
     bottomVis:{top: 30, bottom: 120, left: 60, right: 10, leftAxisText: 40, bottomAxisText: 80, bottomTickPadding: 40, 
         textBox: {yAdjust: 8, width: 80, height: 100}}, 
-    division: 250, width: 1300, height: 900};
+    division: 250, width: 1300, height: 900, 
+    text: 20};
 
 const style = {font: "bold 14px Open Sans, Helvetica, Arial, sans"}
 
@@ -103,6 +104,12 @@ function rectangleColor(key)
 
 function makeKeyboardVis()
 {
+    svg.append("text")
+        .attr("x", "50%")
+        .attr("y",  layout.text)
+        .attr("text-anchor", "middle")
+        .text("Note: Press the Ctrl/Cmd key to sustain any keys pressed");
+
     gKeyPlayer = setupKeyboardAudio();
 
     let whiteKeyWidth = ((layout.width - layout.topViz.left) - layout.topViz.right) / (WHITE_KEYS_PER_OCTAVE * keyboard.octaves);
@@ -216,6 +223,9 @@ function drawVisKeys(drawKey)
     }
 }
 
+/**
+ * 
+ */
 function makeHistogram()
 {
     //gKeyColorT
@@ -242,6 +252,7 @@ function makeHistogram()
         .text("Major Thirds");
 
     // y axis
+    // The axis is not meant to match the data, it is really a threshold for the data
     let yScale = d3.scaleLinear()
         .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
         .range([((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom, 0]);
@@ -260,27 +271,6 @@ function makeHistogram()
         .attr("transform", "rotate(270, " + (layout.bottomVis.left - layout.bottomVis.leftAxisText) + ", "
          + ((layout.height - layout.division) - layout.bottomVis.top) + ")");
 
-    var histogram = d3.histogram()
-         .value(function(d) { return d.size_in_cents; })   // I need to give the vector of value
-         .domain([386.31371, 407.82])  // then the domain of the graphic
-         .thresholds(13); // then the numbers of bins
-   
-     // And apply this function to data to get the bins
-    var bins = histogram(sizesInCents);
-
-    // Already have the bins I want, but could not get 
-    // histogram to make correct bins
-    // svg.selectAll("rect")
-    // .data(bins)
-    // .enter()
-    // .append("rect")
-    //   .attr("x", 1)
-    //   .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-    //   .attr("width", function(d) { return xScale(d.x1) - xScale(d.x0) -1 ; })
-    //   .attr("height", function(d) { return layout.height - y(d.length); })
-    //   .style("fill", "#69b3a2")
-
-
     let heightScale = d3.scaleLinear()
         .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
         .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom])
@@ -295,11 +285,11 @@ function makeHistogram()
     {
         let xPosition = xScale(labels[i])
 
-        // Bar
+        // Bar, not the way I wanted to make a histogram, but I had a hard time doing it the better d3 way
         svg.append("rect")
-            .attr("x", xPosition)
+            .attr("x", xPosition + 1)
             .attr("y", yDataScale(sizesInCents[i].size_in_cents) + layout.division + layout.bottomVis.top)
-            .attr("width", layout.bottomVis.textBox.width + 10)
+            .attr("width", layout.bottomVis.textBox.width + 8)
             .attr("height", heightScale(sizesInCents[i].size_in_cents))
             .attr("fill", rectangleColor(getNoteString(labels[i], 0)))
         

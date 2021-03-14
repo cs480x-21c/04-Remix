@@ -6,7 +6,9 @@
 
     <!-- Api's/Libraries that I used -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
+    <!-- Used for music theory, but I still had to do a lot of other musical theory that was not covered by it -->
     <script src="teoria-master/teoria.js"></script>
+    <!-- Used for audio -->
     <script src="https://unpkg.com/web-audio-daw@4.11.0/build/wad.js"></script>
 
     <script src="VisConfig/Controls.js"></script>
@@ -15,15 +17,16 @@
     <script src="MusicProduction/AudioFactory.js"></script>
     <script src="main.js"></script>
 
+    <link rel="stylesheet" href="styles/styles.css">
+
 </head>
       
     <body onload="main()">
-        <div>
+        <div class="center">
             <label for="selectSystem">Choose a Well Temperament System:</label>
             <select name="selectSystem" id="selectSystem" onchange="makeVis(this.selectedIndex);">
             </select>
             <svg id="first_vis" tabindex="1"></svg>
-            <div id="my_dataviz"></div>
         </div>
     </body>
 </html>
