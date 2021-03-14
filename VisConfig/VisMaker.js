@@ -6,7 +6,7 @@ const BLACK_KEYS_PER_OCTAVE = 5;
 
 const layout = {topViz:{top: 50, bottom: 10, left: 10, right: 10},
     bottomVis:{top: 30, bottom: 120, left: 60, right: 10, leftAxisText: 40, bottomAxisText: 80, bottomTickPadding: 40, 
-        textBox: {yAdjust: 10, width: 80, height: 100}}, 
+        textBox: {yAdjust: 8, width: 80, height: 100}}, 
     division: 250, width: 1300, height: 900};
 
 const style = {font: "bold 14px Open Sans, Helvetica, Arial, sans"}
@@ -71,30 +71,35 @@ let neutralKeyColor = d3.scaleOrdinal()
         .domain([WHITE_KEY, BLACK_KEY])
         .range([keyboard.blackKeys.color, keyboard.whiteKeys.color]);
 
-let keyColor = (key, keyType) =>
-    {   
-        if (noteIsInMajorScale(key, gCurrentKey))
-        {
-            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
-        }
-        else
-        {  
-            return neutralKeyColor(keyType)
-        }
-    }
-
-let circleColor = (key) =>
+function keyColor(key, keyType)
+{   
+    if (noteIsInMajorScale(key, gCurrentKey))
     {
-        // If the key matches the current key color
-        if (teoria.note(key).chroma() === teoria.note(gCurrentKey).chroma())
-        {
-            return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
-        }
-        else
-        {  
-            return "#FFFFFF";
-        }
+        return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
     }
+    else
+    {  
+        return neutralKeyColor(keyType)
+    }
+}
+
+function circleColor(key)
+{
+    // If the key matches the current key color
+    if (teoria.note(key).chroma() === teoria.note(gCurrentKey).chroma())
+    {
+        return d3.interpolateSpectral(gKeyColorT[gCurrentKey]);
+    }
+    else
+    {  
+        return "#F0F0F0";
+    }
+}
+
+function rectangleColor(key)
+{
+    return d3.interpolateSpectral(gKeyColorT[key]);
+}
 
 function makeKeyboardVis()
 {
@@ -217,24 +222,6 @@ function makeHistogram()
     let sizesInCents = Object.values(gMajorThirds);
     let labels = Object.keys(gMajorThirds);
 
-    // The data is already in the bins I want, but not the ones d3 needs
-    let bin = d3.bin();
-    sizesInCents = sizesInCents.map(function (e)
-    {
-        return bin([e]);
-    });
-
-    // MMM, why can I not create a scale that does this?!
-    // Make axes
-    // let xScale = d3.scaleLinear()
-    //         .domain(Object.keys(gMajorThirds))
-    //         .range([layout.bottomVis.left, layout.width - layout.bottomVis.right])
-
-    // svg.append("g")
-    //     .attr("transform", "translate(0," + layout.height + ")")
-    //     .call(d3.axisBottom(xScale)
-    //         .tickValues(xScale.domain))
-
     // Special kind of scale, different kind of ordinal scale
     let xScale = d3.scaleBand()
         .domain(labels)
@@ -256,7 +243,7 @@ function makeHistogram()
 
     // y axis
     let yScale = d3.scaleLinear()
-        .domain([Math.ceil(MAJOR_THIRD_LOWER_WOLF), Math.floor(MAJOR_THIRD_UPPER_WOLF)])
+        .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
         .range([((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom, layout.bottomVis.top]);
 
     // Y axis
@@ -270,13 +257,33 @@ function makeHistogram()
         .attr("y", ((layout.height - layout.division) - layout.bottomVis.top))
         .style("font", style.font)
         .text("Spacing in Cents")
-        .attr("transform", "rotate(270, " + (layout.bottomVis.left - layout.bottomVis.leftAxisText) + ", " + ((layout.height - layout.division) - layout.bottomVis.top) + ")");
+        .attr("transform", "rotate(270, " + (layout.bottomVis.left - layout.bottomVis.leftAxisText) + ", "
+         + ((layout.height - layout.division) - layout.bottomVis.top) + ")");
+
+
+    let heightScale = d3.scaleLinear()
+        .domain([MAJOR_THIRD_LOWER_WOLF, MAJOR_THIRD_UPPER_WOLF])
+        .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom])
+
+    let yDataScale = d3.scaleLinear()
+        .domain([407.82, 386.31371]) // , 
+        .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom - yScale(386.31371)])
 
     // Draw the text boxes, used for changing the chart
     // Also draw the (mostly invisible) circles used for selecting the key
     for (let i = 0; i < labels.length; i++)
     {
         let xPosition = xScale(labels[i])
+
+        // Bar
+        svg.append("rect")
+            .attr("x", xPosition)
+            .attr("y", yDataScale(sizesInCents[i].size_in_cents) + layout.division + layout.bottomVis.top)
+            .attr("width", layout.bottomVis.textBox.width + 10)
+            .attr("height", heightScale(sizesInCents[i].size_in_cents))
+            .attr("fill", rectangleColor(getNoteString(labels[i], 0)))
+        
+        // Text box for edititing values
         svg.append("foreignObject")
             .attr("x", xPosition)
             .attr("y", layout.height - layout.bottomVis.bottom + layout.bottomVis.textBox.yAdjust)
@@ -284,8 +291,9 @@ function makeHistogram()
             .attr("height", layout.bottomVis.textBox.height)
             .append("xhtml:div")
             .html("<input type='number' id='" + labels[i] + "' min=" + MAJOR_THIRD_LOWER_WOLF + " max=" + MAJOR_THIRD_UPPER_WOLF + 
-            " value='" + sizesInCents[i][0][0].size_in_cents + "' placeholder='cents' style='width: " + layout.bottomVis.textBox.width +"px' onchange='changeCentsValue(this)'></input>");
+            " value='" + sizesInCents[i].size_in_cents + "' placeholder='cents' style='width: " + layout.bottomVis.textBox.width +"px' onchange='changeCentsValue(this)'></input>");
         
+        // Circles for selecting the key and telling the user what key is displayed
         svg.append("circle")
             .attr("id", getNoteString(labels[i], 0))
             .attr("cx", xPosition + (1/2 * layout.bottomVis.textBox.width) + 8.87) // axis offset, kinda a hard value to look up
@@ -294,35 +302,11 @@ function makeHistogram()
             .style("fill-opacity", 0)
             .style("stroke-width", 4)
             .style("stroke", circleColor(getNoteString(labels[i], 0)))
-            .on("mousedown", circle_mouseClick)
-
-            //
-    
+            .on("mousedown", circle_mouseClick);
     }
-
-    // let heightScale = d3.scaleLinear()
-    //     .domain([380, 420])
-    //     .range([0, ((layout.height - layout.division) - layout.bottomVis.top) - layout.bottomVis.bottom]);
-        
-
-
-    // svg.selectAll("rect")
-    //     .data(sizesInCents)
-    //     .enter()
-    //     .append("rect")
-    //         .attr("x", 300)
-    //         .attr("y", 300)
-    //         .attr("height", function(d) 
-    //         { 
-    //             console.log(d);
-    //             return (layout.height - layout.division) - heightScale(d.sizeInCents);
-    //         })
-    //         .attr("width", 10)
-    //         .style("fill", "black")
-
 }
 
-// TODO: move part of this to music theory functions
+
 function changeCentsValue(input)
 {
     let inputValue = parseFloat(input.value);
