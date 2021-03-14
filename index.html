@@ -11,27 +11,27 @@
     <h1>Remix: Average Female Height Per Country</h1>
     <button>test</button>
     <p></p>
-    <svg id="heightvis" width="800" height="600"></svg>
-    <svg id="comparevis" width="800" height="600"></svg>
+    <svg id="heightvis" width="1000" height="700"></svg>
+    <svg id="comparevis" width="300" height="700"></svg>
 
   <script>
   /**********
   *
-  *  PART I: CHLOROPLETHS ARE ORGANELLES CRITICAL TO PHOTOSYNTHE- WAIT, NO.
+  *  PART I: CHLOROPLETHS ARE ORGANELLES CRITICAL TO THE PROCESS OF PHOTOSYNTHE- WAIT, NO.
   *
   **********/
 
   // Define heightvis (chloropleth)
   var heightvis = d3.select("svg"),
-    width = +heightvis.attr("width"),
-    height = +heightvis.attr("height");
+    chloroWidth = +heightvis.attr("width"),
+    chloroHeight = +heightvis.attr("height");
 
   // Map and projection
   var path = d3.geoPath();
   var projection = d3.geoMercator()
-    .scale(150)
+    .scale(175)
     .center([0,20])
-    .translate([width / 2, height / 2 ]);
+    .translate([chloroWidth / 2, chloroHeight / 2 ]);
 
   // Data and color scale
   var data = d3.map();
@@ -60,7 +60,7 @@
   // LOADING EVERYTHING...
   function ready(error, topo) {
 
-    // mouseover function (highlight + show tooltip)
+    // mouseOver function (highlight + show tooltip)
     let mouseOver = function(d) {
       d3.selectAll(".Country")
         .transition().duration(200)
@@ -74,13 +74,13 @@
       tooltip.style("visibility", "visible");
     }
 
-    // mousemove function (change text if needed, tooltip follow)
+    // mouseMove function (change text if needed, tooltip follow)
     let mouseMove = function(d) {
         tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
-        .text(data.get(d.name) + ": " + data.get(d.id) + "cm");
+        .text(data.get(d.name) + ": " + data.get(d.id) + " cm");
     }
 
-    // mouseleave function (return map to normal, hide tooltip)
+    // mouseLeave function (return map to normal, hide tooltip)
     let mouseLeave = function(d) {
       d3.selectAll(".Country")
         .transition()
@@ -121,7 +121,7 @@
 
   /**********
   *
-  *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING COMPAREVIS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
+  *  PART II: STRANGE WOMEN LYING IN PONDS DISTRIBUTING BAR GRAPHS IS NO BASIS FOR A SYSTEM OF GOVERNMENT.
   *
   **********/
 
@@ -130,7 +130,61 @@
 
   }
 
+  // set the dimensions and margins of the graph
+  var barMargin = {top: 20, right: 20, bottom: 30, left: 40},
+      barWidth = 300 - barMargin.left - barMargin.right,
+      barHeight = 700 - barMargin.top - barMargin.bottom;
 
+  // set the ranges
+  var x = d3.scaleBand()
+            .range([0, barWidth])
+            .padding(0.1);
+  var y = d3.scaleLinear()
+            .range([barHeight, 0]);
+
+  // Slap the svg onto the page
+  var comparevis = d3.select("body").append("svg")
+      .attr("width", barWidth + barMargin.left + barMargin.right)
+      .attr("height", barHeight + barMargin.top + barMargin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + barMargin.left + "," + barMargin.top + ")");
+
+  // get the data
+  d3.csv("pulled-data.csv", function(error, data) {
+    if (error) throw error;
+
+    // format the data
+    data.forEach(function(d) {
+      d.Value = +d.Value;
+    });
+
+    // Scale the range of the data in the domains
+    x.domain(data.map(function(d) { return d.Country; }));
+    y.domain([0, d3.max(data, function(d) { return d.Value; })]);
+
+    // Draw the rectangles
+    comparevis.selectAll(".bar")
+        .data(data)
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.Country); })
+        .attr("width", 75)
+        .attr("y", function(d) { return y(d.Value); })
+        .attr("height", function(d) { return barHeight - y(d.Value); })
+        .style("fill", "#FF99C3");
+
+    // Draw x axis
+    comparevis.append("g")
+        .attr("transform", "translate(0," + barHeight + ")")
+        .call(d3.axisBottom(x));
+
+    // Draw y axis
+    comparevis.append("g")
+        .call(d3.axisLeft(y))
+        .ticks(20);
+
+  });
 
   </script>
   </body>
