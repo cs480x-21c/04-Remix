@@ -28,6 +28,7 @@ which shows the percent of non-marital births for that state, in that year, and 
 Once a state is moused over the connected scatter plot on the right shows the non-marital births for that state between 1990 and 2018.
 The x and y-axis will update to match the given state best.
 Mousing over individual data here will show another tool tip showing the exact percentage of non-marital births in that state for that year.
+It will also update the choropleth on the right to the year currently being moused over.
 
 The data for this visualisation was found [here](https://datacenter.kidscount.org/data/tables/7-births-to-unmarried-women?loc=1&loct=1#detailed/2/2-53/false/37,871,870,573,869,36,868,867,133,38/any/257,258).
 

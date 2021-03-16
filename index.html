@@ -224,6 +224,7 @@
             tooltipLine.style('opacity', 1)
             currYear = d.key
             updateMap()
+            document.getElementById('yearSlider').value = d.key
         }
 
         function mousemove(d) {
@@ -412,5 +413,9 @@
         currYear = this.value
         updateMap()
     })
+
+    document.getElementById('yearSlider').oninput = function () {
+        document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + this.value
+    }
 
 </script>
