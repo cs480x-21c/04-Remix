@@ -1,6 +1,8 @@
 Assignment 4 - DataVis Remix + Multiple Views
 ===
 
+[Check out the full remixed visualization here](https://cscholler.github.io/04-Remix/)
+
 For this assignment I remixed a visualization I found on r/dataisbeautiful.
 The original visualization showed the percent of nonmarital births in the US. 
 This visualization had a few glaring issues.
