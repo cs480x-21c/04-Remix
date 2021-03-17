@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<meta charset='utf-8'>
+
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<style>
+    .tooltip {
+        position: absolute;
+    }
+    .slider {
+        -webkit-appearance: none;
+        width: 400px;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: steelblue;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .myCircle:hover {
+        stroke: black;
+    }
+</style>
+
+<div id="div1" style=" width: 500px; float: left" >
+    <h1 style="margin-top: 0px; margin-bottom: 0px" id="mapHeader"></h1>
+    <svg id="svgMap"></svg>
+    <p>
+        <label> 1990 </label>
+        <input type="range" id="yearSlider" class="slider" min="1990" max="2018" step="1" value="2018">
+        <label> 2018 </label>
+    </p>
+</div>
+
+<div id="div2" style='margin-left: 550px'>
+    <h1 id="lineHeader" ></h1>
+</div>
+
+<script>
+    // Initialization for Map svg
+    let svgMap = d3.select('#svgMap')
+        .attr('width', 500)
+        .attr('height', 350)
+
+    widthMap = svgMap.attr('width')
+    heightMap = svgMap.attr('height')
+
+    // Initialization for Line Chart svg
+    let marginLine = {top: 10, right: 30, bottom: 30, left: 30},
+        widthLine = 500 - marginLine.left - marginLine.right,
+        heightLine = 300 - marginLine.top - marginLine.bottom
+
+    let svgLine = d3.select('#div2')
+        .append('svg')
+        .attr('width', widthLine + marginLine.left + marginLine.right)
+        .attr('height', heightLine + marginLine.top + marginLine.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + marginLine.left + ',' + marginLine.top + ')')
+
+    // Ready data storage
+    let yearlyData = {
+        '2018': d3.map(),
+        '2017': d3.map(),
+        '2016': d3.map(),
+        '2015': d3.map(),
+        '2014': d3.map(),
+        '2013': d3.map(),
+        '2012': d3.map(),
+        '2011': d3.map(),
+        '2010': d3.map(),
+        '2009': d3.map(),
+        '2008': d3.map(),
+        '2007': d3.map(),
+        '2006': d3.map(),
+        '2005': d3.map(),
+        '2004': d3.map(),
+        '2003': d3.map(),
+        '2002': d3.map(),
+        '2001': d3.map(),
+        '2000': d3.map(),
+        '1999': d3.map(),
+        '1998': d3.map(),
+        '1997': d3.map(),
+        '1996': d3.map(),
+        '1995': d3.map(),
+        '1994': d3.map(),
+        '1993': d3.map(),
+        '1992': d3.map(),
+        '1991': d3.map(),
+        '1990': d3.map()
+    }
+    let stateData = {
+        'the United States': d3.map(),
+        'Alabama': d3.map(),
+        'Alaska': d3.map(),
+        'Arizona': d3.map(),
+        'Arkansas': d3.map(),
+        'California': d3.map(),
+        'Colorado': d3.map(),
+        'Connecticut': d3.map(),
+        'Delaware': d3.map(),
+        'District of Columbia': d3.map(),
+        'Florida': d3.map(),
+        'Georgia': d3.map(),
+        'Hawaii': d3.map(),
+        'Idaho': d3.map(),
+        'Illinois': d3.map(),
+        'Indiana': d3.map(),
+        'Iowa': d3.map(),
+        'Kansas': d3.map(),
+        'Kentucky': d3.map(),
+        'Louisiana': d3.map(),
+        'Maine': d3.map(),
+        'Maryland': d3.map(),
+        'Massachusetts': d3.map(),
+        'Michigan': d3.map(),
+        'Minnesota': d3.map(),
+        'Mississippi': d3.map(),
+        'Missouri': d3.map(),
+        'Montana': d3.map(),
+        'Nebraska': d3.map(),
+        'Nevada': d3.map(),
+        'New Hampshire': d3.map(),
+        'New Jersey': d3.map(),
+        'New Mexico': d3.map(),
+        'New York': d3.map(),
+        'North Carolina': d3.map(),
+        'North Dakota': d3.map(),
+        'Ohio': d3.map(),
+        'Oklahoma': d3.map(),
+        'Oregon': d3.map(),
+        'Pennsylvania': d3.map(),
+        'Puerto Rico': d3.map(),
+        'Rhode Island': d3.map(),
+        'South Carolina': d3.map(),
+        'South Dakota': d3.map(),
+        'Tennessee': d3.map(),
+        'Texas': d3.map(),
+        'Utah': d3.map(),
+        'Vermont': d3.map(),
+        'Virginia': d3.map(),
+        'Virgin Islands': d3.map(),
+        'Washington': d3.map(),
+        'West Virginia': d3.map(),
+        'Wisconsin': d3.map(),
+        'Wyoming': d3.map()
+    }
+    let currState = 'the United States'
+    let currYear = 2018
+
+    // Ready everything for drawing a map
+    // const bins = [.06, .12, .18, .24, .3, .36, .42, .48, .54]
+    const bins = [.05, .10, .15, .20, .25, .30, .35, .40, .45, .50, .55]
+    const numBins = bins.length
+    const interpolatedColors = []
+    for (let i = 0; i < numBins; i++) {
+        interpolatedColors.push(d3.interpolateBlues(i/numBins))
+    }
+
+    let colorScale = d3.scaleThreshold()
+        .domain(bins)
+        .range(interpolatedColors)
+
+    let path = d3.geoPath()
+    let projection = d3.geoAlbersUsa().scale(700).translate([widthMap / 2, heightMap / 2])
+
+    // Queue up the Line chart data
+    d3.queue()
+        .defer(d3.csv, 'data.csv', function (d) {
+            stateData[d.Location].set(d.TimeFrame, d.Data * 100)
+        })
+        .await(readyLineChart)
+
+    // Queue up the Map data
+    d3.queue()
+        .defer(d3.json, 'gz_2010_us_040_00_5m.json')
+        .defer(d3.csv, 'data.csv', function (d) {
+            yearlyData[d.TimeFrame].set(d.Location, d.Data)
+        })
+        .await(readyMap)
+
+
+    function readyLineChart() {
+        svgLine.selectAll('*').remove()
+        document.getElementById('lineHeader').innerText = 'Non-marital Births in ' + currState
+
+        let tooltipLine = d3.select('#div2')
+            .append('div')
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", '5px')
+
+        function mouseover(d) {
+            tooltipLine.style('opacity', 1)
+            currYear = d.key
+            updateMap()
+            document.getElementById('yearSlider').value = d.key
+        }
+
+        function mousemove(d) {
+            tooltipLine
+                .html((d.value).toPrecision((3)) + '% of births in ' + d.key)
+                .style("left", (d3.mouse(this)[0] + 70 + 535) + "px")
+                .style("top", (d3.mouse(this)[1] + 75) + "px")
+        }
+
+        function mouseleave () {
+            tooltipLine.style('opacity', 0)
+        }
+
+        let data = stateData[currState]
+
+        let x = d3.scaleLinear()
+            .domain(d3.extent(data.keys(), function (d) {
+                return d
+            }))
+            .range([0, widthLine])
+        svgLine.append('g')
+            .attr('transform', 'translate(0,' + heightLine + ')')
+            .call(d3.axisBottom(x).tickFormat(d3.format('d')))
+
+        let y = d3.scaleLinear()
+            .domain([d3.min(data.keys(), function (d) {
+                return data.get(d)
+            }), d3.max(data.keys(), function (d) {
+                return data.get(d)
+            })])
+            .range([heightLine, 0])
+        svgLine.append('g')
+            .call(d3.axisLeft(y))
+
+        svgLine.append('path')
+            .datum(data.entries())
+            .attr("fill", "none")
+            .attr("stroke", "steelblue")
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()
+                .x(function (d) {
+                    return x(d.key)
+                })
+                .y(function (d) {
+                    return y(d.value)
+                })
+            )
+
+        svgLine
+            .append('g')
+            .selectAll('dot')
+            .data(data.entries())
+            .enter()
+            .append('circle')
+            .attr('class', 'myCircle')
+            .attr("cx", function (d) {
+                return x(d.key)
+            })
+            .attr("cy", function (d) {
+                return y(d.value)
+            })
+            .attr("r", 5)
+            .attr("fill", "steelblue")
+            .on('mouseover', mouseover)
+            .on('mousemove', mousemove)
+            .on('mouseleave', mouseleave)
+
+        svgLine.append('text')
+            .attr('text-anchor', 'end')
+            .attr('x', widthLine)
+            .attr('y', heightLine - 10)
+            .text('Years (1990 - 2018)')
+
+        svgLine.append('text')
+            .attr('text-anchor', 'start')
+            .attr('x', 5)
+            .attr('y', 5)
+            .text('Percentage of')
+        svgLine.append('text')
+            .attr('text-anchor', 'start')
+            .attr('x', 5)
+            .attr('y', 25)
+            .text('Total Births')
+    }
+
+    let loadedMap
+    function readyMap(error, topo) {
+        loadedMap = topo
+        updateMap()
+    }
+
+    function updateMap() {
+        svgMap.selectAll('*').remove()
+        document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + currYear
+
+        let tooltipMap = d3.select('#div1')
+            .append('div')
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+
+        function mouseOver(d) {
+            currState = d.properties.NAME
+            readyLineChart()
+            tooltipMap.style('opacity', 1)
+            d3.selectAll('.State')
+                .transition()
+                .duration(200)
+                .style('opacity', .7)
+                .style('stroke', 'transparent')
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style('opacity', 1)
+                .style('stroke', 'black')
+        }
+
+        function mouseLeave (d) {
+            readyLineChart()
+            tooltipMap.style('opacity', 0)
+            d3.selectAll('.State')
+                .transition()
+                .duration(200)
+                .style('opacity', 1)
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style('stroke', 'transparent')
+        }
+
+        function mouseMove (d) {
+            tooltipMap
+                .html((d.total * 100).toPrecision(3) + '% of births in ' + d.properties.NAME)
+                .style("left", (d3.mouse(this)[0]) + "px")
+                .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        svgMap.append('g')
+            .selectAll('path')
+            .data(loadedMap.features)
+            .enter()
+            .append('path')
+            .attr('d', d3.geoPath()
+                .projection(projection))
+            .attr('fill', function (d) {
+                d.total = yearlyData[currYear].get(d.properties.NAME) || 0;
+                return colorScale(d.total)
+            })
+            .style('stroke', 'transparent')
+            .attr('class', function (d) {
+                return 'State'
+            })
+            .style('opacity', 0.8)
+            .on('mouseover', mouseOver)
+            .on('mouseleave', mouseLeave)
+            .on('mousemove', mouseMove)
+
+        svgMap.selectAll('rect')
+            .data(colorScale.range().reverse())
+            .enter()
+            .append('rect')
+            .attr('x', function (d, i) {
+                return widthMap - 80 - (i * 30)
+            })
+            .attr('y', 20)
+            .attr('width', 30)
+            .attr('height', 10)
+            .style('fill', function (d) { return d })
+
+        svgMap.selectAll('text')
+            .data(colorScale.domain().reverse())
+            .enter()
+            .append('text')
+            .attr('text-anchor', 'start')
+            .style('font-size', '12px')
+            .attr('x', function (d, i) {return widthMap - (30 * i) - 55})
+            .attr('y', 15)
+            .text(function (d) {return ((d * 100) >= 10 ? (d * 100).toPrecision(2) : (d * 100).toPrecision(1)) + '%'})
+    }
+
+    d3.select('#yearSlider').on('change', function () {
+        currYear = this.value
+        updateMap()
+    })
+
+    document.getElementById('yearSlider').oninput = function () {
+        document.getElementById('mapHeader').innerText = 'Non-marital US Births in ' + this.value
+    }
+
+</script>
