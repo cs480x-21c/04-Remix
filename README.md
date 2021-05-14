@@ -1,6 +1,6 @@
 # Assignment 4 - DataVis Remix + Multiple Views
 
-[https://nyoma-diamond.github.io/04-Remix](https://nyoma-diamond.github.io/04-Remix)
+[https://nyoma-diamond.github.io/CS4802-04-Remix](https://nyoma-diamond.github.io/CS4802-04-Remix)
 
 ## Original Visualization
 
