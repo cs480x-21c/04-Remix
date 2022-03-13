@@ -1,6 +1,6 @@
 # Assignment 4 - DataVis Remix + Multiple Views
 
-[Visualization Hosted on GitHub Pages](https://jalovering.github.io/04-Remix/)
+[Visualization Hosted on GitHub Pages](https://jalovering.github.io/datavis_course_a4_remix/)
 
 # Visualization Description
 This project was a remix on a [visualization hosted by the U.S. Energy Information Administration](https://www.eia.gov/electricity/data/browser/#/topic/0?agg=2,0,1&fuel=vvg&geo=g&sec=g&linechart=ELEC.GEN.ALL-US-99.M~ELEC.GEN.COW-US-99.M~ELEC.GEN.NG-US-99.M~ELEC.GEN.NUC-US-99.M~ELEC.GEN.HYC-US-99.M&columnchart=ELEC.GEN.ALL-US-99.M~ELEC.GEN.COW-US-99.M~ELEC.GEN.NG-US-99.M~ELEC.GEN.NUC-US-99.M~ELEC.GEN.HYC-US-99.M&map=ELEC.GEN.ALL-US-99.M&freq=M&start=200101&end=202012&chartindexed=0&ctype=linechart&ltype=pin&rtype=s&maptype=0&rse=0&pin=).
